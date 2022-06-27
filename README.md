@@ -91,29 +91,7 @@ yarn schema:drop && yarn migrate && yarn seed:run
 
 ```
 .
-├── apps                               → All Application sources/
-│   ├── api                            → Group of Rest Service/
-│   │   ├── assets                     → Ex: HTML for payment
-│   │   ├── public                     → Property for assets/
-│   │   │   ├── css
-│   │   │   ├── js
-│   │   │   └── lib
-│   │   ├── src                        → Sources nestjs/
-│   │   │   ├── common                 → General needed/
-│   │   │   │   ├── constants          → All global constant
-│   │   │   │   ├── enums              → Global Enumerations, ex: statu("waiting"=1)
-│   │   │   │   ├── filters            → Filtering property
-│   │   │   │   ├── interceptors       → Create bind extra logic before/after method execution
-│   │   │   │   ├── interface          → Interface for global, ex: paginate
-│   │   │   │   ├── pipes              → For custom validation
-│   │   │   │   ├── request            → Request Rules
-│   │   │   │   ├── rules              → Other rules, ex: maxBigInt
-│   │   │   │   └── utils              → Global utility
-│   │   │   ├── infrastructure         → External replaceable, ex: database, caching/
-│   │   │   │   ├── applications
-│   │   │   │   └── schedules
-│   │   │   └── modules                → Contain all module with bussiness logic
-│   │   └── storages                   → Static content
+├── apps   
 │   └── backoffice                     → Group of Admin Panel/
 │       ├── app                        → The backoffice application/
 │       │   ├── Components             → Component frontend/
