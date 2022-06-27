@@ -1,0 +1,209 @@
+{
+    "data": [
+        {
+            "id": 3573030,
+            "city_id": 3573,
+            "name": "KLOJEN"
+        },
+        {
+            "id": 3573040,
+            "city_id": 3573,
+            "name": "BLIMBING"
+        },
+        {
+            "id": 3573050,
+            "city_id": 3573,
+            "name": "LOWOKWARU"
+        },
+        {
+            "id": 3573020,
+            "city_id": 3573,
+            "name": "SUKUN"
+        },
+        {
+            "id": 3573010,
+            "city_id": 3573,
+            "name": "KEDUNGKANDANG"
+        },
+        {
+            "id": 3507090,
+            "city_id": 3507,
+            "name": "AMPELGADING"
+        },
+        {
+            "id": 3507040,
+            "city_id": 3507,
+            "name": "BANTUR"
+        },
+        {
+            "id": 3507130,
+            "city_id": 3507,
+            "name": "BULULAWANG"
+        },
+        {
+            "id": 3507070,
+            "city_id": 3507,
+            "name": "DAMPIT"
+        },
+        {
+            "id": 3507300,
+            "city_id": 3507,
+            "name": "DAU"
+        },
+        {
+            "id": 3507010,
+            "city_id": 3507,
+            "name": "DONOMULYO"
+        },
+        {
+            "id": 3507050,
+            "city_id": 3507,
+            "name": "GEDANGAN"
+        },
+        {
+            "id": 3507140,
+            "city_id": 3507,
+            "name": "GONDANGLEGI"
+        },
+        {
+            "id": 3507260,
+            "city_id": 3507,
+            "name": "JABUNG"
+        },
+        {
+            "id": 3507020,
+            "city_id": 3507,
+            "name": "KALIPARE"
+        },
+        {
+            "id": 3507290,
+            "city_id": 3507,
+            "name": "KARANGPLOSO"
+        },
+        {
+            "id": 3507330,
+            "city_id": 3507,
+            "name": "KASEMBON"
+        },
+        {
+            "id": 3507160,
+            "city_id": 3507,
+            "name": "KEPANJEN"
+        },
+        {
+            "id": 3507180,
+            "city_id": 3507,
+            "name": "KROMENGAN"
+        },
+        {
+            "id": 3507270,
+            "city_id": 3507,
+            "name": "LAWANG"
+        },
+        {
+            "id": 3507190,
+            "city_id": 3507,
+            "name": "NGAJUM"
+        },
+        {
+            "id": 3507320,
+            "city_id": 3507,
+            "name": "NGANTANG"
+        },
+        {
+            "id": 3507030,
+            "city_id": 3507,
+            "name": "PAGAK"
+        },
+        {
+            "id": 3507150,
+            "city_id": 3507,
+            "name": "PAGELARAN"
+        },
+        {
+            "id": 3507250,
+            "city_id": 3507,
+            "name": "PAKIS"
+        },
+        {
+            "id": 3507220,
+            "city_id": 3507,
+            "name": "PAKISAJI"
+        },
+        {
+            "id": 3507100,
+            "city_id": 3507,
+            "name": "PONCOKUSUMO"
+        },
+        {
+            "id": 3507310,
+            "city_id": 3507,
+            "name": "PUJON"
+        },
+        {
+            "id": 3507280,
+            "city_id": 3507,
+            "name": "SINGOSARI"
+        },
+        {
+            "id": 3507060,
+            "city_id": 3507,
+            "name": "SUMBERMANJING WETAN"
+        },
+        {
+            "id": 3507170,
+            "city_id": 3507,
+            "name": "SUMBERPUCUNG"
+        },
+        {
+            "id": 3507230,
+            "city_id": 3507,
+            "name": "TAJINAN"
+        },
+        {
+            "id": 3507080,
+            "city_id": 3507,
+            "name": "TIRTOYUDO"
+        },
+        {
+            "id": 3507240,
+            "city_id": 3507,
+            "name": "TUMPANG"
+        },
+        {
+            "id": 3507120,
+            "city_id": 3507,
+            "name": "TUREN"
+        },
+        {
+            "id": 3507210,
+            "city_id": 3507,
+            "name": "WAGIR"
+        },
+        {
+            "id": 3507110,
+            "city_id": 3507,
+            "name": "WAJAK"
+        },
+        {
+            "id": 3507200,
+            "city_id": 3507,
+            "name": "WONOSARI"
+        },
+        {
+            "id": 3579010,
+            "city_id": 3579,
+            "name": "BATU"
+        },
+        {
+            "id": 3579020,
+            "city_id": 3579,
+            "name": "JUNREJO"
+        },
+        {
+            "id": 3579030,
+            "city_id": 3579,
+            "name": "BUMIAJI"
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+{
+    "data": [
+        {
+            "name": "PET",
+            "price": 7500,
+            "pickupBonus": 500,
+            "iconUrl": "https://cdn-icons-png.flaticon.com/512/191/191702.png"
+        },
+        {
+            "name": "PEP",
+            "price": 7500,
+            "pickupBonus": 500,
+            "iconUrl": "https://cdn-icons-png.flaticon.com/512/191/191702.png"
+        },
+        {
+            "name": "PEK",
+            "price": 7500,
+            "pickupBonus": 500,
+            "iconUrl": "https://cdn-icons-png.flaticon.com/512/191/191702.png"
+        },
+        {
+            "name": "POK",
+            "price": 7500,
+            "pickupBonus": 500,
+            "iconUrl": "https://cdn-icons-png.flaticon.com/512/191/191702.png"
+        }
+    ]
+}

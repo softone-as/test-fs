@@ -1,0 +1,26 @@
+FROM        node:16.15.1 AS build
+ARG         ONE_SIGNAL_APP_ID
+ARG         GOOGLE_MAPS_API
+ENV         ONE_SIGNAL_APP_ID=${ONE_SIGNAL_APP_ID}
+ENV         GOOGLE_MAPS_API=${GOOGLE_MAPS_API}
+WORKDIR     /usr/src/app
+COPY        --chown=node:node . /usr/src/app
+RUN         yarn install \
+  && yarn webpack:backoffice:prod \
+  && yarn build \
+  && cp -r apps/backoffice/public dist/apps/backoffice \
+  && rm -rf apps/backoffice/public \
+  && cp -r apps/backoffice/assets dist/apps/backoffice \
+  && rm -rf apps/backoffice/assets \
+  && cp -r apps/backoffice/src/infrastructure/mail dist/apps/backoffice/src/infrastructure \
+  && rm -rf apps/backoffice/src/infrastructure/mail \
+  && mkdir dist/temp
+
+FROM        node:16.15.1
+WORKDIR     /usr/src/app
+COPY        --chown=node:node --from=build /usr/src/app/node_modules /usr/src/app/node_modules
+COPY        --chown=node:node --from=build /usr/src/app/dist /usr/src/app/dist
+COPY        --chown=node:node . /usr/src/app/
+USER        node
+ENTRYPOINT  ["./docker-entrypoint.sh"]
+CMD         ["yarn", "start:prod:backoffice"]
