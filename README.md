@@ -1,9 +1,3 @@
-# BUANGDISINI API SERVICE & BACKOFFICE
-
-> PT. Daur Ulang Bumi \
-> Jl. KH. Malik Dalam No.38, Buring, Kec. Kedungkandang, Kota Malang, Jawa Timur 65136 \
-> [https://buangdisini.com](https://buangdisini.com)
-
 # API Docs
 
 [Here](https://documenter.getpostman.com/view/21019377/Uz5FLd1A)
