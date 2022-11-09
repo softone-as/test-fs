@@ -1,7 +1,3 @@
-# API Docs
-
-[Here](https://documenter.getpostman.com/view/21019377/Uz5FLd1A)
-
 # How to use
 
 1. Run the following commands to get all the pacakges
