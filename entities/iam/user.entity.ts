@@ -69,7 +69,7 @@ export class User extends BaseEntity implements IUser {
     @Column({ unique: true, nullable: true })
     email: string;
 
-    @Column({ name: 'birth_date' })
+    @Column({ name: 'birth_date', nullable: true })
     birthDate?: Date;
 
     @Column({ name: 'gender' })

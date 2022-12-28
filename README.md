@@ -47,7 +47,7 @@
 
 We use DBML to create and publish the ERD documentation. Visit [here](https://www.dbml.org/home/#dbdiagram) to show you how to (official documentation)
 
-> https://dbdocs.io/buangdisini.dev/BuangDisini
+> https://dbdocs.io/buangdisini.dev/Clover Mart
 
 ### Published Edited DBDOCS Commands:
 
@@ -81,7 +81,7 @@ yarn schema:drop && yarn migrate && yarn seed:run
 
 ```
 .
-├── apps   
+├── apps
 │   └── backoffice                     → Group of Admin Panel/
 │       ├── app                        → The backoffice application/
 │       │   ├── Components             → Component frontend/

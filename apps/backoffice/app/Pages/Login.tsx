@@ -44,19 +44,21 @@ const Login = (): JSX.Element => {
 
     const onSubmit = handleSubmit((loginData) => {
         setIsLoading(true);
-        OneSignal.getUserId().then((playerId) => {
-            Inertia.post(EndpointRoute.AdminLogin + `?one_signal_player_id=${playerId}`, loginData, {
-                onError: (_) => {
-                    setIsLoading(false);
-                },
-                onSuccess: (success) => {
-                    const message = (success.props.success as SuccessType)
-                        ?.message;
-                    notifySuccess(message);
-                    setIsLoading(false);
-                },
-            });
-        })
+
+        // Not Used
+        // OneSignal.getUserId().then((playerId) => {
+        Inertia.post(EndpointRoute.AdminLogin + `?one_signal_player_id=`, loginData, {
+            onError: (_) => {
+                setIsLoading(false);
+            },
+            onSuccess: (success) => {
+                const message = (success.props.success as SuccessType)
+                    ?.message;
+                notifySuccess(message);
+                setIsLoading(false);
+            },
+        });
+        // })
     });
 
     const error = usePage().props.error as ErrorType;

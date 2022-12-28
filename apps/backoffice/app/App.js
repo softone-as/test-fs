@@ -4,22 +4,22 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
-import OneSignal from 'react-onesignal';
 
 const App = () => {
-    OneSignal.init({
-        appId: process.env.ONE_SIGNAL_APP_ID,
-        allowLocalhostAsSecureOrigin: true,
-    }).then(() => {
-        OneSignal.isPushNotificationsEnabled((isEnabled) => {
-            if (!isEnabled) {
-                OneSignal.showSlidedownPrompt({
-                    force: true,
-                    forceSlidedownOverNative: true,
-                });
-            }
-        });
-    });
+    // TEMP disabled
+    // OneSignal.init({
+    //     appId: process.env.ONE_SIGNAL_APP_ID,
+    //     allowLocalhostAsSecureOrigin: true,
+    // }).then(() => {
+    //     OneSignal.isPushNotificationsEnabled((isEnabled) => {
+    //         if (!isEnabled) {
+    //             OneSignal.showSlidedownPrompt({
+    //                 force: true,
+    //                 forceSlidedownOverNative: true,
+    //             });
+    //         }
+    //     });
+    // });
 
     return (
         <>

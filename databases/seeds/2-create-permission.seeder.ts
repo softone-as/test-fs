@@ -148,7 +148,10 @@ export class CreatePermissionSeeder implements Seeder {
                 const newPermission = connection
                     .getRepository(Permission)
                     .create();
-                newPermission.name = permissionConstant[i];
+                newPermission.name = permissionConstant[i]
+                    .split('-')
+                    .join(' ')
+                    .toUpperCase();
                 newPermission.key = permissionConstant[i];
 
                 try {
