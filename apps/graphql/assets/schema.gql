@@ -23,5 +23,9 @@ type User {
 
 type Query {
   user(id: Int!): User!
+  users: [User!]!
   role(id: Int!): Role!
+  roles: [Role!]!
+  permission(id: Int!): Permission!
+  permissions: [Permission!]!
 }

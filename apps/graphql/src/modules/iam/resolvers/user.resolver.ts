@@ -12,4 +12,9 @@ export class UserResolver {
     async user(@Args('id', { type: () => Int }) id: number) {
         return this.userApplication.findById(id);
     }
+
+    @Query(type => [User])
+    async users() {
+        return this.userApplication.getAll();
+    }
 }

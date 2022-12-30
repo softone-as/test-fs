@@ -16,4 +16,8 @@ export class UserCrudApplication {
         return results;
     }
 
+    async getAll(): Promise<IUser[]> {
+        return await this.adminService.findAll();
+    }
+
 }

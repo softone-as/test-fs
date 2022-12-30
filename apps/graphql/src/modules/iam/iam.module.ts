@@ -5,10 +5,13 @@ import { RolePermission } from "entities/iam/role-permission.entity";
 import { Role } from "entities/iam/role.entity";
 import { User } from "entities/iam/user.entity";
 import { RoleCrudApplication } from "./applications/role-crud.application";
+import { PermissionCrudApplication } from "./applications/permission-crud.application";
 import { UserCrudApplication } from "./applications/user-crud.application";
 import { RoleResolver } from "./resolvers/role.resolver";
+import { PermissionResolver } from "./resolvers/permission.resolver";
 import { UserResolver } from "./resolvers/user.resolver";
 import { RoleService } from "./services/role.service";
+import { PermissionService } from "./services/permission.service";
 import { UserService } from "./services/user.service";
 
 @Module({
@@ -21,7 +24,10 @@ import { UserService } from "./services/user.service";
         UserResolver,
         RoleCrudApplication,
         RoleService,
-        RoleResolver
+        RoleResolver,
+        PermissionCrudApplication,
+        PermissionService,
+        PermissionResolver
     ]
 })
 export class IAMModule { }

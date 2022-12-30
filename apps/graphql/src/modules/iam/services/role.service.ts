@@ -19,4 +19,8 @@ export class RoleService {
         });
     }
 
+    async findAll(): Promise<IRole[]> {
+        return await this.RoleRepository.find();
+    }
+
 }

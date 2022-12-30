@@ -13,4 +13,9 @@ export class RoleCrudApplication {
         return results;
     }
 
+    async getAll(): Promise<IRole[]> {
+        const results = await this.roleService.findAll();
+        return results;
+    }
+
 }

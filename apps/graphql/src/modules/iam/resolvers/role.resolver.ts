@@ -12,4 +12,9 @@ export class RoleResolver {
     async role(@Args('id', { type: () => Int }) id: number) {
         return this.roleApplication.findById(id);
     }
+
+    @Query(type => [Role])
+    async roles() {
+        return this.roleApplication.getAll();
+    }
 }
