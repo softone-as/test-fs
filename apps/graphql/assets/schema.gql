@@ -1,0 +1,27 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Permission {
+  id: Int!
+  name: String
+  key: String
+}
+
+type Role {
+  id: Int!
+  name: String
+  key: String
+  permissions: [Permission!]!
+}
+
+type User {
+  id: Int!
+  fullname: String
+  role: Role!
+}
+
+type Query {
+  user(id: Int!): User!
+  role(id: Int!): Role!
+}

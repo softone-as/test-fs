@@ -84,7 +84,6 @@ import { CacheCleanMiddleware } from './infrastructure/cache/middlewares/cache-c
 
         ScheduleModule.forRoot(),
 
-        RedisModule,
         InertiaModule,
     ],
     providers: [

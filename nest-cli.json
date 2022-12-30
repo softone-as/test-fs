@@ -50,6 +50,28 @@
                 "watchAssets": true,
                 "tsConfigPath": "apps/api/tsconfig.app.json"
             }
+        },
+        "graphql": {
+            "type": "application",
+            "root": "apps/graphql",
+            "entryFile": "main",
+            "sourceRoot": "apps/graphql/src",
+            "compilerOptions": {
+                "assets": [
+                    {
+                        "include": "../public",
+                        "outDir": "./dist/apps/graphql/public",
+                        "watchAssets": true
+                    },
+                    {
+                        "include": "../assets",
+                        "outDir": "./dist/apps/graphql/assets",
+                        "watchAssets": true
+                    }
+                ],
+                "watchAssets": true,
+                "tsConfigPath": "apps/graphql/tsconfig.app.json"
+            }
         }
     }
 }
