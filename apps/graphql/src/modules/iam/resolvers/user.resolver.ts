@@ -1,4 +1,6 @@
 import { Args, Int, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { config } from "apps/graphql/src/config";
+import { CacheGetSet } from "apps/graphql/src/infrastructure/cache/decorators/cache-get-set.decorator";
 import { UserCrudApplication } from "../applications/user-crud.application";
 import { UserIndexApplication } from "../applications/user-index.application";
 import { PaginateUser, User, UserIndexRequest } from "../types/user.type";
@@ -21,6 +23,7 @@ export class UserResolver {
     }
 
     @Query(type => PaginateUser)
+    @CacheGetSet(config.cache.name.users.list)
     async userPaginate(
         @Args('paginate') paginate: UserIndexRequest,
     ) {

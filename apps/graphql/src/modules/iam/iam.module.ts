@@ -28,12 +28,14 @@ import { CacheModule } from "../../infrastructure/cache/cache.module";
         UserService,
         UserResolver,
         UserMutation,
+
         RoleCrudApplication,
         RoleService,
         RoleResolver,
+
         PermissionCrudApplication,
         PermissionService,
         PermissionResolver
-    ]
+    ],
 })
 export class IAMModule { }

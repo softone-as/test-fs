@@ -4,6 +4,8 @@ import { IUser } from 'interface-models/iam/user.interface';
 import { User } from 'entities/iam/user.entity';
 import { In, Not, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { CacheEvict } from 'apps/graphql/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { config } from 'apps/graphql/src/config';
 
 @Injectable()
 export class UserService {
@@ -26,6 +28,7 @@ export class UserService {
         });
     }
 
+    @CacheEvict(config.cache.name.users.detail)
     async update(id: number, data: IUser): Promise<void> {
         await this.userRepository.update({ id }, {
             ...data

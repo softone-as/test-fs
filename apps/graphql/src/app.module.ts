@@ -9,18 +9,23 @@ import { QueryFailedError } from 'typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { IAMModule } from './modules/iam/iam.module';
-import { join } from 'lodash';
+import { CacheModule as CacheModuleManager } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { connectionOption } from 'apps/graphql/src/infrastructure/databases';
 import { CacheModule } from './infrastructure/cache/cache.module';
 
 @Module({
     imports: [
+        CacheModuleManager.register({
+            isGlobal: true,
+        }),
+
         TypeOrmModule.forRoot(connectionOption),
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,
             autoSchemaFile: 'apps/graphql/assets/schema.gql',
         }),
+
         CacheModule,
         RavenModule,
         IAMModule,
@@ -50,4 +55,5 @@ import { CacheModule } from './infrastructure/cache/cache.module';
         },
     ],
 })
+
 export class AppModule { }

@@ -103,6 +103,7 @@
         "graphql": "^16.6.0",
         "handlebars": "^4.7.7",
         "inertia-node": "^2.0.0",
+        "moment-timezone": "^0.5.40",
         "move-file": "^3.0.0",
         "mysql2": "^2.3.0",
         "nest-raven": "^8.1.0",

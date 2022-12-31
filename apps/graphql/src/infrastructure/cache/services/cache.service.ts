@@ -1,5 +1,5 @@
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
-import { IndexRequest } from 'apps/graphql/src/common/request/index.request';
+import { IndexRequest } from 'apps/backoffice/src/common/request/index.request';
 import { Cache } from 'cache-manager';
 
 @Injectable()
@@ -9,19 +9,17 @@ export class CacheService {
     async getNameCacheIndex(
         key: string,
         indexRequest: IndexRequest,
+        ...anotherArgs: string[]
     ): Promise<string> {
         return (
             key +
             '-' +
-            indexRequest.page +
-            '-' +
-            indexRequest.perPage +
-            '-' +
-            indexRequest.order +
-            '-' +
-            indexRequest.sort +
-            '-' +
-            indexRequest.search
+            Object.keys(indexRequest)
+                .map((key) => {
+                    return indexRequest[key];
+                })
+                .join('-') +
+            (anotherArgs.length > 0 ? '-' + anotherArgs.join('-') : '')
         );
     }
 
@@ -60,9 +58,7 @@ export class CacheService {
         });
 
         names.forEach((cacheName) => {
-            this.deleteCache(cacheName)
-                .then(() => console.log('clean : ' + cacheName))
-                .catch(() => console.log('error clean : ' + cacheName));
+            this.deleteCache(cacheName);
         });
     }
 

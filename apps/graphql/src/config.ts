@@ -11,6 +11,8 @@ export const config = {
     port: process.env.PORT_BACKOFFICE || '3001',
     host: process.env.HOST_BACKOFFICE || 'localhost:3001',
 
+    timezone: process.env.TZ || 'Asia/Jakarta',
+
     amqp: {
         conn: null,
         url: process.env.AMQP_URL,
