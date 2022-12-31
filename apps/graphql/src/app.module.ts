@@ -18,6 +18,9 @@ import { CacheModule } from './infrastructure/cache/cache.module';
     imports: [
         CacheModuleManager.register({
             isGlobal: true,
+            buildSchemaOptions: {
+                dateScalarMode: 'timestamp',
+            }
         }),
 
         TypeOrmModule.forRoot(connectionOption),
