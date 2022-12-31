@@ -53,61 +53,21 @@ export const config = {
     cache: {
         ttl: 2880000,
         name: {
-            bases: {
-                detail: 'detail-base',
-                list: 'list-base',
-            },
-            contents: {
-                detail: 'detail-content',
-                list: 'list-content',
-            },
-            notifications: {
-                detail: 'detail-notification',
-                list: 'list-notification',
-            },
-            warnings: {
-                detail: 'detail-warning',
-                list: 'list-warning',
-            },
-            poinHistories: {
-                detail: 'detail-poin-history',
-                list: 'list-poin-history',
-            },
-            deposits: {
-                detail: 'detail-deposit',
-                list: 'list-deposit',
-            },
-            depositItems: {
-                detail: 'detail-deposit-item',
-                list: 'list-deposit-item',
-            },
-            products: {
-                detail: 'detail-product',
-                list: 'list-product',
-            },
-            productCategories: {
-                detail: 'detail-product-category',
-                list: 'list-product-category',
-            },
             permissions: {
-                detail: 'detail-permission',
+                detail: 'permission',
                 list: 'list-permission',
             },
             roles: {
-                detail: 'detail-role',
+                detail: 'role',
                 list: 'list-role',
             },
             rolePermissions: {
-                detail: 'detail-role-permission',
+                detail: 'role-permission',
                 list: 'list-role-permission',
             },
             users: {
-                detail: 'detail-user',
+                detail: 'user',
                 list: 'list-user',
-            },
-            configs: {
-                detail: 'detail-config',
-                list: 'list-config',
             },
         },
     },

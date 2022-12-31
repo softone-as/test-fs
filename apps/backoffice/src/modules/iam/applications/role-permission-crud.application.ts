@@ -10,6 +10,7 @@ import { RoleResponse } from '../responses/role.response';
 import { PermissionResponse } from '../responses/permission.response';
 import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
 import { config } from 'apps/backoffice/src/config';
+import { CacheEvict } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-evict.decorator';
 
 @Injectable()
 export class RolePermissionCrudApplication {
@@ -18,15 +19,12 @@ export class RolePermissionCrudApplication {
         private readonly roleService: RoleService,
         private readonly permissionService: PermissionService,
         private readonly cacheService: CacheService,
-    ) {}
+    ) { }
 
+    @CacheEvict(config.cache.name.rolePermissions.detail)
     async create(
         rolePermissionRequest: RolePermissionCreateRequest,
     ): Promise<RolePermissionResponse> {
-        this.cacheService.cleanCacheMatches([
-            config.cache.name.rolePermissions.detail,
-            config.cache.name.rolePermissions.list,
-        ]);
         const rolePermissionExists =
             await this.rolePermissionService.findOneByRoleIdAndPermissionId(
                 rolePermissionRequest.roleId,
@@ -62,14 +60,11 @@ export class RolePermissionCrudApplication {
         };
     }
 
+    @CacheEvict(config.cache.name.rolePermissions.detail)
     async edit(
         id: number,
         rolePermissionRequest: RolePermissionEditRequest,
     ): Promise<RolePermissionResponse> {
-        this.cacheService.cleanCacheMatches([
-            config.cache.name.rolePermissions.detail,
-            config.cache.name.rolePermissions.list,
-        ]);
         await this.rolePermissionService.findOneById(id);
         const updateRolePermission = await this.rolePermissionService.update(
             id,
@@ -93,31 +88,14 @@ export class RolePermissionCrudApplication {
         };
     }
 
+    @CacheEvict(config.cache.name.rolePermissions.detail)
     async delete(id: number): Promise<void> {
-        this.cacheService.cleanCacheMatches([
-            config.cache.name.rolePermissions.detail,
-            config.cache.name.rolePermissions.list,
-        ]);
         await this.rolePermissionService.findOneById(id);
         await this.rolePermissionService.delete(id);
     }
 
     async findById(id: number): Promise<IRolePermission> {
-        const cacheName = await this.cacheService.getNameCacheDetailNumber(
-            config.cache.name.rolePermissions.detail,
-            id,
-        );
-        const cacheData = await this.cacheService.getCache<IRolePermission>(
-            cacheName,
-        );
-        if (cacheData != null) {
-            return cacheData;
-        }
-
         const results = await this.rolePermissionService.findOneById(id);
-
-        await this.cacheService.setCache<IRolePermission>(cacheName, results);
-
         return results;
     }
 }

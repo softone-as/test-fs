@@ -10,7 +10,7 @@ import { config } from '../../config';
             host: config.redis.host,
             port: config.redis.port,
             password: config.redis.password,
-            ttl: 60,
+            ttl: 24 * 60 * 60,
         }),
     ],
     providers: [CacheService],

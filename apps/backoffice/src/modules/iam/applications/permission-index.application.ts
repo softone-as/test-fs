@@ -7,6 +7,7 @@ import { IndexApplication } from 'apps/backoffice/src/infrastructure/application
 import { Permission } from 'entities/iam/permission.entity';
 import { Repository } from 'typeorm';
 import { PermissionIndexRequest } from '../requests/permission-index.request';
+import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
 
 const ALLOW_TO_SORT = ['latest', 'oldest', 'name', 'key'];
 
@@ -20,20 +21,10 @@ export class PermissionIndexApplication extends IndexApplication {
         super();
     }
 
+    @CacheGetSet(config.cache.name.permissions.list)
     async fetch(
         request: PermissionIndexRequest,
     ): Promise<IPaginateResponse<Permission>> {
-        const cacheName = await this.cacheService.getNameCacheIndex(
-            config.cache.name.permissions.list,
-            request,
-        );
-        const cacheData = await this.cacheService.getCache<
-            IPaginateResponse<Permission>
-        >(cacheName);
-        if (cacheData != null) {
-            return cacheData;
-        }
-
         const query =
             this.PermissionRepository.createQueryBuilder('permission');
 
@@ -72,11 +63,6 @@ export class PermissionIndexApplication extends IndexApplication {
             data,
             meta,
         };
-
-        await this.cacheService.setCache<IPaginateResponse<Permission>>(
-            cacheName,
-            results,
-        );
 
         return results;
     }

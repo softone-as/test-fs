@@ -21,11 +21,40 @@ type User {
   role: Role!
 }
 
+type PaginateMeta {
+  page: Int!
+  perPage: Int!
+  total: Int!
+  totalPage: Int!
+}
+
+type PaginateUser {
+  meta: PaginateMeta
+  data: [User!]!
+}
+
 type Query {
   user(id: Int!): User!
-  users: [User!]!
+  users(limit: Int!): [User!]!
+  userPaginate(paginate: UserIndexRequest!): PaginateUser!
   role(id: Int!): Role!
   roles: [Role!]!
   permission(id: Int!): Permission!
   permissions: [Permission!]!
+}
+
+input UserIndexRequest {
+  sort: String
+  order: String
+  perPage: Float = 15
+  page: Float = 1
+  search: String!
+}
+
+type Mutation {
+  updateUser(id: Int!, updateUserFullname: UpdateUserFullname!): User!
+}
+
+input UpdateUserFullname {
+  fullname: String!
 }

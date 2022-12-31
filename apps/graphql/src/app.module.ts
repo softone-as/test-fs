@@ -11,7 +11,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { IAMModule } from './modules/iam/iam.module';
 import { join } from 'lodash';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { connectionOption } from 'apps/backoffice/src/infrastructure/databases';
+import { connectionOption } from 'apps/graphql/src/infrastructure/databases';
+import { CacheModule } from './infrastructure/cache/cache.module';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { connectionOption } from 'apps/backoffice/src/infrastructure/databases';
             driver: ApolloDriver,
             autoSchemaFile: 'apps/graphql/assets/schema.gql',
         }),
+        CacheModule,
         RavenModule,
         IAMModule,
     ],

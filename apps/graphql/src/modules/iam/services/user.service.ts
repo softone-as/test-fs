@@ -19,9 +19,16 @@ export class UserService {
         });
     }
 
-    async findAll(): Promise<IUser[]> {
+    async findAll(take: number): Promise<IUser[]> {
         return await this.userRepository.find({
+            take,
             relations: ['role', 'role.permissions', 'userAddresses'],
+        });
+    }
+
+    async update(id: number, data: IUser): Promise<void> {
+        await this.userRepository.update({ id }, {
+            ...data
         });
     }
 

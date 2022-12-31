@@ -12,13 +12,9 @@ export class ConfigCrudApplication {
     constructor(
         private readonly configService: ConfigService,
         private readonly cacheService: CacheService,
-    ) {}
+    ) { }
 
     async create(configRequest: ConfigCreateRequest): Promise<ConfigResponse> {
-        this.cacheService.cleanCacheMatches([
-            config.cache.name.configs.detail,
-            config.cache.name.configs.list,
-        ]);
         const newConfig = <IConfig>{};
 
         newConfig.name = configRequest.name;
@@ -38,10 +34,6 @@ export class ConfigCrudApplication {
         id: number,
         configRequest: ConfigEditRequest,
     ): Promise<ConfigResponse> {
-        this.cacheService.cleanCacheMatches([
-            config.cache.name.configs.detail,
-            config.cache.name.configs.list,
-        ]);
         await this.configService.findOneById(id);
         const editConfig = <IConfig>{};
 
@@ -59,28 +51,12 @@ export class ConfigCrudApplication {
     }
 
     async delete(id: number): Promise<void> {
-        this.cacheService.cleanCacheMatches([
-            config.cache.name.configs.detail,
-            config.cache.name.configs.list,
-        ]);
         await this.configService.findOneById(id);
         await this.configService.delete(id);
     }
 
     async findById(id: number): Promise<IConfig> {
-        const cacheName = await this.cacheService.getNameCacheDetailNumber(
-            config.cache.name.configs.detail,
-            id,
-        );
-        const cacheData = await this.cacheService.getCache<IConfig>(cacheName);
-        if (cacheData != null) {
-            return cacheData;
-        }
-
         const data = await this.configService.findOneById(id);
-
-        await this.cacheService.setCache<IConfig>(cacheName, data);
-
         return data;
     }
 }

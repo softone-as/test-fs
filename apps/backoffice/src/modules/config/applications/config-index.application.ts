@@ -23,17 +23,6 @@ export class ConfigIndexApplication extends IndexApplication {
     async fetch(
         request: ConfigIndexRequest,
     ): Promise<IPaginateResponse<Config>> {
-        const cacheName = await this.cacheService.getNameCacheIndex(
-            config.cache.name.configs.list,
-            request,
-        );
-        const cacheData = await this.cacheService.getCache<
-            IPaginateResponse<Config>
-        >(cacheName);
-        if (cacheData != null) {
-            return cacheData;
-        }
-
         const query = this.configRepository.createQueryBuilder('config');
 
         if (request.search) {
@@ -70,11 +59,6 @@ export class ConfigIndexApplication extends IndexApplication {
             data,
             meta,
         };
-
-        await this.cacheService.setCache<IPaginateResponse<Config>>(
-            cacheName,
-            results,
-        );
 
         return results;
     }

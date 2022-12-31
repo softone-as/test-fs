@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { IndexApplication } from 'apps/backoffice/src/infrastructure/applications/index.application';
+import { IPaginateResponse } from 'apps/graphql/src/common/interface/index.interface';
+import { IndexApplication } from 'apps/graphql/src/infrastructure/applications/index.application';
+import { CacheService } from 'apps/graphql/src/infrastructure/cache/services/cache.service';
 import { User } from 'entities/iam/user.entity';
 import { Repository } from 'typeorm';
-import { UserIndexRequest } from '../requests/user-index.request';
-import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
-import { config } from 'apps/backoffice/src/config';
-import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
+import { UserIndexRequest } from '../types/user.type';
 
 const ALLOW_TO_SORT = ['latest', 'oldest', 'fullname'];
 
@@ -21,7 +19,6 @@ export class UserIndexApplication extends IndexApplication {
         super();
     }
 
-    @CacheGetSet(config.cache.name.users.list)
     async fetch(request: UserIndexRequest): Promise<IPaginateResponse<User>> {
         const query = this.userRepository.createQueryBuilder('user');
 

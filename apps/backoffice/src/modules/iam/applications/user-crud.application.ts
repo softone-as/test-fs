@@ -9,6 +9,7 @@ import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/
 import { config } from 'apps/backoffice/src/config';
 import { RoleService } from '../services/role.service';
 import * as bcrypt from 'bcrypt';
+import { CacheEvict } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-evict.decorator';
 
 @Injectable()
 export class UserCrudApplication {
@@ -16,13 +17,10 @@ export class UserCrudApplication {
         private readonly adminService: UserService,
         private readonly roleService: RoleService,
         private readonly cacheService: CacheService,
-    ) {}
+    ) { }
 
+    @CacheEvict(config.cache.name.users.detail)
     async create(adminRequest: UserCreateRequest): Promise<UserResponse> {
-        this.cacheService.cleanCacheMatches([
-            config.cache.name.users.detail,
-            config.cache.name.users.list,
-        ]);
         const emailExists = await this.adminService.isEmailExists(
             adminRequest.email,
         );
@@ -48,20 +46,10 @@ export class UserCrudApplication {
     }
 
     async findById(id: number, withCache = true): Promise<IUser> {
-        const cacheName = await this.cacheService.getNameCacheDetailNumber(
-            config.cache.name.users.detail,
-            id,
-        );
-        const cacheData = await this.cacheService.getCache<IUser>(cacheName);
-        if (cacheData != null && withCache) {
-            return cacheData;
-        }
-
         const results = await this.adminService.findOneById(id);
         results.userAddresses = results.userAddresses.filter(
             (address) => address.isPrimary === true,
         );
-        await this.cacheService.setCache<IUser>(cacheName, results);
 
         return results;
     }
@@ -70,52 +58,24 @@ export class UserCrudApplication {
         phoneNumber: string,
         withCache = true,
     ): Promise<IUser> {
-        const cacheName = await this.cacheService.getNameCacheDetailString(
-            config.cache.name.users.detail,
-            phoneNumber,
-        );
-        const cacheData = await this.cacheService.getCache<IUser>(cacheName);
-        if (cacheData != null && withCache) {
-            return cacheData;
-        }
-
         const results = await this.adminService.findOneByPhoneNumber(
             phoneNumber,
         );
-        await this.cacheService.setCache<IUser>(cacheName, results);
-
         return results;
     }
 
     async findAllWithRole(roleId: number): Promise<IUser[]> {
-        const cacheName = await this.cacheService.getNameCacheList(
-            config.cache.name.users.list,
-            ['all'],
-        );
-        const cacheData = await this.cacheService.getCache<IUser[]>(cacheName);
-        if (cacheData != null) {
-            return cacheData;
-        }
-
         const results = await this.adminService.findAllWithRole(roleId);
-        await this.cacheService.setCache<IUser[]>(cacheName, results);
-
         return results;
     }
 
+    @CacheEvict(config.cache.name.users.detail)
     async delete(id: number): Promise<void> {
-        this.cacheService.cleanCacheMatches([
-            config.cache.name.users.detail,
-            config.cache.name.users.list,
-        ]);
         await this.adminService.delete(id);
     }
 
+    @CacheEvict(config.cache.name.users.detail)
     async update(id: number, request: UserUpdateRequest): Promise<void> {
-        this.cacheService.cleanCacheMatches([
-            config.cache.name.users.detail,
-            config.cache.name.users.list,
-        ]);
         const emailExists = await this.adminService.isEmailExists(
             request.email,
             id,

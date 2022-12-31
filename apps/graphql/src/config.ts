@@ -142,7 +142,7 @@ export const config = {
 
     assets: {
         storage: process.env.STORAGE || 'local',
-        public: process.env.BACKOFFICE_ASSETS || 'apps/backoffice/public',
+        public: process.env.BACKOFFICE_ASSETS || 'apps/graphql/public',
         temp: process.env.BACKOFFICE_TEMP_FILE_ASSETS || 'temp',
     },
 

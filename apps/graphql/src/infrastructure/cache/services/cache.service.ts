@@ -1,33 +1,28 @@
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
-import { IndexRequest } from 'apps/backoffice/src/common/request/index.request';
+import { IndexRequest } from 'apps/graphql/src/common/request/index.request';
 import { Cache } from 'cache-manager';
 
 @Injectable()
 export class CacheService {
-    constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+    constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) { }
 
     async getNameCacheIndex(
         key: string,
         indexRequest: IndexRequest,
-        ...anotherArgs: string[]
     ): Promise<string> {
         return (
             key +
             '-' +
-            Object.keys(indexRequest)
-                .map((key) => {
-                    return indexRequest[key];
-                })
-                .join('-') +
-            (anotherArgs.length > 0 ? '-' + anotherArgs.join('-') : '')
+            indexRequest.page +
+            '-' +
+            indexRequest.perPage +
+            '-' +
+            indexRequest.order +
+            '-' +
+            indexRequest.sort +
+            '-' +
+            indexRequest.search
         );
-    }
-
-    async setNameByEndpoint(
-        endpoint: string,
-        params: string[],
-    ): Promise<string> {
-        return endpoint + '-' + params.join('-');
     }
 
     async getNameCacheList(key: string, params: string[]): Promise<string> {
@@ -65,7 +60,9 @@ export class CacheService {
         });
 
         names.forEach((cacheName) => {
-            this.deleteCache(cacheName);
+            this.deleteCache(cacheName)
+                .then(() => console.log('clean : ' + cacheName))
+                .catch(() => console.log('error clean : ' + cacheName));
         });
     }
 

@@ -7,6 +7,7 @@ import { IndexApplication } from 'apps/backoffice/src/infrastructure/application
 import { Role } from 'entities/iam/role.entity';
 import { Repository } from 'typeorm';
 import { RoleIndexRequest } from '../requests/role-index.request';
+import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
 
 const ALLOW_TO_SORT = ['latest', 'oldest', 'name', 'key'];
 
@@ -20,18 +21,8 @@ export class RoleIndexApplication extends IndexApplication {
         super();
     }
 
+    @CacheGetSet(config.cache.name.roles.list)
     async fetch(request: RoleIndexRequest): Promise<IPaginateResponse<Role>> {
-        const cacheName = await this.cacheService.getNameCacheIndex(
-            config.cache.name.roles.list,
-            request,
-        );
-        const cacheData = await this.cacheService.getCache<
-            IPaginateResponse<Role>
-        >(cacheName);
-        if (cacheData != null) {
-            return cacheData;
-        }
-
         const query = this.RoleRepository.createQueryBuilder('role');
 
         if (request.search) {
@@ -69,11 +60,6 @@ export class RoleIndexApplication extends IndexApplication {
             data,
             meta,
         };
-
-        await this.cacheService.setCache<IPaginateResponse<Role>>(
-            cacheName,
-            results,
-        );
 
         return results;
     }

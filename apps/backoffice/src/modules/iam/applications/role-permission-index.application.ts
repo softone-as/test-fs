@@ -7,6 +7,7 @@ import { IndexApplication } from 'apps/backoffice/src/infrastructure/application
 import { RolePermission } from 'entities/iam/role-permission.entity';
 import { Repository } from 'typeorm';
 import { RolePermissionIndexRequest } from '../requests/role-permission-index.request';
+import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
 
 const ALLOW_TO_SORT = ['latest', 'oldest', 'name'];
 
@@ -20,20 +21,10 @@ export class RolePermissionIndexApplication extends IndexApplication {
         super();
     }
 
+    @CacheGetSet(config.cache.name.rolePermissions.list)
     async fetch(
         request: RolePermissionIndexRequest,
     ): Promise<IPaginateResponse<RolePermission>> {
-        const cacheName = await this.cacheService.getNameCacheIndex(
-            config.cache.name.rolePermissions.list,
-            request,
-        );
-        const cacheData = await this.cacheService.getCache<
-            IPaginateResponse<RolePermission>
-        >(cacheName);
-        if (cacheData != null) {
-            return cacheData;
-        }
-
         const query = this.RolePermissionRepository.createQueryBuilder(
             'rolePermission',
         )
@@ -84,11 +75,6 @@ export class RolePermissionIndexApplication extends IndexApplication {
             data,
             meta,
         };
-
-        await this.cacheService.setCache<IPaginateResponse<RolePermission>>(
-            cacheName,
-            results,
-        );
 
         return results;
     }
