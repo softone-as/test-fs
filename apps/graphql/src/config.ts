@@ -6,10 +6,19 @@ export const config = {
     /**
      * server configuration
      */
-    appName: process.env.APP_NAME_BACKOFFICE || 'Admin Panel Clover Mart',
+    appName: process.env.APP_NAME_GRAPHQL || 'GraphQL',
     nodeEnv: process.env.NODE_ENV,
-    port: process.env.PORT_BACKOFFICE || '3001',
-    host: process.env.HOST_BACKOFFICE || 'localhost:3001',
+    port: process.env.PORT_GRAPHQL || '3001',
+    host: process.env.HOST_GRAPHQL || 'localhost:3001',
+
+    auth: {
+        jwt: {
+            secret: process.env.JWT_SECRET_KEY || 'secret',
+            timeExpired: {
+                year: process.env.JWT_EXPIRES_IN_YEAR || 1,
+            },
+        },
+    },
 
     timezone: process.env.TZ || 'Asia/Jakarta',
 
@@ -70,6 +79,10 @@ export const config = {
             users: {
                 detail: 'user',
                 list: 'list-user',
+            },
+            userAddresses: {
+                detail: 'user-address',
+                list: 'list-user-address',
             }
         },
     },

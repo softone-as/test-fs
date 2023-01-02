@@ -3,7 +3,7 @@ import {
     Module,
     ValidationPipe,
 } from '@nestjs/common';
-import { APP_PIPE, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_PIPE, APP_INTERCEPTOR, APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { RavenInterceptor, RavenModule } from 'nest-raven';
 import { QueryFailedError } from 'typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -13,6 +13,9 @@ import { CacheModule as CacheModuleManager } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { connectionOption } from 'apps/graphql/src/infrastructure/databases';
 import { CacheModule } from './infrastructure/cache/cache.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { EntityNotFoundExceptionFilter } from './common/filters/http-exeception.filter';
+import { QueryExceptionFilter } from './common/filters/query-failed-error.filter';
 
 @Module({
     imports: [
@@ -32,8 +35,19 @@ import { CacheModule } from './infrastructure/cache/cache.module';
         CacheModule,
         RavenModule,
         IAMModule,
+        AuthModule,
     ],
     providers: [
+        {
+            // Global Error Handler
+            provide: APP_FILTER,
+            useClass: QueryExceptionFilter,
+        },
+        {
+            // Not Found Entity Error Handler
+            provide: APP_FILTER,
+            useClass: EntityNotFoundExceptionFilter,
+        },
         {
             // Validation formatting response
             provide: APP_PIPE,

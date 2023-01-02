@@ -12,6 +12,8 @@ import {
 } from '@nestjs/common';
 import { Storage } from '@google-cloud/storage';
 import moment from 'moment-timezone';
+import { IUser } from 'interface-models/iam/user.interface';
+import jwt_decode from "jwt-decode";
 
 export class Utils {
     static md5(contents: string): string {
@@ -29,6 +31,10 @@ export class Utils {
             );
         }
         return result;
+    }
+
+    static tokenAuthDecoder(tokenAuth: string): IUser {
+        return jwt_decode(tokenAuth);
     }
 
     static isJson(value: string): boolean {
@@ -130,7 +136,7 @@ export class Utils {
             case 'gcs':
                 const keyPath =
                     path.resolve('./') +
-                    '/dist/apps/api/' +
+                    '/dist/apps/graphql/' +
                     config.storage.gcs.pathKeyFileJson;
 
                 const storage = new Storage({

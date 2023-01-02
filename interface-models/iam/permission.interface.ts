@@ -100,6 +100,37 @@ export const PERMISSION_BACKOFFICE_DETAIL_PERMISSION =
 export const PERMISSION_BACKOFFICE_UPDATE_PERMISSION =
     'backoffice-update-permission';
 
+// GRAPHQL
+export const PERMISSION_GRAPHQL_SHOW_USER = 'graphql-show-user';
+export const PERMISSION_GRAPHQL_DETAIL_USER = 'graphql-detail-user';
+export const PERMISSION_GRAPHQL_UPDATE_USER = 'graphql-update-user';
+export const PERMISSION_GRAPHQL_CREATE_USER = 'graphql-create-user';
+export const PERMISSION_GRAPHQL_DELETE_USER = 'graphql-delete-user';
+
+export const PERMISSION_GRAPHQL_SHOW_ROLE = 'graphql-show-role';
+export const PERMISSION_GRAPHQL_DETAIL_ROLE = 'graphql-detail-role';
+export const PERMISSION_GRAPHQL_UPDATE_ROLE = 'graphql-update-role';
+export const PERMISSION_GRAPHQL_CREATE_ROLE = 'graphql-create-role';
+export const PERMISSION_GRAPHQL_DELETE_ROLE = 'graphql-delete-role';
+
+export const PERMISSION_GRAPHQL_SHOW_ROLE_PERMISSION =
+    'graphql-show-role-permission';
+export const PERMISSION_GRAPHQL_DETAIL_ROLE_PERMISSION =
+    'graphql-detail-role-permission';
+export const PERMISSION_GRAPHQL_UPDATE_ROLE_PERMISSION =
+    'graphql-update-role-permission';
+export const PERMISSION_GRAPHQL_CREATE_ROLE_PERMISSION =
+    'graphql-create-role-permission';
+export const PERMISSION_GRAPHQL_DELETE_ROLE_PERMISSION =
+    'graphql-delete-role-permission';
+
+export const PERMISSION_GRAPHQL_SHOW_PERMISSION =
+    'graphql-show-permission';
+export const PERMISSION_GRAPHQL_DETAIL_PERMISSION =
+    'graphql-detail-permission';
+export const PERMISSION_GRAPHQL_UPDATE_PERMISSION =
+    'graphql-update-permission';
+
 // API
 export const PERMISSION_API_SHOW_NOTIFICATION = 'api-show-notification';
 export const PERMISSION_API_UPDATE_NOTIFICATION = 'api-update-notification';

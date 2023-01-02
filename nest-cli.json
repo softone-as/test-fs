@@ -45,6 +45,11 @@
                         "include": "../assets",
                         "outDir": "./dist/apps/api/assets",
                         "watchAssets": true
+                    },
+                    {
+                        "include": "./infrastructure/mail/templates/**/*",
+                        "outDir": "./dist/apps/api/src",
+                        "watchAssets": true
                     }
                 ],
                 "watchAssets": true,

@@ -52,6 +52,18 @@ type PaginateUser {
   data: [User!]!
 }
 
+type AuthUserResponse {
+  id: Int!
+  fullname: String!
+  email: String!
+  phoneNumber: String!
+}
+
+type AuthLoginResponse {
+  user: AuthUserResponse!
+  token: String!
+}
+
 type Query {
   user(id: Int!): User!
   users(limit: Int!): [User!]!
@@ -60,6 +72,7 @@ type Query {
   roles: [Role!]!
   permission(id: Int!): Permission!
   permissions: [Permission!]!
+  loginBasic(authLoginRequest: AuthLoginRequest!): AuthLoginResponse!
 }
 
 input UserIndexRequest {
@@ -68,6 +81,11 @@ input UserIndexRequest {
   perPage: Float = 15
   page: Float = 1
   search: String!
+}
+
+input AuthLoginRequest {
+  phoneNumber: String!
+  password: String!
 }
 
 type Mutation {
