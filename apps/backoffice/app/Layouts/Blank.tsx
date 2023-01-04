@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Head from '../Components/atoms/Commons/Head.atom';
+import { Layout } from 'antd'
 
 type BlankProps = {
     children: React.ReactNode;
     title: string;
 };
 
+
+const { Content } = Layout;
+
 const Blank: React.FC<BlankProps> = ({ children, title }) => {
     return (
-        <div>
+        <>
             <Head title={title} />
-            <div className="page">{children}</div>
-        </div>
-    );
-};
+            <Layout style={{ minHeight: '100vh' }}>
+                <Content style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    {children}
+                </Content>
+            </Layout>
+        </>
+    )
+}
 
 export default Blank;

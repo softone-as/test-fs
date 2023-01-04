@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
+import React from 'react';
+// import { Helmet } from 'react-helmet';
+import { Head as InertiaHeader } from '@inertiajs/inertia-react'
 
 type HeadProps = {
     title: string;
@@ -7,10 +8,7 @@ type HeadProps = {
 
 const Head: React.FC<HeadProps> = ({ title }) => {
     return (
-        <Helmet>
-            <meta charSet="utf-8" />
-            <title>{title}</title>
-        </Helmet>
+        <InertiaHeader title={title} />
     );
 };
 

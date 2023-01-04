@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as yup from 'yup';
-import React, { useState } from 'react';
+import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -27,7 +27,7 @@ const schema = yup.object().shape({
         .required('Field Email wajib diisi'),
     password: yup.string().required('Field Password wajib diisi'),
 });
-import OneSignal from 'react-onesignal';
+// import OneSignal from 'react-onesignal';
 
 const Login = (): JSX.Element => {
     const { isLoading, setIsLoading } = useLoading();

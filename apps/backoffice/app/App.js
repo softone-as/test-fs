@@ -5,6 +5,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+//Ant Design
+import 'antd/dist/reset.css';
+
 const App = () => {
     // TEMP disabled
     // OneSignal.init({
