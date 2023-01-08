@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useState } from 'react';
+import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -9,7 +9,7 @@ import { usePage } from '@inertiajs/inertia-react';
 
 import { EndpointRoute } from '../../../Enums/Route';
 
-import Layout from '../../../Layouts/Main';
+import { Main as Layout } from '../../../Layouts/Main';
 
 import {
     RoleType,

@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as yup from 'yup';
-import React, { useState } from 'react';
+import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { Link, usePage } from '@inertiajs/inertia-react';
 
-import Blank from '../Layouts/Blank';
+import { Blank } from '../Layouts/Blank';
 
 import { ErrorType, SuccessType } from '../modules/Common/Entity/Common';
 import { ForgotPasswordType } from '../modules/User/Entity/User';

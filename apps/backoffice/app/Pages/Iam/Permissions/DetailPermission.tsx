@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import Layout from '../../../Layouts/Main';
+import { Main as Layout } from '../../../Layouts/Main';
 
 import { PermissionType, PERMISSION_BACKOFFICE_UPDATE_PERMISSION } from '../../../modules/Permission/Entity/Permission';
 

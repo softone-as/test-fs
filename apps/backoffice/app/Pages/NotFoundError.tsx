@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Blank from '../Layouts/Blank';
+import React from 'react';
+import { Blank } from '../Layouts/Blank';
 import '../../public/css/error.css';
 
 const Dashboard = (): JSX.Element => {

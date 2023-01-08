@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { CellProps, Column } from 'react-table';
 
-import Layout from '../../Layouts/Main';
+import { Main as Layout } from '../../Layouts/Main';
 
 import { useDidUpdateEffect } from '../../Utils/hooks';
 

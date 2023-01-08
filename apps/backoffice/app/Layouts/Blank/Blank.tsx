@@ -1,19 +1,18 @@
 import React from 'react';
-import Head from '../Components/atoms/Commons/Head.atom';
+import Head from '../../Components/atoms/Commons/Head.atom';
 import { Layout } from 'antd'
 
-type BlankProps = {
+export type BlankProps = {
     children: React.ReactNode;
     title: string;
 };
 
-
 const { Content } = Layout;
 
-const Blank: React.FC<BlankProps> = ({ children, title }) => {
+export const Blank: React.FC<BlankProps> = ({ children, title }) => {
     return (
         <>
-            <Head title={title} />
+            {window.location.host !== process.env.STORY_HOST ? <Head title={title} /> : null}
             <Layout style={{ minHeight: '100vh' }}>
                 <Content >
                     {children}
@@ -23,4 +22,4 @@ const Blank: React.FC<BlankProps> = ({ children, title }) => {
     )
 }
 
-export default Blank;
+

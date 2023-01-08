@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import Layout from '../../Layouts/Main';
+import { Main as Layout } from '../../Layouts/Main';
 
 import { ConfigType } from '../../modules/Config/Entity/Config';
 import { PERMISSION_BACKOFFICE_UPDATE_CONFIG } from '../../modules/Permission/Entity/Permission';
