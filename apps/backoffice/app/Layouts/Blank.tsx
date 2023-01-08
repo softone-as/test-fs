@@ -15,7 +15,7 @@ const Blank: React.FC<BlankProps> = ({ children, title }) => {
         <>
             <Head title={title} />
             <Layout style={{ minHeight: '100vh' }}>
-                <Content style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Content >
                     {children}
                 </Content>
             </Layout>
