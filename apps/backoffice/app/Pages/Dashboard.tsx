@@ -2,7 +2,7 @@ import React from 'react';
 import { Main } from '../Layouts/Main';
 
 const Dashboard = (): JSX.Element => {
-    return <Main title="Dashboard">
+    return <Main >
         Selamat datang di Buang Disini
     </Main>;
 };

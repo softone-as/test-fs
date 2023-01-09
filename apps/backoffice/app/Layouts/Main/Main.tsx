@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Head from '../../Components/atoms/Commons/Head.atom';
-// import Sidebar from '../../Components/organisms/Navigation/Sidebar';
+import Sidebar from '../../Components/organisms/Navigation/Sidebar';
 
 export type MainProps = {
     children: React.ReactNode;
@@ -13,7 +13,7 @@ export const Main: React.FC<MainProps> = ({ children, title }) => {
         <div>
             {window.location.host !== process.env.STORY_HOST ? <Head title={title} /> : null}
             <div className="page">
-                {/* <Sidebar /> */}
+                <Sidebar />
                 <div className="page__wrapper">
                     <div className="page__center">{children}</div>
                 </div>
