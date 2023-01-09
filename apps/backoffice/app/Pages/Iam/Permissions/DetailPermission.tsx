@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 import Layout from '../../../Layouts/Main';
 
-import { PermissionType, PERMISSION_BACKOFFICE_UPDATE_PERMISSION } from '../../../modules/Permission/Entity/Permission';
+import { PermissionType } from '../../../modules/Permission/Entity/Permission';
+import { PERMISSION_BACKOFFICE_UPDATE_PERMISSION } from '../../../../../../constants/permission.constant';
 
 import TextBox from '../../../Components/atoms/Box/TextBox.atom';
 import Container from '../../../Components/atoms/Containers/Container.atom';

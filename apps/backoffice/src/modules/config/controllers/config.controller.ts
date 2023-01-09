@@ -19,7 +19,7 @@ import {
     PERMISSION_BACKOFFICE_DELETE_CONFIG,
     PERMISSION_BACKOFFICE_SHOW_CONFIG,
     PERMISSION_BACKOFFICE_UPDATE_CONFIG,
-} from 'interface-models/iam/permission.interface';
+} from 'constants/permission.constant';
 
 @Controller('configs')
 export class ConfigController {

@@ -8,10 +8,12 @@ import { useDidUpdateEffect } from '../../../Utils/hooks';
 
 import { Route } from '../../../Enums/Route';
 
+import { PermissionType } from '../../../modules/Permission/Entity/Permission';
+
 import {
-    PermissionType, PERMISSION_BACKOFFICE_DETAIL_PERMISSION,
+    PERMISSION_BACKOFFICE_DETAIL_PERMISSION,
     PERMISSION_BACKOFFICE_UPDATE_PERMISSION
-} from '../../../modules/Permission/Entity/Permission';
+} from '../../../../../../constants/permission.constant';
 
 import { FilterSelectOption } from '../../../Components/molecules/Inputs/FilterSelect.molecule';
 import ActionButtons from '../../../Components/molecules/DataTable/ActionButtons.molecule';

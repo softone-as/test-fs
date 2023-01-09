@@ -15,7 +15,7 @@ import { PermissionCrudApplication } from '../applications/permission-crud.appli
 import {
     PERMISSION_BACKOFFICE_SHOW_PERMISSION,
     PERMISSION_BACKOFFICE_UPDATE_PERMISSION,
-} from 'interface-models/iam/permission.interface';
+} from 'constants/permission.constant';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 
 @Controller('permissions')

@@ -9,8 +9,7 @@ export class PermissionService {
     constructor(
         @InjectRepository(Permission)
         private readonly PermissionRepository: Repository<Permission>,
-    ) { }
-
+    ) {}
 
     async findOneById(id: number): Promise<IPermission> {
         return await this.PermissionRepository.findOneOrFail({
@@ -21,5 +20,4 @@ export class PermissionService {
     async findAll(): Promise<IPermission[]> {
         return await this.PermissionRepository.find();
     }
-
 }

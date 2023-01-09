@@ -14,7 +14,7 @@ import { UserType } from '../../../modules/User/Entity/User';
 import {
     PERMISSION_BACKOFFICE_DELETE_USER, PERMISSION_BACKOFFICE_CREATE_USER, PERMISSION_BACKOFFICE_DETAIL_USER,
     PERMISSION_BACKOFFICE_UPDATE_USER
-} from '../../../modules/Permission/Entity/Permission';
+} from '../../../../../../constants/permission.constant';
 
 import { FilterSelectOption } from '../../../Components/molecules/Inputs/FilterSelect.molecule';
 import ActionButtons from '../../../Components/molecules/DataTable/ActionButtons.molecule';

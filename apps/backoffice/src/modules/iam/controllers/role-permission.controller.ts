@@ -18,7 +18,7 @@ import {
     PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION,
     PERMISSION_BACKOFFICE_SHOW_ROLE_PERMISSION,
     PERMISSION_BACKOFFICE_UPDATE_ROLE_PERMISSION,
-} from 'interface-models/iam/permission.interface';
+} from 'constants/permission.constant';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { RolePermissionCreateRequest } from '../requests/role-permission-create.request';
 import { RolePermissionEditRequest } from '../requests/role-permission-edit.request';
