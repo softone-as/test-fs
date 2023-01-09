@@ -15,16 +15,9 @@ type Role {
   permissions: [Permission!]!
 }
 
-type UserAddress {
-  id: Int!
-}
-
 type User {
   email: String!
-  userAddresses: [UserAddress!]
   password: String!
-  poin: Float
-  lifetimeKg: Float
   identityNumber: String
   phoneNumber: String
   id: Int!

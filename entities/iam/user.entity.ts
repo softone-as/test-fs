@@ -6,7 +6,6 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
-    OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -14,8 +13,6 @@ import { Exclude, Transform } from 'class-transformer';
 import { IRole } from 'interface-models/iam/role.interface';
 import { Role } from './role.entity';
 import { BaseEntity } from 'entities/base.entity';
-import { UserAddress } from './user-addresses.entity';
-import { IUserAddress } from 'interface-models/iam/user-addresses.interface';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity implements IUser {
@@ -34,27 +31,6 @@ export class User extends BaseEntity implements IUser {
 
     @Column({ name: 'phone_number', unique: true })
     phoneNumber: string;
-
-    @Column({
-        name: 'poin',
-        nullable: true,
-        type: 'decimal',
-        precision: 16,
-        scale: 2,
-    })
-    poin: number;
-
-    @Column({
-        name: 'lifetime_kg',
-        nullable: true,
-        type: 'decimal',
-        precision: 16,
-    })
-    lifetimeKg: number;
-
-    @OneToMany(() => UserAddress, (value) => value.user)
-    @JoinColumn({ name: 'user_id' })
-    userAddresses: IUserAddress[];
 
     @Column({ name: 'email_verified_at', nullable: true })
     emailVerifiedAt: Date;

@@ -26,7 +26,6 @@ import { UserModule } from './modules/user/user.module';
 import { ClearCacheController } from './cache/clear-cache.controller';
 import { BullModule } from '@nestjs/bull';
 import { CacheInterceptor } from './infrastructure/cache/interceptors/cache-interceptor';
-import { RegionModule } from './modules/region/region.module';
 
 @Module({
     imports: [
@@ -35,7 +34,6 @@ import { RegionModule } from './modules/region/region.module';
         QueueModule,
         CacheModule,
         UserModule,
-        RegionModule,
         MailerModule.forRoot({
             // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
             // or
@@ -133,4 +131,4 @@ import { RegionModule } from './modules/region/region.module';
     ],
     controllers: [HealthController, ClearCacheController],
 })
-export class AppModule { }
+export class AppModule {}
