@@ -41,21 +41,6 @@ export class InitTable1656301180717 implements MigrationInterface {
             `ALTER TABLE \`users\` ADD CONSTRAINT \`FK_a2cecd1a3531c0b041e29ba46e1\` FOREIGN KEY (\`role_id\`) REFERENCES \`roles\`(\`id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
         );
         await queryRunner.query(
-            `ALTER TABLE \`regions\` ADD CONSTRAINT \`FK_88710f9af21f62e1bf43bbce751\` FOREIGN KEY (\`country_id\`) REFERENCES \`countries\`(\`id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
-        );
-        await queryRunner.query(
-            `ALTER TABLE \`cities\` ADD CONSTRAINT \`FK_42a294591feef6af3d96d60132a\` FOREIGN KEY (\`region_id\`) REFERENCES \`regions\`(\`id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
-        );
-        await queryRunner.query(
-            `ALTER TABLE \`districts\` ADD CONSTRAINT \`FK_d7d1704cfb8bc19fb0d9c2f7ced\` FOREIGN KEY (\`city_id\`) REFERENCES \`cities\`(\`id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
-        );
-        await queryRunner.query(
-            `ALTER TABLE \`user_addresses\` ADD CONSTRAINT \`FK_7a5100ce0548ef27a6f1533a5ce\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\`(\`id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
-        );
-        await queryRunner.query(
-            `ALTER TABLE \`user_addresses\` ADD CONSTRAINT \`FK_0a917f31ee760bfe793ebda49b4\` FOREIGN KEY (\`district_id\`) REFERENCES \`districts\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
-        );
-        await queryRunner.query(
             `ALTER TABLE \`in_app_notifications\` ADD CONSTRAINT \`FK_046713440a98830b619c4c649b4\` FOREIGN KEY (\`target_user_id\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
         );
     }
