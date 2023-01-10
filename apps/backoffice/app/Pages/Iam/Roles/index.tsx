@@ -14,7 +14,7 @@ import { RoleType } from '../../../modules/Role/Entity/Role';
 import {
     PERMISSION_BACKOFFICE_DELETE_ROLE, PERMISSION_BACKOFFICE_CREATE_ROLE, PERMISSION_BACKOFFICE_DETAIL_ROLE,
     PERMISSION_BACKOFFICE_UPDATE_ROLE
-} from '../../../modules/Permission/Entity/Permission';
+} from '../../../../../../constants/permission.constant';
 
 import { FilterSelectOption } from '../../../Components/molecules/Inputs/FilterSelect.molecule';
 import ActionButtons from '../../../Components/molecules/DataTable/ActionButtons.molecule';
