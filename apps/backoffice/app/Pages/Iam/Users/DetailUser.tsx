@@ -65,7 +65,7 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({ data }) => {
                     <ActionButtons
                         position="flex-end"
                         updateLink={`${Route.EditUser}/${id}`}
-                        onDelete={() => handleDeleteUser(id)}
+                        onDelete={() => handleDeleteUser(id.toString())}
                         hideDelete={!permissionAllowActionList.includes(PERMISSION_BACKOFFICE_DELETE_USER)}
                         hideUpdate={!permissionAllowActionList.includes(PERMISSION_BACKOFFICE_UPDATE_USER)}
                     />
@@ -83,16 +83,8 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({ data }) => {
                             content={data.phoneNumber}
                         />
                         <TextBox
-                            title="Address"
-                            content={data.userAddresses[0]?.address}
-                        />
-                        <TextBox
                             title="Role"
                             content={<Link href={`${EndpointRoute.Role}/${data.role.id}`}>{data.role.name}</Link>}
-                        />
-                        <TextBox
-                            title="Poin IDR"
-                            content={formatCurrency(data.poin)}
                         />
                         <TextBox
                             isFull={true}

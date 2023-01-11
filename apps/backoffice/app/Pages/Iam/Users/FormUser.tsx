@@ -61,7 +61,7 @@ const FormUser: React.FC<FormUserProps> = ({
         mode: 'onChange',
         resolver: yupResolver(schema),
         defaultValues: {
-            ...data, roleId: data?.role.id, password: null
+            ...data, roleId: data?.role.id.toString(), password: null
         },
     });
 

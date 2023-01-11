@@ -11,6 +11,7 @@ export const RoleGuard = (roleKey: string): Type<CanActivate> => {
     class RoleGuardMixin implements LoggedInGuard {
         canActivate(context: ExecutionContext) {
             const user = context.switchToHttp().getRequest().user;
+            console.log(user)
             if (!user) {
                 throw new UnauthorizedException('Login first');
             }

@@ -136,7 +136,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ data, meta }) => {
                         <ActionButtons
                             detailLink={`${Route.Users}/${id}`}
                             updateLink={`${Route.EditUser}/${id}`}
-                            onDelete={() => handleDeleteUser(id)}
+                            onDelete={() => handleDeleteUser(id.toString())}
                             hideDelete={!permissionList.includes(PERMISSION_BACKOFFICE_DELETE_USER)}
                             isShowDetail={permissionList.includes(PERMISSION_BACKOFFICE_DETAIL_USER)}
                             hideUpdate={!permissionList.includes(PERMISSION_BACKOFFICE_UPDATE_USER)}

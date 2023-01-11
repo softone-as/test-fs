@@ -21,6 +21,7 @@ import {
 } from 'constants/permission.constant';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { UserUpdateRequest } from '../requests/user-update.request';
+import { UserResponse } from '../responses/user.response';
 
 @Controller('users')
 export class UserController {
@@ -29,7 +30,7 @@ export class UserController {
         private readonly userCrudApplication: UserCrudApplication,
         private readonly roleCrudApplication: RoleCrudApplication,
         private readonly userIndexApplication: UserIndexApplication,
-    ) {}
+    ) { }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get()
@@ -37,7 +38,10 @@ export class UserController {
         const props = await this.userIndexApplication.fetch(indexRequest);
         return this.inertiaAdapter.render({
             component: 'Iam/Users',
-            props: props,
+            props: {
+                ...props,
+                data: UserResponse.fromEntities(props.data)
+            },
         });
     }
 

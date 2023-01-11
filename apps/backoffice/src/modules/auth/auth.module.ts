@@ -45,4 +45,4 @@ import { RoleService } from '../iam/services/role.service';
     ],
     exports: [],
 })
-export class AdminAuthModule {}
+export class AdminAuthModule { }

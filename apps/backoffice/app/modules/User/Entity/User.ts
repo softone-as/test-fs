@@ -1,16 +1,8 @@
+import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
 import { RoleType } from '../../Role/Entity/Role';
 import { UserAddressType } from '../../UserAddress/Entity/UserAddress';
 
-export type UserType = {
-    id: string;
-    fullname: string;
-    email: string;
-    password: string;
-    phoneNumber: string;
-    userAddresses: UserAddressType[];
-    poin: number;
-    role?: RoleType;
-};
+export type UserType = Omit<UserResponse, ''>
 
 export type FormUserType = Omit<UserType, 'id' | 'role' | 'password'> & {
     roleId: string;
