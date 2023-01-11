@@ -11,5 +11,5 @@ module.exports = {
 
     // Format MarkDown and JSON
     '**/*.(md|json)': (filenames) =>
-        `yarn prettier --write ${filenames.join(' ')} --no-error-on-unmatched-pattern`,
+        `yarn prettier --write ${filenames.join(' ')}`,
 };
