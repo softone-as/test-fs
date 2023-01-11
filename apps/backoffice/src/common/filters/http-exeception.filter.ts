@@ -25,8 +25,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
         const path = request.path.slice(1);
 
-        console.log(exception.stack)
-
         if (exception instanceof UnprocessableEntityException) {
             const exceptionResponse = exception.getResponse();
             const data = exceptionResponse['data'] || null;
