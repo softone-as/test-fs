@@ -139,7 +139,7 @@ const RolePermissionsPage: React.FC<RolePermissionsPageProps> = ({ data, meta })
                         <ActionButtons
                             detailLink={`${Route.RolePermissions}/${id}`}
                             updateLink={`${Route.EditRolePermission}/${id}`}
-                            onDelete={() => handleDeleteRolePermission(id)}
+                            onDelete={() => handleDeleteRolePermission(id.toString())}
                             hideDelete={!permissionList.includes(PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION)}
                             isShowDetail={permissionList.includes(PERMISSION_BACKOFFICE_DETAIL_ROLE_PERMISSION)}
                             hideUpdate={!permissionList.includes(PERMISSION_BACKOFFICE_UPDATE_ROLE_PERMISSION)}

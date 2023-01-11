@@ -2,12 +2,19 @@ import { IRole } from 'interface-models/iam/role.interface';
 import { PermissionResponse } from './permission.response';
 
 export class RoleResponse {
+
     id: number;
+
     name: string;
+
     key: string;
+
     permissions?: PermissionResponse[];
+
     createdAt?: Date;
+
     updatedAt?: Date;
+
 
     static fromEntity(role: IRole): RoleResponse {
         return {

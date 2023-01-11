@@ -136,7 +136,7 @@ const RolesPage: React.FC<RolesPageProps> = ({ data, meta }) => {
                         <ActionButtons
                             detailLink={`${Route.Roles}/${id}`}
                             updateLink={`${Route.EditRole}/${id}`}
-                            onDelete={() => handleDeleteRole(id)}
+                            onDelete={() => handleDeleteRole(id.toString())}
                             hideDelete={!permissionList.includes(PERMISSION_BACKOFFICE_DELETE_ROLE)}
                             isShowDetail={permissionList.includes(PERMISSION_BACKOFFICE_DETAIL_ROLE)}
                             hideUpdate={!permissionList.includes(PERMISSION_BACKOFFICE_UPDATE_ROLE)}
