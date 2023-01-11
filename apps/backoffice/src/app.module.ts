@@ -40,6 +40,9 @@ import { CacheModule as CacheModuleManager } from '@nestjs/common';
 import { CacheModule } from './infrastructure/cache/cache.module';
 import { NotificationModule as InAppNotificationModule } from './modules/notification/notification.module';
 import { CacheCleanMiddleware } from './infrastructure/cache/middlewares/cache-clean.middleware';
+import { LogActivityModule } from './modules/log-activity/log-activity.module';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
 @Module({
     imports: [
@@ -85,6 +88,18 @@ import { CacheCleanMiddleware } from './infrastructure/cache/middlewares/cache-c
         ScheduleModule.forRoot(),
 
         InertiaModule,
+        LogActivityModule,
+        WinstonModule.forRoot({
+            transports: [
+                new winston.transports.File({
+                    filename: 'info.log',
+                    format: winston.format.combine(
+                        winston.format.timestamp(),
+                        winston.format.json(),
+                    ),
+                }),
+            ],
+        }),
     ],
     providers: [
         {
@@ -132,7 +147,7 @@ import { CacheCleanMiddleware } from './infrastructure/cache/middlewares/cache-c
     ],
 })
 export class AppModule implements NestModule {
-    constructor(@Inject(REDIS) private readonly redis: RedisClient) { }
+    constructor(@Inject(REDIS) private readonly redis: RedisClient) {}
 
     configure(consumer: MiddlewareConsumer): void {
         consumer

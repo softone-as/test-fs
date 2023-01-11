@@ -114,6 +114,7 @@
         "move-file": "^3.0.0",
         "mysql2": "^2.3.0",
         "nest-raven": "^8.1.0",
+        "nest-winston": "^1.8.0",
         "nestjs-http-promise": "^1.2.3",
         "nodemailer": "^6.7.5",
         "onesignal-node": "^3.3.0",
@@ -157,6 +158,7 @@
         "typeorm-seeding": "^1.6.1",
         "typeorm-transactional-cls-hooked": "^0.1.21",
         "uuid": "^8.3.2",
+        "winston": "^3.8.2",
         "ws": "^8.2.2",
         "yup": "^0.32.11"
     },
