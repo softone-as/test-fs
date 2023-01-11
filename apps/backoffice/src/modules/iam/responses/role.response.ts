@@ -2,7 +2,6 @@ import { IRole } from 'interface-models/iam/role.interface';
 import { PermissionResponse } from './permission.response';
 
 export class RoleResponse {
-
     id: number;
 
     name: string;
@@ -15,7 +14,6 @@ export class RoleResponse {
 
     updatedAt?: Date;
 
-
     static fromEntity(role: IRole): RoleResponse {
         return {
             id: role.id,
@@ -25,5 +23,9 @@ export class RoleResponse {
             createdAt: role.createdAt,
             updatedAt: role.updatedAt,
         };
+    }
+
+    static fromEntities(roles: IRole[]): RoleResponse[] {
+        return roles.map((role) => RoleResponse.fromEntity(role));
     }
 }

@@ -4,22 +4,26 @@ import { RoleResponse } from './role.response';
 
 export class RolePermissionResponse {
     id: number;
+
     role: RoleResponse;
+
     permission: PermissionResponse;
+
     createdAt?: Date;
+
     updatedAt?: Date;
 
     static fromEntites(
         rolePermissions: IRolePermission[],
     ): RolePermissionResponse[] {
-        return rolePermissions.map((rolePermission) => {
-            return {
-                id: rolePermission.id,
-                role: RoleResponse.fromEntity(rolePermission.role),
-                permission: RoleResponse.fromEntity(rolePermission.permission),
-                createdAt: rolePermission.createdAt,
-                updatedAt: rolePermission.updatedAt,
-            };
-        });
+        return rolePermissions.map((rolePermission) => ({
+            id: rolePermission.id,
+            role: RoleResponse.fromEntity(rolePermission.role),
+            permission: PermissionResponse.fromEntity(
+                rolePermission.permission,
+            ),
+            createdAt: rolePermission.createdAt,
+            updatedAt: rolePermission.updatedAt,
+        }));
     }
 }
