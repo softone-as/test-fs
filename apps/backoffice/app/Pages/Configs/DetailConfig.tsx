@@ -3,7 +3,7 @@ import React from 'react';
 import { Main as Layout } from '../../Layouts/Main';
 
 import { ConfigType } from '../../modules/Config/Entity/Config';
-import { PERMISSION_BACKOFFICE_UPDATE_CONFIG } from '../../modules/Permission/Entity/Permission';
+import { PERMISSION_BACKOFFICE_UPDATE_CONFIG } from '../../../../../constants/permission.constant';
 
 import TextBox from '../../Components/atoms/Box/TextBox.atom';
 import Container from '../../Components/atoms/Containers/Container.atom';

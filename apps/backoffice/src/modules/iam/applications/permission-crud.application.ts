@@ -12,7 +12,7 @@ export class PermissionCrudApplication {
     constructor(
         private readonly permissionService: PermissionService,
         private readonly cacheService: CacheService,
-    ) { }
+    ) {}
 
     @CacheEvict(config.cache.name.permissions.detail)
     async edit(

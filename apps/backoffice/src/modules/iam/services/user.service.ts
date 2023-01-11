@@ -45,28 +45,6 @@ export class UserService {
         });
     }
 
-    async addPoin(id: number, poin: number): Promise<void> {
-        await this.userRepository
-            .createQueryBuilder()
-            .update(User)
-            .set({
-                poin: () => `If(poin is null, 0, poin) + ${poin}`,
-            })
-            .where('id = :id', { id })
-            .execute();
-    }
-
-    async addLifetimeKg(id: number, qty: number): Promise<void> {
-        await this.userRepository
-            .createQueryBuilder()
-            .update(User)
-            .set({
-                lifetimeKg: () => `If(lifetime_kg is null, 0, poin) + ${qty}`,
-            })
-            .where('id = :id', { id })
-            .execute();
-    }
-
     async findOneByPhoneNumber(phoneNumber: string): Promise<IUser> {
         return await this.userRepository.findOneOrFail({
             where: { phoneNumber },

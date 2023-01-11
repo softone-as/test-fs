@@ -17,7 +17,7 @@ export class UserCrudApplication {
         private readonly adminService: UserService,
         private readonly roleService: RoleService,
         private readonly cacheService: CacheService,
-    ) { }
+    ) {}
 
     @CacheEvict(config.cache.name.users.detail)
     async create(adminRequest: UserCreateRequest): Promise<UserResponse> {
@@ -45,19 +45,12 @@ export class UserCrudApplication {
         };
     }
 
-    async findById(id: number, withCache = true): Promise<IUser> {
+    async findById(id: number): Promise<IUser> {
         const results = await this.adminService.findOneById(id);
-        results.userAddresses = results.userAddresses.filter(
-            (address) => address.isPrimary === true,
-        );
-
         return results;
     }
 
-    async findByPhoneNumber(
-        phoneNumber: string,
-        withCache = true,
-    ): Promise<IUser> {
+    async findByPhoneNumber(phoneNumber: string): Promise<IUser> {
         const results = await this.adminService.findOneByPhoneNumber(
             phoneNumber,
         );

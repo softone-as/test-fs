@@ -3,7 +3,7 @@ import React from 'react';
 import { Main as Layout } from '../../../Layouts/Main';
 
 import { RolePermissionType } from '../../../modules/RolePermission/Entity/RolePermission';
-import { PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION, PERMISSION_BACKOFFICE_UPDATE_ROLE_PERMISSION } from '../../../modules/Permission/Entity/Permission';
+import { PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION, PERMISSION_BACKOFFICE_UPDATE_ROLE_PERMISSION } from '../../../../../../constants/permission.constant';
 
 import TextBox from '../../../Components/atoms/Box/TextBox.atom';
 import Container from '../../../Components/atoms/Containers/Container.atom';

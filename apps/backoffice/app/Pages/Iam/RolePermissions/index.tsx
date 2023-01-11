@@ -11,7 +11,7 @@ import { EndpointRoute, Route } from '../../../Enums/Route';
 
 import { ErrorType, SuccessType } from '../../../modules/Common/Entity/Common';
 import { RolePermissionType } from '../../../modules/RolePermission/Entity/RolePermission';
-import { PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION, PERMISSION_BACKOFFICE_CREATE_ROLE_PERMISSION, PERMISSION_BACKOFFICE_DETAIL_ROLE_PERMISSION, PERMISSION_BACKOFFICE_UPDATE_ROLE_PERMISSION } from '../../../modules/Permission/Entity/Permission';
+import { PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION, PERMISSION_BACKOFFICE_CREATE_ROLE_PERMISSION, PERMISSION_BACKOFFICE_DETAIL_ROLE_PERMISSION, PERMISSION_BACKOFFICE_UPDATE_ROLE_PERMISSION } from '../../../../../../constants/permission.constant';
 
 import { FilterSelectOption } from '../../../Components/molecules/Inputs/FilterSelect.molecule';
 import ActionButtons from '../../../Components/molecules/DataTable/ActionButtons.molecule';

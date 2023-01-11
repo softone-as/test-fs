@@ -5,7 +5,7 @@ import { Main as Layout } from '../../../Layouts/Main';
 import {
     PERMISSION_BACKOFFICE_DELETE_USER,
     PERMISSION_BACKOFFICE_UPDATE_USER
-} from '../../../modules/Permission/Entity/Permission';
+} from '../../../../../../constants/permission.constant';
 import { UserType } from '../../../modules/User/Entity/User';
 
 import TextBox from '../../../Components/atoms/Box/TextBox.atom';

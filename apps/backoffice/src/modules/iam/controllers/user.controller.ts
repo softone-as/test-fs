@@ -18,7 +18,7 @@ import {
     PERMISSION_BACKOFFICE_DELETE_USER,
     PERMISSION_BACKOFFICE_SHOW_USER,
     PERMISSION_BACKOFFICE_UPDATE_USER,
-} from 'interface-models/iam/permission.interface';
+} from 'constants/permission.constant';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { UserUpdateRequest } from '../requests/user-update.request';
 

@@ -12,7 +12,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-    ) { }
+    ) {}
 
     @CacheEvict(config.cache.name.users.detail)
     async create(data: IUser): Promise<IUser> {
@@ -49,18 +49,6 @@ export class UserService {
         return await this.userRepository.find({
             where: { role: { id: roleId }, id: Not(In(exceptIds)) },
         });
-    }
-
-    @CacheEvict(config.cache.name.users.detail)
-    async addPoin(id: number, poin: number): Promise<void> {
-        await this.userRepository
-            .createQueryBuilder()
-            .update(User)
-            .set({
-                poin: () => `If(poin is null, 0, poin) + ${poin}`,
-            })
-            .where('id = :id', { id })
-            .execute();
     }
 
     async findOneByPhoneNumber(phoneNumber: string): Promise<IUser> {
@@ -166,9 +154,7 @@ export class UserService {
         return data;
     }
 
-    @CacheEvict(
-        config.cache.name.users.detail,
-    )
+    @CacheEvict(config.cache.name.users.detail)
     async softDelete(id: number): Promise<boolean> {
         const status = await this.userRepository.softDelete({ id });
         if (status.affected < 1) {
