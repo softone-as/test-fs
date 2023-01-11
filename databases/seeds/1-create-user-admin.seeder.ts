@@ -2,7 +2,6 @@ import { User } from 'entities/iam/user.entity';
 import { Connection } from 'typeorm';
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Role } from 'entities/iam/role.entity';
-import * as bcrypt from 'bcrypt';
 
 export class CreateUserAdminSeeder implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<void> {
