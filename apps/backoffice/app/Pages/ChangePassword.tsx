@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { Link, usePage } from '@inertiajs/inertia-react';
 
-import { Blank } from '../Layouts/Blank';
+import { LoginLayout } from '../Layouts/';
 
 import { ErrorType, SuccessType } from '../modules/Common/Entity/Common';
 import { ChangePasswordType } from '../modules/User/Entity/User';
@@ -75,7 +75,7 @@ const ForgotPassword = (): JSX.Element => {
     }, [error]);
 
     return (
-        <Blank title="Change Password">
+        <LoginLayout title="Change Password">
             <div className="login__container page__center">
                 <div className="page__center">
                     <img
@@ -116,7 +116,7 @@ const ForgotPassword = (): JSX.Element => {
                 <br />
                 <Link href={EndpointRoute.AdminLogin}>Back to Login Admin ?</Link>
             </div>
-        </Blank>
+        </LoginLayout>
     );
 };
 

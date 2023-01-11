@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { InertiaApp } from '@inertiajs/inertia-react';
-import React from 'react';
-import { ToastContainer } from 'react-toastify';
+import React, { useMemo } from 'react';
+// import { ToastContainer } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
+import { ToastContext } from './Contexts/Toast';
 
 //Ant Design
 import 'antd/dist/reset.css';
@@ -23,18 +24,21 @@ const App = () => {
     //         }
     //     });
     // });
+    const contextValue = useMemo(() => ({ username: 'Ant Design' }), []);
 
     return (
         <>
-            <ToastContainer />
-            <InertiaApp
-                initialPage={JSON.parse(app.dataset.page)}
-                resolveComponent={(pageString) =>
-                    import(`./Pages/${pageString}`).then(
-                        (module) => module.default,
-                    )
-                }
-            />
+            {/* <ToastContainer /> */}
+            <ToastContext.Provider value={contextValue}>
+                <InertiaApp
+                    initialPage={JSON.parse(app.dataset.page)}
+                    resolveComponent={(pageString) =>
+                        import(`./Pages/${pageString}`).then(
+                            (module) => module.default,
+                        )
+                    }
+                />
+            </ToastContext.Provider>
         </>
     );
 };
