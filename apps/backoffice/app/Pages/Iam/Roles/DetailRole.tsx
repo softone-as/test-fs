@@ -6,7 +6,7 @@ import { RoleType } from '../../../modules/Role/Entity/Role';
 import {
     PERMISSION_BACKOFFICE_DELETE_ROLE,
     PERMISSION_BACKOFFICE_UPDATE_ROLE
-} from '../../../modules/Permission/Entity/Permission';
+} from '../../../../../../constants/permission.constant';
 
 import TextBox from '../../../Components/atoms/Box/TextBox.atom';
 import Container from '../../../Components/atoms/Containers/Container.atom';

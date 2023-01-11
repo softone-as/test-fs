@@ -1,44 +1,35 @@
-import { Field, Float, InputType, Int, ObjectType } from '@nestjs/graphql';
-import { IPaginateResponse, IPaginationMeta } from 'apps/graphql/src/common/interface/index.interface';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
+import {
+    IPaginateResponse,
+    IPaginationMeta,
+} from 'apps/graphql/src/common/interface/index.interface';
 import { IndexRequest } from 'apps/graphql/src/common/request/index.request';
 import { IsOptional, IsString } from 'class-validator';
 import { IRole } from 'interface-models/iam/role.interface';
-import { IUserAddress } from 'interface-models/iam/user-addresses.interface';
 import { IUser } from 'interface-models/iam/user.interface';
 import { Role } from './role.type';
-import { UserAddress } from './user-address.type';
 
 @ObjectType()
 export class User implements IUser {
-
-    @Field(type => String)
+    @Field(() => String)
     email: string;
 
-    @Field(type => [UserAddress], { nullable: true })
-    userAddresses: IUserAddress[];
-
-    @Field(type => String)
+    @Field(() => String)
     password: string;
 
-    @Field(type => Float, { nullable: true })
-    poin: number;
-
-    @Field(type => Float, { nullable: true })
-    lifetimeKg: number;
-
-    @Field(type => String, { nullable: true })
+    @Field(() => String, { nullable: true })
     identityNumber: string;
 
-    @Field(type => String, { nullable: true })
+    @Field(() => String, { nullable: true })
     phoneNumber: string;
 
-    @Field(type => Int)
+    @Field(() => Int)
     id: number;
 
     @Field({ nullable: true })
     fullname: string;
 
-    @Field(type => Role)
+    @Field(() => Role)
     role: IRole;
 
     @Field({ nullable: true })
@@ -53,46 +44,38 @@ export class User implements IUser {
 
 @ObjectType()
 export class PaginateMeta implements IPaginationMeta {
-
-    @Field(type => Int)
+    @Field(() => Int)
     page: number;
 
-    @Field(type => Int)
+    @Field(() => Int)
     perPage: number;
 
-    @Field(type => Int)
+    @Field(() => Int)
     total: number;
 
-    @Field(type => Int)
+    @Field(() => Int)
     totalPage: number;
-
 }
 
 @ObjectType()
 export class PaginateUser implements IPaginateResponse<User> {
-
     @Field({ nullable: true })
     meta: PaginateMeta;
 
-    @Field(type => [User])
+    @Field(() => [User])
     data: User[];
-
 }
 
 @InputType()
 export class UpdateUserFullname {
-
     @Field()
     fullname: string;
-
 }
 
 @InputType()
 export class UserIndexRequest extends IndexRequest {
-
     @Field()
     @IsString()
     @IsOptional()
     search?: string;
-
 }

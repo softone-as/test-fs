@@ -1,7 +1,5 @@
 import { IBaseEntity } from 'interface-models/base-entity.interface';
-import { ICity } from 'interface-models/region/city.interface';
 import { IRole } from './role.interface';
-import { IUserAddress } from './user-addresses.interface';
 
 export enum GenderEnum {
     Perempuan = 'perempuan',
@@ -19,19 +17,11 @@ export interface IUser extends IBaseEntity {
 
     password: string;
 
-    poin: number;
-
-    lifetimeKg: number;
-
     identityNumber: string;
 
     phoneNumber: string;
 
     oneSignalPlayerIds?: string[];
-
-    userAddresses: IUserAddress[];
-
-    city?: ICity;
 
     emailVerifiedAt?: Date;
 

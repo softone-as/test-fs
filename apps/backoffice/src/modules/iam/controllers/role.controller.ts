@@ -19,7 +19,7 @@ import {
     PERMISSION_BACKOFFICE_DELETE_ROLE,
     PERMISSION_BACKOFFICE_SHOW_ROLE,
     PERMISSION_BACKOFFICE_UPDATE_ROLE,
-} from 'interface-models/iam/permission.interface';
+} from 'constants/permission.constant';
 
 @Controller('roles')
 export class RoleController {

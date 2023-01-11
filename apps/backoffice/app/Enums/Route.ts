@@ -15,7 +15,7 @@ import {
     PERMISSION_BACKOFFICE_SHOW_ROLE,
     PERMISSION_BACKOFFICE_SHOW_ROLE_PERMISSION,
     PERMISSION_BACKOFFICE_SHOW_PERMISSION,
-} from '../modules/Permission/Entity/Permission';
+} from '../../../../constants/permission.constant';
 
 export type RouteListType = RouteType & {
     children?: RouteType[];

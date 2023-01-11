@@ -13,7 +13,7 @@ import {
     PERMISSION_BACKOFFICE_DELETE_CONFIG,
     PERMISSION_BACKOFFICE_DETAIL_CONFIG,
     PERMISSION_BACKOFFICE_UPDATE_CONFIG
-} from '../../modules/Permission/Entity/Permission';
+} from '../../../../../constants/permission.constant';
 
 import { FilterSelectOption } from '../../Components/molecules/Inputs/FilterSelect.molecule';
 import ActionButtons from '../../Components/molecules/DataTable/ActionButtons.molecule';

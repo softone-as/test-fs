@@ -3,14 +3,9 @@ import { Config } from 'entities/config/config.entity';
 import { Permission } from 'entities/iam/permission.entity';
 import { RolePermission } from 'entities/iam/role-permission.entity';
 import { Role } from 'entities/iam/role.entity';
-import { UserAddress } from 'entities/iam/user-addresses.entity';
 import { User } from 'entities/iam/user.entity';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
 import { Otp } from 'entities/otp/otp.entity';
-import { City } from 'entities/region/city.entity';
-import { Country } from 'entities/region/country.entity';
-import { District } from 'entities/region/district.entity';
-import { Region } from 'entities/region/region.entity';
 import { ConnectionOptions, createConnection } from 'typeorm';
 
 export const connectionOption: ConnectionOptions = {
@@ -26,13 +21,8 @@ export const connectionOption: ConnectionOptions = {
         InAppNotification,
         Permission,
         RolePermission,
-        Country,
         Otp,
         Config,
-        City,
-        District,
-        Region,
-        UserAddress,
     ],
     synchronize: false,
     logging: config.nodeEnv === 'local',
