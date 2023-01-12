@@ -1,10 +1,3 @@
-import { RoleType } from '../../Role/Entity/Role';
+import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
 
-export type PermissionType = {
-    id: string;
-    name: string;
-    key: string;
-    roles: Omit<RoleType, 'permissions'>[];
-};
-
-export type FormPermissionType = Omit<PermissionType, 'id' | 'roles'>;
+export type FormPermissionType = Omit<PermissionResponse, 'id' | 'roles'>;

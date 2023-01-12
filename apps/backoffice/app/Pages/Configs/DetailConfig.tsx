@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Main as Layout } from '../../Layouts/Main';
 
-import { ConfigType } from '../../modules/Config/Entity/Config';
 import { PERMISSION_BACKOFFICE_UPDATE_CONFIG } from '../../../../../constants/permission.constant';
 
 import TextBox from '../../Components/atoms/Box/TextBox.atom';
@@ -11,9 +10,10 @@ import HeaderText from '../../Components/molecules/Text/HeaderText.molecule';
 import ActionButtons from '../../Components/molecules/DataTable/ActionButtons.molecule';
 import { Route } from '../../Enums/Route';
 import { usePage } from '@inertiajs/inertia-react';
+import { ConfigResponse } from '../../../src/modules/config/responses/config.response';
 
 type ConfigDetailPageProps = {
-    data: ConfigType;
+    data: ConfigResponse;
 };
 
 const ConfigDetailPage: React.FC<ConfigDetailPageProps> = ({ data }) => {

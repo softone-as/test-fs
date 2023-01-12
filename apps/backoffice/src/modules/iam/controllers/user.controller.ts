@@ -21,6 +21,7 @@ import {
 } from 'constants/permission.constant';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { UserUpdateRequest } from '../requests/user-update.request';
+import { UserMapper } from '../mappers/user.mapper';
 
 @Controller('users')
 export class UserController {
@@ -37,7 +38,10 @@ export class UserController {
         const props = await this.userIndexApplication.fetch(indexRequest);
         return this.inertiaAdapter.render({
             component: 'Iam/Users',
-            props: props,
+            props: {
+                ...props,
+                data: props.data.map((user) => UserMapper.fromEntity(user)),
+            },
         });
     }
 

@@ -22,6 +22,7 @@ import {
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { RolePermissionCreateRequest } from '../requests/role-permission-create.request';
 import { RolePermissionEditRequest } from '../requests/role-permission-edit.request';
+import { RolePermissionMapper } from '../mappers/role-permission.mapper';
 
 @Controller('role-permissions')
 export class RolePermissionController {
@@ -43,7 +44,12 @@ export class RolePermissionController {
         );
         return this.inertiaAdapter.render({
             component: 'Iam/RolePermissions',
-            props: props,
+            props: {
+                ...props,
+                data: props.data.map((rolePermission) =>
+                    RolePermissionMapper.fromEntity(rolePermission),
+                ),
+            },
         });
     }
 

@@ -17,14 +17,14 @@ export class UserService {
     async findOneById(id: number): Promise<IUser> {
         return await this.userRepository.findOneOrFail({
             where: { id },
-            relations: ['role', 'role.permissions', 'userAddresses'],
+            relations: ['role', 'role.permissions'],
         });
     }
 
     async findAll(take: number): Promise<IUser[]> {
         return await this.userRepository.find({
             take,
-            relations: ['role', 'role.permissions', 'userAddresses'],
+            relations: ['role', 'role.permissions'],
         });
     }
 

@@ -12,7 +12,6 @@ import { EndpointRoute } from '../../../Enums/Route';
 import { Main as Layout } from '../../../Layouts/Main';
 
 import {
-    PermissionType,
     FormPermissionType,
 } from '../../../modules/Permission/Entity/Permission';
 
@@ -26,9 +25,10 @@ import { notifySuccess, setServerError } from '../../../Utils/utils';
 import Form from '../../../Components/molecules/Form/Form.molecule';
 import ControlledTextInput from '../../../Components/molecules/ControlledInputs/ControlledTextInput.molecule';
 import useLoading from '../../../modules/Hook/useLoading';
+import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
 
 type FormPermissionProps = {
-    data: PermissionType;
+    data: PermissionResponse;
     isUpdate?: boolean;
     id: number;
 };

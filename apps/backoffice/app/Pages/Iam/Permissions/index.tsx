@@ -8,8 +8,6 @@ import { useDidUpdateEffect } from '../../../Utils/hooks';
 
 import { Route } from '../../../Enums/Route';
 
-import { PermissionType } from '../../../modules/Permission/Entity/Permission';
-
 import {
     PERMISSION_BACKOFFICE_DETAIL_PERMISSION,
     PERMISSION_BACKOFFICE_UPDATE_PERMISSION
@@ -22,9 +20,10 @@ import HeaderText from '../../../Components/molecules/Text/HeaderText.molecule';
 
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { usePage } from '@inertiajs/inertia-react';
+import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
 
 type PermissionsPageProps = {
-    data: PermissionType[];
+    data: PermissionResponse[];
     meta: IPaginationMeta;
 };
 
@@ -97,7 +96,7 @@ const PermissionsPage: React.FC<PermissionsPageProps> = ({ data, meta }) => {
         return setFilters({ ...filters, search: '' });
     };
 
-    const columns = React.useMemo<Column<PermissionType>[]>(
+    const columns = React.useMemo<Column<PermissionResponse>[]>(
         () => [
             {
                 Header: 'Nama',
@@ -109,7 +108,7 @@ const PermissionsPage: React.FC<PermissionsPageProps> = ({ data, meta }) => {
             },
             {
                 Header: 'Aksi',
-                Cell: ({ cell }: CellProps<PermissionType>) => {
+                Cell: ({ cell }: CellProps<PermissionResponse>) => {
                     const id = cell.row.original.id;
                     return (
                         <ActionButtons

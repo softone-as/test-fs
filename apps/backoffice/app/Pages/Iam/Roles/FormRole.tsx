@@ -12,7 +12,6 @@ import { EndpointRoute } from '../../../Enums/Route';
 import { Main as Layout } from '../../../Layouts/Main';
 
 import {
-    RoleType,
     FormRoleType,
 } from '../../../modules/Role/Entity/Role';
 import {
@@ -25,9 +24,10 @@ import { notifySuccess, setServerError } from '../../../Utils/utils';
 import Form from '../../../Components/molecules/Form/Form.molecule';
 import ControlledTextInput from '../../../Components/molecules/ControlledInputs/ControlledTextInput.molecule';
 import useLoading from '../../../modules/Hook/useLoading';
+import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
 
 type FormRoleProps = {
-    data: RoleType;
+    data: RoleResponse;
     isUpdate?: boolean;
     id: number;
 };
@@ -110,7 +110,7 @@ const FormRole: React.FC<FormRoleProps> = ({
                 isLoading={isLoading}
             >
                 <ControlledTextInput
-                    title="Nama Lengkap"
+                    title="Nama"
                     name="name"
                     placeholder="Masukkan Nama"
                     control={control}

@@ -5,7 +5,6 @@ import { UserCreateRequest } from '../requests/user-create.request';
 import { UserResponse } from '../responses/user.response';
 import { UserService } from '../services/user.service';
 import { UserUpdateRequest } from '../requests/user-update.request';
-import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
 import { config } from 'apps/backoffice/src/config';
 import { RoleService } from '../services/role.service';
 import * as bcrypt from 'bcrypt';
@@ -16,7 +15,6 @@ export class UserCrudApplication {
     constructor(
         private readonly adminService: UserService,
         private readonly roleService: RoleService,
-        private readonly cacheService: CacheService,
     ) {}
 
     @CacheEvict(config.cache.name.users.detail)
@@ -34,15 +32,7 @@ export class UserCrudApplication {
         newAdmin.role = await this.roleService.findOneById(adminRequest.roleId);
         Object.assign(newAdmin, adminRequest);
 
-        const createAdmin = await this.adminService.create(newAdmin);
-
-        return {
-            id: createAdmin.id,
-            fullname: createAdmin.fullname,
-            email: createAdmin.email,
-            createdAt: createAdmin.createdAt,
-            updatedAt: createAdmin.updatedAt,
-        };
+        return await this.adminService.create(newAdmin);
     }
 
     async findById(id: number): Promise<IUser> {

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Main as Layout } from '../../../Layouts/Main';
 
-import { PermissionType } from '../../../modules/Permission/Entity/Permission';
 import { PERMISSION_BACKOFFICE_UPDATE_PERMISSION } from '../../../../../../constants/permission.constant';
 
 import TextBox from '../../../Components/atoms/Box/TextBox.atom';
@@ -11,9 +10,10 @@ import HeaderText from '../../../Components/molecules/Text/HeaderText.molecule';
 import ActionButtons from '../../../Components/molecules/DataTable/ActionButtons.molecule';
 import { EndpointRoute, Route } from '../../../Enums/Route';
 import { Link, usePage } from '@inertiajs/inertia-react';
+import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
 
 type PermissionDetailPageProps = {
-    data: PermissionType;
+    data: PermissionResponse;
 };
 
 const PermissionDetailPage: React.FC<PermissionDetailPageProps> = ({ data }) => {

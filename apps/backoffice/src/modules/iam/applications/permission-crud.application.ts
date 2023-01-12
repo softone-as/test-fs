@@ -1,24 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { IPermission } from 'interface-models/iam/permission.interface';
-import { PermissionResponse } from '../responses/permission.response';
 import { PermissionService } from '../services/permission.service';
 import { PermissionEditRequest } from '../requests/permission-edit.request';
-import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
 import { config } from 'apps/backoffice/src/config';
 import { CacheEvict } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-evict.decorator';
 
 @Injectable()
 export class PermissionCrudApplication {
-    constructor(
-        private readonly permissionService: PermissionService,
-        private readonly cacheService: CacheService,
-    ) {}
+    constructor(private readonly permissionService: PermissionService) {}
 
     @CacheEvict(config.cache.name.permissions.detail)
     async edit(
         id: number,
         permissionRequest: PermissionEditRequest,
-    ): Promise<PermissionResponse> {
+    ): Promise<IPermission> {
         await this.permissionService.findOneById(id);
         const updatePermission = await this.permissionService.update(id, {
             id: id,

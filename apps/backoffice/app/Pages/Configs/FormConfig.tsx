@@ -12,7 +12,6 @@ import { EndpointRoute } from '../../Enums/Route';
 import { Main as Layout } from '../../Layouts/Main/Main';
 
 import {
-    ConfigType,
     FormConfigType,
 } from '../../modules/Config/Entity/Config';
 import {
@@ -25,9 +24,10 @@ import { notifySuccess, setServerError } from '../../Utils/utils';
 import Form from '../../Components/molecules/Form/Form.molecule';
 import ControlledTextInput from '../../Components/molecules/ControlledInputs/ControlledTextInput.molecule';
 import useLoading from '../../modules/Hook/useLoading';
+import { ConfigResponse } from '../../../src/modules/config/responses/config.response';
 
 type FormConfigProps = {
-    data: ConfigType;
+    data: ConfigResponse;
     isUpdate?: boolean;
     id: number;
 };
