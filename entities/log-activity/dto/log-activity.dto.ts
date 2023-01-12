@@ -1,5 +1,4 @@
 import {
-    LogActivityMethodEnum,
     LogActivityStatusEnum,
     LogActivityMenuEnum,
 } from 'apps/backoffice/src/common/enums/log-activity.enum';
@@ -11,18 +10,13 @@ export class LogActivityDto {
     user: User;
 
     @IsNotEmpty()
-    functionName: string;
-
-    @IsNotEmpty()
     path: string;
 
-    @IsNotEmpty()
-    method: LogActivityMethodEnum;
+    old_data: any;
 
-    // digunakan ketika ada perubahan data, new dan old data disimpan dalam bentuk json
-    data: string;
+    new_data: any;
 
-    description: string;
+    activity: string;
 
     @IsNotEmpty()
     status: LogActivityStatusEnum;

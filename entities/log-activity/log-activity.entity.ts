@@ -19,17 +19,14 @@ export class LogActivity extends BaseEntity implements ILogActivity {
     @JoinColumn({ name: 'user_id' })
     user: IUser;
 
-    @Column({ name: 'function_name' })
-    functionName: string;
+    @Column({ name: 'old_data', type: 'json', nullable: true })
+    old_data: any;
 
-    @Column({ name: 'method' })
-    method: string;
+    @Column({ name: 'new_data', type: 'json', nullable: true })
+    new_data: any;
 
-    @Column({ name: 'data', type: 'json', nullable: true })
-    data: any;
-
-    @Column({ name: 'description' })
-    description: string;
+    @Column({ name: 'activity' })
+    activity: string;
 
     @Column({ name: 'status' })
     status: string;

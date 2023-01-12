@@ -43,6 +43,7 @@ import { CacheCleanMiddleware } from './infrastructure/cache/middlewares/cache-c
 import { LogActivityModule } from './modules/log-activity/log-activity.module';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+import { GlobalServiceModule } from './modules/glob/global-service.module';
 
 @Module({
     imports: [
@@ -100,6 +101,7 @@ import * as winston from 'winston';
                 }),
             ],
         }),
+        GlobalServiceModule,
     ],
     providers: [
         {

@@ -6,13 +6,11 @@ export interface ILogActivity extends IBaseEntity {
 
     user: IUser;
 
-    functionName: string;
+    old_data: any;
 
-    method: string;
+    new_data: any;
 
-    data: any;
-
-    description: string;
+    activity: string;
 
     menu: string;
 

@@ -1,5 +1,6 @@
 import { GenderEnum, IUser } from 'interface-models/iam/user.interface';
 import {
+    AfterLoad,
     BeforeInsert,
     BeforeUpdate,
     Column,
@@ -13,6 +14,7 @@ import { Exclude, Transform } from 'class-transformer';
 import { IRole } from 'interface-models/iam/role.interface';
 import { Role } from './role.entity';
 import { BaseEntity } from 'entities/base.entity';
+import { GlobalService } from 'apps/backoffice/src/modules/glob/service/global-service.service';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity implements IUser {
@@ -61,5 +63,10 @@ export class User extends BaseEntity implements IUser {
         if (this.password) {
             this.password = await bcrypt.hash(this.password, 10);
         }
+    }
+
+    @AfterLoad()
+    storeDirtyData() {
+        GlobalService.dirtyData = this;
     }
 }

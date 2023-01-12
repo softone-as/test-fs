@@ -26,7 +26,7 @@ export class InitTable1656301180717 implements MigrationInterface {
             `CREATE TABLE \`otps\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`code\` varchar(255) NOT NULL, \`identifier\` varchar(255) NOT NULL, \`trial\` int NOT NULL, \`is_valid\` tinyint NOT NULL DEFAULT 0, \`expired_at\` datetime NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
         );
         await queryRunner.query(
-            `CREATE TABLE \`log_activities\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`function_name\` varchar(255) NOT NULL, \`method\` varchar(255) NOT NULL, \`data\` json NULL, \`description\` varchar(255) NOT NULL, \`status\` varchar(255) NOT NULL, \`menu\` varchar(255) NOT NULL, \`path\` varchar(255) NOT NULL, \`user_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+            `CREATE TABLE \`log_activities\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`old_data\` json NULL, \`new_data\` json NULL, \`activity\` varchar(255) NOT NULL, \`status\` varchar(255) NOT NULL, \`menu\` varchar(255) NOT NULL, \`path\` varchar(255) NOT NULL, \`user_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
         );
         await queryRunner.query(
             `CREATE INDEX \`IDX_3d0a7155eafd75ddba5a701336\` ON \`role_permission\` (\`role_id\`)`,
@@ -53,7 +53,7 @@ export class InitTable1656301180717 implements MigrationInterface {
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
-            `ALTER TABLE \`log_activities\` DROP FOREIGN KEY \`FK_aba4b32e6a9c979e49c8e2b8f95\``,
+            `ALTER TABLE \`log_activities\` DROP FOREIGN KEY \`FK_4357a91cbef922677d73d510f70\``,
         );
         await queryRunner.query(
             `ALTER TABLE \`in_app_notifications\` DROP FOREIGN KEY \`FK_046713440a98830b619c4c649b4\``,
