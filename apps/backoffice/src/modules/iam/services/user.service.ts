@@ -10,7 +10,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-    ) {}
+    ) { }
 
     async create(data: IUser): Promise<IUser> {
         const newuser = this.userRepository.create(data);
@@ -62,7 +62,7 @@ export class UserService {
     async findOneById(id: number): Promise<IUser> {
         return await this.userRepository.findOneOrFail({
             where: { id },
-            relations: ['role', 'role.permissions', 'userAddresses'],
+            relations: ['role', 'role.permissions'],
         });
     }
 

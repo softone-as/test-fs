@@ -5,9 +5,9 @@ import { IndexApplication } from 'apps/backoffice/src/infrastructure/application
 import { User } from 'entities/iam/user.entity';
 import { Repository } from 'typeorm';
 import { UserIndexRequest } from '../requests/user-index.request';
-import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
 import { config } from 'apps/backoffice/src/config';
 import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
+import { IUser } from 'interface-models/iam/user.interface';
 
 const ALLOW_TO_SORT = ['latest', 'oldest', 'fullname'];
 
@@ -16,13 +16,12 @@ export class UserIndexApplication extends IndexApplication {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-        private readonly cacheService: CacheService,
     ) {
         super();
     }
 
     @CacheGetSet(config.cache.name.users.list)
-    async fetch(request: UserIndexRequest): Promise<IPaginateResponse<User>> {
+    async fetch(request: UserIndexRequest): Promise<IPaginateResponse<IUser>> {
         const query = this.userRepository.createQueryBuilder('user');
 
         if (request.search) {

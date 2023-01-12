@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import Layout from '../../../Layouts/Main';
 
-import { RoleType } from '../../../modules/Role/Entity/Role';
 import {
     PERMISSION_BACKOFFICE_DELETE_ROLE,
     PERMISSION_BACKOFFICE_UPDATE_ROLE
@@ -17,9 +16,10 @@ import { confirmDelete, notifyError, notifySuccess } from '../../../Utils/utils'
 import { Inertia } from '@inertiajs/inertia';
 import { ErrorType, SuccessType } from '../../../modules/Common/Entity/Common';
 import { Link, usePage } from '@inertiajs/inertia-react';
+import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
 
 type RoleDetailPageProps = {
-    data: RoleType;
+    data: RoleResponse;
 };
 
 const RoleDetailPage: React.FC<RoleDetailPageProps> = ({ data }) => {
@@ -64,7 +64,7 @@ const RoleDetailPage: React.FC<RoleDetailPageProps> = ({ data }) => {
                     <ActionButtons
                         position="flex-end"
                         updateLink={`${Route.EditRole}/${id}`}
-                        onDelete={() => handleDeleteRole(id)}
+                        onDelete={() => handleDeleteRole(id.toString())}
                         hideDelete={!permissionAllowActionList.includes(PERMISSION_BACKOFFICE_DELETE_ROLE)}
                         hideUpdate={!permissionAllowActionList.includes(PERMISSION_BACKOFFICE_UPDATE_ROLE)}
                     />

@@ -10,7 +10,6 @@ import { confirmDelete, notifyError, notifySuccess } from '../../../Utils/utils'
 import { EndpointRoute, Route } from '../../../Enums/Route';
 
 import { ErrorType, SuccessType } from '../../../modules/Common/Entity/Common';
-import { UserType } from '../../../modules/User/Entity/User';
 import {
     PERMISSION_BACKOFFICE_DELETE_USER, PERMISSION_BACKOFFICE_CREATE_USER, PERMISSION_BACKOFFICE_DETAIL_USER,
     PERMISSION_BACKOFFICE_UPDATE_USER
@@ -23,9 +22,10 @@ import HeaderText from '../../../Components/molecules/Text/HeaderText.molecule';
 
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { usePage } from '@inertiajs/inertia-react';
+import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
 
 type UsersPageProps = {
-    data: UserType[];
+    data: UserResponse[];
     meta: IPaginationMeta;
 };
 
@@ -118,7 +118,7 @@ const UsersPage: React.FC<UsersPageProps> = ({ data, meta }) => {
         return setFilters({ ...filters, search: '' });
     };
 
-    const columns = React.useMemo<Column<UserType>[]>(
+    const columns = React.useMemo<Column<UserResponse>[]>(
         () => [
             {
                 Header: 'Nama',
@@ -130,13 +130,13 @@ const UsersPage: React.FC<UsersPageProps> = ({ data, meta }) => {
             },
             {
                 Header: 'Aksi',
-                Cell: ({ cell }: CellProps<UserType>) => {
+                Cell: ({ cell }: CellProps<UserResponse>) => {
                     const id = cell.row.original.id;
                     return (
                         <ActionButtons
                             detailLink={`${Route.Users}/${id}`}
                             updateLink={`${Route.EditUser}/${id}`}
-                            onDelete={() => handleDeleteUser(id)}
+                            onDelete={() => handleDeleteUser(id.toString())}
                             hideDelete={!permissionList.includes(PERMISSION_BACKOFFICE_DELETE_USER)}
                             isShowDetail={permissionList.includes(PERMISSION_BACKOFFICE_DETAIL_USER)}
                             hideUpdate={!permissionList.includes(PERMISSION_BACKOFFICE_UPDATE_USER)}

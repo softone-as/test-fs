@@ -12,7 +12,7 @@ export class AuthService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
-    ) {}
+    ) { }
 
     @CacheEvict(config.cache.name.users.detail)
     async create(data: IUser): Promise<IUser> {
@@ -111,8 +111,6 @@ export class AuthService {
     }
 
     @CacheEvict(
-        config.cache.name.userAddresses.detail,
-
         config.cache.name.users.detail,
     )
     async updatePasswordByPhoneNumber(
@@ -141,8 +139,6 @@ export class AuthService {
     }
 
     @CacheEvict(
-        config.cache.name.userAddresses.detail,
-
         config.cache.name.users.detail,
     )
     async removeOneSignalPlayerIdById(

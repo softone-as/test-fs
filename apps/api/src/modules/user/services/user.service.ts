@@ -12,7 +12,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-    ) {}
+    ) { }
 
     @CacheEvict(config.cache.name.users.detail)
     async create(data: IUser): Promise<IUser> {
@@ -132,7 +132,7 @@ export class UserService {
             where: {
                 id,
             },
-            relations: ['role', 'role.permissions', 'userAddresses'],
+            relations: ['role', 'role.permissions'],
         });
     }
 

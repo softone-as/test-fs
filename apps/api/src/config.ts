@@ -51,11 +51,7 @@ export const config = {
             users: {
                 detail: 'user',
                 list: 'list-user',
-            },
-            userAddresses: {
-                detail: 'user-address',
-                list: 'list-user-address',
-            },
+            }
         },
     },
 
