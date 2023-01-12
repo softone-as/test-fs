@@ -40,7 +40,7 @@ export class UserController {
             component: 'Iam/Users',
             props: {
                 ...props,
-                data: UserMapper.fromEntity(...props.data),
+                data: props.data.map((user) => UserMapper.fromEntity(user)),
             },
         });
     }
