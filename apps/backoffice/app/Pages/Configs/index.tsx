@@ -8,7 +8,6 @@ import { useDidUpdateEffect } from '../../Utils/hooks';
 
 import { Route } from '../../Enums/Route';
 
-import { ConfigType } from '../../modules/Config/Entity/Config';
 import {
     PERMISSION_BACKOFFICE_DELETE_CONFIG,
     PERMISSION_BACKOFFICE_DETAIL_CONFIG,
@@ -22,9 +21,10 @@ import HeaderText from '../../Components/molecules/Text/HeaderText.molecule';
 
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { usePage } from '@inertiajs/inertia-react';
+import { ConfigResponse } from '../../../src/modules/config/responses/config.response';
 
 type ConfigsPageProps = {
-    data: ConfigType[];
+    data: ConfigResponse[];
     meta: IPaginationMeta;
 };
 
@@ -97,7 +97,7 @@ const ConfigsPage: React.FC<ConfigsPageProps> = ({ data, meta }) => {
         return setFilters({ ...filters, search: '' });
     };
 
-    const columns = React.useMemo<Column<ConfigType>[]>(
+    const columns = React.useMemo<Column<ConfigResponse>[]>(
         () => [
             {
                 Header: 'Nama',
@@ -113,7 +113,7 @@ const ConfigsPage: React.FC<ConfigsPageProps> = ({ data, meta }) => {
             },
             {
                 Header: 'Aksi',
-                Cell: ({ cell }: CellProps<ConfigType>) => {
+                Cell: ({ cell }: CellProps<ConfigResponse>) => {
                     const id = cell.row.original.id;
                     return (
                         <ActionButtons

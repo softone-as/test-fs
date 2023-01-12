@@ -20,6 +20,7 @@ import {
     PERMISSION_BACKOFFICE_SHOW_CONFIG,
     PERMISSION_BACKOFFICE_UPDATE_CONFIG,
 } from 'constants/permission.constant';
+import { ConfigMapper } from '../mappers/config.mapper';
 
 @Controller('configs')
 export class ConfigController {
@@ -35,7 +36,10 @@ export class ConfigController {
         const props = await this.configIndexApplication.fetch(indexRequest);
         return this.inertiaAdapter.render({
             component: 'Configs',
-            props,
+            props: {
+                ...props,
+                data: props.data.map((role) => ConfigMapper.fromEntity(role)),
+            },
         });
     }
 

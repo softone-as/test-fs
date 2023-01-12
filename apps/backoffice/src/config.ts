@@ -6,7 +6,7 @@ export const config = {
     /**
      * server configuration
      */
-    appName: process.env.APP_NAME_BACKOFFICE || 'Admin Panel Clover Mart',
+    appName: process.env.APP_NAME_BACKOFFICE || 'Admin Panel',
     nodeEnv: process.env.NODE_ENV,
     port: process.env.PORT_BACKOFFICE || '3001',
     host: process.env.HOST_BACKOFFICE || 'localhost:3001',

@@ -1,8 +1,3 @@
-import { PermissionResponse } from 'apps/backoffice/src/modules/iam/responses/permission.response';
-import { RoleType } from '../../Role/Entity/Role';
+import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
 
-export type PermissionType = Omit<PermissionResponse, 'roles'> & {
-    roles: Omit<RoleType, 'permissions'>[];
-};
-
-export type FormPermissionType = Omit<PermissionType, 'id' | 'roles'>;
+export type FormPermissionType = Omit<PermissionResponse, 'id' | 'roles'>;

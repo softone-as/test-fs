@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import Layout from '../../../Layouts/Main';
 
-import { RolePermissionType } from '../../../modules/RolePermission/Entity/RolePermission';
 import { PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION, PERMISSION_BACKOFFICE_UPDATE_ROLE_PERMISSION } from '../../../../../../constants/permission.constant';
 
 import TextBox from '../../../Components/atoms/Box/TextBox.atom';
@@ -14,9 +13,10 @@ import { confirmDelete, notifyError, notifySuccess } from '../../../Utils/utils'
 import { Inertia } from '@inertiajs/inertia';
 import { ErrorType, SuccessType } from 'apps/backoffice/app/modules/Common/Entity/Common';
 import { usePage } from '@inertiajs/inertia-react';
+import { RolePermissionResponse } from '../../../../src/modules/iam/responses/role-permission.response';
 
 type RolePermissionDetailPageProps = {
-    data: RolePermissionType;
+    data: RolePermissionResponse;
 };
 
 const RolePermissionDetailPage: React.FC<RolePermissionDetailPageProps> = ({ data }) => {

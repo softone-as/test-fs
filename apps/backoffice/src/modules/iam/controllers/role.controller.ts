@@ -20,6 +20,7 @@ import {
     PERMISSION_BACKOFFICE_SHOW_ROLE,
     PERMISSION_BACKOFFICE_UPDATE_ROLE,
 } from 'constants/permission.constant';
+import { RoleMapper } from '../mappers/role.mapper';
 
 @Controller('roles')
 export class RoleController {
@@ -35,7 +36,10 @@ export class RoleController {
         const props = await this.roleIndexApplication.fetch(indexRequest);
         return this.inertiaAdapter.render({
             component: 'Iam/Roles',
-            props: props,
+            props: {
+                ...props,
+                data: props.data.map((role) => RoleMapper.fromEntity(role)),
+            },
         });
     }
 

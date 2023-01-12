@@ -17,6 +17,7 @@ import {
     PERMISSION_BACKOFFICE_UPDATE_PERMISSION,
 } from 'constants/permission.constant';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
+import { PermissionMapper } from '../mappers/permission.mapper';
 
 @Controller('permissions')
 export class PermissionController {
@@ -34,7 +35,12 @@ export class PermissionController {
         const props = await this.permissionIndexApplication.fetch(indexRequest);
         return this.inertiaAdapter.render({
             component: 'Iam/Permissions',
-            props: props,
+            props: {
+                ...props,
+                data: props.data.map((permission) =>
+                    PermissionMapper.fromEntity(permission),
+                ),
+            },
         });
     }
 

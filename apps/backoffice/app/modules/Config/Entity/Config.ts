@@ -1,8 +1,3 @@
-export type ConfigType = {
-    id: string;
-    name: string;
-    key: string;
-    value: string;
-};
+import { ConfigResponse } from '../../../../src/modules/config/responses/config.response';
 
-export type FormConfigType = Omit<ConfigType, 'id'>;
+export type FormConfigType = Omit<ConfigResponse, 'id'>;

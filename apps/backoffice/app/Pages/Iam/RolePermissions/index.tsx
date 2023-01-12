@@ -10,7 +10,6 @@ import { confirmDelete, notifyError, notifySuccess } from '../../../Utils/utils'
 import { EndpointRoute, Route } from '../../../Enums/Route';
 
 import { ErrorType, SuccessType } from '../../../modules/Common/Entity/Common';
-import { RolePermissionType } from '../../../modules/RolePermission/Entity/RolePermission';
 import { PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION, PERMISSION_BACKOFFICE_CREATE_ROLE_PERMISSION, PERMISSION_BACKOFFICE_DETAIL_ROLE_PERMISSION, PERMISSION_BACKOFFICE_UPDATE_ROLE_PERMISSION } from '../../../../../../constants/permission.constant';
 
 import { FilterSelectOption } from '../../../Components/molecules/Inputs/FilterSelect.molecule';
@@ -20,9 +19,10 @@ import HeaderText from '../../../Components/molecules/Text/HeaderText.molecule';
 
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { usePage } from '@inertiajs/inertia-react';
+import { RolePermissionResponse } from '../../../../src/modules/iam/responses/role-permission.response';
 
 type RolePermissionsPageProps = {
-    data: RolePermissionType[];
+    data: RolePermissionResponse[];
     meta: IPaginationMeta;
 };
 
@@ -116,7 +116,7 @@ const RolePermissionsPage: React.FC<RolePermissionsPageProps> = ({ data, meta })
         return setFilters({ ...filters, search: '' });
     };
 
-    const columns = React.useMemo<Column<RolePermissionType>[]>(
+    const columns = React.useMemo<Column<RolePermissionResponse>[]>(
         () => [
             {
                 Header: 'Role',
@@ -133,7 +133,7 @@ const RolePermissionsPage: React.FC<RolePermissionsPageProps> = ({ data, meta })
             },
             {
                 Header: 'Aksi',
-                Cell: ({ cell }: CellProps<RolePermissionType>) => {
+                Cell: ({ cell }: CellProps<RolePermissionResponse>) => {
                     const id = cell.row.original.id;
                     return (
                         <ActionButtons

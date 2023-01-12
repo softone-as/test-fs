@@ -12,17 +12,8 @@ import { EndpointRoute } from '../../../Enums/Route';
 import Layout from '../../../Layouts/Main';
 
 import {
-    RolePermissionType,
     FormRolePermissionType,
 } from '../../../modules/RolePermission/Entity/RolePermission';
-
-import {
-    RoleType
-} from '../../../modules/Role/Entity/Role';
-
-import {
-    PermissionType,
-} from '../../../modules/Permission/Entity/Permission';
 
 import {
     ErrorType,
@@ -34,11 +25,14 @@ import { notifySuccess, setServerError } from '../../../Utils/utils';
 import Form from '../../../Components/molecules/Form/Form.molecule';
 import ControlledSelect from '../../../Components/molecules/ControlledInputs/ControlledSelect.molecule';
 import useLoading from '../../../modules/Hook/useLoading';
+import { RolePermissionResponse } from 'apps/backoffice/src/modules/iam/responses/role-permission.response';
+import { PermissionResponse } from 'apps/backoffice/src/modules/iam/responses/permission.response';
+import { RoleResponse } from 'apps/backoffice/src/modules/iam/responses/role.response';
 
 type FormRolePermissionProps = {
-    data: RolePermissionType;
-    roles: RoleType[];
-    permissions: PermissionType[];
+    data: RolePermissionResponse;
+    roles: RoleResponse[];
+    permissions: PermissionResponse[];
     isUpdate?: boolean;
     id: number;
 };

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { config } from 'apps/backoffice/src/config';
-import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
 import { IndexApplication } from 'apps/backoffice/src/infrastructure/applications/index.application';
 import { RolePermission } from 'entities/iam/role-permission.entity';
 import { Repository } from 'typeorm';
 import { RolePermissionIndexRequest } from '../requests/role-permission-index.request';
 import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
+import { IRolePermission } from 'interface-models/iam/role-permission.interface';
 
 const ALLOW_TO_SORT = ['latest', 'oldest', 'name'];
 
@@ -16,7 +16,6 @@ export class RolePermissionIndexApplication extends IndexApplication {
     constructor(
         @InjectRepository(RolePermission)
         private readonly RolePermissionRepository: Repository<RolePermission>,
-        private readonly cacheService: CacheService,
     ) {
         super();
     }
@@ -24,7 +23,7 @@ export class RolePermissionIndexApplication extends IndexApplication {
     @CacheGetSet(config.cache.name.rolePermissions.list)
     async fetch(
         request: RolePermissionIndexRequest,
-    ): Promise<IPaginateResponse<RolePermission>> {
+    ): Promise<IPaginateResponse<IRolePermission>> {
         const query = this.RolePermissionRepository.createQueryBuilder(
             'rolePermission',
         )

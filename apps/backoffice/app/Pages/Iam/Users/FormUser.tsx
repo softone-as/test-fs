@@ -24,13 +24,13 @@ import { notifySuccess, setServerError } from '../../../Utils/utils';
 import Form from '../../../Components/molecules/Form/Form.molecule';
 import ControlledTextInput from '../../../Components/molecules/ControlledInputs/ControlledTextInput.molecule';
 import useLoading from '../../../modules/Hook/useLoading';
-import { RoleType } from '../../..//modules/Role/Entity/Role';
 import ControlledSelect from '../../../Components/molecules/ControlledInputs/ControlledSelect.molecule';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
+import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
 
 type FormUserProps = {
     data: Omit<UserResponse, 'password'>;
-    roles: Omit<RoleType, 'permissions'>[];
+    roles: Omit<RoleResponse, 'permissions'>[];
     isUpdate?: boolean;
     id: string;
 };
