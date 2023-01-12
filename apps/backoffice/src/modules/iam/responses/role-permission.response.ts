@@ -2,7 +2,7 @@ import { IRolePermission } from 'interface-models/iam/role-permission.interface'
 import { PermissionResponse } from './permission.response';
 import { RoleResponse } from './role.response';
 
-export class RolePermissionResponse {
+export class RolePermissionResponse implements IRolePermission {
     id: number;
 
     role: RoleResponse;

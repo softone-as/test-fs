@@ -6,7 +6,6 @@ import {
     PERMISSION_BACKOFFICE_DELETE_USER,
     PERMISSION_BACKOFFICE_UPDATE_USER
 } from '../../../../../../constants/permission.constant';
-import { UserType } from '../../../modules/User/Entity/User';
 
 import TextBox from '../../../Components/atoms/Box/TextBox.atom';
 import Container from '../../../Components/atoms/Containers/Container.atom';
@@ -17,9 +16,10 @@ import { confirmDelete, formatCurrency, notifyError, notifySuccess } from '../..
 import { Inertia } from '@inertiajs/inertia';
 import { ErrorType, SuccessType } from '../../../modules/Common/Entity/Common';
 import { Link, usePage } from '@inertiajs/inertia-react';
+import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
 
 type UserDetailPageProps = {
-    data: UserType;
+    data: UserResponse;
 };
 
 const UserDetailPage: React.FC<UserDetailPageProps> = ({ data }) => {

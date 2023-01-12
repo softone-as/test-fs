@@ -1,7 +1,7 @@
 import { IRole } from 'interface-models/iam/role.interface';
 import { PermissionResponse } from './permission.response';
 
-export class RoleResponse {
+export class RoleResponse implements IRole {
     id: number;
 
     name: string;

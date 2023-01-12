@@ -66,7 +66,7 @@ const FormRolePermission: React.FC<FormRolePermissionProps> = ({
         mode: 'onChange',
         resolver: yupResolver(schema),
         defaultValues: {
-            ...data, roleId: data?.role.id.toString(), permissionId: data?.permission.id.toString()
+            ...data, roleId: data?.role.id, permissionId: data?.permission.id
         },
     });
 

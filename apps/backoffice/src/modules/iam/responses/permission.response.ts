@@ -1,7 +1,7 @@
 import { IPermission } from 'interface-models/iam/permission.interface';
 import { RoleResponse } from './role.response';
 
-export class PermissionResponse {
+export class PermissionResponse implements IPermission {
     id: number;
 
     name: string;

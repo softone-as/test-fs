@@ -8,6 +8,6 @@ export type RolePermissionType = {
 };
 
 export type FormRolePermissionType = Omit<RolePermissionType, 'id'> & {
-    roleId: string;
-    permissionId: string;
+    roleId: number;
+    permissionId: number;
 };

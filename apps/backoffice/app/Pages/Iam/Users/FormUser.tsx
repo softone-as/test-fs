@@ -12,7 +12,6 @@ import { EndpointRoute } from '../../../Enums/Route';
 import Layout from '../../../Layouts/Main';
 
 import {
-    UserType,
     FormUserType,
 } from '../../../modules/User/Entity/User';
 import {
@@ -27,9 +26,10 @@ import ControlledTextInput from '../../../Components/molecules/ControlledInputs/
 import useLoading from '../../../modules/Hook/useLoading';
 import { RoleType } from '../../..//modules/Role/Entity/Role';
 import ControlledSelect from '../../../Components/molecules/ControlledInputs/ControlledSelect.molecule';
+import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
 
 type FormUserProps = {
-    data: Omit<UserType, 'password'>;
+    data: Omit<UserResponse, 'password'>;
     roles: Omit<RoleType, 'permissions'>[];
     isUpdate?: boolean;
     id: string;
@@ -61,7 +61,7 @@ const FormUser: React.FC<FormUserProps> = ({
         mode: 'onChange',
         resolver: yupResolver(schema),
         defaultValues: {
-            ...data, roleId: data?.role.id.toString(), password: null
+            ...data, roleId: data?.role.id, password: null
         },
     });
 

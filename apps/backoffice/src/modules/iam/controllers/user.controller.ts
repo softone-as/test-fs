@@ -21,7 +21,7 @@ import {
 } from 'constants/permission.constant';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { UserUpdateRequest } from '../requests/user-update.request';
-import { UserResponse } from '../responses/user.response';
+import { UserMapper } from '../mappers/user.mapper';
 
 @Controller('users')
 export class UserController {
@@ -30,7 +30,7 @@ export class UserController {
         private readonly userCrudApplication: UserCrudApplication,
         private readonly roleCrudApplication: RoleCrudApplication,
         private readonly userIndexApplication: UserIndexApplication,
-    ) { }
+    ) {}
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get()
@@ -40,7 +40,7 @@ export class UserController {
             component: 'Iam/Users',
             props: {
                 ...props,
-                data: UserResponse.fromEntities(props.data)
+                data: UserMapper.fromEntity(...props.data),
             },
         });
     }
