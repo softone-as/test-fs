@@ -13,6 +13,39 @@
 -   RabbitMQ with Delayed Message Plugins
 -   Redis
 
+# Quick Start Backoffice:
+
+-   Create Database
+-   Run RabbitMQ (by docker : `docker run --name rabbitdock -p5672:5672 heidiks/rabbitmq-delayed-message-exchange:latest`)
+-   Run Redis (by docker : `docker run --name redisdock -p6379:6379 -d redis`)
+-   Copy file `.env.example` ubah ke `.env` kemudian setting konfigurasinya
+-   Run `yarn install`
+-   Run `yarn migrate`
+-   Run `yarn seed:run`
+-   Run `yarn webpack:backoffice:dev` for FE
+-   Run `yarn start:dev backoffice` for BE
+
+# Quick Start API:
+
+-   Create Database
+-   Run RabbitMQ (by docker : `docker run --name rabbitdock -p5672:5672 heidiks/rabbitmq-delayed-message-exchange:latest`)
+-   Run Redis (by docker : `docker run --name redisdock -p6379:6379 -d redis`)
+-   Copy file `.env.example` ubah ke `.env` kemudian setting konfigurasinya
+-   Run `yarn install`
+-   Run `yarn migrate`
+-   Run `yarn seed:run`
+-   Run `yarn start:dev api` for BE
+
+# Quick Start GraphQL:
+
+-   Create Database
+-   Run Redis (by docker : `docker run --name redisdock -p6379:6379 -d redis`)
+-   Copy file `.env.example` ubah ke `.env` kemudian setting konfigurasinya
+-   Run `yarn install`
+-   Run `yarn migrate`
+-   Run `yarn seed:run`
+-   Run `yarn start:dev graphql` for BE
+
 # Install and run Backoffice:
 
 -   Copy file `.env.example` ubah ke `.env` kemudian setting konfigurasinya
