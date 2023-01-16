@@ -26,7 +26,7 @@ export class InitTable1656301180717 implements MigrationInterface {
             `CREATE TABLE \`otps\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`code\` varchar(255) NOT NULL, \`identifier\` varchar(255) NOT NULL, \`trial\` int NOT NULL, \`is_valid\` tinyint NOT NULL DEFAULT 0, \`expired_at\` datetime NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
         );
         await queryRunner.query(
-            `CREATE TABLE \`log_activities\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`old_data\` json NULL, \`new_data\` json NULL, \`activity\` varchar(255) NOT NULL, \`status\` varchar(255) NOT NULL, \`menu\` varchar(255) NOT NULL, \`path\` varchar(255) NOT NULL, \`user_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+            `CREATE TABLE \`log_activities\` (\`id\` int NOT NULL AUTO_INCREMENT, \`old_data\` json NULL, \`new_data\` json NULL, \`activity\` varchar(255) NOT NULL, \`status\` varchar(255) NOT NULL, \`menu\` varchar(255) NOT NULL, \`path\` varchar(255) NOT NULL, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`user_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
         );
         await queryRunner.query(
             `CREATE INDEX \`IDX_3d0a7155eafd75ddba5a701336\` ON \`role_permission\` (\`role_id\`)`,
@@ -48,6 +48,15 @@ export class InitTable1656301180717 implements MigrationInterface {
         );
         await queryRunner.query(
             `ALTER TABLE \`log_activities\` ADD CONSTRAINT \`FK_4357a91cbef922677d73d510f70\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
+        );
+        await queryRunner.query(
+            `CREATE INDEX \`log_activity_menu\` ON \`log_activities\` (\`menu\`) USING BTREE`,
+        );
+        await queryRunner.query(
+            `CREATE INDEX \`log_activity_status\` ON \`log_activities\` (\`status\`) USING BTREE`,
+        );
+        await queryRunner.query(
+            `CREATE INDEX \`log_activity_activity\` ON \`log_activities\` (\`activity\`) USING BTREE`,
         );
     }
 
@@ -99,5 +108,14 @@ export class InitTable1656301180717 implements MigrationInterface {
         );
         await queryRunner.query(`DROP TABLE \`configs\``);
         await queryRunner.query(`DROP TABLE \`log_activities\``);
+        await queryRunner.query(
+            `DROP INDEX \`log_activity_menu\` ON \`log_activities\``,
+        );
+        await queryRunner.query(
+            `DROP INDEX \`log_activity_status\` ON \`log_activities\``,
+        );
+        await queryRunner.query(
+            `DROP INDEX \`log_activity_activity\` ON \`log_activities\``,
+        );
     }
 }

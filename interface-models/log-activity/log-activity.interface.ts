@@ -1,7 +1,6 @@
-import { IBaseEntity } from 'interface-models/base-entity.interface';
 import { IUser } from '../iam/user.interface';
 
-export interface ILogActivity extends IBaseEntity {
+export interface ILogActivity {
     id: number;
 
     user: IUser;

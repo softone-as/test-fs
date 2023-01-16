@@ -1,4 +1,3 @@
-import { BaseEntity } from 'entities/base.entity';
 import { User } from 'entities/iam/user.entity';
 import { IUser } from 'interface-models/iam/user.interface';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
@@ -8,10 +7,11 @@ import {
     ManyToOne,
     JoinColumn,
     Column,
+    CreateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'log_activities' })
-export class LogActivity extends BaseEntity implements ILogActivity {
+export class LogActivity implements ILogActivity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -36,4 +36,7 @@ export class LogActivity extends BaseEntity implements ILogActivity {
 
     @Column({ name: 'path' })
     path: string;
+
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt?: Date;
 }
