@@ -15,7 +15,7 @@ export class UserCrudApplication {
     constructor(
         private readonly adminService: UserService,
         private readonly roleService: RoleService,
-    ) {}
+    ) { }
 
     @CacheEvict(config.cache.name.users.detail)
     async create(adminRequest: UserCreateRequest): Promise<UserResponse> {
@@ -29,8 +29,11 @@ export class UserCrudApplication {
         }
 
         const newAdmin = new User();
+        newAdmin.fullname = adminRequest.fullname;
+        newAdmin.email = adminRequest.email;
+        newAdmin.password = adminRequest.password;
+        newAdmin.phoneNumber = adminRequest.phoneNumber;
         newAdmin.role = await this.roleService.findOneById(adminRequest.roleId);
-        Object.assign(newAdmin, adminRequest);
 
         return await this.adminService.create(newAdmin);
     }
