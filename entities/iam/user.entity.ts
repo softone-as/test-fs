@@ -1,14 +1,11 @@
 import { GenderEnum, IUser } from 'interface-models/iam/user.interface';
 import {
-    BeforeInsert,
-    BeforeUpdate,
     Column,
     Entity,
     JoinColumn,
     ManyToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { Exclude, Transform } from 'class-transformer';
 import { IRole } from 'interface-models/iam/role.interface';
 import { Role } from './role.entity';
@@ -54,12 +51,4 @@ export class User extends BaseEntity implements IUser {
     @Column()
     @Exclude()
     password: string;
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    async hashPassword(): Promise<void> {
-        if (this.password) {
-            this.password = await bcrypt.hash(this.password, 10);
-        }
-    }
 }
