@@ -17,11 +17,8 @@ export class RoleService {
     }
 
     async update(id: number, data: IRole): Promise<IRole> {
-        const status = await this.roleRepository.update({ id }, { ...data });
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
-        }
-
+        const existing = this.roleRepository.findOne(id);
+        await this.roleRepository.save(Object.assign(await existing, data));
         return data;
     }
 

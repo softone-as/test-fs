@@ -4,6 +4,7 @@ import { Permission } from 'entities/iam/permission.entity';
 import { RolePermission } from 'entities/iam/role-permission.entity';
 import { Role } from 'entities/iam/role.entity';
 import { User } from 'entities/iam/user.entity';
+import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
 import { Otp } from 'entities/otp/otp.entity';
 import { ConnectionOptions, createConnection } from 'typeorm';
@@ -23,6 +24,7 @@ export const connectionOption: ConnectionOptions = {
         RolePermission,
         Otp,
         Config,
+        LogActivity,
     ],
     synchronize: false,
     logging: config.nodeEnv === 'local',
