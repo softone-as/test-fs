@@ -12,6 +12,7 @@ import inertia from 'inertia-node';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptoor';
 import { HttpService } from 'nestjs-http-promise';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 const ASSET_VERSION = '1';
 
@@ -65,6 +66,8 @@ async function bootstrap() {
     };
 
     app.use(inertia(html, ASSET_VERSION));
+
+    app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
     app.enableCors();
     const port: string = config.port;
