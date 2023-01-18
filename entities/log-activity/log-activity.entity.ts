@@ -8,10 +8,11 @@ import {
     JoinColumn,
     Column,
     CreateDateColumn,
+    BaseEntity,
 } from 'typeorm';
 
 @Entity({ name: 'log_activities' })
-export class LogActivity implements ILogActivity {
+export class LogActivity extends BaseEntity implements ILogActivity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -27,9 +28,6 @@ export class LogActivity implements ILogActivity {
 
     @Column({ name: 'activity' })
     activity: string;
-
-    @Column({ name: 'status' })
-    status: string;
 
     @Column({ name: 'menu' })
     menu: string;

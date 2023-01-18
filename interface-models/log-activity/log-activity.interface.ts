@@ -13,7 +13,5 @@ export interface ILogActivity {
 
     menu: string;
 
-    status: string;
-
     path: string;
 }

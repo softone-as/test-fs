@@ -1,7 +1,4 @@
-import {
-    LogActivityStatusEnum,
-    LogActivityMenuEnum,
-} from 'apps/backoffice/src/common/enums/log-activity.enum';
+import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
 import { IsNotEmpty } from 'class-validator';
 import { User } from 'entities/iam/user.entity';
 
@@ -17,9 +14,6 @@ export class LogActivityDto {
     new_data: any;
 
     activity: string;
-
-    @IsNotEmpty()
-    status: LogActivityStatusEnum;
 
     @IsNotEmpty()
     menu: LogActivityMenuEnum;
