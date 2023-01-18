@@ -53,9 +53,6 @@ export class InitTable1656301180717 implements MigrationInterface {
             `CREATE INDEX \`log_activity_menu\` ON \`log_activities\` (\`menu\`) USING BTREE`,
         );
         await queryRunner.query(
-            `CREATE INDEX \`log_activity_status\` ON \`log_activities\` (\`status\`) USING BTREE`,
-        );
-        await queryRunner.query(
             `CREATE INDEX \`log_activity_activity\` ON \`log_activities\` (\`activity\`) USING BTREE`,
         );
     }
@@ -110,9 +107,6 @@ export class InitTable1656301180717 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE \`log_activities\``);
         await queryRunner.query(
             `DROP INDEX \`log_activity_menu\` ON \`log_activities\``,
-        );
-        await queryRunner.query(
-            `DROP INDEX \`log_activity_status\` ON \`log_activities\``,
         );
         await queryRunner.query(
             `DROP INDEX \`log_activity_activity\` ON \`log_activities\``,
