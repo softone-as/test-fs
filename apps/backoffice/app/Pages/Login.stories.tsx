@@ -5,8 +5,12 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 export default {
     title: 'Pages/Login',
     component: Login,
-
 } as ComponentMeta<typeof Login>
 
-export const LoginPage: ComponentStory<typeof Login> = () => <Login />
+
+export const Template: ComponentStory<typeof Login> = (args) => <Login {...args} />
+
+export const example: ComponentStory<typeof Login> = Template.bind({})
+
+
 

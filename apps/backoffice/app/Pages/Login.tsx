@@ -5,24 +5,13 @@ import React from 'react';
 import { Form, Checkbox, Button, Input, Typography, Space, notification } from 'antd'
 import { LoginLayout } from '../Layouts';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Inertia } from '@inertiajs/inertia';
-// import { yupResolver } from '@hookform/resolvers/yup';
-// import { useForm } from 'react-hook-form';
-import { usePage } from '@inertiajs/inertia-react';
 
-// import { Blank } from '../Layouts/Blank';
 
-// import { SuccessType } from '../modules/Common/Entity/Common';
-import { LoginType } from '../modules/User/Entity/User';
+import { Link } from '../Components/atoms/Link';
+import { doLogin, } from '../Modules/Auth/Login/Actions';
+import { TLogin } from '../Modules/Auth/Login/Entities'
+import { TInertiaProps } from '../Modules/Inertia/Entities';
 
-import { EndpointRoute } from '../Enums/Route';
-
-// import { notifySuccess, setServerError } from '../Utils/utils';
-
-// import Form from '../Components/molecules/Form/Form.molecule';
-// import ControlledTextInput from '../Components/molecules/ControlledInputs/ControlledTextInput.molecule';
-import useLoading from '../modules/Hook/useLoading';
-import { ErrorType } from '../modules/Common/Entity/Common';
 
 const schema = yup.object().shape({
     email: yup
@@ -31,109 +20,25 @@ const schema = yup.object().shape({
         .required('Field Email wajib diisi'),
     password: yup.string().required('Field Password wajib diisi'),
 });
-// import OneSignal from 'react-onesignal';
-
-// const Login = (): JSX.Element => {
-//     const { isLoading, setIsLoading } = useLoading();
-
-//     const {
-//         handleSubmit,
-//         control,
-//         setError,
-//         formState: { isValid },
-//     } = useForm<LoginType>({
-//         mode: 'onChange',
-//         resolver: yupResolver(schema),
-//     });
-
-//     const onSubmit = handleSubmit((loginData) => {
-//         setIsLoading(true);
-
-//         // Not Used
-//         // OneSignal.getUserId().then((playerId) => {
-//         Inertia.post(EndpointRoute.AdminLogin + `?one_signal_player_id=`, loginData, {
-//             onError: (_) => {
-//                 setIsLoading(false);
-//             },
-//             onSuccess: (success) => {
-//                 const message = (success.props.success as SuccessType)
-//                     ?.message;
-//                 notifySuccess(message);
-//                 setIsLoading(false);
-//             },
-//         });
-//         // })
-//     });
-
-//     const error = usePage().props.error as ErrorType;
-
-//     React.useEffect(() => {
-//         setServerError(error, setError);
-//     }, [error]);
-
-//     return (
-//         <Blank title="Login">
-//             <div className="login__container page__center">
-//                 <div className="page__center">
-//                     <img
-//                         className="login__company__logo"
-//                         src="/unity/img/logo.png"
-//                     />
-//                 </div>
-
-//                 <Form
-//                     buttonTitle="Login"
-//                     title="Login"
-//                     onSubmit={onSubmit}
-//                     isValid={isValid}
-//                     isLoading={isLoading}
-//                 >
-//                     <ControlledTextInput
-//                         title="Email"
-//                         name="email"
-//                         placeholder="Input email"
-//                         control={control}
-//                     />
-
-//                     <ControlledTextInput
-//                         title="Password"
-//                         name="password"
-//                         placeholder="Input Password"
-//                         control={control}
-//                         type="password"
-//                     />
-
-//                 </Form>
-//             </div>
-
-//             <div className="page__center">
-//                 <br />
-//                 <br />
-//                 <Link href={EndpointRoute.ForgotPassword}>Forgot Password ?</Link>
-//             </div>
-//         </Blank>
-//     );
-// };
 
 
-const Login = () => {
 
-    const [form] = Form.useForm<LoginType>()
+const Login = (props: TInertiaProps) => {
+
+    const [form] = Form.useForm<TLogin>()
 
     const [api, contextHolder] = notification.useNotification()
 
-    const { isLoading, setIsLoading } = useLoading();
-
     const openNotification = (type: string) => {
         if (type === 'error') {
-            api.success({
-                message: 'Success',
-                description: 'Welcome Joen Doe',
+            api.error({
+                message: 'Error',
+                description: 'Terjadi Kesalahan',
                 placement: 'topRight'
             })
         }
         if (type === 'success') {
-            api.error({
+            api.success({
                 message: 'Success',
                 description: 'Welcome Joen Doe',
                 placement: 'topRight'
@@ -142,41 +47,10 @@ const Login = () => {
 
     }
 
-    const error = usePage().props.error as ErrorType;
-
-    const onSubmit = (loginData: LoginType) => {
-        console.log('LOGIN DATA ', loginData)
-        setIsLoading(true);
-
-
-        // Not Used
-        // OneSignal.getUserId().then((playerId) => {
-        Inertia.post(EndpointRoute.AdminLogin + `?one_signal_player_id=`, loginData, {
-            onError: (_) => {
-                setIsLoading(false);
-            },
-            onSuccess: (success) => {
-                console.log('Success ', success)
-                // const message = (success.props.success as SuccessType)
-                //     ?.message;
-                // notifySuccess(message);
-                setIsLoading(false);
-                if (error.statusCode !== 400) {
-                    openNotification('error')
-                } else {
-                    openNotification('success')
-                }
-            },
-        })
+    const onSubmit = (loginData: TLogin): void => {
+        doLogin(loginData)
     };
 
-
-
-    // useEffect(() => {
-    //     if (error.message) {
-    //         form.se
-    //     }
-    // }, [error])
     return (
         <LoginLayout title='Login'>
             {contextHolder}
@@ -205,8 +79,8 @@ const Login = () => {
                 <Form.Item
                     name="password"
                     rules={[{ required: true, message: 'Please input your Password!' }]}
-                    validateStatus={error?.message && "error"}
-                    help={error?.message}
+                    validateStatus={props?.error?.message && 'error'}
+                    help={props?.error?.message}
                 >
                     <Input.Password placeholder='Password' prefix={<LockOutlined />} />
                 </Form.Item>
@@ -214,9 +88,12 @@ const Login = () => {
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-                    <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} >
+                    <Button type="primary" htmlType="submit" style={{ width: '100%' }} >
                         Login
                     </Button>
+                </Form.Item>
+                <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+                    <Link href="/auth/forgot-password">Forgot Password?</Link>
                 </Form.Item>
             </Form>
         </LoginLayout >

@@ -1,175 +1,60 @@
-import React, { useState } from 'react';
-import { Inertia } from '@inertiajs/inertia';
-import { CellProps, Column } from 'react-table';
+import React from 'react';
+import { DataTable } from '../../../Components/organisms/DataTable';
+// import { Inertia } from '@inertiajs/inertia';
+// import { CellProps, Column } from 'react-table';
 
-import { Main as Layout } from '../../../Layouts/Main';
+import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+import type { ColumnsType } from 'antd/es/table'
+import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 
-import { useDidUpdateEffect } from '../../../Utils/hooks';
-import { confirmDelete, notifyError, notifySuccess } from '../../../Utils/utils';
+type DataType = {
+    birthDate: string,
+    email: string,
+    emailVerifiedAt: string,
+    fullname: string,
+    gender: string,
+    id: number,
+    identityNumber: string,
+    oneSignalPlayerIds: string,
+    password: string,
+    phoneNumber: string,
+    phoneNumberVerifiedAt: string
+}
 
-import { EndpointRoute, Route } from '../../../Enums/Route';
+interface IProps extends TInertiaProps {
+    data: DataType[]
+}
 
-import { ErrorType, SuccessType } from '../../../modules/Common/Entity/Common';
-import {
-    PERMISSION_BACKOFFICE_DELETE_USER, PERMISSION_BACKOFFICE_CREATE_USER, PERMISSION_BACKOFFICE_DETAIL_USER,
-    PERMISSION_BACKOFFICE_UPDATE_USER
-} from '../../../../../../constants/permission.constant';
+const UsersPage: React.FC = (props: IProps) => {
 
-import { FilterSelectOption } from '../../../Components/molecules/Inputs/FilterSelect.molecule';
-import ActionButtons from '../../../Components/molecules/DataTable/ActionButtons.molecule';
-import DataTable from '../../../Components/organisms/DataTable/DataTable';
-import HeaderText from '../../../Components/molecules/Text/HeaderText.molecule';
+    const columns: ColumnsType<DataType> = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
 
-import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
-import { usePage } from '@inertiajs/inertia-react';
-import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
+        },
+        {
+            title: 'Name',
+            dataIndex: 'fullname',
+            key: 'fullname',
+        },
+        {
+            title: 'Gender',
+            dataIndex: 'gender',
+            key: 'gender',
+        },
+        {
+            title: 'Phone Number',
+            dataIndex: 'phoneNumber',
+            key: 'phoneNumber',
+        },
 
-type UsersPageProps = {
-    data: UserResponse[];
-    meta: IPaginationMeta;
-};
-
-const title = 'Daftar User';
-
-const filterOptions = [
-    {
-        label: 'Latest',
-        value: 'latest DESC',
-    },
-    {
-        label: 'Oldest',
-        value: 'oldest ASC',
-    },
-    {
-        label: 'Alphabet A-Z',
-        value: 'name ASC',
-    },
-    {
-        label: 'Alphabet Z-A',
-        value: 'name DESC',
-    },
-];
-
-const UsersPage: React.FC<UsersPageProps> = ({ data, meta }) => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const [isDisableTable, setDisableTable] = useState(false);
-    const { userDetail } = usePage().props
-    const permissionList = userDetail['role'].permissions.map(permission => permission.key)
-
-    const [filters, setFilters] = useState({
-        search: queryParams.get('search'),
-        sort: queryParams.get('sort'),
-        order: queryParams.get('order') || 'ASC',
-        page: queryParams.get('page') || '1',
-    });
-
-    useDidUpdateEffect(() => {
-        setDisableTable(true)
-
-        Inertia.visit(window.location.pathname, {
-            data: filters,
-            preserveState: true,
-            preserveScroll: true,
-            replace: true,
-            onFinish: () => {
-                setDisableTable(false)
-            },
-            onSuccess: () => {
-                setDisableTable(false)
-            }
-        });
-    }, [filters]);
-
-    const handleDeleteUser = (id: string) => {
-        if (confirmDelete()) {
-            Inertia.get(`${EndpointRoute.DeleteUser}/${id}`, {}, {
-                onSuccess: (res) => {
-                    const error = res.props['error'] || null
-                    const success = res.props['success'] || null
-
-                    if (success) {
-                        const message = (res.props.success as SuccessType)
-                            .message;
-                        notifySuccess(message);
-                    } else if (error) {
-                        const message = (res.props.error as ErrorType)
-                            .message;
-                        notifyError(message);
-                    }
-                },
-            });
-        }
-    };
-
-    const handleSort = (opt: FilterSelectOption) => {
-        const [sort, order] = opt.value.split(' ');
-        return setFilters({ ...filters, sort, order });
-    };
-
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        return setFilters({
-            sort: filters.sort,
-            order: filters.order,
-            page: '1', search: e.target.value
-        });
-    };
-
-    const handleClearSearch = () => {
-        return setFilters({ ...filters, search: '' });
-    };
-
-    const columns = React.useMemo<Column<UserResponse>[]>(
-        () => [
-            {
-                Header: 'Nama',
-                accessor: 'fullname',
-            },
-            {
-                Header: 'No Telepon',
-                accessor: 'phoneNumber',
-            },
-            {
-                Header: 'Aksi',
-                Cell: ({ cell }: CellProps<UserResponse>) => {
-                    const id = cell.row.original.id;
-                    return (
-                        <ActionButtons
-                            detailLink={`${Route.Users}/${id}`}
-                            updateLink={`${Route.EditUser}/${id}`}
-                            onDelete={() => handleDeleteUser(id.toString())}
-                            hideDelete={!permissionList.includes(PERMISSION_BACKOFFICE_DELETE_USER)}
-                            isShowDetail={permissionList.includes(PERMISSION_BACKOFFICE_DETAIL_USER)}
-                            hideUpdate={!permissionList.includes(PERMISSION_BACKOFFICE_UPDATE_USER)}
-                        />
-                    );
-                },
-            },
-        ],
-        [],
-    );
+    ]
 
     return (
-        <Layout title={title}>
-            <div className="page__center">
-                <HeaderText title={title} />
-
-                <DataTable
-                    isDisableTable={isDisableTable}
-                    columns={columns}
-                    tableContents={data}
-                    meta={meta}
-                    setFilters={setFilters}
-                    filter={{
-                        filters,
-                        handleSearch,
-                        handleSort,
-                        filterOptions,
-                        createHref: !permissionList.includes(PERMISSION_BACKOFFICE_CREATE_USER) ? null : Route.CreateUser,
-                        hideDelete: true,
-                        handleClearSearch,
-                    }}
-                />
-            </div>
+        <Layout title='Users'>
+            <DataTable columns={columns} dataSource={props?.data.map(item => ({ ...item, key: item.id }))} />
         </Layout>
     );
 };

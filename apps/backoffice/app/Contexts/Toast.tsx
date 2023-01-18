@@ -1,5 +1,4 @@
 import { createContext } from 'react'
-// import { IUser } from '../../../../interface-models/iam/user.interface'
 
 export interface IToastContext {
     username: string
