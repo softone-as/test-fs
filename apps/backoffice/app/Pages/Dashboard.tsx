@@ -7,6 +7,7 @@ import { TFilter, TRowActionMenu } from '../Components/molecules/Filters/Entitie
 import { useTableFilter } from '../Utils/hooks'
 import { TInertiaProps } from '../Modules/Inertia/Entities'
 import { useNotification } from '../Utils/notification'
+import { useModal } from '../Utils/modal'
 
 type DataType = {
     key: string;
@@ -103,7 +104,8 @@ const Dashboard = (props: IProps): JSX.Element => {
         },
         {
             key: '2',
-            label: 'Delete'
+            label: 'Delete',
+            onClick: () => useModal({ type: 'confirm', title: 'Delete', content: 'Wis yakin ta?', onOk: () => alert('OK BOS!'), onCancel: () => alert('Cancel Bos!') })
         }
     ]
 
@@ -111,6 +113,7 @@ const Dashboard = (props: IProps): JSX.Element => {
         <DashboardLayout title='Hello' >
             <Filters filters={filterList} handleSearch={handleSearch} selectedRow={selectedRowKeys} rowActions={rowActionMenu} />
             <DataTable<DataType> rowSelection={{ selectedRowKeys, onChange: onSelectChange }} columns={columns} dataSource={data} />
+
         </DashboardLayout>
     )
 };
