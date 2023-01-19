@@ -1,9 +1,9 @@
 import { Modal } from 'antd';
 import type { ModalFuncProps } from 'antd';
 
-type IPropsModal = ModalFuncProps;
+type TPropsModal = ModalFuncProps;
 
-export const useModal = (props: IPropsModal) => {
+export const useModal = (props: TPropsModal) => {
     return Modal[props.type]({
         ...props,
     });

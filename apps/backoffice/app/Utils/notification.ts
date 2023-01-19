@@ -1,9 +1,9 @@
 import { notification } from 'antd';
 import type { ArgsProps } from 'antd/es/notification/interface';
 
-type INotifData = ArgsProps;
+type TNotifData = ArgsProps;
 
-export const useNotification = (data: INotifData) => {
+export const useNotification = (data: TNotifData) => {
     return notification.open({
         ...data,
         type: data.type,
