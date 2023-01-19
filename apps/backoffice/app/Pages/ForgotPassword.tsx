@@ -7,6 +7,7 @@ import { LoginLayout } from '../Layouts';
 import { Link } from '../Components/atoms/Link';
 import { sendEmailForgotPassword } from '../Modules/Auth/ForgotPassword/Action';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
+import { TForgotPassword } from '../Modules/Auth/ForgotPassword/Entities';
 
 
 

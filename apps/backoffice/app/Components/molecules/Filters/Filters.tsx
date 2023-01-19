@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Space, Input, Dropdown, DatePicker, Button, Row, Col } from 'antd'
+import { Space, Input, Dropdown, DatePicker, Button, Row, Col, Typography } from 'antd'
 import { DownOutlined, SearchOutlined } from '@ant-design/icons'
-import { TDropdownFilter, TFilter, TDatePickerFilter, TDateRangePickerFilter, RangeValue } from './Entities'
+import { TDropdownFilter, TFilter, TDatePickerFilter, TDateRangePickerFilter, RangeValue, TRowActionMenu } from './Entities'
 import type { Dayjs } from 'dayjs'
 import { debounce } from 'lodash'
 
@@ -45,15 +45,11 @@ const DateRangePickerFilter = ({ onChange, range = 7 }: TDateRangePickerFilter) 
             onCalendarChange={(val) => setDates(val)}
             onChange={handleChange}
             onOpenChange={onOpenChange} />
-
     )
 }
 
-
-
-
+// Dropdown Filter Component
 const DropdownFilter = ({ title, itemsMenu }: TDropdownFilter) => {
-
     return (
         <Dropdown menu={{ items: itemsMenu }}>
             <Button>
@@ -66,20 +62,43 @@ const DropdownFilter = ({ title, itemsMenu }: TDropdownFilter) => {
     )
 }
 
-
-export interface IProps {
-    filters: TFilter[],
-    handleSearch: (val: any) => void
+const DropdownAction = ({ title, itemsMenu }: TDropdownFilter) => {
+    return (
+        <Dropdown.Button menu={{ items: itemsMenu }}>
+            {title}
+        </Dropdown.Button>
+    )
 }
 
-export const Filters: React.FC<IProps> = ({ filters, handleSearch }: IProps) => {
+// Props Filter
+export interface IProps {
+    filters: TFilter[],
+    handleSearch: (val: any) => void,
+    selectedRow?: React.Key[]
+    rowActions?: TRowActionMenu
+}
+
+export const Filters: React.FC<IProps> = ({ filters, handleSearch, selectedRow, rowActions }: IProps) => {
     const searchHandler = debounce((e) => {
         e.preventDefault()
         handleSearch(e.target.value)
     }, 1500)
     return (
-        <Row gutter={[8, 0]}>
-            <Col >
+        <Row gutter={[8, 0]} align='middle'>
+            {selectedRow.length > 0 &&
+                <>
+                    <Col>
+                        <Space wrap>
+
+                            <DropdownAction itemsMenu={rowActions} title="Action" />
+                        </Space>
+                    </Col>
+                    <Col>
+                        <Typography.Text>{selectedRow.length} items selected</Typography.Text>
+                    </Col>
+                </>
+            }
+            <Col>
                 <Space>
                     {
                         filters?.map((filter, key) => {
