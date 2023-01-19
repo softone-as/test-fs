@@ -22,3 +22,5 @@ export type TFilter = {
     datePickerFilter?: TDatePickerFilter;
     dateRangePickerFilter?: TDateRangePickerFilter;
 };
+
+export type TRowActionMenu = MenuProps['items'];
