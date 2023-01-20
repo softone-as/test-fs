@@ -16,24 +16,7 @@ type DataType = {
     address: string;
 }
 
-const columns: ColumnsType<DataType> = [
-    {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        render: (text) => <a>{text}</a>,
-    },
-    {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-    },
-    {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
-    },
-]
+
 
 const data: DataType[] = [
     {
@@ -57,6 +40,153 @@ const data: DataType[] = [
         address: 'Sidney No. 1 Lake Park',
 
     },
+    {
+        key: '4',
+        name: 'Joe Black',
+        age: 34,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '5',
+        name: 'Joe Black',
+        age: 2,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '6',
+        name: 'Joe Black',
+        age: 21,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '7',
+        name: 'John Brown',
+        age: 32,
+        address: 'New York No. 1 Lake Park',
+
+    },
+    {
+        key: '8',
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No. 1 Lake Park',
+
+    },
+    {
+        key: '9',
+        name: 'Joe Black',
+        age: 32,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '10',
+        name: 'Joe Black',
+        age: 34,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '11',
+        name: 'Joe Black',
+        age: 2,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '12',
+        name: 'Joe Black',
+        age: 21,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '13',
+        name: 'John Brown',
+        age: 32,
+        address: 'New York No. 1 Lake Park',
+
+    },
+    {
+        key: '14',
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No. 1 Lake Park',
+
+    },
+    {
+        key: '15',
+        name: 'Joe Black',
+        age: 32,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '16',
+        name: 'Joe Black',
+        age: 34,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '17',
+        name: 'Joe Black',
+        age: 2,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '18',
+        name: 'Joe Black',
+        age: 21,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '19',
+        name: 'John Brown',
+        age: 32,
+        address: 'New York No. 1 Lake Park',
+
+    },
+    {
+        key: '20',
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No. 1 Lake Park',
+
+    },
+    {
+        key: '21',
+        name: 'Joe Black',
+        age: 32,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '22',
+        name: 'Joe Black',
+        age: 34,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '23',
+        name: 'Joe Black',
+        age: 2,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
+    {
+        key: '24',
+        name: 'Joe Black',
+        age: 21,
+        address: 'Sidney No. 1 Lake Park',
+
+    },
 ];
 
 
@@ -70,6 +200,29 @@ const Dashboard = (props: IProps): JSX.Element => {
     const handleSearch = (val) => {
         return setQueryParams({ search: val })
     }
+
+    const columns: ColumnsType<DataType> = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+            render: (text) => <a>{text}</a>,
+
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            key: 'age',
+            sorter: (a, b) => {
+                return a.age - b.age
+            }
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+            key: 'address',
+        },
+    ]
 
     const filterList: TFilter[] = [
         {
@@ -89,6 +242,13 @@ const Dashboard = (props: IProps): JSX.Element => {
             type: 'datePicker',
             datePickerFilter: {
                 onChange: (val) => setQueryParams({ date: val.toISOString() })
+            },
+
+        }, {
+            type: 'dateRange',
+            dateRangePickerFilter: {
+                range: 7,
+                onChange: (val) => alert('test ')
             }
         }
     ]
@@ -112,7 +272,14 @@ const Dashboard = (props: IProps): JSX.Element => {
     return (
         <DashboardLayout title='Hello' >
             <Filters filters={filterList} handleSearch={handleSearch} selectedRow={selectedRowKeys} rowActions={rowActionMenu} />
-            <DataTable<DataType> rowSelection={{ selectedRowKeys, onChange: onSelectChange }} columns={columns} dataSource={data} />
+            <DataTable<DataType>
+                rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                columns={columns}
+                dataSource={data}
+                total={props?.meta?.totalPage}
+                defaultPageSize={props?.meta?.perPage}
+                onPageChange={(page) => setQueryParams({ page: page.toString() })}
+            />
 
         </DashboardLayout>
     )
