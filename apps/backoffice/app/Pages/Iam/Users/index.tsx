@@ -12,6 +12,7 @@ import { FilterSection } from '../../../Components/organisms/FilterSection'
 import { MenuProps } from 'antd';
 import { Dropdown } from '../../../Components/molecules/Dropdowns';
 import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/molecules/Pickers';
+import type { Dayjs } from 'dayjs'
 
 
 
@@ -89,7 +90,8 @@ const UsersPage: React.FC = (props: IProps) => {
         }
     ]
 
-    const handleRange = (val: TRangeValue) => console.log(val[0].toDate())
+    const handleRange = (val: TRangeValue) => console.log(val.map(item => item.toDate()))
+    const handleDate = (val: Dayjs) => console.log(val.toDate())
 
     const handleFilter: MenuProps['onClick'] = ({ key }) => {
         if (key === 'done') {
@@ -106,7 +108,7 @@ const UsersPage: React.FC = (props: IProps) => {
                     [
                         <Dropdown title='Status' menu={{ items: MenuItems, onClick: handleFilter }} />,
                         <DateRangePicker range={10} onChange={handleRange} />,
-                        <DatePicker onChange={(val) => alert(val)} />
+                        <DatePicker onChange={handleDate} />
                     ]
                 } />
             <DataTable
