@@ -7,10 +7,13 @@ import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks'
-import { useNotification } from '../../../Utils/notification'
 import { useModal } from '../../../Utils/modal'
-import { Filters } from '../../../Components/molecules/Filters'
-import { TRowActionMenu, TFilter } from '../../../Components/molecules/Filters/Entities'
+import { FilterSection } from '../../../Components/organisms/FilterSection'
+import { MenuProps } from 'antd';
+import { Dropdown } from '../../../Components/molecules/Dropdowns';
+import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/molecules/Pickers';
+
+
 
 type DataType = {
     birthDate: string,
@@ -32,7 +35,7 @@ interface IProps extends TInertiaProps {
 
 const UsersPage: React.FC = (props: IProps) => {
 
-    console.log(props)
+
     const { setQueryParams } = useTableFilter<DataType>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
@@ -61,35 +64,6 @@ const UsersPage: React.FC = (props: IProps) => {
 
     ]
 
-    const filterList: TFilter[] = [
-        {
-            type: 'dropdown',
-            dropDownFilter: {
-                title: 'Status',
-                itemsMenu: [
-                    {
-                        key: '1',
-                        label: 'Done',
-                        onClick: () => setQueryParams({ status: 'done' })
-
-                    }
-                ]
-            }
-        }, {
-            type: 'datePicker',
-            datePickerFilter: {
-                onChange: (val) => setQueryParams({ date: val.toISOString() })
-            },
-
-        }, {
-            type: 'dateRange',
-            dateRangePickerFilter: {
-                range: 7,
-                onChange: (val) => alert('test ')
-            }
-        }
-    ]
-
     const handleSearch = (val) => {
         return setQueryParams({ search: val })
     }
@@ -98,22 +72,43 @@ const UsersPage: React.FC = (props: IProps) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
-    const rowActionMenu: TRowActionMenu = [
+    const MenuItems: MenuProps['items'] = [
         {
-            key: '1',
-            label: 'Share',
-            onClick: () => useNotification({ type: 'success', message: 'Hello Woi', description: 'What`s up bro!!' })
-        },
-        {
-            key: '2',
-            label: 'Delete',
-            onClick: () => useModal({ type: 'confirm', title: 'Delete', content: 'Wis yakin ta?', onOk: () => alert('OK BOS!'), onCancel: () => alert('Cancel Bos!') })
+            key: 'done',
+            label: 'Done',
+
+
         }
     ]
 
+    const ActionMenus: MenuProps['items'] = [
+        {
+            key: '1',
+            label: 'Delete',
+            onClick: () => useModal({ title: 'Are You Sure? ', type: 'warning', onOk: () => alert('Ok Delete') })
+        }
+    ]
+
+    const handleRange = (val: TRangeValue) => console.log(val[0].toDate())
+
+    const handleFilter: MenuProps['onClick'] = ({ key }) => {
+        if (key === 'done') {
+            setQueryParams({ status: key })
+        }
+    }
+
     return (
         <Layout title='Users'>
-            <Filters filters={filterList} handleSearch={handleSearch} selectedRow={selectedRowKeys} rowActions={rowActionMenu} />
+            <FilterSection searchHandler={handleSearch}
+                selectedRows={selectedRowKeys}
+                rowActionMenus={ActionMenus}
+                filters={
+                    [
+                        <Dropdown title='Status' menu={{ items: MenuItems, onClick: handleFilter }} />,
+                        <DateRangePicker range={10} onChange={handleRange} />,
+                        <DatePicker onChange={(val) => alert(val)} />
+                    ]
+                } />
             <DataTable
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
                 columns={columns}
