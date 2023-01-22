@@ -10,9 +10,10 @@ import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
 import { MenuProps } from 'antd';
-import { Dropdown } from '../../../Components/molecules/Dropdowns';
 import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/molecules/Pickers';
 import type { Dayjs } from 'dayjs'
+import { FormSelect } from '../../../Components/molecules/Forms'
+import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 
 
 
@@ -99,6 +100,10 @@ const UsersPage: React.FC = (props: IProps) => {
         }
     }
 
+    const handleStatus = (data) => {
+        console.log('DATa Status: ', data)
+    }
+
     return (
         <Layout title='Users'>
             <FilterSection searchHandler={handleSearch}
@@ -106,7 +111,8 @@ const UsersPage: React.FC = (props: IProps) => {
                 rowActionMenus={ActionMenus}
                 filters={
                     [
-                        <Dropdown title='Status' menu={{ items: MenuItems, onClick: handleFilter }} />,
+                        <MultiFilterDropdown />,
+                        <FormSelect placeholder="Status" onChange={handleStatus} options={[{ label: 'Done', value: 'done' }]} />,
                         <DateRangePicker range={10} onChange={handleRange} />,
                         <DatePicker onChange={handleDate} />
                     ]
