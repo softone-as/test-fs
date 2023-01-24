@@ -17,12 +17,14 @@ import {
 import Title from 'antd/es/typography/Title';
 import { Inertia } from '@inertiajs/inertia'
 import { menuSidebarConfig } from '../../Utils/theme';
+import { PageProgress } from '../../Components/molecules/Progress';
 
 
 export type IProps = {
     title?: string,
     children: React.ReactNode
     headerRightMenu?: React.FC
+    loading?: boolean
 }
 
 const handleLogout = () => {
@@ -61,10 +63,14 @@ const { Sider, Content } = Layout
 const { Text } = Typography
 
 
-export const Dashboard: React.FC<IProps> = ({ title, children }: IProps) => {
+export const Dashboard: React.FC<IProps> = ({ title, children, loading = false }: IProps) => {
     return (
 
         <Layout style={{ minHeight: '100vh' }}>
+            {
+                loading && <PageProgress />
+
+            }
             <Sider theme='light' style={{ backgroundColor: '#006D75', }} >
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '64px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', padding: '0rem 1rem' }}>
                     {/* Apps Logo or Title */}
