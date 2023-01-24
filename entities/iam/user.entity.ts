@@ -53,7 +53,7 @@ export class User extends BaseEntity implements IUser {
     birthDate?: Date;
 
     @Column({ name: 'gender' })
-    gender?: GenderEnum;
+    gender?: GenderEnum = GenderEnum.LakiLaki;
 
     @Column()
     @Exclude()

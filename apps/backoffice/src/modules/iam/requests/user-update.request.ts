@@ -6,6 +6,7 @@ import {
     Matches,
     MinLength,
 } from 'class-validator';
+import { IRole } from 'interface-models/iam/role.interface';
 
 export class UserUpdateRequest {
     @IsNotEmpty({ message: 'Field wajib diisi' })
@@ -23,7 +24,7 @@ export class UserUpdateRequest {
     address: string;
 
     @IsNotEmpty({ message: 'Field wajiib diisi' })
-    roleId: number;
+    roles: IRole[];
 
     @IsOptional({ message: 'Field wajiib diisi' })
     @IsString()

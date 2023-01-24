@@ -29,9 +29,7 @@ export class UserCrudApplication {
         }
 
         const newAdmin = new User();
-        newAdmin.roles.push(
-            await this.roleService.findOneById(adminRequest.roleId),
-        );
+        newAdmin.identityNumber = adminRequest.phoneNumber;
         Object.assign(newAdmin, adminRequest);
 
         return await this.adminService.create(newAdmin);
@@ -80,7 +78,7 @@ export class UserCrudApplication {
             fullname: request.fullname,
             email: request.email,
             phoneNumber: request.phoneNumber,
-            roles: [await this.roleService.findOneById(request.roleId)],
+            roles: request.roles,
         };
 
         if (request.password) {
