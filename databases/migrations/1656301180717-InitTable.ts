@@ -17,7 +17,7 @@ export class InitTable1656301180717 implements MigrationInterface {
             `CREATE TABLE \`role_permission\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`role_id\` int NULL, \`permission_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
         );
         await queryRunner.query(
-            `CREATE TABLE \`users\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`fullname\` varchar(255) NOT NULL, \`identity_number\` varchar(255) NOT NULL, \`phone_number\` varchar(255) NOT NULL, \`poin\` decimal(16,2) NULL, \`lifetime_kg\` decimal(16) NULL, \`email_verified_at\` datetime NULL, \`one_signal_player_ids\` json NULL, \`phone_verified_at\` datetime NULL, \`email\` varchar(255) NULL, \`birth_date\` datetime NULL, \`gender\` varchar(255) NULL, \`password\` varchar(255) NOT NULL, \`role_id\` int NULL, UNIQUE INDEX \`IDX_43d2ef62e309fe8f4bae2a67e5\` (\`identity_number\`), UNIQUE INDEX \`IDX_17d1817f241f10a3dbafb169fd\` (\`phone_number\`), UNIQUE INDEX \`IDX_97672ac88f789774dd47f7c8be\` (\`email\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+            `CREATE TABLE \`users\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`fullname\` varchar(255) NOT NULL, \`identity_number\` varchar(255) NOT NULL, \`phone_number\` varchar(255) NOT NULL, \`email_verified_at\` datetime NULL, \`one_signal_player_ids\` json NULL, \`phone_verified_at\` datetime NULL, \`email\` varchar(255) NULL, \`birth_date\` datetime NULL, \`gender\` varchar(255) NOT NULL, \`password\` varchar(255) NOT NULL, UNIQUE INDEX \`IDX_43d2ef62e309fe8f4bae2a67e5\` (\`identity_number\`), UNIQUE INDEX \`IDX_17d1817f241f10a3dbafb169fd\` (\`phone_number\`), UNIQUE INDEX \`IDX_97672ac88f789774dd47f7c8be\` (\`email\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
         );
         await queryRunner.query(
             `CREATE TABLE \`in_app_notifications\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`target_user_id\` int NOT NULL, \`type\` varchar(255) NOT NULL, \`title\` varchar(255) NOT NULL, \`message\` varchar(255) NOT NULL, \`meta\` json NULL, \`is_read\` tinyint NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
@@ -27,6 +27,9 @@ export class InitTable1656301180717 implements MigrationInterface {
         );
         await queryRunner.query(
             `CREATE TABLE \`log_activities\` (\`id\` int NOT NULL AUTO_INCREMENT, \`old_data\` json NULL, \`new_data\` json NULL, \`activity\` varchar(255) NOT NULL, \`menu\` varchar(255) NOT NULL, \`path\` varchar(255) NOT NULL, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`user_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+        );
+        await queryRunner.query(
+            `CREATE TABLE \`user_role\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`role_id\` int NULL, \`user_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
         );
         await queryRunner.query(
             `CREATE INDEX \`IDX_3d0a7155eafd75ddba5a701336\` ON \`role_permission\` (\`role_id\`)`,
@@ -40,9 +43,9 @@ export class InitTable1656301180717 implements MigrationInterface {
         await queryRunner.query(
             `ALTER TABLE \`role_permission\` ADD CONSTRAINT \`FK_e3a3ba47b7ca00fd23be4ebd6cf\` FOREIGN KEY (\`permission_id\`) REFERENCES \`permission\`(\`id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
         );
-        await queryRunner.query(
-            `ALTER TABLE \`users\` ADD CONSTRAINT \`FK_a2cecd1a3531c0b041e29ba46e1\` FOREIGN KEY (\`role_id\`) REFERENCES \`roles\`(\`id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
-        );
+        // await queryRunner.query(
+        //     `ALTER TABLE \`users\` ADD CONSTRAINT \`FK_a2cecd1a3531c0b041e29ba46e1\` FOREIGN KEY (\`role_id\`) REFERENCES \`roles\`(\`id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
+        // );
         await queryRunner.query(
             `ALTER TABLE \`in_app_notifications\` ADD CONSTRAINT \`FK_046713440a98830b619c4c649b4\` FOREIGN KEY (\`target_user_id\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
         );
@@ -55,9 +58,21 @@ export class InitTable1656301180717 implements MigrationInterface {
         await queryRunner.query(
             `CREATE INDEX \`log_activity_activity\` ON \`log_activities\` (\`activity\`) USING BTREE`,
         );
+        await queryRunner.query(
+            `ALTER TABLE \`user_role\` ADD CONSTRAINT \`FK_d0e5815877f7395a198a4cb0a46\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`user_role\` ADD CONSTRAINT \`FK_32a6fc2fcb019d8e3a8ace0f55f\` FOREIGN KEY (\`role_id\`) REFERENCES \`roles\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE`,
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(
+            `ALTER TABLE \`user_role\` DROP FOREIGN KEY \`FK_32a6fc2fcb019d8e3a8ace0f55f\``,
+        );
+        await queryRunner.query(
+            `ALTER TABLE \`user_role\` DROP FOREIGN KEY \`FK_d0e5815877f7395a198a4cb0a46\``,
+        );
         await queryRunner.query(
             `ALTER TABLE \`log_activities\` DROP FOREIGN KEY \`FK_4357a91cbef922677d73d510f70\``,
         );
@@ -73,6 +88,13 @@ export class InitTable1656301180717 implements MigrationInterface {
         await queryRunner.query(
             `ALTER TABLE \`role_permission\` DROP FOREIGN KEY \`FK_3d0a7155eafd75ddba5a7013368\``,
         );
+        await queryRunner.query(
+            `DROP INDEX \`IDX_32a6fc2fcb019d8e3a8ace0f55\` ON \`user_role\``,
+        );
+        await queryRunner.query(
+            `DROP INDEX \`IDX_d0e5815877f7395a198a4cb0a4\` ON \`user_role\``,
+        );
+        await queryRunner.query(`DROP TABLE \`user_role\``);
         await queryRunner.query(
             `DROP INDEX \`IDX_e3a3ba47b7ca00fd23be4ebd6c\` ON \`role_permission\``,
         );

@@ -2,8 +2,8 @@ import { GenderEnum, IUser } from 'interface-models/iam/user.interface';
 import {
     Column,
     Entity,
-    JoinColumn,
-    ManyToOne,
+    JoinTable,
+    ManyToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Exclude, Transform } from 'class-transformer';
@@ -16,9 +16,16 @@ export class User extends BaseEntity implements IUser {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => Role, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'role_id' })
-    role: IRole;
+    @ManyToMany(() => Role)
+    @JoinTable({
+        name: 'user_role',
+        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+        inverseJoinColumn: {
+            name: 'role_id',
+            referencedColumnName: 'id',
+        },
+    })
+    roles: IRole[];
 
     @Column()
     fullname: string;

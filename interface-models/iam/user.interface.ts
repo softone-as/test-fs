@@ -9,7 +9,7 @@ export enum GenderEnum {
 export interface IUser extends IBaseEntity {
     id: number;
 
-    role: IRole;
+    roles?: IRole[];
 
     fullname: string;
 
