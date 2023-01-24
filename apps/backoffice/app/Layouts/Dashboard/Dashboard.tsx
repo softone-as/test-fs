@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Layout,
     Typography,
@@ -24,7 +24,7 @@ export type IProps = {
     title?: string,
     children: React.ReactNode
     headerRightMenu?: React.FC
-    loading?: boolean
+
 }
 
 const handleLogout = () => {
@@ -63,7 +63,33 @@ const { Sider, Content } = Layout
 const { Text } = Typography
 
 
-export const Dashboard: React.FC<IProps> = ({ title, children, loading = false }: IProps) => {
+export const Dashboard: React.FC<IProps> = ({ title, children }: IProps) => {
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        const inertiaStart = Inertia.on('start', () => {
+
+            setLoading(true)
+        })
+
+        const inertiaFinish = Inertia.on('finish', (event) => {
+
+            if (event.detail.visit.completed) {
+                setLoading(false)
+            }
+            else if (event.detail.visit.interrupted) {
+                setLoading(false)
+            }
+            else if (event.detail.visit.cancelled) {
+                setLoading(false)
+            }
+        })
+
+        return () => {
+            inertiaStart()
+            inertiaFinish()
+        }
+    })
     return (
 
         <Layout style={{ minHeight: '100vh' }}>
