@@ -26,7 +26,8 @@ export class CreateUserAdminSeeder implements Seeder {
                         password: data[i].password,
                         identityNumber: data[i].identityNumber,
                         phoneNumber: data[i].phoneNumber,
-                        role: role,
+                        role: [role],
+                        gender: data[i].gender,
                     }),
                 );
 
