@@ -10,7 +10,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-    ) { }
+    ) {}
 
     async create(data: IUser): Promise<IUser> {
         const newuser = this.userRepository.create(data);
@@ -60,18 +60,29 @@ export class UserService {
     }
 
     async findOneById(id: number): Promise<IUser> {
-        return await this.userRepository.findOneOrFail({
+        const users = await this.userRepository.findOneOrFail({
             where: { id },
-            relations: ['role', 'role.permissions'],
+            relations: ['roles', 'roles.permissions'],
         });
+
+        return users;
     }
 
     async findAllWithRole(roleId: number): Promise<IUser[]> {
-        return await this.userRepository.find({
-            role: {
-                id: roleId,
-            },
+        const dataUser = await this.userRepository.find({
+            relations: ['roles', 'roles.permissions'],
         });
+
+        const users = [];
+        for (const user of dataUser) {
+            for (const role of user.roles) {
+                if (role.id == roleId) {
+                    users.push(user);
+                }
+            }
+        }
+
+        return users;
     }
 
     async delete(id: number): Promise<void> {

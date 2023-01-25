@@ -4,7 +4,6 @@ import { UserResponse } from '../responses/user.response';
 export class UserMapper {
     public static fromEntity = (user: IUser): UserResponse => ({
         id: user.id,
-        role: user.role,
         fullname: user.fullname,
         email: user.email,
         password: user.password,
