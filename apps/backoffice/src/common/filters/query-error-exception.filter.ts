@@ -12,7 +12,6 @@ export class QueryExceptionFilter implements ExceptionFilter {
 
         const path = request.path.slice(1);
 
-        console.log(exception);
         if (
             exception.message.includes(
                 'Cannot delete or update a parent row',

@@ -15,7 +15,7 @@ export class UserCrudApplication {
     constructor(
         private readonly adminService: UserService,
         private readonly roleService: RoleService,
-    ) { }
+    ) {}
 
     @CacheEvict(config.cache.name.users.detail)
     async create(adminRequest: UserCreateRequest): Promise<UserResponse> {
@@ -33,13 +33,18 @@ export class UserCrudApplication {
         newAdmin.email = adminRequest.email;
         newAdmin.password = adminRequest.password;
         newAdmin.phoneNumber = adminRequest.phoneNumber;
-        newAdmin.role = await this.roleService.findOneById(adminRequest.roleId);
+        newAdmin.roles = adminRequest.roles;
 
         return await this.adminService.create(newAdmin);
     }
 
     async findById(id: number): Promise<IUser> {
         const results = await this.adminService.findOneById(id);
+        return results;
+    }
+
+    async findByRole(id: number): Promise<IUser[]> {
+        const results = await this.adminService.findAllWithRole(id);
         return results;
     }
 
@@ -76,7 +81,7 @@ export class UserCrudApplication {
             fullname: request.fullname,
             email: request.email,
             phoneNumber: request.phoneNumber,
-            role: await this.roleService.findOneById(request.roleId),
+            roles: request.roles,
         };
 
         if (request.password) {

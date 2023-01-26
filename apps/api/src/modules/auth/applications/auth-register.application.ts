@@ -7,7 +7,6 @@ import { AuthRegisterDto } from '../dto/auth-register.dto';
 import { AuthService } from '../services/auth.service';
 import { RoleService } from '../services/role.service';
 import { OtpService } from '../services/otp.service';
-import { config } from 'apps/api/src/config';
 import { GoSmsApiNotificationService } from 'apps/api/src/infrastructure/notification/services/gosmsapi-notification.service';
 
 @Injectable()
@@ -17,7 +16,7 @@ export class AuthRegisterApplication {
         private readonly roleService: RoleService,
         private readonly otpService: OtpService,
         private readonly goSmsApi: GoSmsApiNotificationService,
-    ) { }
+    ) {}
 
     async register(data: AuthRegisterDto): Promise<IUser> {
         const newUser = new User();
@@ -26,7 +25,7 @@ export class AuthRegisterApplication {
         );
 
         Object.assign(newUser, data);
-        newUser.role = changerRole;
+        newUser.roles = [changerRole];
         const user = await this.userService.create(newUser);
 
         const code = await this.otpService.createNewCodeByIdentifier(
