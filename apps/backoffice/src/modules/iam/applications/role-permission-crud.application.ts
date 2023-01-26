@@ -7,7 +7,7 @@ import { RoleService } from '../services/role.service';
 import { PermissionService } from '../services/permission.service';
 import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
 import { config } from 'apps/backoffice/src/config';
-import { CacheEvict } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 
 @Injectable()
 export class RolePermissionCrudApplication {
@@ -18,7 +18,7 @@ export class RolePermissionCrudApplication {
         private readonly cacheService: CacheService,
     ) {}
 
-    @CacheEvict(config.cache.name.rolePermissions.detail)
+    @CacheClear(config.cache.name.rolePermissions.detail)
     async create(
         rolePermissionRequest: RolePermissionCreateRequest,
     ): Promise<IRolePermission> {
@@ -45,7 +45,7 @@ export class RolePermissionCrudApplication {
         return await this.rolePermissionService.create(newRolePermission);
     }
 
-    @CacheEvict(config.cache.name.rolePermissions.detail)
+    @CacheClear(config.cache.name.rolePermissions.detail)
     async edit(
         id: number,
         rolePermissionRequest: RolePermissionEditRequest,
@@ -62,7 +62,7 @@ export class RolePermissionCrudApplication {
         });
     }
 
-    @CacheEvict(config.cache.name.rolePermissions.detail)
+    @CacheClear(config.cache.name.rolePermissions.detail)
     async delete(id: number): Promise<void> {
         await this.rolePermissionService.findOneById(id);
         await this.rolePermissionService.delete(id);

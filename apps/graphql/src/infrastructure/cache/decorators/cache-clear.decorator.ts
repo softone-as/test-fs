@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { CacheService } from '../services/cache.service';
 
-export const CacheEvict = (...cacheNames: string[]): any => {
+export const CacheClear = (...cacheNames: string[]): any => {
     const injectCacheService = Inject(CacheService);
 
     return (

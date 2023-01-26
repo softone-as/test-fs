@@ -2,9 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUser } from 'interface-models/iam/user.interface';
 import { User } from 'entities/iam/user.entity';
-import { In, Not, Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
-import { CacheEvict } from 'apps/graphql/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { Repository } from 'typeorm';
+import { CacheClear } from 'apps/graphql/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { config } from 'apps/graphql/src/config';
 
 @Injectable()
@@ -12,7 +11,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-    ) { }
+    ) {}
 
     async findOneById(id: number): Promise<IUser> {
         return await this.userRepository.findOneOrFail({
@@ -28,11 +27,13 @@ export class UserService {
         });
     }
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async update(id: number, data: IUser): Promise<void> {
-        await this.userRepository.update({ id }, {
-            ...data
-        });
+        await this.userRepository.update(
+            { id },
+            {
+                ...data,
+            },
+        );
     }
-
 }

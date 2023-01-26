@@ -8,7 +8,7 @@ import { UserUpdateRequest } from '../requests/user-update.request';
 import { config } from 'apps/backoffice/src/config';
 import { RoleService } from '../services/role.service';
 import * as bcrypt from 'bcrypt';
-import { CacheEvict } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 
 @Injectable()
 export class UserCrudApplication {
@@ -17,7 +17,7 @@ export class UserCrudApplication {
         private readonly roleService: RoleService,
     ) {}
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async create(adminRequest: UserCreateRequest): Promise<UserResponse> {
         const emailExists = await this.adminService.isEmailExists(
             adminRequest.email,
@@ -57,12 +57,12 @@ export class UserCrudApplication {
         return results;
     }
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async delete(id: number): Promise<void> {
         await this.adminService.delete(id);
     }
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async update(id: number, request: UserUpdateRequest): Promise<void> {
         const emailExists = await this.adminService.isEmailExists(
             request.email,

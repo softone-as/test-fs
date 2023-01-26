@@ -4,7 +4,7 @@ import { IUser } from 'interface-models/iam/user.interface';
 import { User } from 'entities/iam/user.entity';
 import { In, Not, QueryFailedError, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { CacheEvict } from 'apps/api/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { CacheClear } from 'apps/api/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { config } from 'apps/api/src/config';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class UserService {
         private readonly userRepository: Repository<User>,
     ) {}
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async create(data: IUser): Promise<IUser> {
         const newuser = this.userRepository.create(data);
         return await this.userRepository.save(newuser);
@@ -73,7 +73,7 @@ export class UserService {
         );
     }
 
-    @CacheEvict(config.cache.name.users.detail, config.cache.name.users.list)
+    @CacheClear(config.cache.name.users.detail, config.cache.name.users.list)
     async changePassword(userId: number, newPassword: string): Promise<void> {
         await this.userRepository.update(
             {
@@ -85,7 +85,7 @@ export class UserService {
         );
     }
 
-    @CacheEvict(config.cache.name.users.detail, config.cache.name.users.list)
+    @CacheClear(config.cache.name.users.detail, config.cache.name.users.list)
     async updateEmail(userId: number, newEmail: string): Promise<void> {
         await this.userRepository.update(
             {
@@ -97,7 +97,7 @@ export class UserService {
         );
     }
 
-    @CacheEvict(config.cache.name.users.detail, config.cache.name.users.list)
+    @CacheClear(config.cache.name.users.detail, config.cache.name.users.list)
     async updateEmailByOldEmail(
         oldEmail: string,
         newEmail: string,
@@ -112,7 +112,7 @@ export class UserService {
         );
     }
 
-    @CacheEvict(config.cache.name.users.detail, config.cache.name.users.list)
+    @CacheClear(config.cache.name.users.detail, config.cache.name.users.list)
     async updatePhoneNumberByPhoneNumber(
         phoneNumber: string,
         newPhoneNumber: string,
@@ -153,7 +153,7 @@ export class UserService {
         return users;
     }
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async update(id: number, data: IUser): Promise<IUser> {
         const status = await this.userRepository.update({ id }, { ...data });
         if (status.affected < 1) {
@@ -163,7 +163,7 @@ export class UserService {
         return data;
     }
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async softDelete(id: number): Promise<boolean> {
         const status = await this.userRepository.softDelete({ id });
         if (status.affected < 1) {
