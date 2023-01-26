@@ -29,8 +29,11 @@ export class UserCrudApplication {
         }
 
         const newAdmin = new User();
-        newAdmin.identityNumber = adminRequest.phoneNumber;
-        Object.assign(newAdmin, adminRequest);
+        newAdmin.fullname = adminRequest.fullname;
+        newAdmin.email = adminRequest.email;
+        newAdmin.password = adminRequest.password;
+        newAdmin.phoneNumber = adminRequest.phoneNumber;
+        newAdmin.roles = adminRequest.roles;
 
         return await this.adminService.create(newAdmin);
     }
