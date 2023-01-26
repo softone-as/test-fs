@@ -23,7 +23,7 @@ export const sidebarThemeConfig: ThemeConfig = {
     },
 };
 
-export const globalConfig: ThemeConfig = {
+export const globalThemeConfig: ThemeConfig = {
     components: {
         Button: {
             colorPrimary: themeColors.primary,
