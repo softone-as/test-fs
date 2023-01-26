@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+import { MainLayout } from '../../../Layouts/MainLayout';
 
 // import {
 //     PERMISSION_BACKOFFICE_DELETE_USER,
@@ -58,9 +58,9 @@ const UserDetailPage: React.FC = () => {
 
 
     return (
-        <Layout title='Users'>
+        <MainLayout title='Users'>
             <h1>Hai</h1>
-        </Layout>
+        </MainLayout>
     );
 };
 

@@ -3,7 +3,7 @@ import { DataTable } from '../../../Components/organisms/DataTable';
 // import { Inertia } from '@inertiajs/inertia';
 // import { CellProps, Column } from 'react-table';
 
-import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks'
@@ -105,7 +105,7 @@ const UsersPage: React.FC = (props: IProps) => {
     }
 
     return (
-        <Layout title='Users'>
+        <MainLayout title='Users'>
             <FilterSection searchHandler={handleSearch}
                 selectedRows={selectedRowKeys}
                 rowActionMenus={ActionMenus}
@@ -130,7 +130,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 defaultPageSize={props.meta.totalPage}
                 onPageChange={(page) => setQueryParams({ page: page.toString() })}
             />
-        </Layout>
+        </MainLayout>
     );
 };
 

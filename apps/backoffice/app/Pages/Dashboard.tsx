@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DashboardLayout } from '../Layouts/Dashboard';
+import { MainLayout } from '../Layouts/MainLayout';
 import { DataTable } from '../Components/organisms/DataTable'
 import { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../Utils/hooks'
@@ -58,7 +58,7 @@ const Dashboard = (props: IProps): JSX.Element => {
 
 
     return (
-        <DashboardLayout title='Hello' >
+        <MainLayout title='Hello' >
 
             <DataTable<DataType>
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
@@ -69,7 +69,7 @@ const Dashboard = (props: IProps): JSX.Element => {
                 onPageChange={(page) => setQueryParams({ page: page.toString() })}
             />
 
-        </DashboardLayout>
+        </MainLayout>
     )
 };
 

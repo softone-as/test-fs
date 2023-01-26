@@ -63,7 +63,7 @@ const { Sider, Content } = Layout
 const { Text } = Typography
 
 
-export const Dashboard: React.FC<IProps> = ({ title, children }: IProps) => {
+export const MainLayout: React.FC<IProps> = ({ title, children }: IProps) => {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {

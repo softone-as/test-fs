@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+import { MainLayout } from '../../../Layouts/MainLayout';
 
 
 const PermissionsPage: React.FC = () => {
 
     return (
-        <Layout title="Permission">
+        <MainLayout title="Permission">
             <h1>Hello</h1>
-        </Layout>
+        </MainLayout>
     );
 };
 

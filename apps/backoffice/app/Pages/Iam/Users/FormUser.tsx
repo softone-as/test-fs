@@ -9,7 +9,7 @@ import React from 'react';
 
 // import { EndpointRoute } from '../../../Enums/Route';
 
-import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+import { MainLayout } from '../../../Layouts/MainLayout';
 
 // import {
 //     FormUserType,
@@ -45,9 +45,9 @@ const FormUser: React.FC = () => {
 
 
     return (
-        <Layout title='User'>
+        <MainLayout title='User'>
             <h1>Hallo</h1>
-        </Layout>
+        </MainLayout>
     );
 };
 
