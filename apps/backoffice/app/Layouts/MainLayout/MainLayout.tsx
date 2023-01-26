@@ -44,9 +44,23 @@ const SidebarMenu: MenuProps['items'] = [
     },
     {
         key: '2',
-        label: <Link href='/users'>Users</Link>,
+        label: 'IAM',
         icon: <MailOutlined />,
         theme: 'light',
+        children: [
+            {
+                key: 'users',
+                label: <Link href='/users'>Users</Link>
+            },
+            {
+                key: 'roles',
+                label: <Link href='/roles'>Roles</Link>
+            },
+            {
+                key: 'permissions',
+                label: <Link href='/permissions'>Permissions</Link>
+            }
+        ]
 
     },
     {
