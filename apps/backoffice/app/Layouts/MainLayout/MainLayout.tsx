@@ -12,6 +12,7 @@ import type { MenuProps } from 'antd'
 import { Link } from '../../Components/atoms/Link';
 import {
     BellOutlined,
+    DashboardOutlined,
     MailOutlined, UserOutlined
 } from "@ant-design/icons";
 import Title from 'antd/es/typography/Title';
@@ -38,8 +39,8 @@ const handleLogout = () => {
 const SidebarMenu: MenuProps['items'] = [
     {
         key: '1',
-        label: <Link href='/'>Dashboard</Link>,
-        icon: <MailOutlined />,
+        label: <Link href='/' >Dashboard</Link>,
+        icon: <DashboardOutlined />,
 
     },
     {
@@ -47,18 +48,22 @@ const SidebarMenu: MenuProps['items'] = [
         label: 'IAM',
         icon: <MailOutlined />,
         theme: 'light',
+
         children: [
             {
                 key: 'users',
-                label: <Link href='/users'>Users</Link>
+                label: <Link href='/users'>Users</Link>,
+
             },
             {
                 key: 'roles',
-                label: <Link href='/roles'>Roles</Link>
+                label: <Link href='/roles'>Roles</Link>,
+
             },
             {
                 key: 'permissions',
-                label: <Link href='/permissions'>Permissions</Link>
+                label: <Link href='/permissions'>Permissions</Link>,
+
             }
         ]
 
@@ -111,7 +116,7 @@ export const MainLayout: React.FC<IProps> = ({ title, children }: IProps) => {
                 loading && <PageProgress />
 
             }
-            <Sider theme='light' style={{ backgroundColor: '#006D75', }} >
+            <Sider theme='light' style={{ backgroundColor: '#006D75' }} width="222px">
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '64px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', padding: '0rem 1rem' }}>
                     {/* Apps Logo or Title */}
                     <Space>
@@ -129,9 +134,10 @@ export const MainLayout: React.FC<IProps> = ({ title, children }: IProps) => {
                         </Text>
                     </Space>
                 </div>
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '58px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)' }}>
-                    <Space size='middle'>
-                        {/* User Icon */}
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '58px', padding: '8px 16px', marginBottom: '14px' }}>
+
+                    {/* User Icon */}
+                    <Space size='small'>
                         <Avatar size="default" icon={<UserOutlined />} />
 
                         <Space.Compact direction='vertical' size='small'>
@@ -144,30 +150,31 @@ export const MainLayout: React.FC<IProps> = ({ title, children }: IProps) => {
                                     textAlign: 'center',
                                 }}
                             >
-                                User Profile
+                                Rio Irawan
                             </Text>
 
                             {/* User Role */}
                             <Text style={{ fontSize: '12px', color: '#B5F5EC' }}>Admin</Text>
                         </Space.Compact>
-                        <Badge dot>
-                            <BellOutlined style={{ color: 'white', fontSize: '16px' }} />
-                        </Badge>
                     </Space>
+                    <Badge dot>
+                        <BellOutlined style={{ color: 'white', fontSize: '24px' }} />
+                    </Badge>
+
                 </div>
 
                 <ConfigProvider theme={sidebarThemeConfig}>
-                    <Menu items={SidebarMenu} theme='light' style={{ backgroundColor: '#006D75', }} mode='inline' />
+                    <Menu items={SidebarMenu} theme='light' style={{ backgroundColor: '#006D75' }} mode='inline' />
                 </ConfigProvider>
             </Sider>
             <Layout>
                 <Content style={{
-                    padding: "32px",
+                    padding: "28px 24px",
                 }}>
-                    <Space direction='vertical' size={32} style={{ width: '100%', minHeight: '100%' }}>
+                    <Space direction='vertical' size={16} style={{ width: '100%', minHeight: '100%', }}>
                         {/* Header Menu */}
                         <Space>
-                            <Title>{title}</Title>
+                            <Title style={{ fontSize: '24px', lineHeight: '32px' }}>{title}</Title>
                         </Space>
 
                         {children}
