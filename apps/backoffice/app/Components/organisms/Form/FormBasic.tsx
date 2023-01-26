@@ -156,7 +156,7 @@ function FormBasic<T extends object = TFormBasic>(props: FormProps<T>): JSX.Elem
 
                 <Form.Item label="Dragger" tooltip='Upload file' required>
                     <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-                        <Upload.Dragger name="files" action="/upload.do">
+                        <Upload.Dragger name="files" action="/upload.do" listType="picture">
                             <p className="ant-upload-drag-icon">
                                 <InboxOutlined />
                             </p>
