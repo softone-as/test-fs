@@ -9,11 +9,13 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
-import { MenuProps } from 'antd';
+import { Button, MenuProps } from 'antd';
 import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/molecules/Pickers';
 import type { Dayjs } from 'dayjs'
 import { FormSelect } from '../../../Components/molecules/Forms'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
+import { PageHeader } from '../../../Components/molecules/Headers';
+import { FileExcelOutlined } from '@ant-design/icons';
 
 
 
@@ -94,11 +96,6 @@ const UsersPage: React.FC = (props: IProps) => {
     const handleRange = (val: TRangeValue) => console.log(val.map(item => item.toDate()))
     const handleDate = (val: Dayjs) => console.log(val.toDate())
 
-    const handleFilter: MenuProps['onClick'] = ({ key }) => {
-        if (key === 'done') {
-            setQueryParams({ status: key })
-        }
-    }
 
     const handleStatus = (data) => {
         console.log('DATa Status: ', data)
@@ -106,6 +103,12 @@ const UsersPage: React.FC = (props: IProps) => {
 
     return (
         <MainLayout title='Users'>
+            {/* Header Menu */}
+
+            <PageHeader title='User List' rightMenu={[
+                <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
+                <Button size='large' type='primary'>New User</Button>
+            ]} />
             <FilterSection searchHandler={handleSearch}
                 selectedRows={selectedRowKeys}
                 rowActionMenus={ActionMenus}

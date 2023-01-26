@@ -15,7 +15,6 @@ import {
     DashboardOutlined,
     MailOutlined, UserOutlined
 } from "@ant-design/icons";
-import Title from 'antd/es/typography/Title';
 import { Inertia } from '@inertiajs/inertia'
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { PageProgress } from '../../Components/molecules/Progress';
@@ -168,17 +167,14 @@ export const MainLayout: React.FC<IProps> = ({ title, children }: IProps) => {
                 </ConfigProvider>
             </Sider>
             <Layout>
-                <Content style={{
-                    padding: "28px 24px",
-                }}>
-                    <Space direction='vertical' size={16} style={{ width: '100%', minHeight: '100%', }}>
-                        {/* Header Menu */}
-                        <Space>
-                            <Title style={{ fontSize: '24px', lineHeight: '32px' }}>{title}</Title>
-                        </Space>
+                <Content
+                    style={{
+                        padding: "28px 24px",
+                    }}
+                >
 
-                        {children}
-                    </Space>
+                    {children}
+
                 </Content>
             </Layout>
         </Layout>

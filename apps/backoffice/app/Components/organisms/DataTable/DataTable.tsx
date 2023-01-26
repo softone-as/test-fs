@@ -23,7 +23,7 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
     return (
         <Space direction='vertical' style={{ width: '100%', background: 'white' }}>
             <Table<T> {...props} style={{ width: '100%', background: 'white' }}
-
+                size='small'
                 pagination={false}
 
             />
