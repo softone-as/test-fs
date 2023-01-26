@@ -7,10 +7,7 @@ export class MainController {
 
     @Get()
     async indexPage(): Promise<void> {
-        return this.inertiaAdapter.successResponse(
-            '/dashboard/page',
-            'Wellcome',
-        );
+        return this.inertiaAdapter.successResponse('/', 'Wellcome');
     }
 
     @Get('server-error')

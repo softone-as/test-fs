@@ -38,7 +38,7 @@ const handleLogout = () => {
 const SidebarMenu: MenuProps['items'] = [
     {
         key: '1',
-        label: <Link href='/dashboard/page'>Dashboard</Link>,
+        label: <Link href='/'>Dashboard</Link>,
         icon: <MailOutlined />,
 
     },
