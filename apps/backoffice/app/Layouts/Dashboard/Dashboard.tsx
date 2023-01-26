@@ -16,7 +16,6 @@ import {
 } from "@ant-design/icons";
 import Title from 'antd/es/typography/Title';
 import { Inertia } from '@inertiajs/inertia'
-import { menuSidebarConfig } from '../../Utils/theme';
 
 
 export type IProps = {
@@ -110,8 +109,19 @@ export const Dashboard: React.FC<IProps> = ({ title, children }: IProps) => {
                     </Space>
                 </div>
 
-                <ConfigProvider theme={menuSidebarConfig}>
-                    <Menu items={SidebarMenu} theme='light' mode='inline' />
+                <ConfigProvider theme={{
+                    components: {
+                        Menu: {
+                            colorItemText: '#ffffff',
+                            colorItemTextHover: '#ffffff',
+                            colorItemTextSelected: '#ffffff',
+                            colorItemBgHover: '#08979C',
+                            colorItemBgSelected: '#08979C',
+                            fontSize: 14,
+                        }
+                    }
+                }}>
+                    <Menu items={SidebarMenu} theme='light' style={{ backgroundColor: '#006D75', }} mode='inline' />
                 </ConfigProvider>
             </Sider>
             <Layout>

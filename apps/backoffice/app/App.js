@@ -7,11 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 // import { ToastContext } from './Contexts/Toast';
 
 //Ant Design
-import { ConfigProvider } from 'antd';
 import 'antd/dist/reset.css';
-import { globalConfig } from './Utils/theme';
-
-// 006D75
 
 const App = () => {
     // TEMP disabled
@@ -28,19 +24,21 @@ const App = () => {
     //         }
     //     });
     // });
+    // const contextValue = useMemo(() => ({ username: 'Ant Design' }), []);
 
     return (
         <>
-            <ConfigProvider theme={globalConfig}>
-                <InertiaApp
-                    initialPage={JSON.parse(app.dataset.page)}
-                    resolveComponent={(pageString) =>
-                        import(`./Pages/${pageString}`).then(
-                            (module) => module.default,
-                        )
-                    }
-                />
-            </ConfigProvider>
+            {/* <ToastContainer /> */}
+            {/* <ToastContext.Provider value={contextValue}> */}
+            <InertiaApp
+                initialPage={JSON.parse(app.dataset.page)}
+                resolveComponent={(pageString) =>
+                    import(`./Pages/${pageString}`).then(
+                        (module) => module.default,
+                    )
+                }
+            />
+            {/* </ToastContext.Provider> */}
         </>
     );
 };
