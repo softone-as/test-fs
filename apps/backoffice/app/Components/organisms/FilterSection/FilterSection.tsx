@@ -1,7 +1,6 @@
 import React from 'react'
-import { Col, Row, Input, MenuProps, Typography, Space } from 'antd'
+import { Col, Row, Input, MenuProps, Typography, Space, Dropdown } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import { BatchActionDropdown } from '../../molecules/Dropdowns'
 import { debounce } from 'lodash'
 
 export interface IFilterSection {
@@ -15,7 +14,7 @@ export const FilterSection = (props: IFilterSection) => {
     const searchHandler = debounce((e) => {
         e.preventDefault()
         props.searchHandler(e.target.value)
-    }, 1500)
+    }, 500)
     return (
         <Row gutter={[8, 0]} align='middle'>
             {/* Batch Action */}
@@ -23,8 +22,10 @@ export const FilterSection = (props: IFilterSection) => {
                 props.selectedRows.length > 0 &&
                 <Col>
                     <Space>
-                        <BatchActionDropdown title='Action' itemsMenu={props.rowActionMenus} />
-                        <Typography.Text>{props.selectedRows.length} item selected</Typography.Text>
+                        <Dropdown.Button menu={{ items: props.rowActionMenus }} >
+                            Action
+                        </Dropdown.Button>
+                        <Typography.Text style={{ color: '#006D75' }}>{props.selectedRows.length} item selected</Typography.Text>
                     </Space>
 
                 </Col>
