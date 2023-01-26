@@ -4,10 +4,10 @@ import { getManager } from 'typeorm';
 
 export class GlobalService {
     static createLogActivity(data: LogActivityDto) {
-        this.prototype.create(data);
+        this.prototype.createLogActivity(data);
     }
 
-    async create(logActivityDto: LogActivityDto) {
+    async createLogActivity(logActivityDto: LogActivityDto) {
         const repository = getManager().getRepository(LogActivity);
         await repository
             .createQueryBuilder()

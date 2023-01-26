@@ -59,6 +59,15 @@ export class UserService {
         );
     }
 
+    async findByIdAndEmail(email: string, id: number): Promise<IUser> {
+        const user = await this.userRepository.findOneOrFail({
+            where: { id, email },
+            relations: ['roles', 'roles.permissions'],
+        });
+
+        return user;
+    }
+
     async findOneById(id: number): Promise<IUser> {
         const users = await this.userRepository.findOneOrFail({
             where: { id },
@@ -89,7 +98,7 @@ export class UserService {
         await this.userRepository.delete({ id });
     }
 
-    async update(id: number, data: IUser): Promise<void> {
-        await this.userRepository.update({ id }, { ...data });
+    async update(id: number, data: IUser, existing: IUser): Promise<void> {
+        await this.userRepository.update(id, Object.assign(existing, data));
     }
 }

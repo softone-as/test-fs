@@ -29,11 +29,8 @@ export class UserCrudApplication {
         }
 
         const newAdmin = new User();
-        newAdmin.fullname = adminRequest.fullname;
-        newAdmin.email = adminRequest.email;
-        newAdmin.password = adminRequest.password;
-        newAdmin.phoneNumber = adminRequest.phoneNumber;
-        newAdmin.roles = adminRequest.roles;
+        newAdmin.identityNumber = adminRequest.phoneNumber;
+        Object.assign(newAdmin, adminRequest);
 
         return await this.adminService.create(newAdmin);
     }
@@ -67,13 +64,13 @@ export class UserCrudApplication {
 
     @CacheEvict(config.cache.name.users.detail)
     async update(id: number, request: UserUpdateRequest): Promise<void> {
-        const emailExists = await this.adminService.isEmailExists(
+        const userExists = await this.adminService.findByIdAndEmail(
             request.email,
             id,
         );
-        if (emailExists) {
+        if (!userExists) {
             throw new UnprocessableEntityException(
-                `User ${request.email} has already exists`,
+                `Email ${request.email} is not exists`,
             );
         }
 
@@ -88,6 +85,6 @@ export class UserCrudApplication {
             updateUser.password = await bcrypt.hash(request.password, 10);
         }
 
-        await this.adminService.update(id, updateUser);
+        await this.adminService.update(id, updateUser, userExists);
     }
 }

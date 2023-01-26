@@ -38,22 +38,25 @@ export class RoleCrudApplication {
 
     @CacheEvict(config.cache.name.roles.detail)
     async edit(id: number, roleRequest: RoleEditRequest): Promise<IRole> {
-        const isRoleExists = await this.roleService.isRoleExistsByKey(
+        const roleExists = await this.roleService.findRoleByKeyAndId(
             roleRequest.key,
             id,
         );
-        if (isRoleExists) {
+        if (!roleExists) {
             throw new UnprocessableEntityException(
-                `Role ${roleRequest.key} has already exists`,
+                `Role ${roleRequest.key} is not exists`,
             );
         }
 
-        await this.roleService.findOneById(id);
-        const updateRole = await this.roleService.update(id, {
-            id: id,
-            name: roleRequest.name,
-            key: roleRequest.key,
-        });
+        const updateRole = await this.roleService.update(
+            id,
+            {
+                id: id,
+                name: roleRequest.name,
+                key: roleRequest.key,
+            },
+            roleExists,
+        );
 
         return {
             id: updateRole.id,

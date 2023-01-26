@@ -22,10 +22,18 @@ import { RolePermissionCrudApplication } from './applications/role-permission-cr
 import { RolePermissionService } from './services/role-permission.service';
 import { RolePermissionIndexApplication } from './applications/role-permission-index.application';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
+import { LogActivity } from 'entities/log-activity/log-activity.entity';
+import { LogActivityService } from '../log-activity/services/log-activity.service';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User, Role, Permission, RolePermission]),
+        TypeOrmModule.forFeature([
+            User,
+            Role,
+            Permission,
+            RolePermission,
+            LogActivity,
+        ]),
         CacheModule,
     ],
     controllers: [
@@ -48,6 +56,7 @@ import { CacheModule } from '../../infrastructure/cache/cache.module';
         PermissionCrudApplication,
         PermissionService,
         PermissionIndexApplication,
+        LogActivityService,
     ],
     exports: [UserCrudApplication],
 })
