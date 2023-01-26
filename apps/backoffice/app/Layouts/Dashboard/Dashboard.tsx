@@ -17,6 +17,7 @@ import {
 import Title from 'antd/es/typography/Title';
 import { Inertia } from '@inertiajs/inertia'
 import { sidebarThemeConfig } from '../../Utils/theme';
+import { PageProgress } from '../../Components/molecules/Progress';
 
 
 export type IProps = {

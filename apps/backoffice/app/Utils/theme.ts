@@ -9,7 +9,7 @@ export const themeColors = {
     info: '',
 };
 
-export const menuSidebarConfig: ThemeConfig = {
+export const sidebarThemeConfig: ThemeConfig = {
     components: {
         Menu: {
             colorItemText: '#ffffff',

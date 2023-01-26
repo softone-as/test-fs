@@ -9,7 +9,6 @@ import 'react-quill/dist/quill.snow.css';
 //Ant Design
 import { ConfigProvider } from 'antd';
 import 'antd/dist/reset.css';
-import { ConfigProvider } from 'antd';
 import { globalThemeConfig } from './Utils/theme';
 
 const App = () => {
