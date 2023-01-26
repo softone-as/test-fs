@@ -12,7 +12,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-    ) { }
+    ) {}
 
     @CacheEvict(config.cache.name.users.detail)
     async create(data: IUser): Promise<IUser> {
@@ -137,11 +137,20 @@ export class UserService {
     }
 
     async findAllWithRole(roleId: number): Promise<IUser[]> {
-        return await this.userRepository.find({
-            role: {
-                id: roleId,
-            },
+        const dataUser = await this.userRepository.find({
+            relations: ['roles', 'roles.permissions'],
         });
+
+        const users = [];
+        for (const user of dataUser) {
+            for (const role of user.roles) {
+                if (role.id == roleId) {
+                    users.push(user);
+                }
+            }
+        }
+
+        return users;
     }
 
     @CacheEvict(config.cache.name.users.detail)

@@ -8,12 +8,12 @@ import {
 @Injectable()
 export class LoggedInGuard implements CanActivate {
     canActivate(context: ExecutionContext): boolean {
-        const isAuthenticate = context
+        const isAuthenticated = context
             .switchToHttp()
             .getRequest()
             .isAuthenticated();
 
-        if (!isAuthenticate) {
+        if (!isAuthenticated) {
             throw new UnauthorizedException('Login first');
         }
 

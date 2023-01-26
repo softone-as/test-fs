@@ -21,8 +21,6 @@ const schema = yup.object().shape({
     password: yup.string().required('Field Password wajib diisi'),
 });
 
-
-
 const Login = (props: TInertiaProps) => {
 
     const [form] = Form.useForm<TLogin>()
@@ -44,7 +42,6 @@ const Login = (props: TInertiaProps) => {
                 placement: 'topRight'
             })
         }
-
     }
 
     const onSubmit = (loginData: TLogin): void => {

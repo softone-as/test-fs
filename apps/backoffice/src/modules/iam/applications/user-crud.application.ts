@@ -29,14 +29,22 @@ export class UserCrudApplication {
         }
 
         const newAdmin = new User();
-        newAdmin.role = await this.roleService.findOneById(adminRequest.roleId);
-        Object.assign(newAdmin, adminRequest);
+        newAdmin.fullname = adminRequest.fullname;
+        newAdmin.email = adminRequest.email;
+        newAdmin.password = adminRequest.password;
+        newAdmin.phoneNumber = adminRequest.phoneNumber;
+        newAdmin.roles = adminRequest.roles;
 
         return await this.adminService.create(newAdmin);
     }
 
     async findById(id: number): Promise<IUser> {
         const results = await this.adminService.findOneById(id);
+        return results;
+    }
+
+    async findByRole(id: number): Promise<IUser[]> {
+        const results = await this.adminService.findAllWithRole(id);
         return results;
     }
 
@@ -73,7 +81,7 @@ export class UserCrudApplication {
             fullname: request.fullname,
             email: request.email,
             phoneNumber: request.phoneNumber,
-            role: await this.roleService.findOneById(request.roleId),
+            roles: request.roles,
         };
 
         if (request.password) {
