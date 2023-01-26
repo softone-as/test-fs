@@ -9,9 +9,8 @@ import 'react-quill/dist/quill.snow.css';
 //Ant Design
 import { ConfigProvider } from 'antd';
 import 'antd/dist/reset.css';
-import { globalConfig } from './Utils/theme';
-
-// 006D75
+import { ConfigProvider } from 'antd';
+import { globalThemeConfig } from './Utils/theme';
 
 const App = () => {
     // TEMP disabled
@@ -31,7 +30,7 @@ const App = () => {
 
     return (
         <>
-            <ConfigProvider theme={globalConfig}>
+            <ConfigProvider theme={globalThemeConfig}>
                 <InertiaApp
                     initialPage={JSON.parse(app.dataset.page)}
                     resolveComponent={(pageString) =>
