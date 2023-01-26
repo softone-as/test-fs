@@ -111,7 +111,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 rowActionMenus={ActionMenus}
                 filters={
                     [
-                        <MultiFilterDropdown forms={[
+                        <MultiFilterDropdown title='Filter' forms={[
                             <FormSelect label='Status' placeholder="Status" onChange={handleStatus} options={[{ label: 'Done', value: 'done' }]} />,
                             <FormSelect label='Status kedua' placeholder="Status" options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} />,
                             <FormSelect placeholder="Status" options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} />

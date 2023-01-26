@@ -1,6 +1,6 @@
 import React from 'react'
-import { BasicDropdown } from './BasicDropdown'
-import { Row, Col, Button, Space, Form, FormProps } from 'antd'
+import { Row, Col, Button, Space, Form, FormProps, Dropdown } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
 
 
 interface IProps extends FormProps {
@@ -32,6 +32,9 @@ const MenuContainer: React.FC<IProps> = ({ forms, gutter = 8, columnSpan = 12, l
 
 export const MultiFilterDropdown: React.FC<IProps> = (props: IProps) => {
     return (
-        <BasicDropdown title='Filter' dropdownRender={() => <MenuContainer {...props} />} />
+        <Dropdown.Button icon={<DownOutlined />} dropdownRender={() => <MenuContainer {...props} />} >
+            {props.title}
+        </Dropdown.Button>
+
     )
 }
