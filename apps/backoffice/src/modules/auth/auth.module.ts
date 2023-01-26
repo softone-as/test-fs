@@ -25,6 +25,7 @@ import { RoleService } from '../iam/services/role.service';
         TypeOrmModule.forFeature([User, Role, Otp]),
         PassportModule.register({
             session: true,
+            defaultStrategy: 'local',
         }),
         CacheModule,
     ],
@@ -45,4 +46,4 @@ import { RoleService } from '../iam/services/role.service';
     ],
     exports: [],
 })
-export class AdminAuthModule { }
+export class AdminAuthModule {}

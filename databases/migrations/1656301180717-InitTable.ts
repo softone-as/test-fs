@@ -43,9 +43,6 @@ export class InitTable1656301180717 implements MigrationInterface {
         await queryRunner.query(
             `ALTER TABLE \`role_permission\` ADD CONSTRAINT \`FK_e3a3ba47b7ca00fd23be4ebd6cf\` FOREIGN KEY (\`permission_id\`) REFERENCES \`permission\`(\`id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
         );
-        // await queryRunner.query(
-        //     `ALTER TABLE \`users\` ADD CONSTRAINT \`FK_a2cecd1a3531c0b041e29ba46e1\` FOREIGN KEY (\`role_id\`) REFERENCES \`roles\`(\`id\`) ON DELETE CASCADE ON UPDATE NO ACTION`,
-        // );
         await queryRunner.query(
             `ALTER TABLE \`in_app_notifications\` ADD CONSTRAINT \`FK_046713440a98830b619c4c649b4\` FOREIGN KEY (\`target_user_id\`) REFERENCES \`users\`(\`id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`,
         );
