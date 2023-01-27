@@ -11,7 +11,7 @@ interface IProps extends FormProps {
     closeModal: () => void
 }
 
-const containerStyle: React.CSSProperties = { backgroundColor: 'white', width: '765px', height: '292px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px' };
+const containerStyle: React.CSSProperties = { backgroundColor: 'white', minWidth: '765px', minHeight: '292px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px' };
 const containerButtonStyle: React.CSSProperties = { display: 'flex', justifyContent: 'end' };
 
 const MenuContainer: React.FC<IProps> = ({ fieldsForm, columnSpan = 12, layout = "vertical", closeModal, ...rest }: IProps) => {
@@ -23,18 +23,18 @@ const MenuContainer: React.FC<IProps> = ({ fieldsForm, columnSpan = 12, layout =
 
     return (
         <Form style={containerStyle} layout={layout} {...rest} >
-            <Typography.Title style={{ fontSize: '14px' }}>Filter by</Typography.Title>
+            <Typography.Title style={{ fontSize: '14px', marginBottom: '24px' }}>Filter by</Typography.Title>
             <Row gutter={[32, 0]} >
                 {fieldsForm.map((field, key) => <Col key={key} span={columnSpan}>{field}</Col>)}
             </Row>
             <Row justify='end'>
                 <Col span={6} style={containerButtonStyle} >
-                    <Form.Item>
-                        <Space size="middle" >
-                            <Button htmlType='button' onClick={handleCloseModal}>Cancel</Button>
-                            <Button type='primary' htmlType='submit' onClick={closeModal}>Apply</Button>
-                        </Space>
-                    </Form.Item>
+
+                    <Space size="middle" >
+                        <Button htmlType='button' onClick={handleCloseModal}>Cancel</Button>
+                        <Button type='primary' htmlType='submit'>Apply</Button>
+                    </Space>
+
                 </Col>
             </Row>
         </Form >
