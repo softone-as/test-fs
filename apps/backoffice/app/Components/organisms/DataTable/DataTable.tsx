@@ -22,13 +22,15 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
 
     }
     return (
-        <Space direction='vertical' style={{ width: '100%', background: 'white' }}>
-            <Table<T> {...props} style={{ width: '100%', background: 'white' }}
+        <Space.Compact direction='vertical' style={{ width: '100%' }}>
+            <Table<T> {...props} style={{ width: '100%', }}
                 size='small'
                 pagination={false}
 
             />
-            <div style={{ display: 'flex', justifyContent: 'end', padding: '8px' }}>
+
+
+            <div style={{ display: 'flex', justifyContent: 'end', padding: '8px', backgroundColor: 'white' }}>
                 {
                     props.total && <Pagination
                         total={props?.total}
@@ -41,7 +43,7 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
                 }
 
             </div>
-        </Space>
+        </Space.Compact>
     )
 }
 
