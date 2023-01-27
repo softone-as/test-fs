@@ -14,8 +14,9 @@ import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/mo
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
+import { Link } from '../../../Components/atoms/Link'
 
 
 
@@ -39,7 +40,6 @@ interface IProps extends TInertiaProps {
 }
 
 const UsersPage: React.FC = (props: IProps) => {
-
 
     const { setQueryParams } = useTableFilter<DataType>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
@@ -66,6 +66,16 @@ const UsersPage: React.FC = (props: IProps) => {
             dataIndex: 'phoneNumber',
             key: 'phoneNumber',
         },
+        {
+            title: 'Action',
+            key: 'action',
+            width: '142px',
+            render: () => <Space size='large'>
+                <Link href='#'><EyeOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
+                <Link href='#'><EditOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
+                <Link href='#'><DeleteOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
+            </Space>
+        }
 
     ]
 
