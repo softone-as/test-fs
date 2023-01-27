@@ -12,7 +12,6 @@ import { FilterSection } from '../../../Components/organisms/FilterSection'
 import { Button, MenuProps, Select } from 'antd';
 import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/molecules/Pickers';
 import type { Dayjs } from 'dayjs'
-import { FormSelect } from '../../../Components/molecules/Forms'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { FileExcelOutlined } from '@ant-design/icons';
@@ -133,7 +132,7 @@ const UsersPage: React.FC = (props: IProps) => {
 
                         ]}
                         />,
-                        <FormSelect placeholder="Status" onChange={handleStatus} options={[{ label: 'Done', value: 'done' }]} />,
+
                         <DateRangePicker range={10} onChange={handleRange} />,
                         <DatePicker onChange={handleDate} />
                     ]
