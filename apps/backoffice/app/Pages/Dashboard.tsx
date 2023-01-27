@@ -58,14 +58,14 @@ const Dashboard = (props: IProps): JSX.Element => {
 
 
     return (
-        <MainLayout title='Hello' >
+        <MainLayout>
 
             <DataTable<DataType>
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
                 columns={columns}
                 dataSource={data}
                 total={props?.meta?.totalPage}
-                defaultPageSize={props?.meta?.perPage}
+                perPage={props?.meta?.perPage}
                 onPageChange={(page) => setQueryParams({ page: page.toString() })}
             />
 

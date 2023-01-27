@@ -7,9 +7,10 @@ import type { PaginationProps } from 'antd/es/pagination'
 
 interface IProps<T> extends TableProps<T> {
     total: number
-    defaultPageSize: number
+    perPage: number
     defaultCurrent?: number
-    onPageChange: (page: number) => void
+    onPageChange: (page: number, pageSize: number) => void
+
 }
 
 
@@ -17,7 +18,7 @@ interface IProps<T> extends TableProps<T> {
 function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
 
     const handlePageChange: PaginationProps['onChange'] = (page, pageSize) => {
-        props.onPageChange(page)
+        props.onPageChange(page, pageSize)
 
     }
     return (
@@ -31,8 +32,10 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
                 <Pagination
                     total={props.total}
                     showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-                    defaultPageSize={props.defaultPageSize}
                     defaultCurrent={props.defaultCurrent || 1}
+                    pageSize={props.perPage}
+
+                    showSizeChanger
                     onChange={handlePageChange}
                 />
             </div>

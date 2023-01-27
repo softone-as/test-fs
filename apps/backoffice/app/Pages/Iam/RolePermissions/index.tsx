@@ -50,7 +50,7 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 const RolePermissionsPage: React.FC = () => {
 
     return (
-        <MainLayout title="Role Permission">
+        <MainLayout >
             <h1>Hello</h1>
         </MainLayout>
     );

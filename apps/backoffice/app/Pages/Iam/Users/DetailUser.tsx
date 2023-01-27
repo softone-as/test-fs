@@ -58,7 +58,7 @@ const UserDetailPage: React.FC = () => {
 
 
     return (
-        <MainLayout title='Users'>
+        <MainLayout >
             <h1>Hai</h1>
         </MainLayout>
     );

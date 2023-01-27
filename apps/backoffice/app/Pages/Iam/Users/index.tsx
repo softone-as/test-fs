@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { DataTable } from '../../../Components/organisms/DataTable';
-// import { Inertia } from '@inertiajs/inertia';
-// import { CellProps, Column } from 'react-table';
-
 import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
@@ -113,9 +110,7 @@ const UsersPage: React.FC = (props: IProps) => {
         console.log('FINSIH : ', values)
     }
     return (
-        <MainLayout title='Users'>
-            {/* Header Menu */}
-
+        <MainLayout >
             <PageHeader title='User List' rightMenu={[
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
                 <Button size='large' type='primary'>New User</Button>
@@ -152,7 +147,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 columns={columns}
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
-                defaultPageSize={props.meta.totalPage}
+                perPage={props.meta.perPage}
                 onPageChange={(page) => setQueryParams({ page: page.toString() })}
             />
         </MainLayout>

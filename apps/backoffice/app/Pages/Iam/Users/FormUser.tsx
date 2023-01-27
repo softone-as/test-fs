@@ -45,7 +45,7 @@ const FormUser: React.FC = () => {
 
 
     return (
-        <MainLayout title='User'>
+        <MainLayout >
             <h1>Hallo</h1>
         </MainLayout>
     );

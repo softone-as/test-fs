@@ -8,7 +8,7 @@ const ConfigsPage: React.FC = () => {
 
 
     return (
-        <MainLayout title="Config">
+        <MainLayout >
             <h1>Hello</h1>
         </MainLayout>
     );

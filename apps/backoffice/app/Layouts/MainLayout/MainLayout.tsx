@@ -21,7 +21,6 @@ import { PageProgress } from '../../Components/molecules/Progress';
 
 
 export type IProps = {
-    title?: string,
     children: React.ReactNode
     headerRightMenu?: React.FC
 
@@ -81,7 +80,7 @@ const { Sider, Content } = Layout
 const { Text } = Typography
 
 
-export const MainLayout: React.FC<IProps> = ({ title, children }: IProps) => {
+export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
