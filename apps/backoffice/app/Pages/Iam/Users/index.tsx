@@ -14,8 +14,9 @@ import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/mo
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { Form } from 'antd'
+import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { Form, Typography, Space } from 'antd'
+
 
 
 
@@ -78,7 +79,7 @@ const UsersPage: React.FC = (props: IProps) => {
 
 
 
-    const BatchActionMenus: MenuProps['items'] = [
+    const batchActionMenus: MenuProps['items'] = [
         {
             key: '1',
             label: 'Delete',
@@ -111,11 +112,15 @@ const UsersPage: React.FC = (props: IProps) => {
             ]} />
             <FilterSection searchHandler={handleSearch}
                 selectedRows={selectedRowKeys}
-                batchActionMenus={BatchActionMenus}
+                batchActionMenus={batchActionMenus}
                 filters={
                     [
-                        <MultiFilterDropdown form={form} title='Filter' initialValues={{ status: '' }} onFinish={handleFinish} fieldsForm={[
-                            <Form.Item label="Status" name="status">
+                        <MultiFilterDropdown form={form} title='Filter' initialValues={{ status: '' }} onFinish={handleFinish} onReset={() => console.log('Hello')} fieldsForm={[
+                            <Form.Item
+                                label={<Space size="small"><Typography.Text>Status</Typography.Text> <QuestionCircleOutlined style={{ color: 'rgba(0, 0, 0, 0.45)' }} /><Typography.Text style={{ color: 'rgba(0, 0, 0, 0.45)' }}>(optional)</Typography.Text></Space>}
+                                name="status"
+                                rules={[{ required: true }]}
+                            >
                                 <Select options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} onChange={handleStatus} allowClear style={{ width: '100%' }} />
                             </Form.Item>,
                             <Form.Item label="Status" name="status">

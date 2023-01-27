@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Row, Col, Button, Space, Form, FormProps, Dropdown } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Row, Col, Button, Space, Form, FormProps, Dropdown, Typography } from 'antd'
+import { FilterOutlined } from '@ant-design/icons'
 
 
 interface IProps extends FormProps {
@@ -11,7 +11,7 @@ interface IProps extends FormProps {
     closeModal: () => void
 }
 
-const containerStyle: React.CSSProperties = { backgroundColor: 'white', minWidth: '765px', minHeight: '246px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px' };
+const containerStyle: React.CSSProperties = { backgroundColor: 'white', width: '765px', height: '292px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px' };
 const containerButtonStyle: React.CSSProperties = { display: 'flex', justifyContent: 'end' };
 
 const MenuContainer: React.FC<IProps> = ({ fieldsForm, columnSpan = 12, layout = "vertical", closeModal, ...rest }: IProps) => {
@@ -19,28 +19,35 @@ const MenuContainer: React.FC<IProps> = ({ fieldsForm, columnSpan = 12, layout =
         closeModal()
         rest.form.resetFields()
     }
+
+
     return (
-        <Form style={containerStyle} layout={layout} {...rest}>
-            <Row gutter={[32, 0]}>
+        <Form style={containerStyle} layout={layout} {...rest} >
+            <Typography.Title style={{ fontSize: '14px' }}>Filter by</Typography.Title>
+            <Row gutter={[32, 0]} >
                 {fieldsForm.map((field, key) => <Col key={key} span={columnSpan}>{field}</Col>)}
             </Row>
-
-            <Form.Item style={containerButtonStyle}>
-                <Space size="middle" >
-                    <Button htmlType='button' onClick={handleCloseModal}>Cancel</Button>
-                    <Button type='primary' htmlType='submit'>Apply</Button>
-                </Space>
-            </Form.Item>
+            <Row justify='end'>
+                <Col span={6} style={containerButtonStyle} >
+                    <Form.Item>
+                        <Space size="middle" >
+                            <Button htmlType='button' onClick={handleCloseModal}>Cancel</Button>
+                            <Button type='primary' htmlType='submit' onClick={closeModal}>Apply</Button>
+                        </Space>
+                    </Form.Item>
+                </Col>
+            </Row>
         </Form >
     )
 }
 
 export const MultiFilterDropdown: React.FC<Omit<IProps, 'closeModal'>> = (props: Omit<IProps, 'closeModal'>) => {
     const [open, setOpen] = useState(false)
+
     return (
-        <Dropdown.Button open={open} onOpenChange={(flag) => setOpen(flag)} icon={<DownOutlined />} dropdownRender={() => <MenuContainer {...props} closeModal={() => setOpen(false)} />} >
-            {props.title}
-        </Dropdown.Button>
+        <Dropdown open={open} onOpenChange={(flag) => setOpen(flag)} dropdownRender={() => <MenuContainer {...props} closeModal={() => setOpen(false)} />} >
+            <Button style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={<FilterOutlined />}>{props.title}</Button>
+        </Dropdown>
 
     )
 }
