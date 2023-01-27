@@ -29,15 +29,17 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
 
             />
             <div style={{ display: 'flex', justifyContent: 'end', padding: '8px' }}>
-                <Pagination
-                    total={props.total}
-                    showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-                    defaultCurrent={props.defaultCurrent || 1}
-                    pageSize={props.perPage}
+                {
+                    props.total && <Pagination
+                        total={props?.total}
+                        showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+                        defaultCurrent={props?.defaultCurrent || 1}
+                        pageSize={props?.perPage}
+                        showSizeChanger
+                        onChange={handlePageChange}
+                    />
+                }
 
-                    showSizeChanger
-                    onChange={handlePageChange}
-                />
             </div>
         </Space>
     )

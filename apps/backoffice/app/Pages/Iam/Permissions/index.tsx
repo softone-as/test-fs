@@ -37,8 +37,6 @@ interface IProps extends TInertiaProps {
 }
 
 const PermissionPage: React.FC = (props: IProps) => {
-    // console.log(props)
-
     const { setQueryParams } = useTableFilter<DataType>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
@@ -111,11 +109,6 @@ const PermissionPage: React.FC = (props: IProps) => {
         console.log('FINSIH : ', values)
     }
 
-    const handleSizePerPage = (current, size) => {
-        console.log('Curent page: ', current)
-        console.log('Size selected ', size)
-        setQueryParams({ size: size })
-    }
     return (
         <MainLayout >
             <PageHeader title='Permissions' rightMenu={[
