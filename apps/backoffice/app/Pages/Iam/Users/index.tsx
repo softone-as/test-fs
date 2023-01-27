@@ -76,16 +76,9 @@ const UsersPage: React.FC = (props: IProps) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
-    const MenuItems: MenuProps['items'] = [
-        {
-            key: 'done',
-            label: 'Done',
 
 
-        }
-    ]
-
-    const ActionMenus: MenuProps['items'] = [
+    const BatchActionMenus: MenuProps['items'] = [
         {
             key: '1',
             label: 'Delete',
@@ -116,7 +109,7 @@ const UsersPage: React.FC = (props: IProps) => {
             ]} />
             <FilterSection searchHandler={handleSearch}
                 selectedRows={selectedRowKeys}
-                rowActionMenus={ActionMenus}
+                batchActionMenus={BatchActionMenus}
                 filters={
                     [
                         <MultiFilterDropdown form={form} title='Filter' initialValues={{ status: '' }} onFinish={handleFinish} fieldsForm={[

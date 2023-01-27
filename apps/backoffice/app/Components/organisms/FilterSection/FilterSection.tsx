@@ -7,7 +7,7 @@ export interface IFilterSection {
     searchHandler: (search: string) => void,
     filters?: React.ReactNode[]
     selectedRows: React.Key[]
-    rowActionMenus: MenuProps['items']
+    batchActionMenus: MenuProps['items']
 }
 
 export const FilterSection = (props: IFilterSection) => {
@@ -22,7 +22,7 @@ export const FilterSection = (props: IFilterSection) => {
                 props.selectedRows.length > 0 &&
                 <Col>
                     <Space>
-                        <Dropdown.Button menu={{ items: props.rowActionMenus }} >
+                        <Dropdown.Button menu={{ items: props.batchActionMenus }} >
                             Action
                         </Dropdown.Button>
                         <Typography.Text style={{ color: '#006D75' }}>{props.selectedRows.length} item selected</Typography.Text>
