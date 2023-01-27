@@ -22,7 +22,7 @@ export const FilterSection = (props: IFilterSection) => {
                 props.selectedRows.length > 0 &&
                 <Col style={{ backgroundColor: '' }}>
                     <Space style={{ paddingRight: '8px' }}>
-                        <Dropdown.Button menu={{ items: props.batchActionMenus }} >
+                        <Dropdown.Button menu={{ items: props.batchActionMenus }} placement="bottom" >
                             Action
                         </Dropdown.Button>
                         <Typography.Text style={{ color: '#006D75' }}>{props.selectedRows.length} item selected</Typography.Text>

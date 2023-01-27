@@ -14,7 +14,7 @@ import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/mo
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { FileExcelOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form } from 'antd'
 
 
@@ -82,7 +82,9 @@ const UsersPage: React.FC = (props: IProps) => {
         {
             key: '1',
             label: 'Delete',
-            onClick: () => useModal({ title: 'Are You Sure? ', type: 'warning', onOk: () => alert('Ok Delete') })
+            onClick: () => useModal({ title: 'Are You Sure? ', type: 'warning', onOk: () => alert('Ok Delete') }),
+            icon: <ShareAltOutlined />,
+            style: { width: '151px' }
         }
     ]
 
