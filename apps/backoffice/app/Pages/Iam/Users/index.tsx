@@ -9,13 +9,14 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
-import { Button, MenuProps } from 'antd';
+import { Button, MenuProps, Select } from 'antd';
 import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/molecules/Pickers';
 import type { Dayjs } from 'dayjs'
 import { FormSelect } from '../../../Components/molecules/Forms'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { FileExcelOutlined } from '@ant-design/icons';
+import { Form } from 'antd'
 
 
 
@@ -101,6 +102,11 @@ const UsersPage: React.FC = (props: IProps) => {
         console.log('DATa Status: ', data)
     }
 
+    const [form] = Form.useForm<{ status: string }>()
+
+    const handleFinish = (values) => {
+        console.log('FINSIH : ', values)
+    }
     return (
         <MainLayout title='Users'>
             {/* Header Menu */}
@@ -114,10 +120,17 @@ const UsersPage: React.FC = (props: IProps) => {
                 rowActionMenus={ActionMenus}
                 filters={
                     [
-                        <MultiFilterDropdown title='Filter' forms={[
-                            <FormSelect label='Status' placeholder="Status" onChange={handleStatus} options={[{ label: 'Done', value: 'done' }]} />,
-                            <FormSelect label='Status kedua' placeholder="Status" options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} />,
-                            <FormSelect placeholder="Status" options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} />
+                        <MultiFilterDropdown form={form} title='Filter' initialValues={{ status: '' }} onFinish={handleFinish} fieldsForm={[
+                            <Form.Item label="Status" name="status">
+                                <Select options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} onChange={handleStatus} allowClear style={{ width: '100%' }} />
+                            </Form.Item>,
+                            <Form.Item label="Status" name="status">
+                                <Select options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} onChange={handleStatus} allowClear style={{ width: '100%' }} />
+                            </Form.Item>,
+                            <Form.Item label="Status" name="status">
+                                <Select options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} onChange={handleStatus} allowClear style={{ width: '100%' }} />
+                            </Form.Item>
+
                         ]}
                         />,
                         <FormSelect placeholder="Status" onChange={handleStatus} options={[{ label: 'Done', value: 'done' }]} />,

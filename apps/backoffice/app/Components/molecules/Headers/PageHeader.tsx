@@ -15,7 +15,7 @@ export const PageHeader: React.FC<IProps> = (props: IProps) => {
             </Col>
             <Col>
                 <Space>
-                    {props.rightMenu?.map((field) => field)}
+                    {props.rightMenu?.map((field, key) => <React.Fragment key={key}>{field}</React.Fragment>)}
                 </Space>
             </Col>
         </Row>
