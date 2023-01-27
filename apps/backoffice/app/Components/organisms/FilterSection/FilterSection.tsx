@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Input, MenuProps, Typography, Space, Dropdown } from 'antd'
+import { Col, Row, Input, MenuProps, Typography, Space, Dropdown, Divider } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import { debounce } from 'lodash'
 
@@ -20,14 +20,14 @@ export const FilterSection = (props: IFilterSection) => {
             {/* Batch Action */}
             {
                 props.selectedRows.length > 0 &&
-                <Col>
-                    <Space>
+                <Col style={{ backgroundColor: '' }}>
+                    <Space style={{ paddingRight: '8px' }}>
                         <Dropdown.Button menu={{ items: props.batchActionMenus }} >
                             Action
                         </Dropdown.Button>
                         <Typography.Text style={{ color: '#006D75' }}>{props.selectedRows.length} item selected</Typography.Text>
                     </Space>
-
+                    <Divider type='vertical' style={{ padding: '14px 0px' }} />
                 </Col>
             }
 
