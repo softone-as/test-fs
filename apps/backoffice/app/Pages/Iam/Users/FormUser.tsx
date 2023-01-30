@@ -12,18 +12,18 @@ import { createUser } from '../../../Modules/User/Action';
 
 const schema = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
-    password: yup.string().required('Field password is required').test('isFormatValid', 'At least password has include 1 number and Alphabet', (value, context) => {
-        const hasUpperCase = /[A-Z]/.test(value);
-        const hasNumber = /[0-9]/.test(value);
+    password: yup.string().required('Field password is required').min(8, 'Password at least have 8 character')
+        .test('isFormatValid', 'At least password has include 1 number and Alphabet', (value, context) => {
+            const hasUpperCase = /[A-Z]/.test(value);
+            const hasNumber = /[0-9]/.test(value);
 
-        if (hasNumber && hasUpperCase) {
-            return true
-        }
+            if (hasNumber && hasUpperCase) {
+                return true
+            }
 
-        return false
-    }),
+            return false
+        }),
     email: yup.string().email().required('Field email is required'),
-    gender: yup.mixed().oneOf(['perempuan', 'laki-laki']).required('Field gender is required'),
     phoneNumber: yup.string().required('Field phone number is required'),
     roles: yup.array().of(
         yup.object().shape({
@@ -41,14 +41,14 @@ const FormUserPage: React.FC = () => {
 
 
     const onFinish = async () => {
-        // setIsLoading(true)
+        setIsLoading(true)
         const data = form.getFieldsValue()
 
         try {
             await form.validateFields()
             // TODO: do post API
             createUser(data)
-            // setIsLoading(false)
+            setIsLoading(false)
 
         } catch (error) {
             setIsLoading(false)
