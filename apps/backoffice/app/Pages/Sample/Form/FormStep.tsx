@@ -14,6 +14,7 @@ import {
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
 
+import { PageHeader } from '../../../Components/molecules/Headers';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 
 const { Option } = Select;
@@ -60,6 +61,7 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
 
     return (
         <Layout >
+            <PageHeader title='Add Data' />
             <Row justify='center' style={{ backgroundColor: '#fff', borderRadius: 8 }}>
                 <Steps
                     current={current}

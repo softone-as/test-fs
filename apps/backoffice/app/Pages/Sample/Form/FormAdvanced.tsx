@@ -18,6 +18,7 @@ import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks';
+import { PageHeader } from '../../../Components/molecules/Headers';
 
 type DataType = {
     key: string;
@@ -239,6 +240,7 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
 
     return (
         <Layout>
+            <PageHeader title='Add Data' />
             <Row style={{ backgroundColor: '#fff', borderRadius: 8 }}>
                 <Form
                     {...props}
@@ -328,8 +330,8 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
                         }}
                         columns={mergedColumns}
                         dataSource={data}
-                        total={0}
-                        perPage={0}
+                        total={3}
+                        perPage={10}
                         onPageChange={(page, pageSize) => setQueryParams({ page: page?.toString(), size: pageSize?.toString() })}
                     />
 

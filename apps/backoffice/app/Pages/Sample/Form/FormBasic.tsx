@@ -73,7 +73,7 @@ function FormBasic<T extends object = TFormBasic>(props: FormProps<T>): JSX.Elem
 
     return (
         <Layout>
-            <PageHeader title='Add New User' />
+            <PageHeader title='Add Data' />
             <Row justify='center' style={{ backgroundColor: '#fff', borderRadius: 8 }}>
                 <Form
                     {...props}
@@ -81,7 +81,7 @@ function FormBasic<T extends object = TFormBasic>(props: FormProps<T>): JSX.Elem
                     wrapperCol={{ span: 20 }}
                     initialValues={{ prefix: '62', quantity: 3, status: true, suffix: 'USD', rate: 4, aggreement: true, 'checkbox-item': 'A' }}
                     onFinish={onFinish}
-                    style={{ width: 600, margin: '2em 0' }}
+                    style={{ width: 600, margin: '3em 0' }}
                     form={form}
                     layout={props.layout}
                 >
