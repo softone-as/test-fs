@@ -35,6 +35,10 @@ export const config = {
 
     cache: {
         ttl: 2880000,
+        scope: {
+            global: 'global',
+            user: 'user',
+        },
         name: {
             permissions: {
                 detail: 'permission',
@@ -51,7 +55,7 @@ export const config = {
             users: {
                 detail: 'user',
                 list: 'list-user',
-            }
+            },
         },
     },
 
