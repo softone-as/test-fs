@@ -1,4 +1,5 @@
 import { FormInstance, RuleObject, RuleRender } from 'antd/es/form';
+import { AnyObject } from 'yup/lib/types';
 
 /* 
     How to Use
@@ -9,7 +10,7 @@ import { FormInstance, RuleObject, RuleRender } from 'antd/es/form';
         rules={[yupSync]}
 */
 
-export const createYupSync = (schema: any) => {
+export const createYupSync = (schema: AnyObject): RuleObject | RuleRender => {
     const ruleWithCtx =
         (fieldName?: string): RuleRender =>
         (ctx: FormInstance): RuleObject => {
