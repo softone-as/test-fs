@@ -5,13 +5,13 @@ import { RoleCreateRequest } from '../requests/role-create.request';
 import { RoleService } from '../services/role.service';
 import { RoleEditRequest } from '../requests/role-edit.request';
 import { config } from 'apps/backoffice/src/config';
-import { CacheEvict } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 
 @Injectable()
 export class RoleCrudApplication {
     constructor(private readonly roleService: RoleService) {}
 
-    @CacheEvict(config.cache.name.roles.detail)
+    @CacheClear(config.cache.name.roles.detail)
     async create(roleRequest: RoleCreateRequest): Promise<IRole> {
         const isRoleExists = await this.roleService.isRoleExistsByKey(
             roleRequest.key,
@@ -36,24 +36,27 @@ export class RoleCrudApplication {
         };
     }
 
-    @CacheEvict(config.cache.name.roles.detail)
+    @CacheClear(config.cache.name.roles.detail)
     async edit(id: number, roleRequest: RoleEditRequest): Promise<IRole> {
-        const isRoleExists = await this.roleService.isRoleExistsByKey(
+        const roleExists = await this.roleService.findRoleByKeyAndId(
             roleRequest.key,
             id,
         );
-        if (isRoleExists) {
+        if (!roleExists) {
             throw new UnprocessableEntityException(
-                `Role ${roleRequest.key} has already exists`,
+                `Role ${roleRequest.key} is not exists`,
             );
         }
 
-        await this.roleService.findOneById(id);
-        const updateRole = await this.roleService.update(id, {
-            id: id,
-            name: roleRequest.name,
-            key: roleRequest.key,
-        });
+        const updateRole = await this.roleService.update(
+            id,
+            {
+                id: id,
+                name: roleRequest.name,
+                key: roleRequest.key,
+            },
+            roleExists,
+        );
 
         return {
             id: updateRole.id,
@@ -62,7 +65,7 @@ export class RoleCrudApplication {
         };
     }
 
-    @CacheEvict(config.cache.name.roles.detail)
+    @CacheClear(config.cache.name.roles.detail)
     async delete(id: number): Promise<void> {
         await this.roleService.findOneById(id);
         await this.roleService.delete(id);

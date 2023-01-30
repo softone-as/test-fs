@@ -19,10 +19,12 @@ import { Otp } from 'entities/otp/otp.entity';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
 import { Role } from 'entities/iam/role.entity';
 import { RoleService } from '../iam/services/role.service';
+import { LogActivity } from 'entities/log-activity/log-activity.entity';
+import { LogActivityService } from '../log-activity/services/log-activity.service';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User, Role, Otp]),
+        TypeOrmModule.forFeature([User, Role, Otp, LogActivity]),
         PassportModule.register({
             session: true,
             defaultStrategy: 'local',
@@ -43,6 +45,7 @@ import { RoleService } from '../iam/services/role.service';
         OtpService,
         LocalStrategy,
         UserCrudApplication,
+        LogActivityService,
     ],
     exports: [],
 })

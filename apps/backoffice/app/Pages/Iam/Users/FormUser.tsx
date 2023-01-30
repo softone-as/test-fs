@@ -6,7 +6,7 @@ import { createYupSync } from '../../../Utils/utils';
 import React, { useState } from 'react';
 import * as yup from 'yup'
 
-import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 
 type DataType = {
     birthDate: string,
@@ -53,7 +53,7 @@ const FormUserPage: React.FC = () => {
     };
 
     return (
-        <Layout title='Add New User'>
+        <Layout>
             {isLoading ? (
                 <div style={{
                     display: 'flex',

@@ -4,7 +4,7 @@ import { IUser } from 'interface-models/iam/user.interface';
 import { User } from 'entities/iam/user.entity';
 import { In, Not, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { CacheEvict } from 'apps/api/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { CacheClear } from 'apps/api/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { config } from 'apps/api/src/config';
 
 @Injectable()
@@ -12,15 +12,15 @@ export class AuthService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
-    ) { }
+    ) {}
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async create(data: IUser): Promise<IUser> {
         const newUser = this.userRepository.create(data);
         return await this.userRepository.save(newUser);
     }
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async addOneSignalPlayerIdById(
         id: number,
         playerId: string,
@@ -78,7 +78,7 @@ export class AuthService {
         });
     }
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async updateEmailVerifiedAtByPhone(
         phoneNumber: string,
         dateNow: Date,
@@ -94,7 +94,7 @@ export class AuthService {
         );
     }
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async updatePhoneNumberVerifiedAtByPhone(
         phoneNumber: string,
         dateNow: Date,
@@ -110,9 +110,7 @@ export class AuthService {
         );
     }
 
-    @CacheEvict(
-        config.cache.name.users.detail,
-    )
+    @CacheClear(config.cache.name.users.detail)
     async updatePasswordByPhoneNumber(
         phoneNumber: string,
         password: string,
@@ -138,9 +136,7 @@ export class AuthService {
         return null;
     }
 
-    @CacheEvict(
-        config.cache.name.users.detail,
-    )
+    @CacheClear(config.cache.name.users.detail)
     async removeOneSignalPlayerIdById(
         id: number,
         playerId: string,

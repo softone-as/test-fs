@@ -4,6 +4,7 @@ import { EmailNotificationService } from 'apps/backoffice/src/infrastructure/not
 import { OneSignalPushNotificationService } from '../../../infrastructure/notification/services/one-signal-push-notification.service';
 import { AdminAuthService } from '../services/auth-admin.service';
 import { Request } from 'express';
+import { LogActivityService } from '../../log-activity/services/log-activity.service';
 
 @Injectable()
 export class AuthApplication {
@@ -12,6 +13,7 @@ export class AuthApplication {
         private readonly adminAuthService: AdminAuthService,
         private readonly oneSignalPushNotificationService: OneSignalPushNotificationService,
         private readonly emailNotificationService: EmailNotificationService,
+        private readonly logActivityService: LogActivityService,
     ) {}
 
     async addOneSignalPlayerIdById(
@@ -43,9 +45,25 @@ export class AuthApplication {
         }
 
         await this.sendNotifEmailLoginAttempt();
+
+        this.logActivityService.create({
+            activity:
+                'user with email ' + this.request.user['email'] + ' login',
+            meta_data: {
+                username: this.request.user['email'],
+                password: this.request.user['password'],
+            },
+            user: this.request.user,
+        });
     }
 
     async logout(playerId: string): Promise<void> {
+        this.logActivityService.create({
+            activity:
+                'user with email ' + this.request.user['email'] + ' logout',
+            user: this.request.user,
+        });
+
         const id = this.request.user['id'];
         this.request.session['playerId'] = null;
         await this.adminAuthService.removeOneSignalPlayerIdById(id, playerId);

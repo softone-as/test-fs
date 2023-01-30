@@ -9,9 +9,9 @@ export class LogActivityDto {
     @IsNotEmpty()
     path: string;
 
-    old_data: any;
+    meta_data: any;
 
-    new_data: any;
+    source: string;
 
     activity: string;
 

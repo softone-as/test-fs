@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IRole } from 'interface-models/iam/role.interface';
 import { Role } from 'entities/iam/role.entity';
-import { Not, QueryFailedError, Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 
 @Injectable()
 export class RoleService {
@@ -12,13 +12,11 @@ export class RoleService {
     ) {}
 
     async create(data: IRole): Promise<IRole> {
-        const newRole = this.roleRepository.create(data);
-        return await this.roleRepository.save(newRole);
+        return await this.roleRepository.save(data);
     }
 
-    async update(id: number, data: IRole): Promise<IRole> {
-        const existing = this.roleRepository.findOne(id);
-        await this.roleRepository.save(Object.assign(await existing, data));
+    async update(id: number, data: IRole, existing: IRole): Promise<IRole> {
+        await this.roleRepository.update(id, Object.assign(existing, data));
         return data;
     }
 
@@ -46,11 +44,21 @@ export class RoleService {
         });
     }
 
-    async isRoleExistsByKey(key: string, exceptId = 0): Promise<boolean> {
+    async findRoleByKeyAndId(key: string, id: number): Promise<IRole> {
         const role = await this.roleRepository.findOne({
             where: {
                 key,
-                id: Not(exceptId),
+                id,
+            },
+        });
+
+        return role;
+    }
+
+    async isRoleExistsByKey(key: string): Promise<boolean> {
+        const role = await this.roleRepository.findOne({
+            where: {
+                key,
             },
         });
 

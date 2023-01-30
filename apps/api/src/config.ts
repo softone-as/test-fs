@@ -35,6 +35,10 @@ export const config = {
 
     cache: {
         ttl: 2880000,
+        scope: {
+            global: 'global',
+            user: 'user',
+        },
         name: {
             permissions: {
                 detail: 'permission',
@@ -51,7 +55,7 @@ export const config = {
             users: {
                 detail: 'user',
                 list: 'list-user',
-            }
+            },
         },
     },
 
@@ -86,6 +90,7 @@ export const config = {
     mail: {
         smtp: {
             host: process.env.SMTP_HOST || '',
+            port: +process.env.SMTP_PORT || 587,
             emailSender: process.env.SMTP_EMAIL_SENDER || '',
             user: process.env.SMTP_USER || '',
             password: process.env.SMTP_PASSWORD || '',

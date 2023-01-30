@@ -5,9 +5,9 @@ export interface ILogActivity {
 
     user: IUser;
 
-    old_data: any;
+    source: string;
 
-    new_data: any;
+    meta_data: any;
 
     activity: string;
 

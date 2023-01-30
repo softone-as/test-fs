@@ -15,7 +15,9 @@ import {
     Typography
 } from 'antd';
 import { DataTable } from '../../../Components/organisms/DataTable';
-import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+import { MainLayout as Layout } from '../../../Layouts/MainLayout';
+import { TInertiaProps } from '../../../Modules/Inertia/Entities'
+import { useTableFilter } from '../../../Utils/hooks';
 
 
 type DataType = {
@@ -100,8 +102,14 @@ const prefixSelector = (
     </Form.Item>
 );
 
+interface IProps extends TInertiaProps {
+    data: DataType[],
+}
+
 /* eslint-disable @typescript-eslint/naming-convention */
-function FormAdvanced<T extends object = any>(props: FormProps<T>): JSX.Element {
+function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element {
+    const { setQueryParams } = useTableFilter<DataType>()
+
     const [form] = Form.useForm()
 
     const [isLoading, setIsLoading] = useState(false)
@@ -231,7 +239,7 @@ function FormAdvanced<T extends object = any>(props: FormProps<T>): JSX.Element 
     };
 
     return (
-        <Layout title='Form Advanced'>
+        <Layout>
             <Row style={{ backgroundColor: '#fff', borderRadius: 8 }}>
                 <Form
                     {...props}
@@ -317,10 +325,13 @@ function FormAdvanced<T extends object = any>(props: FormProps<T>): JSX.Element 
                         components={{
                             body: {
                                 cell: EditableCell,
-
                             },
                         }}
-                        columns={mergedColumns} dataSource={data}
+                        columns={mergedColumns}
+                        dataSource={data}
+                        total={0}
+                        perPage={0}
+                        onPageChange={(page, pageSize) => setQueryParams({ page: page?.toString(), size: pageSize?.toString() })}
                     />
 
                     <Row justify='end'>

@@ -37,10 +37,7 @@ export class AuthController {
     ): Promise<void> {
         const id = req.user['id'];
         await this.authApplication.loginAttempt(id, playerId);
-        return this.inertiaAdapter.successResponse(
-            '/dashboard/page',
-            'Success Login',
-        );
+        return this.inertiaAdapter.successResponse('/', 'Success Login');
     }
 
     @UseGuards(LoggedInGuard)
@@ -49,9 +46,7 @@ export class AuthController {
         @Query('one_signal_player_id') playerId: string,
         @Res() res: Response,
     ): Promise<void> {
-        console.log('Running this Logoutservice ');
         await this.authApplication.logout(playerId);
-
         return res.redirect('/');
     }
 }

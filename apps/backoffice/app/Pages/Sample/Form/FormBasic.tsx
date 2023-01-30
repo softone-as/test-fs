@@ -20,7 +20,7 @@ import {
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
-import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 
 const { Option } = Select;
 
@@ -71,7 +71,7 @@ function FormBasic<T extends object = TFormBasic>(props: FormProps<T>): JSX.Elem
 
 
     return (
-        <Layout title='Form Basic'>
+        <Layout>
             <Row justify='center' style={{ backgroundColor: '#fff', borderRadius: 8 }}>
                 <Form
                     {...props}

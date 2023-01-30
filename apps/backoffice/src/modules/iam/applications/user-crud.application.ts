@@ -8,7 +8,7 @@ import { UserUpdateRequest } from '../requests/user-update.request';
 import { config } from 'apps/backoffice/src/config';
 import { RoleService } from '../services/role.service';
 import * as bcrypt from 'bcrypt';
-import { CacheEvict } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 
 @Injectable()
 export class UserCrudApplication {
@@ -17,7 +17,7 @@ export class UserCrudApplication {
         private readonly roleService: RoleService,
     ) {}
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async create(adminRequest: UserCreateRequest): Promise<UserResponse> {
         const emailExists = await this.adminService.isEmailExists(
             adminRequest.email,
@@ -29,11 +29,8 @@ export class UserCrudApplication {
         }
 
         const newAdmin = new User();
-        newAdmin.fullname = adminRequest.fullname;
-        newAdmin.email = adminRequest.email;
-        newAdmin.password = adminRequest.password;
-        newAdmin.phoneNumber = adminRequest.phoneNumber;
-        newAdmin.roles = adminRequest.roles;
+        newAdmin.identityNumber = adminRequest.phoneNumber;
+        Object.assign(newAdmin, adminRequest);
 
         return await this.adminService.create(newAdmin);
     }
@@ -60,20 +57,20 @@ export class UserCrudApplication {
         return results;
     }
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async delete(id: number): Promise<void> {
         await this.adminService.delete(id);
     }
 
-    @CacheEvict(config.cache.name.users.detail)
+    @CacheClear(config.cache.name.users.detail)
     async update(id: number, request: UserUpdateRequest): Promise<void> {
-        const emailExists = await this.adminService.isEmailExists(
+        const userExists = await this.adminService.findByIdAndEmail(
             request.email,
             id,
         );
-        if (emailExists) {
+        if (!userExists) {
             throw new UnprocessableEntityException(
-                `User ${request.email} has already exists`,
+                `Email ${request.email} is not exists`,
             );
         }
 
@@ -88,6 +85,6 @@ export class UserCrudApplication {
             updateUser.password = await bcrypt.hash(request.password, 10);
         }
 
-        await this.adminService.update(id, updateUser);
+        await this.adminService.update(id, updateUser, userExists);
     }
 }
