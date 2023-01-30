@@ -1,4 +1,5 @@
 import type { ThemeConfig } from 'antd/es/config-provider/context';
+import type { CSSProperties } from 'react';
 
 export const themeColors = {
     primary: '#006D75',
@@ -7,6 +8,11 @@ export const themeColors = {
     warning: '',
     error: '',
     info: '',
+};
+
+export const iconActionTableStyle: CSSProperties = {
+    color: themeColors.primary,
+    fontSize: '18px',
 };
 
 export const sidebarThemeConfig: ThemeConfig = {

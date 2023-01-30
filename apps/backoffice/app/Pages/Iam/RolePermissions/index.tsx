@@ -2,7 +2,7 @@ import React from 'react';
 // import { Inertia } from '@inertiajs/inertia';
 // import { CellProps, Column } from 'react-table';
 
-import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+import { MainLayout } from '../../../Layouts/MainLayout';
 
 // import { useDidUpdateEffect } from '../../../Utils/hooks';
 // import { confirmDelete, notifyError, notifySuccess } from '../../../Utils/utils';
@@ -50,9 +50,9 @@ import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
 const RolePermissionsPage: React.FC = () => {
 
     return (
-        <Layout title="Role Permission">
+        <MainLayout >
             <h1>Hello</h1>
-        </Layout>
+        </MainLayout>
     );
 };
 

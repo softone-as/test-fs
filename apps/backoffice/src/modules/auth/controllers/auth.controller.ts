@@ -37,10 +37,7 @@ export class AuthController {
     ): Promise<void> {
         const id = req.user['id'];
         await this.authApplication.loginAttempt(id, playerId);
-        return this.inertiaAdapter.successResponse(
-            '/dashboard/page',
-            'Success Login',
-        );
+        return this.inertiaAdapter.successResponse('/', 'Success Login');
     }
 
     @UseGuards(LoggedInGuard)

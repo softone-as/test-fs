@@ -7,7 +7,7 @@ import { LoginLayout } from '../Layouts';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 
-import { Link } from '../Components/atoms/Link';
+import { Link } from '@inertiajs/inertia-react';
 import { doLogin, } from '../Modules/Auth/Login/Actions';
 import { TLogin } from '../Modules/Auth/Login/Entities'
 import { TInertiaProps } from '../Modules/Inertia/Entities';

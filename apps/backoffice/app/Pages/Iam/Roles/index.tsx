@@ -2,7 +2,7 @@ import React from 'react';
 // import { Inertia } from '@inertiajs/inertia';
 // import { CellProps, Column } from 'react-table';
 
-import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+import { MainLayout } from '../../../Layouts/MainLayout';
 
 // import { useDidUpdateEffect } from '../../../Utils/hooks';
 // import { confirmDelete, notifyError, notifySuccess } from '../../../Utils/utils';
@@ -147,9 +147,9 @@ const RolesPage: React.FC = () => {
     // );
 
     return (
-        <Layout title='Roles'>
+        <MainLayout >
             <h1>Hello</h1>
-        </Layout>
+        </MainLayout>
     );
 };
 

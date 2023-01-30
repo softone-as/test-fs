@@ -7,8 +7,8 @@ import 'react-quill/dist/quill.snow.css';
 // import { ToastContext } from './Contexts/Toast';
 
 //Ant Design
-import 'antd/dist/reset.css';
 import { ConfigProvider } from 'antd';
+import 'antd/dist/reset.css';
 import { globalThemeConfig } from './Utils/theme';
 
 const App = () => {

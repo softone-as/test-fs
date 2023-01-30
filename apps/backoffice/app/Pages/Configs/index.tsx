@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DashboardLayout as Layout } from '../../Layouts/Dashboard';
+import { MainLayout } from '../../Layouts/MainLayout';
 
 
 
@@ -8,9 +8,9 @@ const ConfigsPage: React.FC = () => {
 
 
     return (
-        <Layout title="Config">
+        <MainLayout >
             <h1>Hello</h1>
-        </Layout>
+        </MainLayout>
     );
 };
 

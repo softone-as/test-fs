@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Layout,
     Typography,
@@ -9,20 +9,21 @@ import {
     Badge
 } from "antd";
 import type { MenuProps } from 'antd'
-import { Link } from '../../Components/atoms/Link';
+import { Link } from '@inertiajs/inertia-react';
 import {
     BellOutlined,
+    DashboardOutlined,
     MailOutlined, UserOutlined
 } from "@ant-design/icons";
-import Title from 'antd/es/typography/Title';
 import { Inertia } from '@inertiajs/inertia'
 import { sidebarThemeConfig } from '../../Utils/theme';
+import { PageProgress } from '../../Components/molecules/Progress';
 
 
 export type IProps = {
-    title?: string,
     children: React.ReactNode
     headerRightMenu?: React.FC
+
 }
 
 const handleLogout = () => {
@@ -36,15 +37,33 @@ const handleLogout = () => {
 const SidebarMenu: MenuProps['items'] = [
     {
         key: '1',
-        label: <Link href='/dashboard/page'>Dashboard</Link>,
-        icon: <MailOutlined />,
+        label: <Link href='/' >Dashboard</Link>,
+        icon: <DashboardOutlined />,
 
     },
     {
         key: '2',
-        label: <Link href='/users'>Users</Link>,
+        label: 'IAM',
         icon: <MailOutlined />,
         theme: 'light',
+
+        children: [
+            {
+                key: 'users',
+                label: <Link href='/users'>Users</Link>,
+
+            },
+            {
+                key: 'roles',
+                label: <Link href='/roles'>Roles</Link>,
+
+            },
+            {
+                key: 'permissions',
+                label: <Link href='/permissions'>Permissions</Link>,
+
+            }
+        ]
 
     },
     {
@@ -61,11 +80,41 @@ const { Sider, Content } = Layout
 const { Text } = Typography
 
 
-export const Dashboard: React.FC<IProps> = ({ title, children }: IProps) => {
+export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        const inertiaStart = Inertia.on('start', () => {
+
+            setLoading(true)
+        })
+
+        const inertiaFinish = Inertia.on('finish', (event) => {
+
+            if (event.detail.visit.completed) {
+                setLoading(false)
+            }
+            else if (event.detail.visit.interrupted) {
+                setLoading(false)
+            }
+            else if (event.detail.visit.cancelled) {
+                setLoading(false)
+            }
+        })
+
+        return () => {
+            inertiaStart()
+            inertiaFinish()
+        }
+    })
     return (
 
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider theme='light' style={{ backgroundColor: '#006D75', }} >
+            {
+                loading && <PageProgress />
+
+            }
+            <Sider theme='light' style={{ backgroundColor: '#006D75' }} width="222px">
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '64px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', padding: '0rem 1rem' }}>
                     {/* Apps Logo or Title */}
                     <Space>
@@ -83,9 +132,10 @@ export const Dashboard: React.FC<IProps> = ({ title, children }: IProps) => {
                         </Text>
                     </Space>
                 </div>
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '58px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)' }}>
-                    <Space size='middle'>
-                        {/* User Icon */}
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '58px', padding: '8px 16px', marginBottom: '14px' }}>
+
+                    {/* User Icon */}
+                    <Space size='small'>
                         <Avatar size="default" icon={<UserOutlined />} />
 
                         <Space.Compact direction='vertical' size='small'>
@@ -98,34 +148,32 @@ export const Dashboard: React.FC<IProps> = ({ title, children }: IProps) => {
                                     textAlign: 'center',
                                 }}
                             >
-                                User Profile
+                                Rio Irawan
                             </Text>
 
                             {/* User Role */}
                             <Text style={{ fontSize: '12px', color: '#B5F5EC' }}>Admin</Text>
                         </Space.Compact>
-                        <Badge dot>
-                            <BellOutlined style={{ color: 'white', fontSize: '16px' }} />
-                        </Badge>
                     </Space>
+                    <Badge dot>
+                        <BellOutlined style={{ color: 'white', fontSize: '24px' }} />
+                    </Badge>
+
                 </div>
 
                 <ConfigProvider theme={sidebarThemeConfig}>
-                    <Menu items={SidebarMenu} theme='light' style={{ backgroundColor: '#006D75', }} mode='inline' />
+                    <Menu items={SidebarMenu} theme='light' style={{ backgroundColor: '#006D75' }} mode='inline' />
                 </ConfigProvider>
             </Sider>
             <Layout>
-                <Content style={{
-                    padding: "32px",
-                }}>
-                    <Space direction='vertical' size={32} style={{ width: '100%', minHeight: '100%' }}>
-                        {/* Header Menu */}
-                        <Space>
-                            <Title>{title}</Title>
-                        </Space>
+                <Content
+                    style={{
+                        padding: "28px 24px",
+                    }}
+                >
 
-                        {children}
-                    </Space>
+                    {children}
+
                 </Content>
             </Layout>
         </Layout>
