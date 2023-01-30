@@ -19,13 +19,14 @@ import {
     Upload
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
+import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import React, { useState } from 'react';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
+import { PageHeader } from '../../../Components/molecules/Headers';
 
 const { Option } = Select;
 
 const normFile = (e: any) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
         return e;
     }
@@ -72,6 +73,7 @@ function FormBasic<T extends object = TFormBasic>(props: FormProps<T>): JSX.Elem
 
     return (
         <Layout>
+            <PageHeader title='Add New User' />
             <Row justify='center' style={{ backgroundColor: '#fff', borderRadius: 8 }}>
                 <Form
                     {...props}
@@ -116,6 +118,10 @@ function FormBasic<T extends object = TFormBasic>(props: FormProps<T>): JSX.Elem
 
                     <Form.Item label="DatePicker" name='date' required>
                         <DatePicker />
+                    </Form.Item>
+
+                    <Form.Item label="DatePickerRange" name='dateRange' required>
+                        <DateRangePicker onChange={() => { return }} />
                     </Form.Item>
 
                     <Form.Item label="Time" name='time' required>
