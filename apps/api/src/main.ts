@@ -7,11 +7,9 @@ import {
     patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
 import { Logger } from '@nestjs/common';
-import { HttpService } from 'nestjs-http-promise';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as callbackAPI from 'amqplib/callback_api';
-import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 async function bootstrap() {
     // Sentry
@@ -26,7 +24,6 @@ async function bootstrap() {
     patchTypeORMRepositoryWithBaseRepository();
 
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
-    app.useGlobalInterceptors(new LoggingInterceptor(new HttpService()));
 
     const publicPath = join(__dirname, '..', 'public');
     app.useStaticAssets(publicPath);

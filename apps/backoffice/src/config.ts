@@ -46,10 +46,6 @@ export const config = {
         },
     },
 
-    logging: {
-        host: process.env.HOST_LOGGIING || 'http://localhost:8080',
-    },
-
     cache: {
         ttl: 2880000,
         scope: {

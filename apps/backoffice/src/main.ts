@@ -10,8 +10,6 @@ import { Logger } from '@nestjs/common';
 import { join } from 'path';
 import inertia from 'inertia-node';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { LoggingInterceptor } from './common/interceptors/logging.interceptoor';
-import { HttpService } from 'nestjs-http-promise';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 const ASSET_VERSION = '1';
@@ -29,7 +27,6 @@ async function bootstrap() {
     patchTypeORMRepositoryWithBaseRepository();
 
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
-    app.useGlobalInterceptors(new LoggingInterceptor(new HttpService()));
 
     const publicPath = join(__dirname, '..', 'public');
     app.useStaticAssets(publicPath);
