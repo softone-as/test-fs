@@ -1,15 +1,19 @@
+import { config } from 'apps/backoffice/src/config';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUser } from 'interface-models/iam/user.interface';
 import { User } from 'entities/iam/user.entity';
 import { In, Not, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { AuthSchemaEnum } from 'apps/backoffice/src/common/enums/auth.enum';
+import { LdapService } from '../../auth/services/ldap.service';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
+        private readonly ldapService: LdapService,
     ) {}
 
     async create(data: IUser): Promise<IUser> {
@@ -18,13 +22,21 @@ export class UserService {
     }
 
     async validateUser(email: string, password: string): Promise<IUser> {
-        const user = await this.findOneByEmail(email);
+        switch (config.auth.schema) {
+            case AuthSchemaEnum.Ldap:
+                const isValid = this.ldapService.validate(email, password);
+                if (isValid) return await this.findOneByEmail(email);
+                break;
 
-        const isTrue = await bcrypt.compare(password, user.password);
+            case AuthSchemaEnum.Local:
+                const user = await this.findOneByEmail(email);
+                const isTrue = await bcrypt.compare(password, user.password);
 
-        if (user && isTrue) {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-            return user;
+                if (user && isTrue) {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
+                    return user;
+                }
+                break;
         }
 
         return null;

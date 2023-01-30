@@ -24,6 +24,7 @@ import { RolePermissionIndexApplication } from './applications/role-permission-i
 import { CacheModule } from '../../infrastructure/cache/cache.module';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { LogActivityService } from '../log-activity/services/log-activity.service';
+import { LdapService } from '../auth/services/ldap.service';
 
 @Module({
     imports: [
@@ -43,6 +44,7 @@ import { LogActivityService } from '../log-activity/services/log-activity.servic
         RolePermissionController,
     ],
     providers: [
+        LdapService,
         InertiaAdapter,
         UserCrudApplication,
         UserService,
