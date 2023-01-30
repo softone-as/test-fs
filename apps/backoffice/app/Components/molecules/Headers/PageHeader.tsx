@@ -4,7 +4,7 @@ import React from 'react'
 
 interface IProps {
     title: string
-    rightMenu?: React.ReactNode[]
+    topActions?: React.ReactNode[]
 }
 
 export const PageHeader: React.FC<IProps> = (props: IProps) => {
@@ -15,7 +15,7 @@ export const PageHeader: React.FC<IProps> = (props: IProps) => {
             </Col>
             <Col>
                 <Space>
-                    {props.rightMenu?.map((field, key) => <React.Fragment key={key}>{field}</React.Fragment>)}
+                    {props.topActions?.map((field, key) => <React.Fragment key={key}>{field}</React.Fragment>)}
                 </Space>
             </Col>
         </Row>

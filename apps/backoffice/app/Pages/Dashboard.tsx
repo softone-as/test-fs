@@ -111,7 +111,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
 
     return (
         <MainLayout >
-            <PageHeader title='Permissions' rightMenu={[
+            <PageHeader title='Permissions' topActions={[
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
                 <Button size='large' type='primary'>New User</Button>
             ]} />
