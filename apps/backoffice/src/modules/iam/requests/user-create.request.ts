@@ -29,8 +29,5 @@ export class UserCreateRequest {
     phoneNumber: string;
 
     @IsNotEmpty({ message: 'Field wajiib diisi' })
-    address: string;
-
-    @IsNotEmpty({ message: 'Field wajiib diisi' })
     roles: IRole[];
 }

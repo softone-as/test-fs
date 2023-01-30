@@ -1,35 +1,37 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { Button, DatePicker, Form, Input, InputNumber, Row, Select, Space, Spin } from 'antd';
-import { createYupSync } from '../../../Utils/utils';
+import { Button, Form, Input, Row, Select, Space, Spin } from 'antd';
 import React, { useState } from 'react';
-import * as yup from 'yup'
+import * as yup from 'yup';
+import { createYupSync } from '../../../Utils/utils';
 
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
+import { createUser } from '../../../Modules/User/Action';
+// import { IUserForm } from '../../../Modules/User/Entities';
 
-type DataType = {
-    birthDate: string,
-    email: string,
-    fullname: string,
-    gender: string,
-    id: number,
-    identityNumber: string,
-    oneSignalPlayerIds: string,
-    password: string,
-    phoneNumber: string,
-    phoneNumberVerifiedAt: string
-}
-
-type FormType = Omit<DataType, 'id' | 'identityNumber' | 'oneSignalPlayerIds' | 'phoneNumberVerifiedAt'>
-
-const schema: yup.SchemaOf<FormType> = yup.object().shape({
+const schema = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
-    password: yup.string().required('Field password is required'),
-    birthDate: yup.string().required('Field birth date is required'),
+    password: yup.string().required('Field password is required').test('isFormatValid', 'At least password has include 1 number and Alphabet', (value, context) => {
+        const hasUpperCase = /[A-Z]/.test(value);
+        const hasNumber = /[0-9]/.test(value);
+
+        if (hasNumber && hasUpperCase) {
+            return true
+        }
+
+        return false
+    }),
     email: yup.string().email().required('Field email is required'),
-    gender: yup.string().required('Field gender is required'),
+    gender: yup.mixed().oneOf(['perempuan', 'laki-laki']).required('Field gender is required'),
     phoneNumber: yup.string().required('Field phone number is required'),
+    roles: yup.array().of(
+        yup.object().shape({
+            id: yup.number(),
+            key: yup.string(),
+            name: yup.string(),
+        })
+    )
 })
 
 const FormUserPage: React.FC = () => {
@@ -39,13 +41,14 @@ const FormUserPage: React.FC = () => {
 
 
     const onFinish = async () => {
-        setIsLoading(true)
+        // setIsLoading(true)
+        const data = form.getFieldsValue()
 
         try {
             await form.validateFields()
             // TODO: do post API
-
-            setIsLoading(false)
+            createUser(data)
+            // setIsLoading(false)
 
         } catch (error) {
             setIsLoading(false)
@@ -84,27 +87,22 @@ const FormUserPage: React.FC = () => {
                         <Input placeholder='Input' />
                     </Form.Item>
 
-                    <Form.Item label="Password" name='password' rules={[yupSync]} required>
-                        <Input.Password placeholder='Input' />
-                    </Form.Item>
-
                     <Form.Item label="Email" name='email' rules={[yupSync]} required>
                         <Input type='email' placeholder='Input' />
                     </Form.Item>
 
-                    <Form.Item label="Birth of Date" name='birthDate' rules={[yupSync]} required>
-                        <DatePicker placeholder='Input' />
-                    </Form.Item>
-
-                    <Form.Item label="Gender" name='gender' rules={[yupSync]} required>
-                        <Select placeholder='Select'>
-                            <Select.Option value='man'>Man</Select.Option>
-                            <Select.Option value='woman'>Woman</Select.Option>
-                        </Select>
+                    <Form.Item label="Password" name='password' rules={[yupSync]} required>
+                        <Input.Password placeholder='Input' />
                     </Form.Item>
 
                     <Form.Item label="Phone Number" name='phoneNumber' rules={[yupSync]} required>
-                        <InputNumber style={{ width: '100%' }} placeholder='Input' />
+                        <Input style={{ width: '100%' }} placeholder='Input' />
+                    </Form.Item>
+
+                    <Form.Item label="Roles" name='roles' rules={[yupSync]} required>
+                        <Select placeholder='Select' mode='multiple'>
+                            <Select.Option value={JSON.stringify({ id: 1, key: 'admin', name: 'admin', })}>Admin</Select.Option>
+                        </Select>
                     </Form.Item>
 
                     <Row>

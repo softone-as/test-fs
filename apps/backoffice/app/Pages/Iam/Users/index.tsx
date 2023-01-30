@@ -15,34 +15,19 @@ import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, S
 import { Form, Typography, Space } from 'antd'
 import { Link } from '@inertiajs/inertia-react'
 import { iconActionTableStyle } from '../../../Utils/theme';
+import { IUser } from '../../../Modules/User/Entities';
 
-
-
-
-type DataType = {
-    birthDate: string,
-    email: string,
-    emailVerifiedAt: string,
-    fullname: string,
-    gender: string,
-    id: number,
-    identityNumber: string,
-    oneSignalPlayerIds: string,
-    password: string,
-    phoneNumber: string,
-    phoneNumberVerifiedAt: string
-}
 
 interface IProps extends TInertiaProps {
-    data: DataType[],
+    data: IUser[],
 }
 
 const UsersPage: React.FC = (props: IProps) => {
 
-    const { setQueryParams } = useTableFilter<DataType>()
+    const { setQueryParams } = useTableFilter<IUser>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
-    const columns: ColumnsType<DataType> = [
+    const columns: ColumnsType<IUser> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -114,7 +99,7 @@ const UsersPage: React.FC = (props: IProps) => {
         <MainLayout >
             <PageHeader title='User List' topActions={[
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
-                <Button size='large' type='primary'>New User</Button>
+                <Link href='users/create'><Button size='large' type='primary'>New User</Button></Link>
             ]} />
             <FilterSection searchHandler={handleSearch}
                 selectedRows={selectedRowKeys}

@@ -19,7 +19,6 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks';
 
-
 type DataType = {
     key: string;
     name: string;
