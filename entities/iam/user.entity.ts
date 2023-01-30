@@ -1,5 +1,7 @@
 import { GenderEnum, IUser } from 'interface-models/iam/user.interface';
 import {
+    AfterInsert,
+    AfterUpdate,
     Column,
     Entity,
     JoinTable,
@@ -10,6 +12,9 @@ import { Exclude, Transform } from 'class-transformer';
 import { IRole } from 'interface-models/iam/role.interface';
 import { Role } from './role.entity';
 import { BaseEntity } from 'entities/base.entity';
+import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
+import { GlobalService } from 'apps/backoffice/src/modules/glob/service/global-service.service';
+import { LogActivityDto } from 'entities/log-activity/dto/log-activity.dto';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity implements IUser {
@@ -58,4 +63,32 @@ export class User extends BaseEntity implements IUser {
     @Column()
     @Exclude()
     password: string;
+
+    @AfterUpdate()
+    async createLogActivityUpdate() {
+        const logActivity: LogActivityDto = {
+            menu: LogActivityMenuEnum.USER,
+            path: __filename,
+            user: null, // get user from jwt
+            meta_data: this,
+            source: this.id.toString(),
+            activity: 'Update user',
+        };
+
+        GlobalService.createLogActivity(logActivity);
+    }
+
+    @AfterInsert()
+    async createLogActivityInsert() {
+        const logActivity: LogActivityDto = {
+            menu: LogActivityMenuEnum.USER,
+            path: __filename,
+            user: null, // get user from jwt
+            meta_data: this,
+            source: this.id.toString(),
+            activity: 'Create new user',
+        };
+
+        GlobalService.createLogActivity(logActivity);
+    }
 }

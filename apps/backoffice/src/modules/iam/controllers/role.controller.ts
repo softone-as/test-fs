@@ -4,6 +4,7 @@ import {
     Get,
     Param,
     Post,
+    Put,
     Query,
     UseGuards,
 } from '@nestjs/common';
@@ -81,7 +82,7 @@ export class RoleController {
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_ROLE))
-    @Post('edit/:id')
+    @Put('edit/:id')
     async update(
         @Param('id') id: number,
         @Body() roleEditRequest: RoleEditRequest,

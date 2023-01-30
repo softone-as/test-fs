@@ -8,11 +8,10 @@ import {
     JoinColumn,
     Column,
     CreateDateColumn,
-    BaseEntity,
 } from 'typeorm';
 
 @Entity({ name: 'log_activities' })
-export class LogActivity extends BaseEntity implements ILogActivity {
+export class LogActivity implements ILogActivity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -20,19 +19,19 @@ export class LogActivity extends BaseEntity implements ILogActivity {
     @JoinColumn({ name: 'user_id' })
     user: IUser;
 
-    @Column({ name: 'old_data', type: 'json', nullable: true })
-    old_data: any;
+    @Column({ name: 'meta_data', type: 'json', nullable: true })
+    meta_data: any;
 
-    @Column({ name: 'new_data', type: 'json', nullable: true })
-    new_data: any;
+    @Column({ name: 'source', nullable: true })
+    source: string;
 
     @Column({ name: 'activity' })
     activity: string;
 
-    @Column({ name: 'menu' })
+    @Column({ name: 'menu', nullable: true })
     menu: string;
 
-    @Column({ name: 'path' })
+    @Column({ name: 'path', nullable: true })
     path: string;
 
     @CreateDateColumn({ name: 'created_at' })

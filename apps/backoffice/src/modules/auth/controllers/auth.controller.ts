@@ -49,9 +49,7 @@ export class AuthController {
         @Query('one_signal_player_id') playerId: string,
         @Res() res: Response,
     ): Promise<void> {
-        console.log('Running this Logoutservice ');
         await this.authApplication.logout(playerId);
-
         return res.redirect('/');
     }
 }

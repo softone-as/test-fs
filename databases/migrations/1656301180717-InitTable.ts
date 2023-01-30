@@ -26,7 +26,7 @@ export class InitTable1656301180717 implements MigrationInterface {
             `CREATE TABLE \`otps\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`code\` varchar(255) NOT NULL, \`identifier\` varchar(255) NOT NULL, \`trial\` int NOT NULL, \`is_valid\` tinyint NOT NULL DEFAULT 0, \`expired_at\` datetime NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
         );
         await queryRunner.query(
-            `CREATE TABLE \`log_activities\` (\`id\` int NOT NULL AUTO_INCREMENT, \`old_data\` json NULL, \`new_data\` json NULL, \`activity\` varchar(255) NOT NULL, \`menu\` varchar(255) NOT NULL, \`path\` varchar(255) NOT NULL, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`user_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
+            `CREATE TABLE \`log_activities\` (\`id\` int NOT NULL AUTO_INCREMENT, \`meta_data\` json NULL, \`source\` varchar(255) NULL, \`activity\` varchar(255) NOT NULL, \`menu\` varchar(255) NULL, \`path\` varchar(255) NULL, \`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`user_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
         );
         await queryRunner.query(
             `CREATE TABLE \`user_role\` (\`created_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`updated_at\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`deleted_at\` datetime(6) NULL, \`id\` int NOT NULL AUTO_INCREMENT, \`role_id\` int NULL, \`user_id\` int NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,

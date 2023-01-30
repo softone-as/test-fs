@@ -1,6 +1,6 @@
 import {
-    BaseEntity,
-    BeforeUpdate,
+    AfterInsert,
+    AfterUpdate,
     Column,
     Entity,
     JoinTable,
@@ -15,6 +15,7 @@ import { GlobalService } from 'apps/backoffice/src/modules/glob/service/global-s
 import { LogActivityDto } from 'entities/log-activity/dto/log-activity.dto';
 import { User } from './user.entity';
 import { IUser } from 'interface-models/iam/user.interface';
+import { BaseEntity } from 'entities/base.entity';
 
 export const ROLE_CHANGER = 'changer';
 export const ROLE_ADMIN = 'changer';
@@ -52,23 +53,31 @@ export class Role extends BaseEntity implements IRole {
     })
     users: IUser[];
 
-    @BeforeUpdate()
-    async createLogActivity() {
+    @AfterUpdate()
+    async createLogActivityUpdate() {
         const logActivity: LogActivityDto = {
             menu: LogActivityMenuEnum.ROLE,
             path: __filename,
-            user: null,
-            old_data: await Role.findById(this.id),
-            new_data: this,
+            user: null, // get user from jwt
+            meta_data: this,
+            source: this.id.toString(),
             activity: 'Update Role',
         };
 
         GlobalService.createLogActivity(logActivity);
     }
 
-    static findById(id: number) {
-        return this.createQueryBuilder('roles')
-            .where('roles.id = :id', { id })
-            .getOne();
+    @AfterInsert()
+    async createLogActivityInsert() {
+        const logActivity: LogActivityDto = {
+            menu: LogActivityMenuEnum.ROLE,
+            path: __filename,
+            user: null, // get user from jwt
+            meta_data: this,
+            source: this.id.toString(),
+            activity: 'Create new role',
+        };
+
+        GlobalService.createLogActivity(logActivity);
     }
 }
