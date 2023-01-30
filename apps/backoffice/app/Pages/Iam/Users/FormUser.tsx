@@ -77,7 +77,6 @@ const FormUserPage: React.FC = () => {
                 <Form
                     labelCol={{ span: 6 }}
                     wrapperCol={{ span: 20 }}
-                    initialValues={{ prefix: '62', quantity: 3, status: true, suffix: 'USD', rate: 4, aggreement: true, 'checkbox-item': 'A' }}
                     onFinish={onFinish}
                     style={{ width: 600, margin: '2em 0' }}
                     form={form}
