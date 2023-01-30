@@ -14,7 +14,9 @@ import {
     TimePicker,
     Typography
 } from 'antd';
-import { DataTable } from '../DataTable';
+import { DataTable } from '../../../Components/organisms/DataTable';
+import { DashboardLayout as Layout } from '../../../Layouts/Dashboard';
+
 
 type DataType = {
     key: string;
@@ -229,110 +231,111 @@ function FormAdvanced<T extends object = any>(props: FormProps<T>): JSX.Element 
     };
 
     return (
-        <Row style={{ backgroundColor: '#fff', borderRadius: 8 }}>
-            <Form
-                {...props}
-                onFinish={onFinish}
-                initialValues={{ prefix: '62' }}
-                style={{ margin: '1em 2em', width: '100%' }}
-                form={form}
-                layout='vertical'
-                requiredMark='optional'
-            >
-                <Typography.Text strong>
-                    Advanced Form
-                </Typography.Text>
+        <Layout title='Form Advanced'>
+            <Row style={{ backgroundColor: '#fff', borderRadius: 8 }}>
+                <Form
+                    {...props}
+                    onFinish={onFinish}
+                    initialValues={{ prefix: '62' }}
+                    style={{ margin: '1em 2em', width: '100%' }}
+                    form={form}
+                    layout='vertical'
+                    requiredMark='optional'
+                >
+                    <Typography.Text strong>
+                        Advanced Form
+                    </Typography.Text>
 
-                <Divider style={{ margin: '12px 0' }} />
+                    <Divider style={{ margin: '12px 0' }} />
 
-                <Row justify='space-between' gutter={32}>
-                    <Col span={8}>
-                        <Form.Item label="Input Label" name='name'>
-                            <Input placeholder='Input' />
-                        </Form.Item>
+                    <Row justify='space-between' gutter={32}>
+                        <Col span={8}>
+                            <Form.Item label="Input Label" name='name'>
+                                <Input placeholder='Input' />
+                            </Form.Item>
 
-                        <Form.Item label="Time" name='time'>
-                            <TimePicker style={{ width: '100%' }} />
-                        </Form.Item>
+                            <Form.Item label="Time" name='time'>
+                                <TimePicker style={{ width: '100%' }} />
+                            </Form.Item>
 
-                        <Form.Item
-                            name="division"
-                            label="Input Label"
-                        >
-                            <Select placeholder="Select">
-                                <Select.Option value="Industry">Department of Industry</Select.Option>
-                                <Select.Option value="Business">Department of Business</Select.Option>
-                                <Select.Option value="IT">Department of Information and Technology</Select.Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
+                            <Form.Item
+                                name="division"
+                                label="Input Label"
+                            >
+                                <Select placeholder="Select">
+                                    <Select.Option value="Industry">Department of Industry</Select.Option>
+                                    <Select.Option value="Business">Department of Business</Select.Option>
+                                    <Select.Option value="IT">Department of Information and Technology</Select.Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
 
-                    <Col span={8}>
-                        <Form.Item
-                            name="division"
-                            label="Input Label"
-                        >
-                            <Select placeholder="Select">
-                                <Select.Option value="Industry">Department of Industry</Select.Option>
-                                <Select.Option value="Business">Department of Business</Select.Option>
-                                <Select.Option value="IT">Department of Information and Technology</Select.Option>
-                            </Select>
-                        </Form.Item>
+                        <Col span={8}>
+                            <Form.Item
+                                name="division"
+                                label="Input Label"
+                            >
+                                <Select placeholder="Select">
+                                    <Select.Option value="Industry">Department of Industry</Select.Option>
+                                    <Select.Option value="Business">Department of Business</Select.Option>
+                                    <Select.Option value="IT">Department of Information and Technology</Select.Option>
+                                </Select>
+                            </Form.Item>
 
-                        <Form.Item label="Time" name='time'>
-                            <DatePicker style={{ width: '100%' }} />
-                        </Form.Item>
+                            <Form.Item label="Time" name='time'>
+                                <DatePicker style={{ width: '100%' }} />
+                            </Form.Item>
 
-                        <Form.Item label="Input Label" name='name'>
-                            <Input placeholder='Input' />
-                        </Form.Item>
-                    </Col>
+                            <Form.Item label="Input Label" name='name'>
+                                <Input placeholder='Input' />
+                            </Form.Item>
+                        </Col>
 
-                    <Col span={8}>
-                        <Form.Item
-                            name="phone"
-                            label="Phone Number"
-                            tooltip='Distinctively monetize cost effective networks for cross-media bandwidth'
-                        >
-                            <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-                        </Form.Item>
+                        <Col span={8}>
+                            <Form.Item
+                                name="phone"
+                                label="Phone Number"
+                                tooltip='Distinctively monetize cost effective networks for cross-media bandwidth'
+                            >
+                                <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                            </Form.Item>
 
-                        <Form.Item label="Input Label" name='name'>
-                            <Input placeholder='Input' />
-                        </Form.Item>
-                    </Col>
-                </Row>
+                            <Form.Item label="Input Label" name='name'>
+                                <Input placeholder='Input' />
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-                <Typography.Text strong>
-                    Section List Table
-                </Typography.Text>
+                    <Typography.Text strong>
+                        Section List Table
+                    </Typography.Text>
 
-                <Divider style={{ margin: '12px 0' }} />
+                    <Divider style={{ margin: '12px 0' }} />
 
-                <DataTable<DataType>
-                    rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
-                    components={{
-                        body: {
-                            cell: EditableCell,
+                    <DataTable<DataType>
+                        rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                        components={{
+                            body: {
+                                cell: EditableCell,
 
-                        },
-                    }}
-                    columns={mergedColumns} dataSource={data}
-                />
+                            },
+                        }}
+                        columns={mergedColumns} dataSource={data}
+                    />
 
-                <Row justify='end'>
-                    <Space>
-                        <Button >
-                            Cancel
-                        </Button>
-                        <Button type="primary" htmlType="submit" disabled={isLoading} >
-                            Submit
-                        </Button>
-                    </Space>
-                </Row>
-            </Form>
-
-        </Row>
+                    <Row justify='end'>
+                        <Space>
+                            <Button >
+                                Cancel
+                            </Button>
+                            <Button type="primary" htmlType="submit" disabled={isLoading} >
+                                Submit
+                            </Button>
+                        </Space>
+                    </Row>
+                </Form>
+            </Row>
+        </Layout>
     )
 }
 

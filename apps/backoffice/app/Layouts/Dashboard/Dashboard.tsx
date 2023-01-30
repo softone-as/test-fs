@@ -48,6 +48,27 @@ const SidebarMenu: MenuProps['items'] = [
 
     },
     {
+        key: '3',
+        label: 'Sample Form',
+        icon: <MailOutlined />,
+        theme: 'light',
+        children: [
+            {
+                key: '3-1',
+                label: <Link href='/sample/form/basic'>Form Basic</Link>,
+            },
+            {
+                key: '3-2',
+                label: <Link href='/sample/form/step'>Form Step</Link>,
+            },
+            {
+                key: '3-3',
+                label: <Link href='/sample/form/advanced'>Form Advanced</Link>,
+            },
+        ]
+
+    },
+    {
         key: '5',
         label: <Link href='#' onClick={handleLogout}>Logout</Link>,
         icon: <MailOutlined />,
