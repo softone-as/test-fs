@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IPermission } from 'interface-models/iam/permission.interface';
 import { Permission } from 'entities/iam/permission.entity';
 import { QueryFailedError, Repository } from 'typeorm';
-import { CacheEvict } from 'apps/api/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { CacheClear } from 'apps/api/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { config } from 'apps/api/src/config';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class PermissionService {
         private readonly permissionRepository: Repository<Permission>,
     ) {}
 
-    @CacheEvict(config.cache.name.permissions.detail)
+    @CacheClear(config.cache.name.permissions.detail)
     async update(id: number, data: IPermission): Promise<IPermission> {
         const status = await this.permissionRepository.update(
             { id },
@@ -26,7 +26,7 @@ export class PermissionService {
         return data;
     }
 
-    @CacheEvict(config.cache.name.permissions.detail)
+    @CacheClear(config.cache.name.permissions.detail)
     async delete(id: number): Promise<void> {
         const status = await this.permissionRepository.delete({ id });
         if (status.affected < 1) {

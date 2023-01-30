@@ -5,13 +5,13 @@ import { RoleCreateRequest } from '../requests/role-create.request';
 import { RoleService } from '../services/role.service';
 import { RoleEditRequest } from '../requests/role-edit.request';
 import { config } from 'apps/backoffice/src/config';
-import { CacheEvict } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 
 @Injectable()
 export class RoleCrudApplication {
     constructor(private readonly roleService: RoleService) {}
 
-    @CacheEvict(config.cache.name.roles.detail)
+    @CacheClear(config.cache.name.roles.detail)
     async create(roleRequest: RoleCreateRequest): Promise<IRole> {
         const isRoleExists = await this.roleService.isRoleExistsByKey(
             roleRequest.key,
@@ -36,7 +36,7 @@ export class RoleCrudApplication {
         };
     }
 
-    @CacheEvict(config.cache.name.roles.detail)
+    @CacheClear(config.cache.name.roles.detail)
     async edit(id: number, roleRequest: RoleEditRequest): Promise<IRole> {
         const isRoleExists = await this.roleService.isRoleExistsByKey(
             roleRequest.key,
@@ -62,7 +62,7 @@ export class RoleCrudApplication {
         };
     }
 
-    @CacheEvict(config.cache.name.roles.detail)
+    @CacheClear(config.cache.name.roles.detail)
     async delete(id: number): Promise<void> {
         await this.roleService.findOneById(id);
         await this.roleService.delete(id);

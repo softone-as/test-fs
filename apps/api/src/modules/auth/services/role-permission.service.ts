@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IRolePermission } from 'interface-models/iam/role-permission.interface';
 import { RolePermission } from 'entities/iam/role-permission.entity';
 import { QueryFailedError, Repository } from 'typeorm';
-import { CacheEvict } from 'apps/api/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { CacheClear } from 'apps/api/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { config } from 'apps/api/src/config';
 
 @Injectable()
@@ -13,13 +13,13 @@ export class RolePermissionService {
         private readonly rolePermissionRepository: Repository<RolePermission>,
     ) {}
 
-    @CacheEvict(config.cache.name.rolePermissions.detail)
+    @CacheClear(config.cache.name.rolePermissions.detail)
     async create(data: IRolePermission): Promise<IRolePermission> {
         const newRole = this.rolePermissionRepository.create(data);
         return await this.rolePermissionRepository.save(newRole);
     }
 
-    @CacheEvict(config.cache.name.rolePermissions.detail)
+    @CacheClear(config.cache.name.rolePermissions.detail)
     async update(id: number, data: IRolePermission): Promise<IRolePermission> {
         const status = await this.rolePermissionRepository.update(
             { id },
@@ -32,7 +32,7 @@ export class RolePermissionService {
         return data;
     }
 
-    @CacheEvict(config.cache.name.rolePermissions.detail)
+    @CacheClear(config.cache.name.rolePermissions.detail)
     async delete(id: number): Promise<void> {
         const status = await this.rolePermissionRepository.delete({ id });
         if (status.affected < 1) {

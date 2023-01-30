@@ -3,13 +3,13 @@ import { IPermission } from 'interface-models/iam/permission.interface';
 import { PermissionService } from '../services/permission.service';
 import { PermissionEditRequest } from '../requests/permission-edit.request';
 import { config } from 'apps/backoffice/src/config';
-import { CacheEvict } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-evict.decorator';
+import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 
 @Injectable()
 export class PermissionCrudApplication {
     constructor(private readonly permissionService: PermissionService) {}
 
-    @CacheEvict(config.cache.name.permissions.detail)
+    @CacheClear(config.cache.name.permissions.detail)
     async edit(
         id: number,
         permissionRequest: PermissionEditRequest,
