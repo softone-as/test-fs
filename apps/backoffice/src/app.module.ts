@@ -60,6 +60,7 @@ import { GlobalServiceModule } from './modules/glob/global-service.module';
         MailerModule.forRoot({
             transport: {
                 host: config.mail.smtp.host,
+                port: config.mail.smtp.port,
                 secure: false,
                 auth: {
                     user: config.mail.smtp.user,
