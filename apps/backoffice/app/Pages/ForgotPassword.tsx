@@ -4,7 +4,7 @@ import { Form, Space, Input, Button, Typography, notification } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 
 import { LoginLayout } from '../Layouts';
-import { Link } from '../Components/atoms/Link';
+import { Link } from '@inertiajs/inertia-react';
 import { sendEmailForgotPassword } from '../Modules/Auth/ForgotPassword/Action';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
 import { TForgotPassword } from '../Modules/Auth/ForgotPassword/Entities';

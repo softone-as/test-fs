@@ -20,7 +20,7 @@ export const FilterSection = (props: IFilterSection) => {
             {/* Batch Action */}
             {
                 props.selectedRows.length > 0 &&
-                <Col style={{ backgroundColor: '' }}>
+                <Col>
                     <Space style={{ paddingRight: '8px' }}>
                         <Dropdown.Button menu={{ items: props.batchActionMenus }} placement="bottom" >
                             Action

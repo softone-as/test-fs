@@ -3,8 +3,6 @@ import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
-import { useTableFilter } from '../../../Utils/hooks'
-import { useModal } from '../../../Utils/modal'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
 import { Button, MenuProps, Select } from 'antd';
 import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/molecules/Pickers';
@@ -13,7 +11,10 @@ import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
-import { Link } from '../../../Components/atoms/Link'
+import { Link } from '@inertiajs/inertia-react'
+import { useTableFilter } from '../../../Utils/hooks'
+import { useModal } from '../../../Utils/modal'
+import { iconActionTableStyle } from '../../../Utils/theme';
 
 
 
@@ -67,9 +68,9 @@ const PermissionPage: React.FC = (props: IProps) => {
             key: 'action',
             width: '142px',
             render: () => <Space size='large'>
-                <Link href='#'><EyeOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
-                <Link href='#'><EditOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
-                <Link href='#'><DeleteOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
+                <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link>
+                <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
+                <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
             </Space>
         }
 

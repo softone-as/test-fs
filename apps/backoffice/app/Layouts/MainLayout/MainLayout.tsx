@@ -9,7 +9,7 @@ import {
     Badge
 } from "antd";
 import type { MenuProps } from 'antd'
-import { Link } from '../../Components/atoms/Link';
+import { Link } from '@inertiajs/inertia-react';
 import {
     BellOutlined,
     DashboardOutlined,

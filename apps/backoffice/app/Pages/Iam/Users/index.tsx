@@ -13,7 +13,8 @@ import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
-import { Link } from '../../../Components/atoms/Link'
+import { Link } from '@inertiajs/inertia-react'
+import { iconActionTableStyle } from '../../../Utils/theme';
 
 
 
@@ -68,9 +69,9 @@ const UsersPage: React.FC = (props: IProps) => {
             key: 'action',
             width: '142px',
             render: () => <Space size='large'>
-                <Link href='#'><EyeOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
-                <Link href='#'><EditOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
-                <Link href='#'><DeleteOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
+                <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link>
+                <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
+                <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
             </Space>
         }
 

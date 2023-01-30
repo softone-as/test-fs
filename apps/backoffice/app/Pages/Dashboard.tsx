@@ -13,7 +13,7 @@ import { MultiFilterDropdown } from '../Components/molecules/Dropdowns';
 import { PageHeader } from '../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
-import { Link } from '../Components/atoms/Link'
+import { Link } from '@inertiajs/inertia-react'
 
 
 
