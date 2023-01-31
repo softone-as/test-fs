@@ -32,6 +32,7 @@ preview:mr:
   needs: ["build:docker_image_mr"]
   tags: [dot]
   script:
+    - chmod +x ./deploy/run-preview.sh
     - ./deploy/run-preview.sh preview
 
 cleanup_preview:mr:
@@ -41,4 +42,5 @@ cleanup_preview:mr:
   needs: ["preview:mr"]
   tags: [dot]
   script:
+    - chmod +x ./deploy/run-preview.sh
     - ./deploy/run-preview.sh cleanup-preview
