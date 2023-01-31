@@ -25,9 +25,14 @@ export class UserIndexApplication extends IndexApplication {
         const query = this.userRepository.createQueryBuilder('user');
 
         if (request.search) {
-            query.where(`concat(user.fullname, ' ', user.id) like :search`, {
-                search: `%${request.search}%`,
-            });
+            query
+                .where(
+                    `concat(user.fullname, ' ', user.id, ' ', user.phoneNumber, ' ', user.email) like :search`,
+                    {
+                        search: `%${request.search}%`,
+                    },
+                )
+                .leftJoinAndSelect('user.roles', 'role');
         }
 
         if (request.sort == 'latest') {

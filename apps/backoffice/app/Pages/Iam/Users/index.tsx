@@ -6,43 +6,26 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
-import { Button, MenuProps, Select } from 'antd';
+import { Button, MenuProps, Select, Form, Typography, Space, Tag } from 'antd';
 import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/molecules/Pickers';
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Form, Typography, Space } from 'antd'
 import { Link } from '@inertiajs/inertia-react'
 import { iconActionTableStyle } from '../../../Utils/theme';
-
-
-
-
-type DataType = {
-    birthDate: string,
-    email: string,
-    emailVerifiedAt: string,
-    fullname: string,
-    gender: string,
-    id: number,
-    identityNumber: string,
-    oneSignalPlayerIds: string,
-    password: string,
-    phoneNumber: string,
-    phoneNumberVerifiedAt: string
-}
+import { UserResponse } from '../../../../src/modules/iam/responses/user.response'
+import { RoleResponse } from '../../../../src/modules/iam/responses/role.response'
 
 interface IProps extends TInertiaProps {
-    data: DataType[],
+    data: UserResponse[],
 }
 
 const UsersPage: React.FC = (props: IProps) => {
-
-    const { setQueryParams } = useTableFilter<DataType>()
+    const { setQueryParams } = useTableFilter<UserResponse>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
-    const columns: ColumnsType<DataType> = [
+    const columns: ColumnsType<UserResponse> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -63,6 +46,17 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Phone Number',
             dataIndex: 'phoneNumber',
             key: 'phoneNumber',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Roles',
+            dataIndex: 'roles',
+            key: 'roles',
+            render: (roles: RoleResponse[]) => roles.map((role, index) => <Tag key={index}>{role.name}</Tag>)
         },
         {
             title: 'Action',
