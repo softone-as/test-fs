@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { config } from 'apps/backoffice/src/config';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
 import { IndexApplication } from 'apps/backoffice/src/infrastructure/applications/index.application';
 import { Repository } from 'typeorm';
-import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
 import { InAppNotificationIndexRequest } from '../requests/in-app-notification-index.request';
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
@@ -20,7 +18,7 @@ export class InAppNotificationIndexApplication extends IndexApplication {
         super();
     }
 
-    @CacheGetSet(config.cache.name.notification.list)
+    // @CacheGetSet(config.cache.name.notification.list)
     async fetch(
         request: InAppNotificationIndexRequest,
     ): Promise<IPaginateResponse<IInAppNotification>> {

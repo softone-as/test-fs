@@ -33,8 +33,6 @@ export const CacheGetSet = (key: string): any => {
             ].join('-');
             const dataCache = await this.cacheService.getCache(nameKey);
 
-            console.log(nameKey);
-
             if (dataCache) {
                 return dataCache;
             }

@@ -5,10 +5,15 @@ import { InAppNotification } from 'entities/notification/in-app-notification.ent
 import { InAppNotificationIndexApplication } from './applications/in-app-notification-index.application';
 import { InAppNotificationController } from './controllers/in-app-notification.controller';
 import { InAppNotificationService } from './services/in-app-notifiacation.service';
+import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
 
 @Module({
     imports: [TypeOrmModule.forFeature([InAppNotification]), CacheModule],
     controllers: [InAppNotificationController],
-    providers: [InAppNotificationService, InAppNotificationIndexApplication],
+    providers: [
+        InertiaAdapter,
+        InAppNotificationService,
+        InAppNotificationIndexApplication,
+    ],
 })
 export class NotificationModule {}
