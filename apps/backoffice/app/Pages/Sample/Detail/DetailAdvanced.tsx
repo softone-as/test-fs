@@ -124,33 +124,32 @@ const DetailAdvancedPage: React.FC = () => {
                 <Button size='large' type='primary'>Action</Button>,
             ]} />
 
-            <Row gutter={48}>
-                <Col span={6} offset={1} style={{ padding: '2em', backgroundColor: '#fff', borderRadius: 8, height: 'fit-content' }}>
-                    <Space direction='vertical' align='center' style={{ width: '100%' }}>
-                        <Image src='https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' width={90} preview={false} style={{ borderRadius: '50%' }} />
-                        <Typography.Text style={{ fontSize: '20px' }} strong>John Cena</Typography.Text>
-                    </Space>
+            <Row gutter={16} justify='space-between'>
+                <Col span={6}>
+                    <Card>
+                        <Space direction='vertical' align='center' style={{ width: '100%' }}>
+                            <Image src='https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' width={90} preview={false} style={{ borderRadius: '50%' }} />
+                            <Typography.Text style={{ fontSize: '20px' }} strong>John Cena</Typography.Text>
+                        </Space>
 
-                    <Descriptions layout='vertical' column={1} size='small'>
-                        <Descriptions.Item contentStyle={contentItemStyle} label='ID'>109820348998734897</Descriptions.Item>
-                        <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
-                        <Descriptions.Item contentStyle={contentItemStyle} label='Email'>john.lbf@gmail.com</Descriptions.Item>
-                        <Descriptions.Item contentStyle={contentItemStyle} label='No Telephone'>0812376152345</Descriptions.Item>
-                        <Descriptions.Item contentStyle={contentItemStyle} label='Address'>Rectory Cottage, Farleigh Court Road, Warlingham, CR6 9PX</Descriptions.Item>
-                    </Descriptions>
+                        <Descriptions layout='vertical' column={1} size='small'>
+                            <Descriptions.Item contentStyle={contentItemStyle} label='ID'>109820348998734897</Descriptions.Item>
+                            <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
+                            <Descriptions.Item contentStyle={contentItemStyle} label='Email'>john.lbf@gmail.com</Descriptions.Item>
+                            <Descriptions.Item contentStyle={contentItemStyle} label='No Telephone'>0812376152345</Descriptions.Item>
+                            <Descriptions.Item contentStyle={contentItemStyle} label='Address'>Rectory Cottage, Farleigh Court Road, Warlingham, CR6 9PX</Descriptions.Item>
+                        </Descriptions>
 
-                    <Space style={{ marginTop: '1em' }}>
-                        Status :
-                        <div style={{ border: '1px solid #26262622', padding: '2px 100px 2px 8px' }}>
-                            <Badge status="warning" text='Warning' />
-                        </div>
-                    </Space>
-
-
-
+                        <Space style={{ marginTop: '1em' }}>
+                            Status :
+                            <div style={{ border: '1px solid #26262622', padding: '2px 90px 2px 8px' }}>
+                                <Badge status="warning" text='Warning' />
+                            </div>
+                        </Space>
+                    </Card>
                 </Col>
 
-                <Col span={17}>
+                <Col span={18}>
                     <Card title='Process progress'>
                         <Steps
                             progressDot
@@ -173,6 +172,7 @@ const DetailAdvancedPage: React.FC = () => {
                         />
                     </Card>
 
+                    {/* TODO: flex; space-between for .ant-steps-item-title */}
                     <Card title='Activity Timeline' style={{ margin: '1em 0' }}>
                         <Steps
                             progressDot
