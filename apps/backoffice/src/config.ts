@@ -15,7 +15,7 @@ export const config = {
     auth: {
         schema: process.env.AUTH_SCHEMA || AuthSchemaEnum.Local,
         ldap: {
-            url: 'ldap://ldap.forumsys.com',
+            url: process.env.LDAP_URL || 'ldap://ldap.forumsys.com',
         },
     },
 
