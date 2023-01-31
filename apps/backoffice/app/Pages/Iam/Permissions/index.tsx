@@ -149,7 +149,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
-                onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), size: pageSize.toString() })}
+                onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), per_page: pageSize.toString() })}
             />
         </MainLayout>
     );
