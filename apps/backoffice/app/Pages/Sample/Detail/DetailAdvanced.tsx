@@ -10,6 +10,7 @@ import { iconActionTableStyle } from '../../../Utils/theme';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 import { Link } from '@inertiajs/inertia-react';
 
@@ -115,7 +116,7 @@ const DetailAdvancedPage: React.FC = () => {
     ];
 
     return (
-        <Layout>
+        <Layout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
             <PageHeader title='Detail Advanced' topActions={[
                 <Button size='large' icon={<DeleteOutlined />} style={buttonWithIconStyle}>Delete</Button>,
                 <Button size='large' icon={<EditOutlined />} style={buttonWithIconStyle}>Edit</Button>,

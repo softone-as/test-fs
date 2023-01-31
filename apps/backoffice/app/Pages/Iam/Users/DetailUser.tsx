@@ -10,6 +10,7 @@ import { Link } from '@inertiajs/inertia-react';
 import { iconActionTableStyle } from '../../../Utils/theme';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { DataTable } from '../../../Components/organisms/DataTable';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 const columns: ColumnsType<IUser> = [
     {
@@ -79,7 +80,7 @@ const UserDetailPage: React.FC = (props: IProps) => {
     const { id, identityNumber, email, fullname, phoneNumber, gender } = props.data
 
     return (
-        <MainLayout >
+        <MainLayout breadcrumbItems={Breadcrumbs.Users.DETAIL} >
             <PageHeader title='Detail User' topActions={[
                 <Button size='large' icon={<DeleteOutlined />} style={buttonWithIconStyle}>Delete</Button>,
                 <Button size='large' icon={<EditOutlined />} style={buttonWithIconStyle}>Edit</Button>,

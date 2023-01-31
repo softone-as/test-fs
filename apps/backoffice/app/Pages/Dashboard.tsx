@@ -14,7 +14,7 @@ import { PageHeader } from '../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
 import { Link } from '@inertiajs/inertia-react'
-
+import { Breadcrumbs } from '../Enums/Breadcrumb';
 
 
 
@@ -110,7 +110,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
     }
 
     return (
-        <MainLayout >
+        <MainLayout breadcrumbItems={Breadcrumbs.Dashboard.INDEX}>
             <PageHeader title='Permissions' topActions={[
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
                 <Button size='large' type='primary'>New User</Button>

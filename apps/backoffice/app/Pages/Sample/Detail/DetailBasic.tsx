@@ -16,6 +16,7 @@ import { iconActionTableStyle } from '../../../Utils/theme';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 
 const columns: ColumnsType<IUser> = [
@@ -101,7 +102,7 @@ const buttonWithIconStyle = {
 const DetailBasicPage: React.FC = () => {
 
     return (
-        <MainLayout >
+        <MainLayout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
             <PageHeader title='Detail User' topActions={[
                 <Button size='large' icon={<DeleteOutlined />} style={buttonWithIconStyle}>Delete</Button>,
                 <Button size='large' icon={<EditOutlined />} style={buttonWithIconStyle}>Edit</Button>,

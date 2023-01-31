@@ -23,6 +23,7 @@ import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import React, { useState } from 'react';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { PageHeader } from '../../../Components/molecules/Headers';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 const { Option } = Select;
 
@@ -72,7 +73,7 @@ function FormBasic<T extends object = TFormBasic>(props: FormProps<T>): JSX.Elem
 
 
     return (
-        <Layout>
+        <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             <PageHeader title='Add Data' />
             <Row justify='center' style={{ backgroundColor: '#fff', borderRadius: 8 }}>
                 <Form

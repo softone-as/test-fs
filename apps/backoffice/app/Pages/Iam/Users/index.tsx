@@ -16,6 +16,7 @@ import { Form, Typography, Space } from 'antd'
 import { Link } from '@inertiajs/inertia-react'
 import { iconActionTableStyle } from '../../../Utils/theme';
 import { IUser } from '../../../Modules/User/Entities';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 
 interface IProps extends TInertiaProps {
@@ -96,7 +97,7 @@ const UsersPage: React.FC = (props: IProps) => {
         console.log('FINSIH : ', values)
     }
     return (
-        <MainLayout >
+        <MainLayout breadcrumbItems={Breadcrumbs.Users.INDEX}>
             <PageHeader title='User List' topActions={[
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
                 <Link href='users/create'><Button size='large' type='primary'>New User</Button></Link>

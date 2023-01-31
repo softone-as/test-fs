@@ -18,12 +18,14 @@ import {
 import { Inertia } from '@inertiajs/inertia'
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { PageProgress } from '../../Components/molecules/Progress';
+import Breadcrumbs from '../../Components/molecules/Breadcrumbs/Breadcrumbs';
+import { BreadcrumbsItem } from '../../Modules/Common/Entities';
 
 
 export type IProps = {
     children: React.ReactNode
     headerRightMenu?: React.FC
-
+    breadcrumbItems?: BreadcrumbsItem[]
 }
 
 const handleLogout = () => {
@@ -118,7 +120,7 @@ const { Sider, Content } = Layout
 const { Text } = Typography
 
 
-export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
+export const MainLayout: React.FC<IProps> = ({ children, breadcrumbItems = [] }: IProps) => {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -206,9 +208,10 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
             <Layout>
                 <Content
                     style={{
-                        padding: "28px 24px",
+                        padding: "16px 28px",
                     }}
                 >
+                    <Breadcrumbs breadcrumb={breadcrumbItems} />
 
                     {children}
 

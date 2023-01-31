@@ -19,6 +19,7 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks';
 import { PageHeader } from '../../../Components/molecules/Headers';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 type DataType = {
     key: string;
@@ -239,7 +240,7 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
     };
 
     return (
-        <Layout>
+        <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             <PageHeader title='Add Data' />
             <Row style={{ backgroundColor: '#fff', borderRadius: 8 }}>
                 <Form

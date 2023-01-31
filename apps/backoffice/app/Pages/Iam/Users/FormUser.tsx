@@ -8,6 +8,7 @@ import { createYupSync } from '../../../Utils/utils';
 
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 import { createUser } from '../../../Modules/User/Action';
 
@@ -58,7 +59,7 @@ const FormUserPage: React.FC = (props: IProps) => {
     };
 
     return (
-        <Layout>
+        <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             {isLoading ? (
                 <div style={{
                     display: 'flex',

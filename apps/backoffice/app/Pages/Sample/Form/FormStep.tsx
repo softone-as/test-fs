@@ -16,6 +16,7 @@ import React, { useState } from 'react';
 
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 const { Option } = Select;
 
@@ -60,7 +61,7 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
     const description = 'This is a description.';
 
     return (
-        <Layout >
+        <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             <PageHeader title='Add Data' />
             <Row justify='center' style={{ backgroundColor: '#fff', borderRadius: 8 }}>
                 <Steps

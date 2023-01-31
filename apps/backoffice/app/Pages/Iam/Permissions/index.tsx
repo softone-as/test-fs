@@ -15,7 +15,7 @@ import { Link } from '@inertiajs/inertia-react'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { iconActionTableStyle } from '../../../Utils/theme';
-
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 
 
@@ -111,7 +111,7 @@ const PermissionPage: React.FC = (props: IProps) => {
     }
 
     return (
-        <MainLayout >
+        <MainLayout breadcrumbItems={Breadcrumbs.Permissions.INDEX}>
             <PageHeader title='Permissions' topActions={[
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
                 <Button size='large' type='primary'>New User</Button>
