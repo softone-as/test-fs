@@ -7,7 +7,7 @@ stages:
   - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     when: manual
 
-build:docker_image:
+build:docker_image_mr:
   <<: *ci-rules
   stage: build
   image:
@@ -17,22 +17,28 @@ build:docker_image:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    - docker build --progress plain --tag ${CI_REGISTRY_IMAGE}:preview_nestjsinertia_${CI_COMMIT_SHORT_SHA} --file Dockerfile.backoffice .
-    - docker push ${CI_REGISTRY_IMAGE}:preview_nestjsinertia_${CI_COMMIT_SHORT_SHA}
+    - docker build
+        --progress plain
+        --tag ${CI_REGISTRY_IMAGE}:preview_${CI_COMMIT_SHORT_SHA}
+        --file Dockerfile.backoffice
+        .
+    - docker push ${CI_REGISTRY_IMAGE}:preview_${CI_COMMIT_SHORT_SHA}
 
-# preview:
-#   stage: test
-#   image: dotlabs/ansible:2.10
-#   <<: *ci-rules
-#   tags: [dot]
-#   script:
-#     - ./deploy/run-preview.sh preview
+preview:mr:
+  stage: preview
+  image: dotlabs/ansible:2.10
+  rules:
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  needs: ["build:docker_image_mr"]
+  tags: [dot]
+  script:
+    - ./deploy/run-preview.sh preview
 
-# cleanup_preview:
-#   stage: .post
-#   image: dotlabs/ansible:2.10
-#   <<: *ci-rules
-#   needs: ["preview"]
-#   tags: [dot]
-#   script:
-#     - ./deploy/run-preview.sh cleanup-preview
+cleanup_preview:mr:
+  <<: *ci-rules
+  stage: .post
+  image: dotlabs/ansible:2.10
+  needs: ["preview:mr"]
+  tags: [dot]
+  script:
+    - ./deploy/run-preview.sh cleanup-preview

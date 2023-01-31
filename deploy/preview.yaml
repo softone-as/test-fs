@@ -35,7 +35,7 @@
     - { 'key': 'traefik.http.routers.{{ preview_name }}.rule', 'value': 'Host(`{{ preview_name }}.prv.dot.co.id`)' }
     - { 'key': 'traefik.http.routers.{{ preview_name }}.entrypoints', 'value': 'preview' }
     - { 'key': 'traefik.http.services.{{ preview_name }}.loadbalancer.server.port', 'value': '3001' }
-    container_image: "registry.gitlab.dot.co.id/playground/boilerplates/nestjs-inertia:{{ version }}"
+    container_image: "registry.gitlab.dot.co.id/playground/boilerplates/nestjs-inertia:preview_{{ version }}"
 
   tasks:
   - name: dump database
