@@ -15,5 +15,6 @@ export class UserMapper {
         gender: user.gender,
         birthDate: user.birthDate,
         roles: user.roles,
+        createdAt: user.createdAt,
     });
 }

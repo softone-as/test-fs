@@ -35,6 +35,16 @@ export class UserIndexApplication extends IndexApplication {
             );
         }
 
+        if (request.start_at && request.end_at) {
+            query
+                .where(`user.createdAt >= :startAt`, {
+                    startAt: request.start_at,
+                })
+                .andWhere(`user.createdAt <= :endAt`, {
+                    endAt: request.end_at,
+                });
+        }
+
         if (request.gender) {
             query.where(`user.gender = :gender`, {
                 gender: `${request.gender}`,

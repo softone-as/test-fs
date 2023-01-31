@@ -6,9 +6,8 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
-import { Button, MenuProps, Select, Form, Space, Tag } from 'antd';
+import { Button, MenuProps, Select, Space, Tag } from 'antd';
 import { DateRangePicker, TRangeValue } from '../../../Components/molecules/Pickers';
-import type { Dayjs } from 'dayjs'
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Link } from '@inertiajs/inertia-react'
@@ -21,6 +20,7 @@ interface IProps extends TInertiaProps {
 }
 
 const UsersPage: React.FC = (props: IProps) => {
+
     const { setQueryParams } = useTableFilter<UserResponse>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
@@ -88,20 +88,19 @@ const UsersPage: React.FC = (props: IProps) => {
         }
     ]
 
-    const handleRange = (val: TRangeValue) => console.log(val.map(item => item.toDate()))
-    const handleDate = (val: Dayjs) => console.log(val.toDate())
+    const handleRange = (val: TRangeValue) => {
+
+        return setQueryParams({ start_at: val?.[0].toISOString(), end_at: val?.[1].toISOString() })
+    }
+
 
 
     const handleFilterGender = (data) => {
-        console.log(data)
+
         return setQueryParams({ gender: data })
     }
 
-    const [form] = Form.useForm<{ status: string }>()
 
-    const handleFinish = (values) => {
-        console.log('FINSIH : ', values)
-    }
     return (
         <MainLayout >
             <PageHeader title='User List' topActions={[
