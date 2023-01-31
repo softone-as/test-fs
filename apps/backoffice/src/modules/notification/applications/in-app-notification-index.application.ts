@@ -1,3 +1,4 @@
+import { config } from 'apps/backoffice/src/config';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
@@ -6,6 +7,8 @@ import { Repository } from 'typeorm';
 import { InAppNotificationIndexRequest } from '../requests/in-app-notification-index.request';
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
+import { IUser } from 'interface-models/iam/user.interface';
+import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
 
 const ALLOW_TO_SORT = ['latest', 'oldest', 'title'];
 
@@ -18,15 +21,19 @@ export class InAppNotificationIndexApplication extends IndexApplication {
         super();
     }
 
-    // @CacheGetSet(config.cache.name.notification.list)
+    @CacheGetSet(config.cache.name.notification.list)
     async fetch(
         request: InAppNotificationIndexRequest,
+        user: IUser,
     ): Promise<IPaginateResponse<IInAppNotification>> {
-        const query =
-            this.NotificationRepository.createQueryBuilder('notification');
+        const query = this.NotificationRepository.createQueryBuilder(
+            'notification',
+        )
+            .leftJoinAndSelect('notification.targetUser', 'targetUser')
+            .andWhere('targetUser.id = :userId', { userId: user.id });
 
         if (request.search) {
-            query.where(
+            query.andWhere(
                 `concat(notification.title, ' ', notification.message, ' ', notification.id) like :search`,
                 {
                     search: `%${request.search}%`,
