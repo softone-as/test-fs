@@ -1,0 +1,40 @@
+stages:
+  - build
+  - preview
+
+.ci-rules: &ci-rules
+  rules:
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    when: manual
+
+build:docker_image:
+  <<: *ci-rules
+  stage: build
+  services:
+    - docker:20.10.16-dind
+  image: docker:20.10.16
+  variables:
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - docker build --progress plain --tag ${CI_REGISTRY_IMAGE}:preview_nestjsinertia_${CI_COMMIT_SHORT_SHA} .
+    - docker push ${CI_REGISTRY_IMAGE}:preview_nestjsinertia_${CI_COMMIT_SHORT_SHA}
+
+# preview:
+#   stage: test
+#   image: dotlabs/ansible:2.10
+#   <<: *ci-rules
+#   tags: [dot]
+#   script:
+#     - ./deploy/run-preview.sh preview
+
+# cleanup_preview:
+#   stage: .post
+#   image: dotlabs/ansible:2.10
+#   <<: *ci-rules
+#   needs: ["preview"]
+#   tags: [dot]
+#   script:
+#     - ./deploy/run-preview.sh cleanup-preview
