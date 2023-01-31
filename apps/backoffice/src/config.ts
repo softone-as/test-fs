@@ -101,7 +101,7 @@ export const config = {
     },
 
     /**
-     * database configuration
+     * redis configuration
      */
     redis: {
         isEnable: process.env.REDIS_IS_ENABLE || false,
