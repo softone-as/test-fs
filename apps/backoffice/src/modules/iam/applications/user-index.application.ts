@@ -22,17 +22,17 @@ export class UserIndexApplication extends IndexApplication {
 
     @CacheGetSet(config.cache.name.users.list)
     async fetch(request: UserIndexRequest): Promise<IPaginateResponse<IUser>> {
-        const query = this.userRepository.createQueryBuilder('user');
+        const query = this.userRepository
+            .createQueryBuilder('user')
+            .leftJoinAndSelect('user.roles', 'role');
 
         if (request.search) {
-            query
-                .where(
-                    `concat(user.fullname, ' ', user.id, ' ', user.phoneNumber, ' ', user.email) like :search`,
-                    {
-                        search: `%${request.search}%`,
-                    },
-                )
-                .leftJoinAndSelect('user.roles', 'role');
+            query.where(
+                `concat(user.fullname, ' ', user.id, ' ', user.phoneNumber, ' ', user.email) like :search`,
+                {
+                    search: `%${request.search}%`,
+                },
+            );
         }
 
         if (request.sort == 'latest') {

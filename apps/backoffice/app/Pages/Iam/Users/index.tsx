@@ -56,7 +56,7 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Roles',
             dataIndex: 'roles',
             key: 'roles',
-            render: (roles: RoleResponse[]) => roles.map((role, index) => <Tag key={index}>{role.name}</Tag>)
+            render: (roles: RoleResponse[]) => roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>)
         },
         {
             title: 'Action',
