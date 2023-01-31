@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { AuthSchemaEnum } from './common/enums/auth.enum';
 
 dotenv.config();
 
@@ -10,6 +11,13 @@ export const config = {
     nodeEnv: process.env.NODE_ENV,
     port: process.env.PORT_BACKOFFICE || '3001',
     host: process.env.HOST_BACKOFFICE || 'localhost:3001',
+
+    auth: {
+        schema: process.env.AUTH_SCHEMA || AuthSchemaEnum.Local,
+        ldap: {
+            url: process.env.LDAP_URL || 'ldap://ldap.forumsys.com',
+        },
+    },
 
     amqp: {
         conn: null,

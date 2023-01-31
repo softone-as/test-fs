@@ -1,3 +1,4 @@
+import { LdapService } from './services/ldap.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'entities/iam/user.entity';
@@ -46,6 +47,7 @@ import { LogActivityService } from '../log-activity/services/log-activity.servic
         LocalStrategy,
         UserCrudApplication,
         LogActivityService,
+        LdapService,
     ],
     exports: [],
 })
