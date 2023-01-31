@@ -1,10 +1,8 @@
+import { UserCreateRequest } from 'apps/backoffice/src/modules/iam/requests/user-create.request';
 import { UserResponse } from 'apps/backoffice/src/modules/iam/responses/user.response';
 
 type IUser = UserResponse;
 
-type IUserForm = Pick<
-    UserResponse,
-    'fullname' | 'password' | 'email' | 'phoneNumber' | 'roles'
->;
+type IUserForm = Omit<UserCreateRequest, 'roles'>;
 
 export { IUser, IUserForm };

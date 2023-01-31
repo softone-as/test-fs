@@ -8,9 +8,11 @@ import { createYupSync } from '../../../Utils/utils';
 
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { createUser } from '../../../Modules/User/Action';
-// import { IUserForm } from '../../../Modules/User/Entities';
+import { IUserForm } from '../../../Modules/User/Entities';
+import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
+import { IRole } from 'interface-models/iam/role.interface';
 
-const schema = yup.object().shape({
+const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
     password: yup.string().required('Field password is required').min(8, 'Password at least have 8 character')
         .test('isFormatValid', 'At least password has include 1 number and Alphabet', (value, context) => {
@@ -25,20 +27,19 @@ const schema = yup.object().shape({
         }),
     email: yup.string().email().required('Field email is required'),
     phoneNumber: yup.string().required('Field phone number is required'),
-    roles: yup.array().of(
-        yup.object().shape({
-            id: yup.number(),
-            key: yup.string(),
-            name: yup.string(),
-        })
-    )
+    roles: yup.array().of(yup.number().required('Field roles is required'))
 })
 
-const FormUserPage: React.FC = () => {
+interface IProps extends TInertiaProps {
+    roles: IRole[],
+}
+
+const FormUserPage: React.FC = (props: IProps) => {
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm()
     const [isLoading, setIsLoading] = useState(false)
 
+    console.log(props.roles);
 
     const onFinish = async () => {
         setIsLoading(true)
@@ -100,7 +101,9 @@ const FormUserPage: React.FC = () => {
 
                     <Form.Item label="Roles" name='roles' rules={[yupSync]} required>
                         <Select placeholder='Select' mode='multiple'>
-                            <Select.Option value={JSON.stringify({ id: 1, key: 'admin', name: 'admin', })}>Admin</Select.Option>
+                            {props.roles.map(role => (
+                                <Select.Option value={role.id} key={role.id}>{role.name}</Select.Option>
+                            ))}
                         </Select>
                     </Form.Item>
 
