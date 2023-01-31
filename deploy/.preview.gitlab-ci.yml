@@ -17,7 +17,7 @@ build:docker_image:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    - docker build --progress plain --tag ${CI_REGISTRY_IMAGE}:preview_nestjsinertia_${CI_COMMIT_SHORT_SHA} .
+    - docker build --progress plain --tag ${CI_REGISTRY_IMAGE}:preview_nestjsinertia_${CI_COMMIT_SHORT_SHA} --file Dockerfile.backoffice .
     - docker push ${CI_REGISTRY_IMAGE}:preview_nestjsinertia_${CI_COMMIT_SHORT_SHA}
 
 # preview:
