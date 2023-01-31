@@ -104,7 +104,7 @@ export const config = {
      * redis configuration
      */
     redis: {
-        isEnable: process.env.REDIS_IS_ENABLE || false,
+        isEnabled: process.env.REDIS_IS_ENABLED || false,
         port: process.env.REDIS_PORT || 6379,
         password: process.env.REDIS_PASSWORD || '',
         host: process.env.REDIS_HOST || 'localhost',

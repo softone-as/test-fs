@@ -8,7 +8,7 @@ import { config } from 'apps/backoffice/src/config';
         {
             provide: REDIS,
             useValue: redis.createClient(
-                config.redis.isEnable == 'true'
+                config.redis.isEnabled == 'true'
                     ? {
                           port: +config.redis.port,
                           host: config.redis.host,

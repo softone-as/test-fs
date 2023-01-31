@@ -6,7 +6,7 @@ import { config } from '../../config';
 @Module({
     imports: [
         CacheModuleManager.register(
-            config.redis.isEnable == 'true' && {
+            config.redis.isEnabled == 'true' && {
                 store: redisStore,
                 host: config.redis.host,
                 port: config.redis.port,
