@@ -38,12 +38,13 @@ import { join } from 'path';
 import { QueryFailedError } from 'typeorm';
 import { CacheModule as CacheModuleManager } from '@nestjs/common';
 import { CacheModule } from './infrastructure/cache/cache.module';
-import { NotificationModule as InAppNotificationModule } from './modules/notification/notification.module';
+import { InAppNotificationModule as InAppNotificationModule } from './modules/notification/notification.module';
 import { CacheCleanMiddleware } from './infrastructure/cache/middlewares/cache-clean.middleware';
 import { LogActivityModule } from './modules/log-activity/log-activity.module';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { GlobalServiceModule } from './modules/glob/global-service.module';
+import { NotificationUnreadMiddleware } from './modules/notification/middlewares/notification-unread.middleware';
 
 @Module({
     imports: [
@@ -86,6 +87,7 @@ import { GlobalServiceModule } from './modules/glob/global-service.module';
         CommonModule,
         IamModule,
         NotificationModule,
+        InAppNotificationModule,
 
         ScheduleModule.forRoot(),
 
@@ -170,6 +172,7 @@ export class AppModule implements NestModule {
                 CacheCleanMiddleware,
                 InertiaSharePropsMiddleware,
                 UserDetailMiddleware,
+                NotificationUnreadMiddleware,
             )
             .forRoutes('*');
     }

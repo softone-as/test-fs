@@ -77,6 +77,10 @@ export const config = {
                 detail: 'user',
                 list: 'list-user',
             },
+            notification: {
+                detail: 'notification',
+                list: 'list-notification',
+            },
         },
     },
 
