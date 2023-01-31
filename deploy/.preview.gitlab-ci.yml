@@ -13,6 +13,7 @@ build:docker_image:
   services:
     - docker:20.10.16-dind
   image: docker:20.10.16
+  tags: [dot]
   variables:
     DOCKER_HOST: tcp://docker:2376
     DOCKER_TLS_CERTDIR: "/certs"
