@@ -45,7 +45,6 @@ import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { GlobalServiceModule } from './modules/glob/global-service.module';
 import { NotificationUnreadMiddleware } from './modules/notification/middlewares/notification-unread.middleware';
-import { InAppNotification } from 'entities/notification/in-app-notification.entity';
 
 @Module({
     imports: [
@@ -54,7 +53,6 @@ import { InAppNotification } from 'entities/notification/in-app-notification.ent
         }),
 
         TypeOrmModule.forRoot(connectionOption),
-        TypeOrmModule.forFeature([InAppNotification]),
         RavenModule,
         RedisModule,
         ConfigModule,

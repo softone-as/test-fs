@@ -15,6 +15,6 @@ import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.ada
         InAppNotificationService,
         InAppNotificationIndexApplication,
     ],
-    exports: [InAppNotificationIndexApplication],
+    exports: [InAppNotificationIndexApplication, InAppNotificationService],
 })
 export class InAppNotificationModule {}
