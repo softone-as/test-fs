@@ -6,10 +6,13 @@ import React, { useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync } from '../../../Utils/utils';
 
+import { PageHeader } from '../../../Components/molecules/Headers';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
+
 import { createUser } from '../../../Modules/User/Action';
+
 import { IUserForm } from '../../../Modules/User/Entities';
-import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
+import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { IRole } from 'interface-models/iam/role.interface';
 
 const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
@@ -38,8 +41,6 @@ const FormUserPage: React.FC = (props: IProps) => {
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm()
     const [isLoading, setIsLoading] = useState(false)
-
-    console.log(props.roles);
 
     const onFinish = async () => {
         setIsLoading(true)
@@ -72,6 +73,8 @@ const FormUserPage: React.FC = (props: IProps) => {
                     <Spin size='large' />
                 </div>
             ) : null}
+
+            <PageHeader title='Add New User' />
 
             {/* Implement Form User */}
             <Row justify='center' style={{ backgroundColor: '#fff', borderRadius: 8 }}>

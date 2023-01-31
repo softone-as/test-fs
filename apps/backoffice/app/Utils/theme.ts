@@ -43,5 +43,20 @@ export const globalThemeConfig: ThemeConfig = {
             controlItemBgActive: '#E6FFFB',
             controlItemBgActiveHover: '#E6FFFB',
         },
+        Steps: {
+            colorPrimary: themeColors.primary,
+        },
+        Tabs: {
+            colorPrimary: themeColors.primary,
+        },
+        Upload: {
+            colorPrimary: themeColors.primary,
+        },
+        Radio: {
+            colorPrimary: themeColors.primary,
+        },
+        Switch: {
+            colorPrimary: themeColors.primary,
+        },
     },
 };
