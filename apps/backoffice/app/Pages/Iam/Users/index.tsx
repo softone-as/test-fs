@@ -15,13 +15,24 @@ import { iconActionTableStyle } from '../../../Utils/theme';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response'
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response'
 
+
 interface IProps extends TInertiaProps {
     data: UserResponse[],
 }
 
+type TFilters = {
+    page: string,
+    per_page: string,
+    search?: string,
+    gender?: string,
+    start_at?: string,
+    end_at?: string,
+    sort?: 'latest' | 'oldest'
+}
+
 const UsersPage: React.FC = (props: IProps) => {
 
-    const { setQueryParams } = useTableFilter<UserResponse>()
+    const { setQueryParams, filters } = useTableFilter<TFilters>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
     const columns: ColumnsType<UserResponse> = [
@@ -35,6 +46,7 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Name',
             dataIndex: 'fullname',
             key: 'fullname',
+            sorter: true,
         },
         {
             title: 'Gender',
@@ -89,17 +101,19 @@ const UsersPage: React.FC = (props: IProps) => {
     ]
 
     const handleRange = (val: TRangeValue) => {
-
         return setQueryParams({ start_at: val?.[0].toISOString(), end_at: val?.[1].toISOString() })
     }
 
-
-
     const handleFilterGender = (data) => {
-
         return setQueryParams({ gender: data })
     }
 
+    const handleSorter = (columnKey: string, order: 'ascend' | 'descend') => {
+        if (!order) {
+            return
+        }
+        return setQueryParams({ sort: order === 'ascend' ? 'oldest' : 'latest' })
+    }
 
     return (
         <MainLayout >
@@ -107,12 +121,13 @@ const UsersPage: React.FC = (props: IProps) => {
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
                 <Button size='large' type='primary'>New User</Button>
             ]} />
-            <FilterSection searchHandler={handleSearch}
+            <FilterSection
+                searchHandler={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
                 filters={
                     [
-                        <Select placeholder='Gender' options={[{ label: 'Pria', value: 'MALE' }, { label: 'Wanita', value: 'FEMALE' }]} onChange={handleFilterGender} allowClear style={{ width: '90px' }} />,
+                        <Select placeholder='Gender' defaultValue={filters.gender} options={[{ label: 'Pria', value: 'MALE' }, { label: 'Wanita', value: 'FEMALE' }]} onChange={handleFilterGender} allowClear style={{ width: '90px' }} />,
                         <DateRangePicker range={10} onChange={handleRange} />,
                     ]
                 } />
@@ -122,6 +137,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
+                onSort={handleSorter}
                 onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), per_page: pageSize.toString() })}
             />
         </MainLayout>

@@ -7,6 +7,7 @@ export type TRangeValue = [Dayjs | null, Dayjs | null] | null;
 export type TDateRangePicker = {
     range?: number;
     onChange: (val: TRangeValue) => void;
+
 };
 
 export const DateRangePicker = ({ onChange, range = 7 }: TDateRangePicker) => {
@@ -38,6 +39,7 @@ export const DateRangePicker = ({ onChange, range = 7 }: TDateRangePicker) => {
     return (
 
         <DatePicker.RangePicker value={dates || value}
+
             disabledDate={disabledDate}
             onCalendarChange={(val) => setDates(val)}
             onChange={handleChange}

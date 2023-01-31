@@ -4,11 +4,13 @@ import React from 'react';
 import { Table, Pagination, Space } from 'antd';
 import type { TableProps } from 'antd/es/table';
 import type { PaginationProps } from 'antd/es/pagination'
+import { SorterResult } from 'antd/es/table/interface';
 
 interface IProps<T> extends TableProps<T> {
     total: number
     perPage: number
     defaultCurrent?: number
+    onSort?: (columnKey: React.Key, order: string) => void,
     onPageChange: (page: number, pageSize: number) => void
 
 }
@@ -26,7 +28,7 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
             <Table<T> {...props} style={{ width: '100%', }}
                 size='small'
                 pagination={false}
-
+                onChange={(pagination, filters, sorter: SorterResult<T>) => props.onSort(sorter.columnKey, sorter.order)}
             />
 
 

@@ -24,7 +24,7 @@ export const useTableFilter = <T = any>() => {
         isFetching: false,
     });
 
-    const [filters, setFilters] = useState(() => {
+    const [filters, setFilters] = useState<T | any>(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const filtersObj = {};
         for (const [key, value] of queryParams.entries()) {
@@ -43,7 +43,7 @@ export const useTableFilter = <T = any>() => {
     );
 
     return {
-        setQueryParams: (propsParams: PropsParams) => {
+        setQueryParams: (propsParams: PropsParams | T) => {
             const data = {
                 ...existingParams,
                 ...propsParams,
@@ -108,7 +108,8 @@ export const useTableFilter = <T = any>() => {
         //         },
         //     });
         // },
-        filters: filters as Record<any, string>,
+        // filters: filters as Record<any, string>,
+        filters: filters as T,
         status,
     };
 };
