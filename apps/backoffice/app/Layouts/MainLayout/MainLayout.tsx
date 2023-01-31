@@ -88,6 +88,23 @@ const SidebarMenu: MenuProps['items'] = [
 
     },
     {
+        key: '4',
+        label: 'Sample Detail',
+        icon: <MailOutlined />,
+        theme: 'light',
+        children: [
+            {
+                key: '4-1',
+                label: <Link href='/sample/detail/basic'>Detail Basic</Link>,
+            },
+            {
+                key: '4-2',
+                label: <Link href='/sample/detail/advanced'>Detail Advanced</Link>,
+            },
+        ]
+
+    },
+    {
         key: '5',
         label: <Link href='#' onClick={handleLogout}>Logout</Link>,
         icon: <MailOutlined />,

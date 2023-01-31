@@ -1,15 +1,22 @@
-import { PageHeader } from '../../../Components/molecules/Headers';
+
 import React from 'react';
 
-import { MainLayout } from '../../../Layouts/MainLayout';
-import { Button, Descriptions, Space, Typography } from 'antd';
 import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-import { IUser } from '../../../Modules/User/Entities';
-import { ColumnsType } from 'antd/es/table';
 import { Link } from '@inertiajs/inertia-react';
+import {
+    Button, Descriptions, Space, Typography
+} from 'antd';
+import { ColumnsType } from 'antd/es/table';
+
+
+import { IUser } from '../../../Modules/User/Entities';
+
 import { iconActionTableStyle } from '../../../Utils/theme';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
+
+import { PageHeader } from '../../../Components/molecules/Headers';
 import { DataTable } from '../../../Components/organisms/DataTable';
+import { MainLayout } from '../../../Layouts/MainLayout';
+
 
 const columns: ColumnsType<IUser> = [
     {
@@ -38,7 +45,7 @@ const columns: ColumnsType<IUser> = [
         key: 'action',
         width: '142px',
         render: () => <Space size='large'>
-            <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link>
+            <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link >
             <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
             <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
         </Space>
@@ -52,9 +59,28 @@ const data: IUser[] = [
         fullname: 'John Cena',
         email: 'john@cena.com',
         password: '4123',
+        phoneNumber: '0841231322',
+        identityNumber: '231',
+
+    },
+    {
+        id: 2,
+        fullname: 'John Wick',
+        email: 'john@wick.com',
+        password: '4123',
         identityNumber: '231',
         phoneNumber: '0841231322',
-    }
+
+    },
+    {
+        id: 3,
+        fullname: 'John LBF',
+        email: 'john@lbf.com',
+        password: '4123',
+        identityNumber: '231',
+        phoneNumber: '0841231322',
+
+    },
 ]
 
 const contentItemStyle = {
@@ -62,7 +88,7 @@ const contentItemStyle = {
 }
 
 const labelWrapperStyle = {
-    width: '20%'
+    width: '15%'
 }
 
 const buttonWithIconStyle = {
@@ -71,12 +97,8 @@ const buttonWithIconStyle = {
     justifyContent: 'center'
 }
 
-interface IProps extends TInertiaProps {
-    data: IUser,
-}
-
-const UserDetailPage: React.FC = (props: IProps) => {
-    const { id, identityNumber, email, fullname, phoneNumber, gender } = props.data
+/* eslint-disable @typescript-eslint/naming-convention */
+const DetailBasicPage: React.FC = () => {
 
     return (
         <MainLayout >
@@ -87,17 +109,22 @@ const UserDetailPage: React.FC = (props: IProps) => {
                 <Button size='large' type='primary'>Action</Button>,
             ]} />
 
-            <Descriptions title='User Info' size='small' bordered column={2} labelStyle={labelWrapperStyle} style={{ backgroundColor: '#fff', borderRadius: 8, padding: '15px 24px' }}>
-                <Descriptions.Item contentStyle={contentItemStyle} label='ID'>{id}</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Name'>{fullname}</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='No Telephone'>{phoneNumber}</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Email'>{email}</Descriptions.Item>
+            <Descriptions title='User Info' size='small' bordered column={2}
+                style={{ backgroundColor: '#fff', borderRadius: 8, padding: '15px 24px' }}
+                labelStyle={labelWrapperStyle}
+            >
+                <Descriptions.Item contentStyle={contentItemStyle} label='ID'>2</Descriptions.Item>
+                <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
+                <Descriptions.Item contentStyle={contentItemStyle} label='No Telephone'>+628521341231</Descriptions.Item>
+                <Descriptions.Item contentStyle={contentItemStyle} label='Email'>john@cena.com</Descriptions.Item>
             </Descriptions>
 
-            <Descriptions title='Advanced Information' size='small' bordered column={2} labelStyle={labelWrapperStyle} contentStyle={{ width: '30%' }} style={{ backgroundColor: '#fff', borderRadius: '8 8 0 0', padding: '15px 24px', marginTop: 24 }}>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Identity Number'>{identityNumber}</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Gender'>{gender}</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Address Link' span={2}>http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts</Descriptions.Item>
+            <Descriptions title='Advanced Information' size='small' bordered column={2} style={{ backgroundColor: '#fff', borderRadius: '8 8 0 0', padding: '15px 24px', marginTop: 24 }} labelStyle={labelWrapperStyle} contentStyle={{ width: '35%' }}>
+                <Descriptions.Item contentStyle={contentItemStyle} label='ID'>2</Descriptions.Item>
+                <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
+                <Descriptions.Item contentStyle={contentItemStyle} label='Address Link' span={2}>
+                    http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
+                </Descriptions.Item>
             </Descriptions>
 
 
@@ -117,7 +144,8 @@ const UserDetailPage: React.FC = (props: IProps) => {
             </div>
 
         </MainLayout>
-    );
-};
+    )
+}
 
-export default UserDetailPage;
+
+export default DetailBasicPage;

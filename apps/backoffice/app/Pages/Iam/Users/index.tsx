@@ -53,8 +53,8 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: () => <Space size='large'>
-                <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link>
+            render: ({ id }) => <Space size='large'>
+                <Link href={`/users/${id}`}><EyeOutlined style={iconActionTableStyle} /></Link>
                 <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
                 <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
             </Space>
