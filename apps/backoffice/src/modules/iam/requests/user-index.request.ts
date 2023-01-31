@@ -5,4 +5,8 @@ export class UserIndexRequest extends IndexRequest {
     @IsString()
     @IsOptional()
     search?: string;
+
+    @IsString()
+    @IsOptional()
+    gender?: string;
 }

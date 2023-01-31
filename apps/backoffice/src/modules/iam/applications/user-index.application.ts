@@ -35,6 +35,12 @@ export class UserIndexApplication extends IndexApplication {
             );
         }
 
+        if (request.gender) {
+            query.where(`user.gender = :gender`, {
+                gender: `${request.gender}`,
+            });
+        }
+
         if (request.sort == 'latest') {
             query.orderBy('user.createdAt', 'DESC');
         } else if (request.sort == 'oldest') {

@@ -6,12 +6,11 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
-import { Button, MenuProps, Select, Form, Typography, Space, Tag } from 'antd';
-import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/molecules/Pickers';
+import { Button, MenuProps, Select, Form, Space, Tag } from 'antd';
+import { DateRangePicker, TRangeValue } from '../../../Components/molecules/Pickers';
 import type { Dayjs } from 'dayjs'
-import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, EyeOutlined, FileExcelOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Link } from '@inertiajs/inertia-react'
 import { iconActionTableStyle } from '../../../Utils/theme';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response'
@@ -79,8 +78,6 @@ const UsersPage: React.FC = (props: IProps) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
-
-
     const batchActionMenus: MenuProps['items'] = [
         {
             key: '1',
@@ -95,8 +92,9 @@ const UsersPage: React.FC = (props: IProps) => {
     const handleDate = (val: Dayjs) => console.log(val.toDate())
 
 
-    const handleStatus = (data) => {
-        console.log('DATa Status: ', data)
+    const handleFilterGender = (data) => {
+        console.log(data)
+        return setQueryParams({ gender: data })
     }
 
     const [form] = Form.useForm<{ status: string }>()
@@ -115,26 +113,8 @@ const UsersPage: React.FC = (props: IProps) => {
                 batchActionMenus={batchActionMenus}
                 filters={
                     [
-                        <MultiFilterDropdown form={form} title='Filter' initialValues={{ status: '' }} onFinish={handleFinish} onReset={() => console.log('Hello')} fieldsForm={[
-                            <Form.Item
-                                label={<Space size="small"><Typography.Text>Status</Typography.Text> <QuestionCircleOutlined style={{ color: 'rgba(0, 0, 0, 0.45)' }} /><Typography.Text style={{ color: 'rgba(0, 0, 0, 0.45)' }}>(optional)</Typography.Text></Space>}
-                                name="status"
-                                rules={[{ required: true }]}
-                            >
-                                <Select options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} onChange={handleStatus} allowClear style={{ width: '100%' }} />
-                            </Form.Item>,
-                            <Form.Item label="Status" name="status">
-                                <Select options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} onChange={handleStatus} allowClear style={{ width: '100%' }} />
-                            </Form.Item>,
-                            <Form.Item label="Status" name="status">
-                                <Select options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} onChange={handleStatus} allowClear style={{ width: '100%' }} />
-                            </Form.Item>
-
-                        ]}
-                        />,
-
+                        <Select placeholder='Gender' options={[{ label: 'Pria', value: 'MALE' }, { label: 'Wanita', value: 'FEMALE' }]} onChange={handleFilterGender} allowClear style={{ width: '90px' }} />,
                         <DateRangePicker range={10} onChange={handleRange} />,
-                        <DatePicker onChange={handleDate} />
                     ]
                 } />
             <DataTable
@@ -143,7 +123,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
-                onPageChange={(page) => setQueryParams({ page: page.toString() })}
+                onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), per_page: pageSize.toString() })}
             />
         </MainLayout>
     );
