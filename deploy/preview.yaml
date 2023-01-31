@@ -133,5 +133,5 @@
 
   - name: output
     debug:
-      msg: "The deployment URL is http://{{ preview_name }}.prv.dot.co.id"
+      msg: "The deployment URL is http://{{ preview_name }}:8080.prv.dot.co.id"
     when: "{{ inventory_hostname == 'dot_preview' }}"

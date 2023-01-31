@@ -19,6 +19,12 @@
       name: "{{ preview_name }}"
       state: absent
 
+  - name: delete docker image
+    community.docker.docker_image:
+      name: "registry.gitlab.dot.co.id/playground/boilerplates/nestjs-inertia"
+      state: absent
+      tag: "preview_{{ version }}"
+
   - name: delete working directory
     ansible.builtin.file:
       path: "{{ working_directory }}"
