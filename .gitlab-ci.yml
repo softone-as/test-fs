@@ -1,2 +1,6 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_BUILDKIT: 1
+
 include:
   - /deploy/.preview.gitlab-ci.yml

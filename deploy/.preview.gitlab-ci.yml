@@ -10,13 +10,10 @@ stages:
 build:docker_image:
   <<: *ci-rules
   stage: build
-  services:
-    - docker:20.10.16-dind
-  image: docker:20.10.16
+  image:
+    name: us.gcr.io/dot-gitlab-runner/aws-cli:docker
+    entrypoint: [""]
   tags: [dot]
-  variables:
-    DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: "/certs"
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
