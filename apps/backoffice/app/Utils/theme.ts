@@ -58,5 +58,8 @@ export const globalThemeConfig: ThemeConfig = {
         Switch: {
             colorPrimary: themeColors.primary,
         },
+        Timeline: {
+            colorPrimary: themeColors.primary,
+        },
     },
 };
