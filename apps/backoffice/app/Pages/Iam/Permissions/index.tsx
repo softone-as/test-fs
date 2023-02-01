@@ -4,44 +4,38 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
-import { Button, MenuProps, Select } from 'antd';
-import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/molecules/Pickers';
-import type { Dayjs } from 'dayjs'
-import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
+import { Button, MenuProps, Tag } from 'antd';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Form, Typography, Space } from 'antd'
-import { Link } from '@inertiajs/inertia-react'
+import { EditOutlined, EyeOutlined, FileExcelOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { iconActionTableStyle } from '../../../Utils/theme';
 
-
-
-
-type DataType = {
-    birthDate: string,
-    email: string,
-    emailVerifiedAt: string,
-    fullname: string,
-    gender: string,
-    id: number,
-    identityNumber: string,
-    oneSignalPlayerIds: string,
-    password: string,
-    phoneNumber: string,
-    phoneNumberVerifiedAt: string
-}
+import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response'
+import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
+import { Inertia } from '@inertiajs/inertia';
 
 interface IProps extends TInertiaProps {
-    data: DataType[],
+    data: PermissionResponse[],
+}
+
+type TFilters = {
+    page: string,
+    per_page: string,
+    search?: string,
+
 }
 
 const PermissionPage: React.FC = (props: IProps) => {
-    const { setQueryParams } = useTableFilter<DataType>()
+    const { setQueryParams } = useTableFilter<TFilters>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
-    const columns: ColumnsType<DataType> = [
+    const handleDeleteRow = (id) => {
+        return Inertia.get(`/permissions/delete/${id}`)
+    }
+    const deleteModal = (id) => useModal({ title: 'Are You Sure? ', type: 'confirm', onOk: () => handleDeleteRow(id), onCancel: () => { return } })
+
+    const columns: ColumnsType<Omit<PermissionResponse, 'key'>> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -49,29 +43,29 @@ const PermissionPage: React.FC = (props: IProps) => {
 
         },
         {
-            title: 'Name',
-            dataIndex: 'fullname',
-            key: 'fullname',
+            title: 'Permission Name',
+            dataIndex: 'name',
+            key: 'name',
         },
         {
-            title: 'Gender',
-            dataIndex: 'gender',
-            key: 'gender',
-        },
-        {
-            title: 'Phone Number',
-            dataIndex: 'phoneNumber',
-            key: 'phoneNumber',
+            title: 'Roles',
+            dataIndex: 'roles',
+            key: 'roles',
+            render: (roles: RoleResponse[]) => roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>)
         },
         {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: () => <Space size='large'>
-                <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link>
-                <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
-                <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
-            </Space>
+            render: (value: Omit<PermissionResponse, 'key'>) => {
+                return (
+                    <Button.Group size='small'>
+                        <Button type='link' href='/permissions/1'><EyeOutlined style={iconActionTableStyle} /></Button>
+                        <Button type='link' href='/permissions/edit/1'><EditOutlined style={iconActionTableStyle} /></Button>
+                        <Button type='text' onClick={() => deleteModal(value.id)}><DeleteOutlined style={iconActionTableStyle} /></Button>
+                    </Button.Group>
+                )
+            }
         }
 
     ]
@@ -84,31 +78,24 @@ const PermissionPage: React.FC = (props: IProps) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
+    const handleBatchDelete = () => {
+        Inertia.post(`/permissions/deletes`, {
+            ids: selectedRowKeys
+        })
+    }
+
 
 
     const batchActionMenus: MenuProps['items'] = [
         {
             key: '1',
             label: 'Delete',
-            onClick: () => useModal({ title: 'Are You Sure? ', type: 'warning', onOk: () => alert('Ok Delete') }),
+            onClick: () => useModal({ title: 'Are You Sure? ', type: 'confirm', onOk: () => handleBatchDelete() }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' }
         }
     ]
 
-    const handleRange = (val: TRangeValue) => console.log(val.map(item => item.toDate()))
-    const handleDate = (val: Dayjs) => console.log(val.toDate())
-
-
-    const handleStatus = (data) => {
-        console.log('DATa Status: ', data)
-    }
-
-    const [form] = Form.useForm<{ status: string }>()
-
-    const handleFinish = (values) => {
-        console.log('FINSIH : ', values)
-    }
 
     return (
         <MainLayout >
@@ -119,37 +106,14 @@ const PermissionPage: React.FC = (props: IProps) => {
             <FilterSection searchHandler={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
-                filters={
-                    [
-                        <MultiFilterDropdown form={form} title='Filter' initialValues={{ status: '' }} onFinish={handleFinish} onReset={() => console.log('Hello')} fieldsForm={[
-                            <Form.Item
-                                label={<Space size="small"><Typography.Text>Status</Typography.Text> <QuestionCircleOutlined style={{ color: 'rgba(0, 0, 0, 0.45)' }} /><Typography.Text style={{ color: 'rgba(0, 0, 0, 0.45)' }}>(optional)</Typography.Text></Space>}
-                                name="status"
-                                rules={[{ required: true }]}
-                            >
-                                <Select options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} onChange={handleStatus} allowClear style={{ width: '100%' }} />
-                            </Form.Item>,
-                            <Form.Item label="Status" name="status">
-                                <Select options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} onChange={handleStatus} allowClear style={{ width: '100%' }} />
-                            </Form.Item>,
-                            <Form.Item label="Status" name="status">
-                                <Select options={[{ label: 'Done', value: 'done' }, { label: 'Pending', value: 'pending' }]} onChange={handleStatus} allowClear style={{ width: '100%' }} />
-                            </Form.Item>
-
-                        ]}
-                        />,
-
-                        <DateRangePicker range={10} onChange={handleRange} />,
-                        <DatePicker onChange={handleDate} />
-                    ]
-                } />
+            />
             <DataTable
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
                 columns={columns}
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
-                onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), size: pageSize.toString() })}
+                onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), per_page: pageSize.toString() })}
             />
         </MainLayout>
     );

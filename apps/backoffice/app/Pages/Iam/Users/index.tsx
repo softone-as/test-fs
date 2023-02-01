@@ -5,15 +5,16 @@ import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
+import { } from '../../../Utils/notification'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
-import { Button, MenuProps, Select, Space, Tag } from 'antd';
+import { Button, MenuProps, Select, Tag } from 'antd';
 import { DateRangePicker, TRangeValue } from '../../../Components/molecules/Pickers';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Link } from '@inertiajs/inertia-react'
 import { iconActionTableStyle } from '../../../Utils/theme';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response'
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response'
+import { Inertia } from '@inertiajs/inertia';
 
 
 interface IProps extends TInertiaProps {
@@ -34,6 +35,20 @@ const UsersPage: React.FC = (props: IProps) => {
 
     const { setQueryParams, filters } = useTableFilter<TFilters>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+
+
+    const handleDeleteRow = (id) => {
+
+        return Inertia.get(`/users/delete/${id}`)
+    }
+
+    const handleBatchDelete = () => {
+        return Inertia.post(`/users/deletes`, {
+            ids: selectedRowKeys
+        })
+    }
+
+    const deleteModal = (id) => useModal({ title: 'Are You Sure? ', type: 'confirm', onOk: () => handleDeleteRow(id), onCancel: () => { return } })
 
     const columns: ColumnsType<UserResponse> = [
         {
@@ -73,11 +88,15 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: () => <Space size='large'>
-                <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link>
-                <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
-                <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
-            </Space>
+            render: (value: UserResponse) => {
+                return (
+                    <Button.Group size='small'>
+                        <Button type='link' href='/users/1'><EyeOutlined style={iconActionTableStyle} /></Button>
+                        <Button type='link' href='/users/edit/1'><EditOutlined style={iconActionTableStyle} /></Button>
+                        <Button type='text' onClick={() => deleteModal(value.id)}><DeleteOutlined style={iconActionTableStyle} /></Button>
+                    </Button.Group>
+                )
+            }
         }
 
     ]
@@ -94,7 +113,7 @@ const UsersPage: React.FC = (props: IProps) => {
         {
             key: '1',
             label: 'Delete',
-            onClick: () => useModal({ title: 'Are You Sure? ', type: 'warning', onOk: () => alert('Ok Delete') }),
+            onClick: () => useModal({ title: 'Are You Sure? ', type: 'confirm', onOk: handleBatchDelete }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' }
         }

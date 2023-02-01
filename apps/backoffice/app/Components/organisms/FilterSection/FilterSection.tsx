@@ -33,7 +33,7 @@ export const FilterSection = (props: IFilterSection) => {
 
             {/* Filters */}
             {
-                props.filters.map((item, index) => {
+                props.filters?.map((item, index) => {
                     return (
                         <Col key={index}>
                             {item}
