@@ -124,7 +124,7 @@
     when: "{{ inventory_hostname == 'dot_preview' }}"
 
   - name: run container
-    community.docker.docker_container:
+    docker_container:
       name: "{{ preview_name }}"
       image: "{{ container_image }}"
       state: started
