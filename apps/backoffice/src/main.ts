@@ -19,8 +19,9 @@ async function bootstrap() {
     Sentry.init({
         dsn: config.sentry.dsn,
         attachStacktrace: true,
-        debug: config.nodeEnv !== 'local',
+        debug: config.nodeEnv === 'local',
         environment: config.nodeEnv,
+        tracesSampleRate: 1.0,
     });
 
     initializeTransactionalContext();
