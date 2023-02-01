@@ -81,9 +81,7 @@ const data: IUser[] = [
     },
 ]
 
-const contentItemStyle = {
-    opacity: '45%'
-}
+
 
 const buttonWithIconStyle = {
     display: 'flex',
@@ -135,11 +133,11 @@ const DetailAdvancedPage: React.FC = () => {
                         </Space>
 
                         <Descriptions layout='vertical' column={1} size='small'>
-                            <Descriptions.Item contentStyle={contentItemStyle} label='ID'>109820348998734897</Descriptions.Item>
-                            <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
-                            <Descriptions.Item contentStyle={contentItemStyle} label='Email'>john.lbf@gmail.com</Descriptions.Item>
-                            <Descriptions.Item contentStyle={contentItemStyle} label='No Telephone'>0812376152345</Descriptions.Item>
-                            <Descriptions.Item contentStyle={contentItemStyle} label='Address'>Rectory Cottage, Farleigh Court Road, Warlingham, CR6 9PX</Descriptions.Item>
+                            <Descriptions.Item label='ID'>109820348998734897</Descriptions.Item>
+                            <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
+                            <Descriptions.Item label='Email'>john.lbf@gmail.com</Descriptions.Item>
+                            <Descriptions.Item label='No Telephone'>0812376152345</Descriptions.Item>
+                            <Descriptions.Item label='Address'>Rectory Cottage, Farleigh Court Road, Warlingham, CR6 9PX</Descriptions.Item>
                         </Descriptions>
                         <Descriptions column={1} size='small'>
                             <Descriptions.Item label='Status'><Badge status="warning" text='Warning' /></Descriptions.Item>

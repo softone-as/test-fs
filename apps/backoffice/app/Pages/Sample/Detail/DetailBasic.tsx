@@ -84,9 +84,6 @@ const data: IUser[] = [
     },
 ]
 
-const contentItemStyle = {
-    opacity: '45%'
-}
 
 const labelWrapperStyle = {
     width: '15%'
@@ -112,10 +109,10 @@ const DetailBasicPage: React.FC = () => {
 
             <Card>
                 <Descriptions title='User Info' size='small' bordered column={2} labelStyle={labelWrapperStyle}>
-                    <Descriptions.Item contentStyle={contentItemStyle} label='ID'>2</Descriptions.Item>
-                    <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
-                    <Descriptions.Item contentStyle={contentItemStyle} label='No Telephone'>+628521341231</Descriptions.Item>
-                    <Descriptions.Item contentStyle={contentItemStyle} label='Email'>john@cena.com</Descriptions.Item>
+                    <Descriptions.Item label='ID'>2</Descriptions.Item>
+                    <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
+                    <Descriptions.Item label='No Telephone'>+628521341231</Descriptions.Item>
+                    <Descriptions.Item label='Email'>john@cena.com</Descriptions.Item>
                 </Descriptions>
 
             </Card>
@@ -123,9 +120,9 @@ const DetailBasicPage: React.FC = () => {
 
             <Card style={{ marginTop: '16px' }}>
                 <Descriptions title='Advanced Information' size='small' bordered column={2} labelStyle={labelWrapperStyle} contentStyle={{ width: '35%' }}>
-                    <Descriptions.Item contentStyle={contentItemStyle} label='ID'>2</Descriptions.Item>
-                    <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
-                    <Descriptions.Item contentStyle={contentItemStyle} label='Address Link' span={2}>
+                    <Descriptions.Item label='ID'>2</Descriptions.Item>
+                    <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
+                    <Descriptions.Item label='Address Link' span={2}>
                         http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
                     </Descriptions.Item>
                 </Descriptions>

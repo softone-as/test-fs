@@ -21,7 +21,7 @@ function TimelinesItem(props: ITimelineItemProps) {
     return (
         <TimelineItem {...props}>
             <Row justify='space-between'>
-                <Space direction='vertical'>
+                <Space direction='vertical' style={{ width: '377px' }}>
                     <Typography.Text style={{ fontSize: '14px', opacity: '85%', fontWeight: 600 }}>{title}</Typography.Text>
                     <Typography.Text style={secondaryStyle}>{description}</Typography.Text>
                 </Space>

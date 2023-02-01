@@ -58,9 +58,6 @@ const data: IUser[] = [
     }
 ]
 
-const contentItemStyle = {
-    opacity: '45%'
-}
 
 const labelWrapperStyle = {
     width: '20%'
@@ -89,16 +86,16 @@ const UserDetailPage: React.FC = (props: IProps) => {
             ]} />
 
             <Descriptions title='User Info' size='small' bordered column={2} labelStyle={labelWrapperStyle} style={{ backgroundColor: '#fff', borderRadius: 8, padding: '15px 24px' }}>
-                <Descriptions.Item contentStyle={contentItemStyle} label='ID'>{id}</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Name'>{fullname}</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='No Telephone'>{phoneNumber}</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Email'>{email}</Descriptions.Item>
+                <Descriptions.Item label='ID'>{id}</Descriptions.Item>
+                <Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
+                <Descriptions.Item label='No Telephone'>{phoneNumber}</Descriptions.Item>
+                <Descriptions.Item label='Email'>{email}</Descriptions.Item>
             </Descriptions>
 
             <Descriptions title='Advanced Information' size='small' bordered column={2} labelStyle={labelWrapperStyle} contentStyle={{ width: '30%' }} style={{ backgroundColor: '#fff', borderRadius: '8 8 0 0', padding: '15px 24px', marginTop: 24 }}>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Identity Number'>{identityNumber}</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Gender'>{gender}</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Address Link' span={2}>http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts</Descriptions.Item>
+                <Descriptions.Item label='Identity Number'>{identityNumber}</Descriptions.Item>
+                <Descriptions.Item label='Gender'>{gender}</Descriptions.Item>
+                <Descriptions.Item label='Address Link' span={2}>http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts</Descriptions.Item>
             </Descriptions>
 
 
