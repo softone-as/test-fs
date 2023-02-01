@@ -2,6 +2,7 @@
 import { CheckCircleFilled, UploadOutlined } from '@ant-design/icons';
 import {
     Button,
+    Card,
     Form, FormProps,
     Input,
     Row,
@@ -17,6 +18,7 @@ import React, { useState } from 'react';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { ButtonFormAction } from '../../../Components/organisms/FormContainer';
 
 const { Option } = Select;
 
@@ -63,7 +65,8 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             <PageHeader title='Add Data' />
-            <Row justify='center' style={{ backgroundColor: '#fff', borderRadius: 8 }}>
+
+            <Card>
                 <Steps
                     current={current}
                     items={[
@@ -80,14 +83,15 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
                             description,
                         },
                     ]}
-                    style={{ margin: '2rem 4rem' }}
+                    style={{ padding: '0  80px', paddingBottom: '32px', paddingTop: '8px' }}
                 />
+
                 {current < 2 ? (
                     <Form
                         {...props}
                         initialValues={{ prefix: '62', name: 'John Doe', division: ['Industry'], suffix: 'USD' }}
                         onFinish={onFinish}
-                        style={{ width: 550, margin: '2em 0' }}
+                        style={{ width: 550, margin: '0 auto' }}
                         form={form}
                         layout='vertical'
                         requiredMark='optional'
@@ -136,39 +140,40 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
                             </Upload>
                         </Form.Item>
 
-                        <Row justify='end'>
-                            <Space>
-                                <Button type='link'>
-                                    Cancel
-                                </Button>
-                                <Button onClick={prev}>
-                                    Previous
-                                </Button>
-                                <Button type="primary" htmlType="submit" disabled={isLoading} onClick={next}>
-                                    Next
-                                </Button>
-                            </Space>
-                        </Row>
+                        <ButtonFormAction justify='end' buttonAction={[
+                            <Button type='link'>
+                                Cancel
+                            </Button>,
+                            <Button onClick={prev}>
+                                Previous
+                            </Button>,
+                            <Button type="primary" htmlType="submit" disabled={isLoading} onClick={next}>
+                                Next
+                            </Button>
+                        ]} />
                     </Form>
                 ) : (
-                    <Space direction='vertical' align='center' style={{ padding: '4rem', textAlign: 'center' }}>
-                        <CheckCircleFilled style={{ fontSize: 63, color: '#52C41A' }} />
 
-                        <Typography.Title level={2} style={{ marginTop: '1rem', marginBottom: 0 }}>
-                            This is result title
-                        </Typography.Title>
+                    <Row justify='center'>
+                        <Space direction='vertical' align='center' style={{ paddingTop: '42px', paddingBottom: '72px', textAlign: 'center' }}>
+                            <CheckCircleFilled style={{ fontSize: 63, color: '#52C41A' }} />
 
-                        <Typography.Paragraph style={{ opacity: '45%' }} >
-                            Objectively scale orthogonal collaboration and idea-sharing after enterprise-wide manufactured products.
-                            <br />Compellingly strategize high-quality niche markets through sustainable.
-                        </Typography.Paragraph>
+                            <Typography.Title level={2} style={{ marginTop: '1rem', marginBottom: 0 }}>
+                                This is result title
+                            </Typography.Title>
 
-                        <Button type='primary'>
-                            Ok
-                        </Button>
-                    </Space>
+                            <Typography.Paragraph style={{ opacity: '45%' }} >
+                                Objectively scale orthogonal collaboration and idea-sharing after enterprise-wide manufactured products.
+                                <br />Compellingly strategize high-quality niche markets through sustainable.
+                            </Typography.Paragraph>
+
+                            <Button type='primary' onClick={() => setCurrent(0)}>
+                                Ok
+                            </Button>
+                        </Space>
+                    </Row>
                 )}
-            </Row>
+            </Card>
         </Layout>
     )
 }

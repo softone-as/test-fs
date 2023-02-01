@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { Button, Form, Input, Row, Select, Space, Spin } from 'antd';
+import { Button, Form, Input, Select, Spin } from 'antd';
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync } from '../../../Utils/utils';
 
 import { PageHeader } from '../../../Components/molecules/Headers';
+import { ButtonFormAction, FormContainer } from '../../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
@@ -58,6 +59,10 @@ const FormUserPage: React.FC = (props: IProps) => {
         }
     };
 
+    const onReset = () => {
+        form.resetFields()
+    }
+
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             {isLoading ? (
@@ -78,52 +83,49 @@ const FormUserPage: React.FC = (props: IProps) => {
             <PageHeader title='Add New User' />
 
             {/* Implement Form User */}
-            <Row justify='center' style={{ backgroundColor: '#fff', borderRadius: 8 }}>
-                <Form
-                    labelCol={{ span: 6 }}
-                    wrapperCol={{ span: 20 }}
-                    onFinish={onFinish}
-                    style={{ width: 600, margin: '2em 0' }}
-                    form={form}
-                    layout='vertical'
-                >
-                    <Form.Item label="Full Name" name='fullname' rules={[yupSync]} required>
-                        <Input placeholder='Input' />
-                    </Form.Item>
 
-                    <Form.Item label="Email" name='email' rules={[yupSync]} required>
-                        <Input type='email' placeholder='Input' />
-                    </Form.Item>
+            <FormContainer
+                onFinish={onFinish}
+                style={{ width: 600 }}
+                form={form}
+                layout='vertical'
+                centered
+            >
+                <Form.Item label="Full Name" name='fullname' rules={[yupSync]} required>
+                    <Input placeholder='Input' />
+                </Form.Item>
 
-                    <Form.Item label="Password" name='password' rules={[yupSync]} required>
-                        <Input.Password placeholder='Input' />
-                    </Form.Item>
+                <Form.Item label="Email" name='email' rules={[yupSync]} required>
+                    <Input type='email' placeholder='Input' />
+                </Form.Item>
 
-                    <Form.Item label="Phone Number" name='phoneNumber' rules={[yupSync]} required>
-                        <Input style={{ width: '100%' }} placeholder='Input' />
-                    </Form.Item>
+                <Form.Item label="Password" name='password' rules={[yupSync]} required>
+                    <Input.Password placeholder='Input' />
+                </Form.Item>
 
-                    <Form.Item label="Roles" name='roles' rules={[yupSync]} required>
-                        <Select placeholder='Select' mode='multiple'>
-                            {props.roles.map(role => (
-                                <Select.Option value={role.id} key={role.id}>{role.name}</Select.Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
+                <Form.Item label="Phone Number" name='phoneNumber' rules={[yupSync]} required>
+                    <Input style={{ width: '100%' }} placeholder='Input' />
+                </Form.Item>
 
-                    <Row>
-                        <Space>
-                            <Button>
-                                Discard
-                            </Button>
-                            <Button type="primary" htmlType="submit" disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0}
-                            >
-                                Submit
-                            </Button>
-                        </Space>
-                    </Row>
-                </Form>
-            </Row>
+                <Form.Item label="Roles" name='roles' rules={[yupSync]} required>
+                    <Select placeholder='Select' mode='multiple'>
+                        {props.roles.map(role => (
+                            <Select.Option value={role.id} key={role.id}>{role.name}</Select.Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+
+                <ButtonFormAction justify='start' buttonAction={[
+                    <Button onClick={onReset}>
+                        Discard
+                    </Button>,
+                    <Button type="primary" htmlType="submit" disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0} >
+                        Submit
+                    </Button>
+                ]} />
+
+            </FormContainer>
+
 
         </Layout >
     );
