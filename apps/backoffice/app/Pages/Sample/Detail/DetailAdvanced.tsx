@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-import { Badge, Button, Card, Col, Descriptions, Image, Row, Space, Steps, Tabs, TabsProps, Typography } from 'antd';
+import { Badge, Button, Card, Col, Descriptions, Image, Row, Space, Steps, Tabs, TabsProps, Timeline, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
 import { IUser } from '../../../Modules/User/Entities';
@@ -9,6 +9,8 @@ import { iconActionTableStyle } from '../../../Utils/theme';
 
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { PageHeader } from '../../../Components/molecules/Headers';
+import { TimelinesItem } from '../../../Components/molecules/TimelinesItem';
+
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
@@ -118,10 +120,10 @@ const DetailAdvancedPage: React.FC = () => {
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
             <PageHeader title='Detail Advanced' topActions={[
-                <Button size='large' icon={<DeleteOutlined />} style={buttonWithIconStyle}>Delete</Button>,
-                <Button size='large' icon={<EditOutlined />} style={buttonWithIconStyle}>Edit</Button>,
-                <Button size='large' icon={<DownloadOutlined />} style={buttonWithIconStyle}>Download</Button>,
-                <Button size='large' type='primary'>Action</Button>,
+                <Button icon={<DeleteOutlined />} style={buttonWithIconStyle}>Delete</Button>,
+                <Button icon={<EditOutlined />} style={buttonWithIconStyle}>Edit</Button>,
+                <Button icon={<DownloadOutlined />} style={buttonWithIconStyle}>Download</Button>,
+                <Button type='primary'>Action</Button>,
             ]} />
 
             <Row gutter={16} justify='space-between'>
@@ -139,13 +141,9 @@ const DetailAdvancedPage: React.FC = () => {
                             <Descriptions.Item contentStyle={contentItemStyle} label='No Telephone'>0812376152345</Descriptions.Item>
                             <Descriptions.Item contentStyle={contentItemStyle} label='Address'>Rectory Cottage, Farleigh Court Road, Warlingham, CR6 9PX</Descriptions.Item>
                         </Descriptions>
-
-                        <Space style={{ marginTop: '1em' }}>
-                            Status :
-                            <div style={{ border: '1px solid #26262622', padding: '2px 90px 2px 8px' }}>
-                                <Badge status="warning" text='Warning' />
-                            </div>
-                        </Space>
+                        <Descriptions column={1} size='small'>
+                            <Descriptions.Item label='Status'><Badge status="warning" text='Warning' /></Descriptions.Item>
+                        </Descriptions>
                     </Card>
                 </Col>
 
@@ -157,46 +155,39 @@ const DetailAdvancedPage: React.FC = () => {
                             size='small'
                             items={[
                                 {
-                                    title: <b>Create Project</b>,
+                                    title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Create Project</Typography.Text>,
                                     description: 'Description Blabla..',
                                 },
                                 {
-                                    title: <b>Department Preliminary Review</b>,
+                                    title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Department Preliminary Review</Typography.Text>,
                                     description: 'Description Blabla..',
                                 },
                                 {
-                                    title: <b>Financial Preview </b>,
+                                    title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Financial Preview </Typography.Text>,
                                     description: 'Description Blabla..',
                                 },
                             ]}
                         />
                     </Card>
 
-                    {/* TODO: flex; space-between for .ant-steps-item-title */}
                     <Card title='Activity Timeline' style={{ margin: '1em 0' }}>
-                        <Steps
-                            progressDot
-                            size='small'
-                            direction='vertical'
-                            items={[
-                                {
-                                    title: <b>Seamlessly communicate collaborative expertise through business quality</b>,
-                                    description: 'Description timeline',
-                                    subTitle: '2 day ago'
-
-                                },
-                                {
-                                    title: <b>Seamlessly communicate collaborative expertise through business quality</b>,
-                                    description: 'Description timeline',
-                                    subTitle: '2 day ago'
-                                },
-                                {
-                                    title: <b>Seamlessly communicate collaborative expertise through business quality</b>,
-                                    description: 'Description timeline',
-                                    subTitle: '2 day ago'
-                                },
-                            ]}
-                        />
+                        <Timeline>
+                            <TimelinesItem
+                                title='Seamlessly communicate collaborative expertise through business quality'
+                                description='Description timeline'
+                                time='2 day ago'
+                            />
+                            <TimelinesItem
+                                title='Seamlessly communicate collaborative expertise through business quality'
+                                description='Description timeline'
+                                time='2 day ago'
+                            />
+                            <TimelinesItem
+                                title='Seamlessly communicate collaborative expertise through business quality'
+                                description='Description timeline'
+                                time='2 day ago'
+                            />
+                        </Timeline>
                     </Card>
 
                     <Card>

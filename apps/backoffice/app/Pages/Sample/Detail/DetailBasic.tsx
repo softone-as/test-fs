@@ -4,7 +4,7 @@ import React from 'react';
 import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Link } from '@inertiajs/inertia-react';
 import {
-    Button, Descriptions, Space, Typography
+    Button, Card, Descriptions, Row, Space, Typography
 } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
@@ -104,37 +104,37 @@ const DetailBasicPage: React.FC = () => {
     return (
         <MainLayout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
             <PageHeader title='Detail User' topActions={[
-                <Button size='large' icon={<DeleteOutlined />} style={buttonWithIconStyle}>Delete</Button>,
-                <Button size='large' icon={<EditOutlined />} style={buttonWithIconStyle}>Edit</Button>,
-                <Button size='large' icon={<DownloadOutlined />} style={buttonWithIconStyle}>Download</Button>,
-                <Button size='large' type='primary'>Action</Button>,
+                <Button icon={<DeleteOutlined />} style={buttonWithIconStyle}>Delete</Button>,
+                <Button icon={<EditOutlined />} style={buttonWithIconStyle}>Edit</Button>,
+                <Button icon={<DownloadOutlined />} style={buttonWithIconStyle}>Download</Button>,
+                <Button type='primary'>Action</Button>,
             ]} />
 
-            <Descriptions title='User Info' size='small' bordered column={2}
-                style={{ backgroundColor: '#fff', borderRadius: 8, padding: '15px 24px' }}
-                labelStyle={labelWrapperStyle}
-            >
-                <Descriptions.Item contentStyle={contentItemStyle} label='ID'>2</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='No Telephone'>+628521341231</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Email'>john@cena.com</Descriptions.Item>
-            </Descriptions>
+            <Card>
+                <Descriptions title='User Info' size='small' bordered column={2} labelStyle={labelWrapperStyle}>
+                    <Descriptions.Item contentStyle={contentItemStyle} label='ID'>2</Descriptions.Item>
+                    <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
+                    <Descriptions.Item contentStyle={contentItemStyle} label='No Telephone'>+628521341231</Descriptions.Item>
+                    <Descriptions.Item contentStyle={contentItemStyle} label='Email'>john@cena.com</Descriptions.Item>
+                </Descriptions>
 
-            <Descriptions title='Advanced Information' size='small' bordered column={2} style={{ backgroundColor: '#fff', borderRadius: '8 8 0 0', padding: '15px 24px', marginTop: 24 }} labelStyle={labelWrapperStyle} contentStyle={{ width: '35%' }}>
-                <Descriptions.Item contentStyle={contentItemStyle} label='ID'>2</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
-                <Descriptions.Item contentStyle={contentItemStyle} label='Address Link' span={2}>
-                    http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
-                </Descriptions.Item>
-            </Descriptions>
+            </Card>
 
 
-            <div style={{
-                backgroundColor: 'rgb(255, 255, 255)',
-                borderRadius: '0 0 8 8',
-                padding: '15px 24px'
-            }}>
-                <Typography.Text strong style={{ fontSize: '16px' }}>Table Title</Typography.Text>
+            <Card style={{ marginTop: '16px' }}>
+                <Descriptions title='Advanced Information' size='small' bordered column={2} labelStyle={labelWrapperStyle} contentStyle={{ width: '35%' }}>
+                    <Descriptions.Item contentStyle={contentItemStyle} label='ID'>2</Descriptions.Item>
+                    <Descriptions.Item contentStyle={contentItemStyle} label='Name'>John Cena</Descriptions.Item>
+                    <Descriptions.Item contentStyle={contentItemStyle} label='Address Link' span={2}>
+                        http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
+                    </Descriptions.Item>
+                </Descriptions>
+
+                <Row justify='space-between' align='middle' style={{ width: '100%', marginTop: '16px' }}>
+                    <Typography.Text strong style={{ fontSize: '16px' }}>Table Title</Typography.Text>
+                    <Button type='primary' style={{ marginLeft: 'auto' }}>Add Data</Button>,
+                </Row>
+
                 <DataTable<IUser>
                     columns={columns}
                     dataSource={data}
@@ -142,7 +142,7 @@ const DetailBasicPage: React.FC = () => {
                     perPage={10}
                     onPageChange={() => { return }}
                 />
-            </div>
+            </Card>
 
         </MainLayout>
     )
