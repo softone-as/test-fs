@@ -12,6 +12,8 @@ export class NotificationUnreadMiddleware implements NestMiddleware {
     ) {}
 
     async use(req: Request, res: Response, next: () => void): Promise<void> {
+        if (!req.user) return next();
+
         const user = req.user as IUser;
         const notificationUnread =
             await this.inAppNotificationService.countUnread(user);
