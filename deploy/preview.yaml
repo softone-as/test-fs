@@ -36,6 +36,10 @@
     - { 'key': 'traefik.http.routers.{{ preview_name }}.entrypoints', 'value': 'preview' }
     - { 'key': 'traefik.http.services.{{ preview_name }}.loadbalancer.server.port', 'value': '3001' }
     container_image: "registry.gitlab.dot.co.id/playground/boilerplates/nestjs-inertia:preview_{{ version }}"
+    gitlab_user: "{{ lookup('env', 'GITLAB_USER_NAME') | default('ajengkumalasari', true) }}"
+    mr_iid: "{{ lookup('env', 'CI_MERGE_REQUEST_IID') | default('1', true) }}"
+    mr_pid: "{{ lookup('env', 'CI_MERGE_REQUEST_PROJECT_ID') | default('1', true) }}"
+    gitlab_token: "{{ lookup('env', 'GITLAB_PREVIEW_NOTIFICATION_TOKEN') | default('abc123', true) }}"
 
   tasks:
   - name: dump database
@@ -120,7 +124,7 @@
     when: "{{ inventory_hostname == 'dot_preview' }}"
 
   - name: run container
-    docker_container:
+    community.docker.docker_container:
       name: "{{ preview_name }}"
       image: "{{ container_image }}"
       state: started
@@ -129,9 +133,24 @@
       - name: preview-network
       labels: "{{ container_labels }}"
       restart_policy: on-failure
+      recreate: yes
     when: "{{ inventory_hostname == 'dot_preview' }}"
 
   - name: output
-    debug:
-      msg: "The deployment URL is http://{{ preview_name }}:8080.prv.dot.co.id"
+    ansible.builtin.debug:
+      msg: "The deployment URL is http://{{ preview_name }}.prv.dot.co.id:8080"
+    when: "{{ inventory_hostname == 'dot_preview' }}"
+
+  - name: send notification
+    ansible.builtin.uri:
+      url: "https://gitlab.dot.co.id/api/v4/projects/{{ mr_pid }}/merge_requests/{{ mr_iid }}/notes"
+      method: POST
+      body_format: json
+      body: |
+        {
+          "body": "### Hello @{{ gitlab_user }}, preview sudah siap :tada: :tada: :tada:.\n#### Silahkan akses melalui tautan: http://{{ preview_name }}.prv.dot.co.id:8080 :100:\n\n_Jangan lupa jalankan clean pipeline setelah selesai yaaa._\n\n![party](https://media.giphy.com/media/StKiS6x698JAl9d6cx/giphy.gif)"
+        }
+      headers:
+        PRIVATE-TOKEN: "{{ gitlab_token }}"
+      status_code: 201
     when: "{{ inventory_hostname == 'dot_preview' }}"

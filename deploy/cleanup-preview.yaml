@@ -15,7 +15,7 @@
 
   tasks:
   - name: stop container
-    docker_container:
+    community.docker.docker_container:
       name: "{{ preview_name }}"
       state: absent
 
