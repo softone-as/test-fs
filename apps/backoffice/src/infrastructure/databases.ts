@@ -29,6 +29,9 @@ export const connectionOption: ConnectionOptions = {
     synchronize: false,
     logging: config.nodeEnv === 'local',
     charset: 'utf8mb4_unicode_ci',
+    // logger: new DatabaseLoggerApplication(
+    //     new SentryService(new Request())
+    // ) as any
 };
 
 export const databaseConnection = createConnection(connectionOption);
