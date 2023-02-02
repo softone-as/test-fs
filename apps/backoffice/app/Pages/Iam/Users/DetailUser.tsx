@@ -1,16 +1,18 @@
-import { PageHeader } from '../../../Components/molecules/Headers';
 import React from 'react';
+import { Link } from '@inertiajs/inertia-react';
+import { Button, Card, Col, Descriptions, Row, Space, Typography } from 'antd';
+import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
 import { MainLayout } from '../../../Layouts/MainLayout';
-import { Button, Descriptions, Space, Typography } from 'antd';
-import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { PageHeader } from '../../../Components/molecules/Headers';
 import { IUser } from '../../../Modules/User/Entities';
 import { ColumnsType } from 'antd/es/table';
-import { Link } from '@inertiajs/inertia-react';
 import { iconActionTableStyle } from '../../../Utils/theme';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { Buttons } from '../../../Components/atoms/Buttons';
+import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 
 const columns: ColumnsType<IUser> = [
     {
@@ -59,15 +61,6 @@ const data: IUser[] = [
 ]
 
 
-const labelWrapperStyle = {
-    width: '20%'
-}
-
-const buttonWithIconStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-}
 
 interface IProps extends TInertiaProps {
     data: IUser,
@@ -79,40 +72,50 @@ const UserDetailPage: React.FC = (props: IProps) => {
     return (
         <MainLayout breadcrumbItems={Breadcrumbs.Users.DETAIL} >
             <PageHeader title='Detail User' topActions={[
-                <Button size='large' icon={<DeleteOutlined />} style={buttonWithIconStyle}>Delete</Button>,
-                <Button size='large' icon={<EditOutlined />} style={buttonWithIconStyle}>Edit</Button>,
-                <Button size='large' icon={<DownloadOutlined />} style={buttonWithIconStyle}>Download</Button>,
-                <Button size='large' type='primary'>Action</Button>,
+                <Buttons icon={<DeleteOutlined />}>Delete</Buttons>,
+                <Buttons icon={<EditOutlined />}>Edit</Buttons>,
+                <Buttons icon={<DownloadOutlined />}>Download</Buttons>,
+                <Button type='primary'>Action</Button>,
             ]} />
 
-            <Descriptions title='User Info' size='small' bordered column={2} labelStyle={labelWrapperStyle} style={{ backgroundColor: '#fff', borderRadius: 8, padding: '15px 24px' }}>
-                <Descriptions.Item label='ID'>{id}</Descriptions.Item>
-                <Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
-                <Descriptions.Item label='No Telephone'>{phoneNumber}</Descriptions.Item>
-                <Descriptions.Item label='Email'>{email}</Descriptions.Item>
-            </Descriptions>
+            <Row gutter={[0, 16]}>
+                <Col span={24}>
+                    <Card>
+                        <DescriptionContainer title='User Info' size='small' bordered column={{ md: 2, xs: 1 }}>
+                            <Descriptions.Item label='ID'>{id}</Descriptions.Item>
+                            <Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
+                            <Descriptions.Item label='No Telephone'>{phoneNumber}</Descriptions.Item>
+                            <Descriptions.Item label='Email'>{email}</Descriptions.Item>
+                        </DescriptionContainer>
+                    </Card>
+                </Col>
 
-            <Descriptions title='Advanced Information' size='small' bordered column={2} labelStyle={labelWrapperStyle} contentStyle={{ width: '30%' }} style={{ backgroundColor: '#fff', borderRadius: '8 8 0 0', padding: '15px 24px', marginTop: 24 }}>
-                <Descriptions.Item label='Identity Number'>{identityNumber}</Descriptions.Item>
-                <Descriptions.Item label='Gender'>{gender}</Descriptions.Item>
-                <Descriptions.Item label='Address Link' span={2}>http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts</Descriptions.Item>
-            </Descriptions>
+                <Col span={24}>
+                    <Card>
+                        <DescriptionContainer title='Advanced Information' size='small' bordered column={{ md: 2, xs: 1 }}>
+                            <Descriptions.Item label='Identity Number'>{identityNumber}</Descriptions.Item>
+                            <Descriptions.Item label='Gender'>{gender}</Descriptions.Item>
+                            <Descriptions.Item label='Address Link' span={2}>
+                                http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
+                            </Descriptions.Item>
+                        </DescriptionContainer>
 
 
-            <div style={{
-                backgroundColor: 'rgb(255, 255, 255)',
-                borderRadius: '0 0 8 8',
-                padding: '15px 24px'
-            }}>
-                <Typography.Text strong style={{ fontSize: '16px' }}>Table Title</Typography.Text>
-                <DataTable<IUser>
-                    columns={columns}
-                    dataSource={data}
-                    total={3}
-                    perPage={10}
-                    onPageChange={() => { return }}
-                />
-            </div>
+                        <Row justify='space-between' align='middle' style={{ width: '100%', marginTop: '16px' }}>
+                            <Typography.Text strong style={{ fontSize: '16px' }}>Table Title</Typography.Text>
+                            <Button type='primary' style={{ marginLeft: 'auto' }}>Add Data</Button>,
+                        </Row>
+
+                        <DataTable<IUser>
+                            columns={columns}
+                            dataSource={data}
+                            total={3}
+                            perPage={10}
+                            onPageChange={() => { return }}
+                        />
+                    </Card>
+                </Col>
+            </Row>
 
         </MainLayout>
     );

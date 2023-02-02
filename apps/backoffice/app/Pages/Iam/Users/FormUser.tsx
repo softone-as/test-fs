@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { Button, Form, Input, Select, Spin } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync } from '../../../Utils/utils';
 
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { ButtonFormAction, FormContainer } from '../../../Components/organisms/FormContainer';
+import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
@@ -65,31 +65,22 @@ const FormUserPage: React.FC = (props: IProps) => {
 
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
-            {isLoading ? (
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    position: 'absolute',
-                    width: '80%',
-                    height: '100%',
-                    background: 'rgb(255 255 255 / 63%)',
-                    zIndex: 99
-                }}>
-                    <Spin size='large' />
-                </div>
-            ) : null}
-
             <PageHeader title='Add New User' />
 
             {/* Implement Form User */}
-
             <FormContainer
                 onFinish={onFinish}
-                style={{ width: 600 }}
                 form={form}
                 layout='vertical'
                 centered
+                buttonAction={[
+                    <Button onClick={onReset}>
+                        Discard
+                    </Button>,
+                    <Button type="primary" htmlType="submit" disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0} >
+                        Submit
+                    </Button>
+                ]}
             >
                 <Form.Item label="Full Name" name='fullname' rules={[yupSync]} required>
                     <Input placeholder='Input' />
@@ -115,18 +106,7 @@ const FormUserPage: React.FC = (props: IProps) => {
                     </Select>
                 </Form.Item>
 
-                <ButtonFormAction justify='start' buttonAction={[
-                    <Button onClick={onReset}>
-                        Discard
-                    </Button>,
-                    <Button type="primary" htmlType="submit" disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0} >
-                        Submit
-                    </Button>
-                ]} />
-
             </FormContainer>
-
-
         </Layout >
     );
 };

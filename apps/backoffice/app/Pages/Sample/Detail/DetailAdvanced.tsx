@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-import { Badge, Button, Card, Col, Descriptions, Image, Row, Space, Steps, Tabs, TabsProps, Timeline, Typography } from 'antd';
+import { Badge, Card, Col, Descriptions, Grid, Image, Row, Space, Steps, Tabs, TabsProps, Timeline, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
 import { IUser } from '../../../Modules/User/Entities';
@@ -15,6 +15,9 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 import { Link } from '@inertiajs/inertia-react';
+import { Buttons } from '../../../Components/atoms/Buttons';
+import { DescriptionContainer } from '../../../Components/molecules/DescriptionContainer';
+
 
 const columns: ColumnsType<IUser> = [
     {
@@ -81,71 +84,69 @@ const data: IUser[] = [
     },
 ]
 
-
-
-const buttonWithIconStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-}
+const tabItems: TabsProps['items'] = [
+    {
+        key: '1',
+        label: `Tab 1`,
+        children: <DataTable<IUser>
+            columns={columns}
+            dataSource={data}
+            total={3}
+            perPage={10}
+            onPageChange={() => { return }}
+        />,
+    },
+    {
+        key: '2',
+        label: `Tab 2`,
+        children: `Content of Tab Pane 2`,
+    },
+    {
+        key: '3',
+        label: `Tab 3`,
+        children: `Content of Tab Pane 3`,
+    },
+];
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const DetailAdvancedPage: React.FC = () => {
-    const tabItems: TabsProps['items'] = [
-        {
-            key: '1',
-            label: `Tab 1`,
-            children: <DataTable<IUser>
-                columns={columns}
-                dataSource={data}
-                total={3}
-                perPage={10}
-                onPageChange={() => { return }}
-            />,
-        },
-        {
-            key: '2',
-            label: `Tab 2`,
-            children: `Content of Tab Pane 2`,
-        },
-        {
-            key: '3',
-            label: `Tab 3`,
-            children: `Content of Tab Pane 3`,
-        },
-    ];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { sm } = Grid.useBreakpoint()
 
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
             <PageHeader title='Detail Advanced' topActions={[
-                <Button icon={<DeleteOutlined />} style={buttonWithIconStyle}>Delete</Button>,
-                <Button icon={<EditOutlined />} style={buttonWithIconStyle}>Edit</Button>,
-                <Button icon={<DownloadOutlined />} style={buttonWithIconStyle}>Download</Button>,
-                <Button type='primary'>Action</Button>,
+                <Buttons icon={<DeleteOutlined />} >Delete</Buttons>,
+                <Buttons icon={<EditOutlined />} >Edit</Buttons>,
+                <Buttons icon={<DownloadOutlined />} >Download</Buttons>,
+                <Buttons type='primary'>Action</Buttons>,
             ]} />
 
-            <Row gutter={16} justify='space-between'>
-                <Col span={6}>
+            <Row gutter={[16, sm ? 16 : 0]} justify='space-between'>
+                <Col md={24} lg={6}>
                     <Card>
-                        <Space direction='vertical' align='center' style={{ width: '100%' }}>
+                        <Space direction='vertical' align='center' style={{ width: '100%', marginBottom: '16px' }}>
                             <Image src='https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' width={90} preview={false} style={{ borderRadius: '50%' }} />
                             <Typography.Text style={{ fontSize: '20px' }} strong>John Cena</Typography.Text>
                         </Space>
 
-                        <Descriptions layout='vertical' column={1} size='small'>
+                        <DescriptionContainer layout='vertical' column={{ xl: 1, lg: 1, md: 2, sm: 1, xs: 1 }} size='small'>
                             <Descriptions.Item label='ID'>109820348998734897</Descriptions.Item>
                             <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
                             <Descriptions.Item label='Email'>john.lbf@gmail.com</Descriptions.Item>
                             <Descriptions.Item label='No Telephone'>0812376152345</Descriptions.Item>
                             <Descriptions.Item label='Address'>Rectory Cottage, Farleigh Court Road, Warlingham, CR6 9PX</Descriptions.Item>
-                        </Descriptions>
-                        <Descriptions column={1} size='small'>
-                            <Descriptions.Item label='Status'><Badge status="warning" text='Warning' /></Descriptions.Item>
-                        </Descriptions>
+                        </DescriptionContainer>
+
+                        <DescriptionContainer column={1} size='small'>
+                            <Descriptions.Item label='Status'>
+                                <Badge status="warning" text='Warning' style={{ fontWeight: 400 }} />
+                            </Descriptions.Item>
+                        </DescriptionContainer>
                     </Card>
                 </Col>
 
-                <Col span={18}>
+                <Col md={24} lg={18}>
                     <Card title='Process progress'>
                         <Steps
                             progressDot

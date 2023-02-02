@@ -3,23 +3,22 @@ import { InboxOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/ic
 import {
     Button,
     Checkbox,
-    Col,
     DatePicker,
     Form,
     Input,
     InputNumber,
     Radio,
     Rate,
-    Row,
     Select,
     Slider,
+    Space,
     Switch,
     TimePicker,
     Upload
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
-import { ButtonFormAction, FormContainer } from '../../../Components/organisms/FormContainer';
+import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
@@ -72,10 +71,17 @@ const FormBasic: React.FC = () => {
             <FormContainer
                 form={form}
                 onFinish={onFinish}
-                style={{ width: 600 }}
                 initialValues={{ prefix: '62', quantity: 3, status: true, suffix: 'USD', rate: 4, aggreement: true, 'checkbox-item': 'A' }}
                 isFieldCentered
                 centered
+                buttonAction={[
+                    <Button >
+                        Cancel
+                    </Button>,
+                    <Button type="primary" htmlType="submit" disabled={isLoading}>
+                        Submit
+                    </Button>
+                ]}
             >
                 <Form.Item label="Email" name='email' required>
                     <Input type='email' placeholder='Input' />
@@ -149,7 +155,6 @@ const FormBasic: React.FC = () => {
                     />
                 </Form.Item>
 
-
                 <Form.Item name="rate" label="Rate" required>
                     <Rate />
                 </Form.Item>
@@ -188,23 +193,17 @@ const FormBasic: React.FC = () => {
 
                 <Form.Item name="checkbox-item" label="Item" tooltip='Choose at least one' required>
                     <Checkbox.Group>
-                        <Row>
-                            <Col span={8}>
-                                <Checkbox value="A" style={{ lineHeight: '32px' }}>
-                                    Checbox
-                                </Checkbox>
-                            </Col>
-                            <Col span={8}>
-                                <Checkbox value="B" style={{ lineHeight: '32px' }}>
-                                    Checbox
-                                </Checkbox>
-                            </Col>
-                            <Col span={8}>
-                                <Checkbox value="C" style={{ lineHeight: '32px' }}>
-                                    Checbox
-                                </Checkbox>
-                            </Col>
-                        </Row>
+                        <Space>
+                            <Checkbox value="A" style={{ lineHeight: '32px' }}>
+                                Checbox
+                            </Checkbox>
+                            <Checkbox value="B" style={{ lineHeight: '32px' }}>
+                                Checbox
+                            </Checkbox>
+                            <Checkbox value="C" style={{ lineHeight: '32px' }}>
+                                Checbox
+                            </Checkbox>
+                        </Space>
                     </Checkbox.Group>
                 </Form.Item>
 
@@ -215,7 +214,6 @@ const FormBasic: React.FC = () => {
                         <>
                             {fields.map((field) => (
                                 <Form.Item
-                                    wrapperCol={{ span: 16 }}
                                     label={'Fields'}
                                     required={false}
                                     key={field.key}
@@ -243,7 +241,7 @@ const FormBasic: React.FC = () => {
                                     ) : null}
                                 </Form.Item>
                             ))}
-                            <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+                            <Form.Item>
                                 <Button
                                     type="dashed"
                                     onClick={() => add()}
@@ -257,18 +255,9 @@ const FormBasic: React.FC = () => {
                     )}
                 </Form.List>
 
-                <Form.Item name="agreement" valuePropName="checked" wrapperCol={{ offset: 6, span: 16 }}>
+                <Form.Item name="agreement" valuePropName="checked">
                     <Checkbox>I have read the agreement</Checkbox>
                 </Form.Item>
-
-                <ButtonFormAction justify='end' buttonAction={[
-                    <Button >
-                        Cancel
-                    </Button>,
-                    <Button type="primary" htmlType="submit" disabled={isLoading} >
-                        Submit
-                    </Button>
-                ]} />
 
             </FormContainer>
         </Layout>

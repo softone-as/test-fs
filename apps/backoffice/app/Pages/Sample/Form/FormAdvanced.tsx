@@ -19,7 +19,7 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { useTableFilter } from '../../../Utils/hooks';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { ButtonFormAction, FormContainer } from '../../../Components/organisms/FormContainer';
+import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 type DataType = {
@@ -251,10 +251,18 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
                 form={form}
                 layout='vertical'
                 requiredMark='optional'
+                buttonAction={[
+                    <Button >
+                        Cancel
+                    </Button>,
+                    <Button type="primary" htmlType="submit" disabled={isLoading} >
+                        Submit
+                    </Button>
+                ]}
             >
 
                 <Row justify='space-between' gutter={32}>
-                    <Col span={8}>
+                    <Col sm={24} md={12} lg={8}>
                         <Form.Item label="Input Label" name='name'>
                             <Input placeholder='Input' />
                         </Form.Item>
@@ -275,7 +283,7 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
                         </Form.Item>
                     </Col>
 
-                    <Col span={8}>
+                    <Col sm={24} md={12} lg={8}>
                         <Form.Item
                             name="division"
                             label="Input Label"
@@ -296,7 +304,7 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
                         </Form.Item>
                     </Col>
 
-                    <Col span={8}>
+                    <Col sm={24} md={12} lg={8}>
                         <Form.Item
                             name="phone"
                             label="Phone Number"
@@ -330,15 +338,6 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
                     perPage={10}
                     onPageChange={(page, pageSize) => setQueryParams({ page: page?.toString(), size: pageSize?.toString() })}
                 />
-
-                <ButtonFormAction justify='end' buttonAction={[
-                    <Button >
-                        Cancel
-                    </Button>,
-                    <Button type="primary" htmlType="submit" disabled={isLoading} >
-                        Submit
-                    </Button>
-                ]} />
 
             </FormContainer>
         </Layout>
