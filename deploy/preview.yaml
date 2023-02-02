@@ -36,7 +36,7 @@
     - { 'key': 'traefik.http.routers.{{ preview_name }}.entrypoints', 'value': 'preview' }
     - { 'key': 'traefik.http.services.{{ preview_name }}.loadbalancer.server.port', 'value': '3001' }
     container_image: "registry.gitlab.dot.co.id/playground/boilerplates/nestjs-inertia:preview_{{ version }}"
-    gitlab_user: "{{ lookup('env', 'GITLAB_USER_NAME') | default('ajengkumalasari', true) }}"
+    gitlab_user: "{{ lookup('env', 'GITLAB_USER_LOGIN') | default('ajengkumalasari', true) }}"
     mr_iid: "{{ lookup('env', 'CI_MERGE_REQUEST_IID') | default('1', true) }}"
     mr_pid: "{{ lookup('env', 'CI_MERGE_REQUEST_PROJECT_ID') | default('1', true) }}"
     gitlab_token: "{{ lookup('env', 'GITLAB_PREVIEW_NOTIFICATION_TOKEN') | default('abc123', true) }}"
@@ -124,7 +124,7 @@
     when: "{{ inventory_hostname == 'dot_preview' }}"
 
   - name: run container
-    docker_container:
+    community.docker.docker_container:
       name: "{{ preview_name }}"
       image: "{{ container_image }}"
       state: started
@@ -148,7 +148,7 @@
       body_format: json
       body: |
         {
-          "body": "### Hello @{{ gitlab_user }}, preview sudah siap :tada: :tada: :tada:.\n#### Silahkan akses melalui tautan: http://{{ preview_name }}.prv.dot.co.id:8080 :100:\n\n_Jangan lupa jalankan clean pipeline setelah selesai yaaa._\n\n![party](https://media.giphy.com/media/StKiS6x698JAl9d6cx/giphy.gif)"
+          "body": "### Hello @{{ gitlab_user }}, preview sudah siap :tada: :tada: :tada:.\n#### Silahkan akses melalui tautan: http://{{ preview_name }}.prv.dot.co.id:8080 :100:\n\n_Jangan lupa jalankan clean pipeline setelah selesai yaaa._"
         }
       headers:
         PRIVATE-TOKEN: "{{ gitlab_token }}"

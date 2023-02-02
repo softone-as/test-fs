@@ -31,6 +31,8 @@ preview:mr:
   - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   needs: ["build:docker_image_mr"]
   tags: [dot]
+  before_script:
+    - ansible-galaxy collection install community.docker:==3.4.0
   script:
     - chmod +x ./deploy/run-preview.sh
     - ./deploy/run-preview.sh preview
@@ -41,6 +43,8 @@ cleanup_preview:mr:
   image: dotlabs/ansible:2.10
   needs: ["preview:mr"]
   tags: [dot]
+  before_script:
+    - ansible-galaxy collection install community.docker:==3.4.0
   script:
     - chmod +x ./deploy/run-preview.sh
     - ./deploy/run-preview.sh cleanup-preview

@@ -15,12 +15,12 @@
 
   tasks:
   - name: stop container
-    docker_container:
+    community.docker.docker_container:
       name: "{{ preview_name }}"
       state: absent
 
   - name: delete docker image
-    docker_image:
+    community.docker.docker_image:
       name: "registry.gitlab.dot.co.id/playground/boilerplates/nestjs-inertia"
       state: absent
       tag: "preview_{{ version }}"
