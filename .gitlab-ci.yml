@@ -33,6 +33,7 @@ deploy_develop:
   image: quay.io/kudaliar032/ansible:2.9.21
   tags: [dot]
   only: [development]
+  needs: [build_develop:docker_image]
   environment:
     name: develop
     url: https://boilerplate-nestjs-inertia-dev.dot.co.id
