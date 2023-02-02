@@ -39,11 +39,13 @@ const PermissionPage: React.FC = (props: IProps) => {
             title: 'Permission Name',
             dataIndex: 'name',
             key: 'name',
+            sorter: true
         },
         {
             title: 'Roles',
             dataIndex: 'roles',
             key: 'roles',
+            sorter: true,
             render: (roles: RoleResponse[]) => roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>)
         },
         {
@@ -53,8 +55,8 @@ const PermissionPage: React.FC = (props: IProps) => {
             render: (value: Omit<PermissionResponse, 'key'>) => {
                 return (
                     <Button.Group size='small'>
-                        <Button type='link' href='/permissions/1'><EyeOutlined style={iconActionTableStyle} /></Button>
-                        <Button type='link' href='/permissions/edit/1'><EditOutlined style={iconActionTableStyle} /></Button>
+                        <Button type='link' href={`/permissions/${value.id}`}><EyeOutlined style={iconActionTableStyle} /></Button>
+                        <Button type='link' href={`/permissions/edit/${value.id}`}><EditOutlined style={iconActionTableStyle} /></Button>
                         <Button type='text' onClick={() => deleteModal(value.id)}><DeleteOutlined style={iconActionTableStyle} /></Button>
                     </Button.Group>
                 )
@@ -84,14 +86,6 @@ const PermissionPage: React.FC = (props: IProps) => {
             style: { width: '151px' }
         }
     ]
-
-    const handleSorter = (columnKey: string, order: 'ascend' | 'descend') => {
-        if (!order) {
-            return
-        }
-        return setQueryParams({ sort: order === 'ascend' ? 'oldest' : 'latest' })
-    }
-
 
     return (
         <MainLayout >

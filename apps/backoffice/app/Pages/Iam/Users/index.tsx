@@ -89,8 +89,8 @@ const UsersPage: React.FC = (props: IProps) => {
             render: (value: UserResponse) => {
                 return (
                     <Button.Group size='small'>
-                        <Button type='link' href='/users/1'><EyeOutlined style={iconActionTableStyle} /></Button>
-                        <Button type='link' href='/users/edit/1'><EditOutlined style={iconActionTableStyle} /></Button>
+                        <Button type='link' href={`/users/${value.id}`}><EyeOutlined style={iconActionTableStyle} /></Button>
+                        <Button type='link' href={`/users/edit/${value.id}`}><EditOutlined style={iconActionTableStyle} /></Button>
                         <Button type='text' onClick={() => deleteModal(value.id)}><DeleteOutlined style={iconActionTableStyle} /></Button>
                     </Button.Group>
                 )
@@ -124,13 +124,6 @@ const UsersPage: React.FC = (props: IProps) => {
         return setQueryParams({ gender: data })
     }
 
-    const handleSorter = (columnKey: string, order: 'ascend' | 'descend') => {
-        if (!order) {
-            return
-        }
-        return setQueryParams({ sort: 'created_at', order: order === 'ascend' ? 'ASC' : 'DESC' })
-    }
-
 
 
     return (
@@ -155,7 +148,6 @@ const UsersPage: React.FC = (props: IProps) => {
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
-                onSort={handleSorter}
                 onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
         </MainLayout>
