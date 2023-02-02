@@ -68,6 +68,8 @@ export class PermissionController {
         });
     }
 
+    // @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_PERMISSION), AbilityGuard)
+    // @CheckAbilities({ action: Action.Create, subject: User }) // example to validate policy
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_PERMISSION))
     @Post('edit/:id')
     async update(
