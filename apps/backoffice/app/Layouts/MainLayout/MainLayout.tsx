@@ -25,6 +25,13 @@ export type IProps = {
     headerRightMenu?: React.FC
 
 }
+interface MenuItem {
+    key: string;
+    label: React.ReactNode;
+    icon: React.ReactNode;
+    theme?: string;
+    children?: Array<{ key: string, label: React.ReactNode }>;
+}
 
 const handleLogout = () => {
     const isOk = confirm("Are you sure to logout? ")
@@ -34,7 +41,8 @@ const handleLogout = () => {
     }
 }
 
-const SidebarMenu: MenuProps['items'] = [
+
+const SidebarMenu: MenuItem[] = [
     {
         key: '1',
         label: <Link href='/' >Dashboard</Link>,
@@ -74,14 +82,43 @@ const SidebarMenu: MenuProps['items'] = [
     },
 ]
 
-
-
 const { Sider, Content } = Layout
 const { Text } = Typography
 
+const rootSubmenuKeys = SidebarMenu.map((menu) => {
+    const menuKey = menu.key;
+    return menuKey;
+})
+
 
 export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [openKeys, setOpenKeys] = useState(null);
+    const [selectKeys, setSelectKeys] = useState(null);
+
+    const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
+        const latestOpenKey = keys.find((key) => openKeys?.indexOf(key) === -1);
+        if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
+            setOpenKeys(keys);
+        } else {
+            setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+        }
+    };
+
+    useEffect(() => {
+        SidebarMenu.map((item) => {
+            const active = window.location.pathname.slice(1);
+            if (item.key == active) {
+                setSelectKeys(item.key);
+            }
+            item?.children?.map((chil) => {
+                if (chil.key === active) {
+                    setSelectKeys(chil.key);
+                    setOpenKeys([item.key]);
+                }
+            })
+        })
+    }, []);
 
     useEffect(() => {
         const inertiaStart = Inertia.on('start', () => {
@@ -162,7 +199,14 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                 </div>
 
                 <ConfigProvider theme={sidebarThemeConfig}>
-                    <Menu items={SidebarMenu} theme='light' style={{ backgroundColor: '#006D75' }} mode='inline' />
+                    <Menu
+                        items={SidebarMenu}
+                        theme='light'
+                        style={{ backgroundColor: '#006D75' }}
+                        mode='inline'
+                        openKeys={openKeys}
+                        onOpenChange={onOpenChange}
+                        selectedKeys={selectKeys} />
                 </ConfigProvider>
             </Sider>
             <Layout>
@@ -171,7 +215,6 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                         padding: "28px 24px",
                     }}
                 >
-
                     {children}
 
                 </Content>
