@@ -3,7 +3,6 @@ import { DataTable } from '../Components/organisms/DataTable';
 import { MainLayout } from '../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../Modules/Inertia/Entities'
-import { useTableFilter } from '../Utils/hooks'
 import { useModal } from '../Utils/modal'
 import { FilterSection } from '../Components/organisms/FilterSection'
 import { Button, MenuProps, Select } from 'antd';
@@ -37,7 +36,6 @@ interface IProps extends TInertiaProps {
 }
 
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
-    const { setQueryParams } = useTableFilter()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
     const columns: ColumnsType<DataType> = [
@@ -75,9 +73,6 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
 
     ]
 
-    const handleSearch = (val) => {
-        return setQueryParams({ search: val })
-    }
 
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
@@ -146,10 +141,8 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
                 columns={columns}
                 dataSource={props?.data?.map(item => ({ ...item, key: item.id }))}
-
                 total={props?.meta?.total}
                 perPage={props?.meta?.perPage}
-                onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
         </MainLayout>
     );

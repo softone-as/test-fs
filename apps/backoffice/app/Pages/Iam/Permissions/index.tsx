@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
-import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
 import { Button, MenuProps, Tag } from 'antd';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { iconActionTableStyle } from '../../../Utils/theme';
 
 import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response'
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
 import { Inertia } from '@inertiajs/inertia';
+import type { ColumnsType } from 'antd/es/table'
 
 interface IProps extends TInertiaProps {
     data: PermissionResponse[],
 }
 
 const PermissionPage: React.FC = (props: IProps) => {
-    const { setQueryParams } = useTableFilter()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
     const handleDeleteRow = (id) => {
@@ -28,7 +26,7 @@ const PermissionPage: React.FC = (props: IProps) => {
     }
     const deleteModal = (id) => useModal({ title: 'Are You Sure? ', type: 'confirm', onOk: () => handleDeleteRow(id), onCancel: () => { return } })
 
-    const columns: ColumnsType<Omit<PermissionResponse, 'key'>> = [
+    const columns: ColumnsType<PermissionResponse> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -47,6 +45,12 @@ const PermissionPage: React.FC = (props: IProps) => {
             key: 'roles',
             sorter: true,
             render: (roles: RoleResponse[]) => roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>)
+        },
+        {
+            title: 'Key',
+            dataIndex: 'key',
+            key: 'key',
+            sorter: true
         },
         {
             title: 'Action',
@@ -100,10 +104,9 @@ const PermissionPage: React.FC = (props: IProps) => {
             <DataTable
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
                 columns={columns}
-                dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
+                dataSource={props?.data}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
-                onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
         </MainLayout>
     );

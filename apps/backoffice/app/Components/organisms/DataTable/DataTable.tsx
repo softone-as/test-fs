@@ -11,8 +11,6 @@ interface IProps<T> extends TableProps<T> {
     total: number
     perPage: number
     defaultCurrent?: number
-    onPageChange: (page: number, pageSize: number) => void
-
 }
 
 const stylePaginantion: React.CSSProperties = { display: 'flex', justifyContent: 'end', padding: '8px', backgroundColor: 'white' }
@@ -24,8 +22,8 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
     const { setQueryParams } = useTableFilter()
 
     const handlePageChange: PaginationProps['onChange'] = (page, pageSize) => {
-        props.onPageChange(page, pageSize)
 
+        setQueryParams({ page: page, per_page: pageSize })
     }
     return (
         <Space.Compact direction='vertical' style={tableLayout}>

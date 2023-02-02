@@ -148,7 +148,6 @@ const UsersPage: React.FC = (props: IProps) => {
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
-                onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
         </MainLayout>
     );
