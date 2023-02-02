@@ -77,6 +77,10 @@ export const config = {
                 detail: 'user',
                 list: 'list-user',
             },
+            notification: {
+                detail: 'notification',
+                list: 'list-notification',
+            },
         },
     },
 
@@ -101,9 +105,10 @@ export const config = {
     },
 
     /**
-     * database configuration
+     * redis configuration
      */
     redis: {
+        isEnabled: process.env.REDIS_IS_ENABLED || false,
         port: process.env.REDIS_PORT || 6379,
         password: process.env.REDIS_PASSWORD || '',
         host: process.env.REDIS_HOST || 'localhost',
