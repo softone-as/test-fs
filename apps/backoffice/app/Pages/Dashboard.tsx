@@ -37,7 +37,7 @@ interface IProps extends TInertiaProps {
 }
 
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
-    const { setQueryParams } = useTableFilter<DataType>()
+    const { setQueryParams } = useTableFilter()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
     const columns: ColumnsType<DataType> = [
@@ -115,7 +115,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
                 <Button size='large' type='primary'>New User</Button>
             ]} />
-            <FilterSection searchHandler={handleSearch}
+            <FilterSection
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
                 filters={
@@ -149,7 +149,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
 
                 total={props?.meta?.total}
                 perPage={props?.meta?.perPage}
-                onPageChange={(page, pageSize) => setQueryParams({ page: page?.toString(), size: pageSize?.toString() })}
+                onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
         </MainLayout>
     );

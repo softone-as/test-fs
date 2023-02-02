@@ -12,6 +12,7 @@ import { DateRangePicker, TRangeValue } from '../../../Components/molecules/Pick
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { iconActionTableStyle } from '../../../Utils/theme';
+import { GenderEnum } from '../../../../../../interface-models/iam/user.interface'
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response'
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response'
 import { Inertia } from '@inertiajs/inertia';
@@ -22,13 +23,10 @@ interface IProps extends TInertiaProps {
 }
 
 type TFilters = {
-    page: string,
-    per_page: string,
-    search?: string,
     gender?: string,
     start_at?: string,
     end_at?: string,
-    sort?: 'latest' | 'oldest'
+
 }
 
 const UsersPage: React.FC = (props: IProps) => {
@@ -101,9 +99,7 @@ const UsersPage: React.FC = (props: IProps) => {
 
     ]
 
-    const handleSearch = (val) => {
-        return setQueryParams({ search: val })
-    }
+    const genderOptions = [{ label: 'Pria', value: GenderEnum.LakiLaki }, { label: 'Wanita', value: GenderEnum.Perempuan }]
 
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
@@ -121,6 +117,7 @@ const UsersPage: React.FC = (props: IProps) => {
 
     const handleRange = (val: TRangeValue) => {
         return setQueryParams({ start_at: val?.[0].toISOString(), end_at: val?.[1].toISOString() })
+
     }
 
     const handleFilterGender = (data) => {
@@ -131,8 +128,10 @@ const UsersPage: React.FC = (props: IProps) => {
         if (!order) {
             return
         }
-        return setQueryParams({ sort: order === 'ascend' ? 'oldest' : 'latest' })
+        return setQueryParams({ sort: 'created_at', order: order === 'ascend' ? 'ASC' : 'DESC' })
     }
+
+
 
     return (
         <MainLayout >
@@ -141,12 +140,12 @@ const UsersPage: React.FC = (props: IProps) => {
                 <Button size='large' type='primary'>New User</Button>
             ]} />
             <FilterSection
-                searchHandler={handleSearch}
+
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
                 filters={
                     [
-                        <Select placeholder='Gender' defaultValue={filters.gender} options={[{ label: 'Pria', value: 'MALE' }, { label: 'Wanita', value: 'FEMALE' }]} onChange={handleFilterGender} allowClear style={{ width: '90px' }} />,
+                        <Select placeholder='Gender' defaultValue={filters.gender} options={genderOptions} onChange={handleFilterGender} allowClear style={{ width: '90px' }} />,
                         <DateRangePicker range={10} onChange={handleRange} />,
                     ]
                 } />
@@ -157,7 +156,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
                 onSort={handleSorter}
-                onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), per_page: pageSize.toString() })}
+                onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
         </MainLayout>
     );

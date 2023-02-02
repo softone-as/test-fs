@@ -15,6 +15,8 @@ interface IProps<T> extends TableProps<T> {
 
 }
 
+const stylePaginantion: React.CSSProperties = { display: 'flex', justifyContent: 'end', padding: '8px', backgroundColor: 'white' }
+const tableLayout: React.CSSProperties = { width: '100%' }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
@@ -24,15 +26,15 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
 
     }
     return (
-        <Space.Compact direction='vertical' style={{ width: '100%' }}>
-            <Table<T> {...props} style={{ width: '100%', }}
+        <Space.Compact direction='vertical' style={tableLayout}>
+            <Table<T> {...props} style={tableLayout}
                 size='small'
                 pagination={false}
                 onChange={(pagination, filters, sorter: SorterResult<T>) => props.onSort(sorter.columnKey, sorter.order)}
             />
 
 
-            <div style={{ display: 'flex', justifyContent: 'end', padding: '8px', backgroundColor: 'white' }}>
+            <div style={stylePaginantion}>
                 {
                     props.total && <Pagination
                         total={props?.total}

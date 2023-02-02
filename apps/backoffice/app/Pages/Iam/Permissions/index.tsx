@@ -19,15 +19,8 @@ interface IProps extends TInertiaProps {
     data: PermissionResponse[],
 }
 
-type TFilters = {
-    page: string,
-    per_page: string,
-    search?: string,
-
-}
-
 const PermissionPage: React.FC = (props: IProps) => {
-    const { setQueryParams } = useTableFilter<TFilters>()
+    const { setQueryParams } = useTableFilter()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
     const handleDeleteRow = (id) => {
@@ -70,10 +63,6 @@ const PermissionPage: React.FC = (props: IProps) => {
 
     ]
 
-    const handleSearch = (val) => {
-        return setQueryParams({ search: val })
-    }
-
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
@@ -96,6 +85,13 @@ const PermissionPage: React.FC = (props: IProps) => {
         }
     ]
 
+    const handleSorter = (columnKey: string, order: 'ascend' | 'descend') => {
+        if (!order) {
+            return
+        }
+        return setQueryParams({ sort: order === 'ascend' ? 'oldest' : 'latest' })
+    }
+
 
     return (
         <MainLayout >
@@ -103,7 +99,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
                 <Button size='large' type='primary'>New User</Button>
             ]} />
-            <FilterSection searchHandler={handleSearch}
+            <FilterSection
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
             />
@@ -113,7 +109,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
-                onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), per_page: pageSize.toString() })}
+                onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
         </MainLayout>
     );
