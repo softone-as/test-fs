@@ -1,16 +1,31 @@
-import { SentryService } from 'apps/backoffice/src/infrastructure/sentry/sentry.service';
 import { QueryRunner } from 'typeorm';
+import * as Sentry from '@sentry/node';
 
 export class DatabaseLoggerApplication {
-    constructor(private readonly sentryService: SentryService) {}
-
     async logQuery(query: string, parameters: any[], queryRunner: QueryRunner) {
-        const result = this.sentryService.startChild({
-            op: 'query',
+        const transaction = Sentry.startTransaction({
+            name: 'query',
+            op: 'transaction query',
+        });
+
+        Sentry.getCurrentHub().configureScope((scope) =>
+            scope.setSpan(transaction),
+        );
+
+        const span = transaction.startChild({
+            op: 'sub query',
             data: queryRunner,
             description: query,
         });
 
-        console.log(result);
+        try {
+            span.setStatus('OK');
+        } catch (err) {
+            span.setStatus(err);
+            throw err;
+        } finally {
+            span.finish();
+            transaction.finish();
+        }
     }
 }

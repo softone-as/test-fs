@@ -1,4 +1,5 @@
 import { config } from 'apps/backoffice/src/config';
+import { DatabaseLoggerApplication } from 'databases/applications/database-logger.application';
 import { Config } from 'entities/config/config.entity';
 import { Permission } from 'entities/iam/permission.entity';
 import { RolePermission } from 'entities/iam/role-permission.entity';
@@ -29,9 +30,7 @@ export const connectionOption: ConnectionOptions = {
     synchronize: false,
     logging: config.nodeEnv === 'local',
     charset: 'utf8mb4_unicode_ci',
-    // logger: new DatabaseLoggerApplication(
-    //     new SentryService(new Request())
-    // ) as any
+    logger: new DatabaseLoggerApplication() as any,
 };
 
 export const databaseConnection = createConnection(connectionOption);
