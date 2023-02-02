@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
-import { Inertia, RequestPayload } from '@inertiajs/inertia';
+import { Inertia } from '@inertiajs/inertia';
 import { IndexRequest } from '../../src/common/request/index.request';
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
     const didMountRef = useRef(false);
@@ -15,7 +14,7 @@ export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
     }, inputs);
 };
 
-type TPropsParams<T> = Omit<IndexRequest, 'perPage'> & {
+export type TPropsTableFilter<T> = Omit<IndexRequest, 'perPage'> & {
     per_page?: number;
 } & T;
 
@@ -25,7 +24,7 @@ export const useTableFilter = <T>() => {
         isFetching: false,
     });
 
-    const [filters, setFilters] = useState<TPropsParams<T> | any>(() => {
+    const [filters, setFilters] = useState<TPropsTableFilter<T> | any>(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const filtersObj = {};
         for (const [key, value] of queryParams.entries()) {
@@ -41,14 +40,24 @@ export const useTableFilter = <T>() => {
                 {},
             ),
         [filters],
-    ) as RequestPayload;
+    ) as TPropsTableFilter<T>;
 
     return {
-        setQueryParams: (propsParams: TPropsParams<T>) => {
+        setQueryParams: (propsParams: TPropsTableFilter<T>) => {
+            const checkSortAndOrder = Object.keys(propsParams).some(
+                (item) => item === 'sort' || item === 'order',
+            );
+
             const data = {
                 ...existingParams,
                 ...propsParams,
-            } as RequestPayload;
+            } as TPropsTableFilter<T>;
+
+            if (!checkSortAndOrder) {
+                delete data.order;
+                delete data.sort;
+            }
+
             setFilters(data);
             Inertia.visit(window.location.pathname, {
                 data: data,
@@ -67,7 +76,7 @@ export const useTableFilter = <T>() => {
                 },
             });
         },
-        filters: filters as TPropsParams<T>,
+        filters: filters as TPropsTableFilter<T>,
         status,
     };
 };

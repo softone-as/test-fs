@@ -13,6 +13,8 @@ import { PermissionResponse } from '../../../../src/modules/iam/responses/permis
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
 import { Inertia } from '@inertiajs/inertia';
 import type { ColumnsType } from 'antd/es/table'
+import { useTableFilter } from '../../../Utils/hooks'
+import { SorterResult } from 'antd/es/table/interface';
 
 interface IProps extends TInertiaProps {
     data: PermissionResponse[],
@@ -20,6 +22,7 @@ interface IProps extends TInertiaProps {
 
 const PermissionPage: React.FC = (props: IProps) => {
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+    const { setQueryParams, filters } = useTableFilter()
 
     const handleDeleteRow = (id) => {
         return Inertia.get(`/permissions/delete/${id}`)
@@ -79,7 +82,15 @@ const PermissionPage: React.FC = (props: IProps) => {
         })
     }
 
+    const handleSort = (sorter: SorterResult<PermissionResponse>) => {
 
+        if (!sorter.order) {
+            return setQueryParams({})
+        }
+        //TODO sort: sorter.columnKey *klo blm dihandle BE akan kelempar error 500
+        return setQueryParams({ sort: 'created_at' as string, order: sorter.order === 'ascend' ? 'ASC' : 'DESC' })
+
+    }
 
     const batchActionMenus: MenuProps['items'] = [
         {
@@ -91,6 +102,11 @@ const PermissionPage: React.FC = (props: IProps) => {
         }
     ]
 
+    const handleSearch = (value) => {
+        setQueryParams({ search: value })
+    }
+
+
     return (
         <MainLayout >
             <PageHeader title='Permissions' topActions={[
@@ -98,6 +114,8 @@ const PermissionPage: React.FC = (props: IProps) => {
                 <Button size='large' type='primary'>New User</Button>
             ]} />
             <FilterSection
+
+                onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
             />
@@ -107,6 +125,8 @@ const PermissionPage: React.FC = (props: IProps) => {
                 dataSource={props?.data}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
+                onSort={handleSort}
+                onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
         </MainLayout>
     );

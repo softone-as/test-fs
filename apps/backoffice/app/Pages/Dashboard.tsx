@@ -13,6 +13,8 @@ import { PageHeader } from '../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
 import { Link } from '@inertiajs/inertia-react'
+import { useTableFilter } from '../Utils/hooks'
+import { SorterResult } from 'antd/es/table/interface';
 
 
 
@@ -37,6 +39,7 @@ interface IProps extends TInertiaProps {
 
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+    const { setQueryParams, filters } = useTableFilter()
 
     const columns: ColumnsType<DataType> = [
         {
@@ -104,6 +107,20 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         console.log('FINSIH : ', values)
     }
 
+    const handleSort = (sorter: SorterResult<DataType>) => {
+
+        if (!sorter.order) {
+            return setQueryParams({})
+        }
+        //TODO sort: sorter.columnKey *klo blm dihandle BE akan kelempar error 500
+        return setQueryParams({ sort: 'created_at' as string, order: sorter.order === 'ascend' ? 'ASC' : 'DESC' })
+
+    }
+    const handleSearch = (value) => {
+        setQueryParams({ search: value })
+    }
+
+
     return (
         <MainLayout >
             <PageHeader title='Permissions' topActions={[
@@ -111,6 +128,8 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 <Button size='large' type='primary'>New User</Button>
             ]} />
             <FilterSection
+
+                onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
                 filters={
@@ -143,6 +162,8 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 dataSource={props?.data?.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
                 perPage={props?.meta?.perPage}
+                onSort={handleSort}
+                onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
         </MainLayout>
     );

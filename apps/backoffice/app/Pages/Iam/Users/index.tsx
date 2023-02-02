@@ -16,6 +16,7 @@ import { GenderEnum } from '../../../../../../interface-models/iam/user.interfac
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response'
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response'
 import { Inertia } from '@inertiajs/inertia';
+import { SorterResult } from 'antd/es/table/interface';
 
 
 interface IProps extends TInertiaProps {
@@ -99,7 +100,10 @@ const UsersPage: React.FC = (props: IProps) => {
 
     ]
 
-    const genderOptions = [{ label: 'Pria', value: GenderEnum.LakiLaki }, { label: 'Wanita', value: GenderEnum.Perempuan }]
+    const genderOptions = [
+        { label: 'Pria', value: GenderEnum.LakiLaki },
+        { label: 'Wanita', value: GenderEnum.Perempuan }
+    ]
 
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
@@ -124,7 +128,19 @@ const UsersPage: React.FC = (props: IProps) => {
         return setQueryParams({ gender: data })
     }
 
+    const handleSort = (sorter: SorterResult<UserResponse>) => {
 
+        if (!sorter.order) {
+            return setQueryParams({})
+        }
+        //TODO sort: sorter.columnKey *klo blm dihandle BE akan kelempar error 500
+        return setQueryParams({ sort: 'created_at' as string, order: sorter.order === 'ascend' ? 'ASC' : 'DESC' })
+
+    }
+
+    const handleSearch = (value) => {
+        setQueryParams({ search: value })
+    }
 
     return (
         <MainLayout >
@@ -134,6 +150,7 @@ const UsersPage: React.FC = (props: IProps) => {
             ]} />
             <FilterSection
 
+                onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
                 filters={
@@ -148,6 +165,8 @@ const UsersPage: React.FC = (props: IProps) => {
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
+                onSort={handleSort}
+                onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
         </MainLayout>
     );

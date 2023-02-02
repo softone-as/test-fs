@@ -2,20 +2,21 @@ import React from 'react'
 import { Col, Row, Input, MenuProps, Typography, Space, Dropdown, Divider } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import { debounce } from 'lodash'
-import { useTableFilter } from '../../../Utils/hooks'
 
 export interface IFilterSection {
     filters?: React.ReactNode[]
     selectedRows: React.Key[]
     batchActionMenus: MenuProps['items']
+    onSearch: (value: string) => void
+
 }
 
 export const FilterSection = (props: IFilterSection) => {
-    const { setQueryParams } = useTableFilter()
+
     const searchHandler = debounce((e) => {
         e.preventDefault()
 
-        setQueryParams({ search: e.target.value })
+        props.onSearch(e.target.value)
     }, 500)
     return (
         <Row gutter={[8, 0]} align='middle'>
