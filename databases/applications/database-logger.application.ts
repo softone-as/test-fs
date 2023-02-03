@@ -12,6 +12,9 @@ export class DatabaseLoggerApplication {
             scope.setSpan(transaction),
         );
 
+        // TODO: How to make operation after transaction start and
+        // transaction finish IN THIS LINE for custom query calculation
+
         const span = transaction.startChild({
             op: 'sub query',
             data: queryRunner,
