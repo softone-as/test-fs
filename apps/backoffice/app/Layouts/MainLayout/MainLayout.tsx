@@ -106,12 +106,12 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
     };
 
     useEffect(() => {
-        SidebarMenu.map((item) => {
+        SidebarMenu.find((item) => {
             const active = window.location.pathname.slice(1);
             if (item.key == active) {
                 setSelectKeys(item.key);
             }
-            item?.children?.map((chil) => {
+            item?.children?.find((chil) => {
                 if (chil.key === active) {
                     setSelectKeys(chil.key);
                     setOpenKeys([item.key]);
