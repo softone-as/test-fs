@@ -3,7 +3,6 @@ import {
     Button,
     Col,
     DatePicker,
-    Divider,
     Form, FormProps,
     Input,
     InputNumber,
@@ -21,6 +20,8 @@ import { useTableFilter } from '../../../Utils/hooks';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { TitleWithDivider } from '../../../Components/atoms/TitleWithDivider';
+
 
 type DataType = {
     key: string;
@@ -319,11 +320,7 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
                     </Col>
                 </Row>
 
-                <Typography.Text strong>
-                    Section List Table
-                </Typography.Text>
-
-                <Divider style={{ marginTop: '16px', marginBottom: '8px' }} />
+                <TitleWithDivider title='Section Table List' />
 
                 <DataTable<DataType>
                     rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
