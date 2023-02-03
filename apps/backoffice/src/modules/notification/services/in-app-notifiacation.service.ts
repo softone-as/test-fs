@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
 import { In, QueryFailedError, Repository } from 'typeorm';
+import { IUser } from 'interface-models/iam/user.interface';
 
 @Injectable()
 export class InAppNotificationService {
@@ -107,5 +108,13 @@ export class InAppNotificationService {
         return await this.notificationRepository.find({
             where: { id: In(ids) },
         });
+    }
+
+    async countUnread(user: IUser): Promise<number> {
+        return await this.notificationRepository
+            .createQueryBuilder('notification')
+            .leftJoinAndSelect('notification.targetUser', 'targetUser')
+            .andWhere('targetUser.id = :userId', { userId: user.id })
+            .getCount();
     }
 }

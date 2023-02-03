@@ -9,15 +9,12 @@ import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/mo
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
-import { Link } from '@inertiajs/inertia-react'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
-import { iconActionTableStyle } from '../../../Utils/theme';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-
-
+import RowActionButtons from '../../../Components/molecules/ActionButtons';
 
 type DataType = {
     birthDate: string,
@@ -67,11 +64,29 @@ const PermissionPage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: () => <Space size='large'>
-                <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link>
-                <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
-                <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
-            </Space>
+            render: () => (
+                <RowActionButtons
+                    actions={[
+                        {
+                            type: 'view',
+                            href: `#`,
+                            title: 'view'
+                        },
+                        {
+                            type: 'edit',
+                            href: `#`,
+                            title: 'edit'
+                        },
+                        {
+                            type: 'delete',
+                            title: 'delete',
+                            onClick: () => {
+                                // TODO : handle delete function
+                            },
+                        },
+                    ]}
+                />
+            ),
         }
 
     ]
@@ -149,7 +164,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
-                onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), size: pageSize.toString() })}
+                onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), per_page: pageSize.toString() })}
             />
         </MainLayout>
     );

@@ -4,6 +4,7 @@ import {
     MiddlewareConsumer,
     Module,
     NestModule,
+    RequestMethod,
 } from '@nestjs/common';
 import { InertiaSharePropsMiddleware } from './infrastructure/inertia/middlewares/inertia-share-props.middleware';
 import { APP_FILTER, APP_PIPE, APP_INTERCEPTOR } from '@nestjs/core';
@@ -38,12 +39,15 @@ import { join } from 'path';
 import { QueryFailedError } from 'typeorm';
 import { CacheModule as CacheModuleManager } from '@nestjs/common';
 import { CacheModule } from './infrastructure/cache/cache.module';
-import { NotificationModule as InAppNotificationModule } from './modules/notification/notification.module';
+import { InAppNotificationModule as InAppNotificationModule } from './modules/notification/notification.module';
 import { CacheCleanMiddleware } from './infrastructure/cache/middlewares/cache-clean.middleware';
 import { LogActivityModule } from './modules/log-activity/log-activity.module';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { GlobalServiceModule } from './modules/glob/global-service.module';
+import { NotificationUnreadMiddleware } from './modules/notification/middlewares/notification-unread.middleware';
+import { SentryModule } from './infrastructure/sentry/sentry.module';
+import * as Sentry from '@sentry/node';
 
 @Module({
     imports: [
@@ -78,6 +82,18 @@ import { GlobalServiceModule } from './modules/glob/global-service.module';
                 },
             },
         }),
+        SentryModule.forRoot({
+            dsn: config.sentry.dsn,
+            attachStacktrace: true,
+            debug: false,
+            environment: config.nodeEnv,
+            ignoreErrors: [
+                'EntityNotFoundError',
+                'QueryFailedError',
+                'FindRelationsNotFoundError',
+            ],
+            tracesSampleRate: 1.0,
+        }),
 
         // write your module here
         CacheModule,
@@ -86,6 +102,7 @@ import { GlobalServiceModule } from './modules/glob/global-service.module';
         CommonModule,
         IamModule,
         NotificationModule,
+        InAppNotificationModule,
 
         ScheduleModule.forRoot(),
 
@@ -153,6 +170,10 @@ export class AppModule implements NestModule {
     constructor(@Inject(REDIS) private readonly redis: RedisClient) {}
 
     configure(consumer: MiddlewareConsumer): void {
+        consumer.apply(Sentry.Handlers.requestHandler()).forRoutes({
+            path: '*',
+            method: RequestMethod.ALL,
+        });
         consumer
             .apply(
                 session({
@@ -170,6 +191,7 @@ export class AppModule implements NestModule {
                 CacheCleanMiddleware,
                 InertiaSharePropsMiddleware,
                 UserDetailMiddleware,
+                NotificationUnreadMiddleware,
             )
             .forRoutes('*');
     }

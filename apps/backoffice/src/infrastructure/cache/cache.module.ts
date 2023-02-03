@@ -5,13 +5,15 @@ import { config } from '../../config';
 
 @Module({
     imports: [
-        CacheModuleManager.register({
-            store: redisStore,
-            host: config.redis.host,
-            port: config.redis.port,
-            password: config.redis.password,
-            ttl: 60,
-        }),
+        CacheModuleManager.register(
+            config.redis.isEnabled == 'true' && {
+                store: redisStore,
+                host: config.redis.host,
+                port: config.redis.port,
+                password: config.redis.password,
+                ttl: 60,
+            },
+        ),
     ],
     providers: [CacheService],
     exports: [CacheService],
