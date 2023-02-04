@@ -132,38 +132,42 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                             </Text>
                         </Space>
                     </div>
-                    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '58px', padding: '8px 16px', marginBottom: '14px' }}>
-                        {/* User Icon */}
-                        <Space size='small'>
-                            <Avatar size="default" icon={<UserOutlined />} />
 
-                            <Space.Compact direction='vertical' size='small'>
-                                {/* Username */}
-                                <Text
-                                    style={{
-                                        fontWeight: "500",
-                                        fontSize: "14px",
-                                        color: "#ffffff",
-                                        textAlign: 'center',
-                                    }}
-                                >
-                                    Rio Irawan
-                                </Text>
+                    {pageProps.userDetail && (
+                        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '58px', padding: '8px 16px', marginBottom: '14px' }}>
+                            {/* User Icon */}
+                            <Space size='small'>
+                                <Avatar size="default" icon={<UserOutlined />} />
 
-                                {/* User Role */}
-                                <Text style={{ fontSize: '12px', color: '#B5F5EC' }}>Admin</Text>
-                            </Space.Compact>
-                        </Space>
+                                <Space.Compact direction='vertical' size='small'>
+                                    {/* Username */}
+                                    <Text
+                                        style={{
+                                            fontWeight: "500",
+                                            fontSize: "14px",
+                                            color: "#ffffff",
+                                        }}
+                                    >
+                                        {pageProps.userDetail?.fullname}
+                                    </Text>
 
-                        {/* Notification Icon */}
-                        <Tooltip title='Notifications' placement='right'>
-                            <Link href='/notifications'>
-                                <Badge dot={pageProps.notifications?.notificationUnread > 0}>
-                                    <BellOutlined style={{ color: 'white', fontSize: '24px' }} />
-                                </Badge>
-                            </Link>
-                        </Tooltip>
-                    </div>
+                                    {/* User Roles */}
+                                    <Text style={{ fontSize: '12px', color: '#B5F5EC' }}>
+                                        {pageProps.userDetail.roles?.map(r => r.name).join(', ')}
+                                    </Text>
+                                </Space.Compact>
+                            </Space>
+
+                            {/* Notification Icon */}
+                            <Tooltip title='Notifications' placement='right'>
+                                <Link href='/notifications'>
+                                    <Badge dot={pageProps.notifications?.notificationUnread > 0}>
+                                        <BellOutlined style={{ color: 'white', fontSize: '24px' }} />
+                                    </Badge>
+                                </Link>
+                            </Tooltip>
+                        </div>
+                    )}
 
                     <ConfigProvider theme={sidebarThemeConfig}>
                         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

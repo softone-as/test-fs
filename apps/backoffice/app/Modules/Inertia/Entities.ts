@@ -1,3 +1,5 @@
+import { IUser } from 'interface-models/iam/user.interface';
+
 export type TErrorProps = {
     errors: Error | null;
     message: string;
@@ -20,7 +22,7 @@ export type TInertiaProps = {
     meta: TMeta | null;
     playerId: string | null;
     success: string | null;
-    userDetail: string | null;
+    userDetail: IUser | null;
     notifications: TNotificationProps | null;
 };
 
