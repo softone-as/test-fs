@@ -14,6 +14,7 @@ import { Link, usePage } from '@inertiajs/inertia-react';
 import {
     BellOutlined,
     DashboardOutlined,
+    LogoutOutlined,
     MailOutlined, UserOutlined
 } from "@ant-design/icons";
 import { Inertia, Page } from '@inertiajs/inertia'
@@ -68,12 +69,6 @@ const SidebarMenu: MenuProps['items'] = [
         ]
 
     },
-    {
-        key: '5',
-        label: <Link href='#' onClick={handleLogout}>Logout</Link>,
-        icon: <MailOutlined />,
-
-    },
 ]
 
 
@@ -112,75 +107,89 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
     })
     return (
 
-        <Layout style={{ minHeight: '100vh' }}>
+        // Fix height, so the scroll will be belongs to Content only
+        <Layout style={{ height: '100vh' }}>
             {
                 loading && <PageProgress />
 
             }
-            <Sider theme='light' style={{ backgroundColor: '#006D75' }} width="222px">
-                <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '64px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', padding: '0rem 1rem' }}>
-                    {/* Apps Logo or Title */}
-                    <Space>
-                        <Avatar size="default" icon={<UserOutlined />} />
-                        <Text
-                            style={{
-                                fontWeight: "500",
-                                fontSize: "18px",
-                                color: "#ffffff",
-                                textAlign: 'center',
-                                lineHeight: '32px'
-                            }}
-                        >
-                            Company
-                        </Text>
-                    </Space>
-                </div>
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '58px', padding: '8px 16px', marginBottom: '14px' }}>
-                    {/* User Icon */}
-                    <Space size='small'>
-                        <Avatar size="default" icon={<UserOutlined />} />
-
-                        <Space.Compact direction='vertical' size='small'>
-                            {/* Username */}
+            <Sider theme='light' style={{ backgroundColor: '#006D75', height: '100vh' }} width="222px">
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '64px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', padding: '0rem 1rem' }}>
+                        {/* Apps Logo or Title */}
+                        <Space>
+                            <Avatar size="default" icon={<UserOutlined />} />
                             <Text
                                 style={{
                                     fontWeight: "500",
-                                    fontSize: "14px",
+                                    fontSize: "18px",
                                     color: "#ffffff",
                                     textAlign: 'center',
+                                    lineHeight: '32px'
                                 }}
                             >
-                                Rio Irawan
+                                Company
                             </Text>
+                        </Space>
+                    </div>
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '58px', padding: '8px 16px', marginBottom: '14px' }}>
+                        {/* User Icon */}
+                        <Space size='small'>
+                            <Avatar size="default" icon={<UserOutlined />} />
 
-                            {/* User Role */}
-                            <Text style={{ fontSize: '12px', color: '#B5F5EC' }}>Admin</Text>
-                        </Space.Compact>
-                    </Space>
+                            <Space.Compact direction='vertical' size='small'>
+                                {/* Username */}
+                                <Text
+                                    style={{
+                                        fontWeight: "500",
+                                        fontSize: "14px",
+                                        color: "#ffffff",
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    Rio Irawan
+                                </Text>
 
-                    {/* Notification Icon */}
-                    <Tooltip title='Notifications' placement='right'>
-                        <Link href='/notifications'>
-                            <Badge dot={pageProps.notifications?.notificationUnread > 0}>
-                                <BellOutlined style={{ color: 'white', fontSize: '24px' }} />
-                            </Badge>
-                        </Link>
-                    </Tooltip>
+                                {/* User Role */}
+                                <Text style={{ fontSize: '12px', color: '#B5F5EC' }}>Admin</Text>
+                            </Space.Compact>
+                        </Space>
+
+                        {/* Notification Icon */}
+                        <Tooltip title='Notifications' placement='right'>
+                            <Link href='/notifications'>
+                                <Badge dot={pageProps.notifications?.notificationUnread > 0}>
+                                    <BellOutlined style={{ color: 'white', fontSize: '24px' }} />
+                                </Badge>
+                            </Link>
+                        </Tooltip>
+                    </div>
+
+                    <ConfigProvider theme={sidebarThemeConfig}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Menu items={SidebarMenu} theme='light' style={{ backgroundColor: '#006D75' }} mode='inline' />
+
+                            {/* Bottom Menu */}
+                            <Menu theme='light' style={{ backgroundColor: '#006D75' }} mode='inline'>
+                                <Menu.Divider />
+                                {/* Logout Button */}
+                                <Menu.Item key="logout" icon={<LogoutOutlined />}>
+                                    <Link href='#' onClick={handleLogout}>Logout</Link>
+                                </Menu.Item>
+                            </Menu>
+                        </div>
+
+                    </ConfigProvider>
                 </div>
-
-                <ConfigProvider theme={sidebarThemeConfig}>
-                    <Menu items={SidebarMenu} theme='light' style={{ backgroundColor: '#006D75' }} mode='inline' />
-                </ConfigProvider>
             </Sider>
             <Layout>
                 <Content
                     style={{
                         padding: "28px 24px",
+                        overflow: "auto",
                     }}
                 >
-
                     {children}
-
                 </Content>
             </Layout>
         </Layout>
