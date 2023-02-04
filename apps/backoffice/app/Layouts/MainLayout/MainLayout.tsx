@@ -6,18 +6,20 @@ import {
     Menu,
     ConfigProvider,
     Avatar,
-    Badge
+    Badge,
+    Tooltip
 } from "antd";
 import type { MenuProps } from 'antd'
-import { Link } from '@inertiajs/inertia-react';
+import { Link, usePage } from '@inertiajs/inertia-react';
 import {
     BellOutlined,
     DashboardOutlined,
     MailOutlined, UserOutlined
 } from "@ant-design/icons";
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia, Page } from '@inertiajs/inertia'
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { PageProgress } from '../../Components/molecules/Progress';
+import { TInertiaProps } from '../../Modules/Inertia/Entities';
 
 
 export type IProps = {
@@ -81,6 +83,7 @@ const { Text } = Typography
 
 
 export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
+    const { props: pageProps } = usePage<Page<TInertiaProps>>()
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -133,7 +136,6 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                     </Space>
                 </div>
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '58px', padding: '8px 16px', marginBottom: '14px' }}>
-
                     {/* User Icon */}
                     <Space size='small'>
                         <Avatar size="default" icon={<UserOutlined />} />
@@ -155,10 +157,15 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                             <Text style={{ fontSize: '12px', color: '#B5F5EC' }}>Admin</Text>
                         </Space.Compact>
                     </Space>
-                    <Badge dot>
-                        <BellOutlined style={{ color: 'white', fontSize: '24px' }} />
-                    </Badge>
 
+                    {/* Notification Icon */}
+                    <Tooltip title='Notifications' placement='right'>
+                        <Link href='/notifications'>
+                            <Badge dot={pageProps.notifications?.notificationUnread > 0}>
+                                <BellOutlined style={{ color: 'white', fontSize: '24px' }} />
+                            </Badge>
+                        </Link>
+                    </Tooltip>
                 </div>
 
                 <ConfigProvider theme={sidebarThemeConfig}>

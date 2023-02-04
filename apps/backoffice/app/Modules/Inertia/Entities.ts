@@ -11,12 +11,17 @@ export type TMeta = {
     totalPage: number;
 };
 
+export type TNotificationProps = {
+    notificationUnread: number;
+};
+
 export type TInertiaProps = {
     error: TErrorProps | null;
     meta: TMeta | null;
     playerId: string | null;
     success: string | null;
     userDetail: string | null;
+    notifications: TNotificationProps | null;
 };
 
 export type TInertiaPages = {
