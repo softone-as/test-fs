@@ -14,7 +14,7 @@ import { PageHeader } from '../Components/molecules/Headers';
 import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
 import { Link } from '@inertiajs/inertia-react'
-import RowActionButtons from '../Components/molecules/ActionButtons';
+import { RowActionButton } from '../Components/molecules/RowActionButtons';
 
 type DataType = {
     birthDate: string,
@@ -65,7 +65,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
             key: 'action',
             width: '142px',
             render: () => (
-                <RowActionButtons
+                <RowActionButton
                     actions={[
                         {
                             type: 'view',

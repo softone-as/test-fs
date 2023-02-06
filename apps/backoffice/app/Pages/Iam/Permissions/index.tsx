@@ -15,7 +15,7 @@ import { Link } from '@inertiajs/inertia-react'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { iconActionTableStyle } from '../../../Utils/theme';
-import RowActionButtons from '../../../Components/molecules/ActionButtons';
+import { RowActionButton } from '../../../Components/molecules/RowActionButtons';
 
 type DataType = {
     birthDate: string,
@@ -66,7 +66,7 @@ const PermissionPage: React.FC = (props: IProps) => {
             key: 'action',
             width: '142px',
             render: () => (
-                <RowActionButtons
+                <RowActionButton
                     actions={[
                         {
                             type: 'view',
