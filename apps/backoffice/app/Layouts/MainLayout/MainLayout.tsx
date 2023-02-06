@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
     Layout,
     Typography,
@@ -21,15 +21,17 @@ import { Inertia, Page } from '@inertiajs/inertia'
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { PageProgress } from '../../Components/molecules/Progress';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
+import { Route } from '../../Enums/Route';
 
 
 export type IProps = {
     children: React.ReactNode
     headerRightMenu?: React.FC
-
 }
 
-const handleLogout = () => {
+const handleLogout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent> |
+    React.KeyboardEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
     const isOk = confirm("Are you sure to logout? ")
 
     if (isOk) {
@@ -37,33 +39,34 @@ const handleLogout = () => {
     }
 }
 
-const SidebarMenu: MenuProps['items'] = [
+type MenuItem = Required<MenuProps>['items'][number];
+
+const menuItems: MenuItem[] = [
     {
-        key: '1',
-        label: <Link href='/' >Dashboard</Link>,
+        key: Route.Dashboard,
+        label: <Link href={Route.Dashboard} >Dashboard</Link>,
         icon: <DashboardOutlined />,
 
     },
     {
-        key: '2',
+        key: '#IAM',
         label: 'IAM',
         icon: <MailOutlined />,
         theme: 'light',
-
         children: [
             {
-                key: 'users',
-                label: <Link href='/users'>Users</Link>,
+                key: Route.Users,
+                label: <Link href={Route.Users}>Users</Link>,
 
             },
             {
-                key: 'roles',
-                label: <Link href='/roles'>Roles</Link>,
+                key: Route.Roles,
+                label: <Link href={Route.Roles}>Roles</Link>,
 
             },
             {
-                key: 'permissions',
-                label: <Link href='/permissions'>Permissions</Link>,
+                key: Route.Permissions,
+                label: <Link href={Route.Permissions}>Permissions</Link>,
 
             }
         ]
@@ -71,15 +74,25 @@ const SidebarMenu: MenuProps['items'] = [
     },
 ]
 
-
-
 const { Sider, Content } = Layout
 const { Text } = Typography
-
 
 export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
     const { props: pageProps } = usePage<Page<TInertiaProps>>()
     const [loading, setLoading] = useState(false)
+
+    // active menu item key
+    const activeMenuKey = useMemo(() => window.location.pathname, [window.location.pathname]);
+
+    // key of parent's active menu item
+    const defaultOpenedKey = useMemo(() => menuItems.find((item) => {
+        if ('children' in item) {
+            const openedMenuItem = item.children?.find((chil) => {
+                return chil.key === activeMenuKey
+            })
+            return openedMenuItem !== undefined
+        }
+    })?.key as string, [menuItems, activeMenuKey]);
 
     useEffect(() => {
         const inertiaStart = Inertia.on('start', () => {
@@ -171,7 +184,14 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
 
                     <ConfigProvider theme={sidebarThemeConfig}>
                         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                            <Menu items={SidebarMenu} theme='light' style={{ backgroundColor: '#006D75' }} mode='inline' />
+                            <Menu
+                                items={menuItems}
+                                theme='light'
+                                style={{ backgroundColor: '#006D75' }}
+                                mode='inline'
+                                defaultOpenKeys={[defaultOpenedKey]}
+                                selectedKeys={[activeMenuKey]}
+                            />
 
                             {/* Bottom Menu */}
                             <Menu theme='light' style={{ backgroundColor: '#006D75' }} mode='inline'>
@@ -185,7 +205,7 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
 
                     </ConfigProvider>
                 </div>
-            </Sider>
+            </Sider >
             <Layout>
                 <Content
                     style={{
@@ -196,7 +216,7 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                     {children}
                 </Content>
             </Layout>
-        </Layout>
+        </Layout >
 
     )
 }
