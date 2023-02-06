@@ -25,6 +25,7 @@ import { CacheModule } from '../../infrastructure/cache/cache.module';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { LogActivityService } from '../log-activity/services/log-activity.service';
 import { LdapService } from '../auth/services/ldap.service';
+import { AbilityModule } from '../../infrastructure/ability/ability.module';
 
 @Module({
     imports: [
@@ -36,6 +37,7 @@ import { LdapService } from '../auth/services/ldap.service';
             LogActivity,
         ]),
         CacheModule,
+        AbilityModule,
     ],
     controllers: [
         UserController,

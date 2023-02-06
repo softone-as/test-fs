@@ -1,0 +1,44 @@
+stages:
+  - build
+  - preview
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_BUILDKIT: 1
+
+include:
+  - /deploy/.preview.gitlab-ci.yml
+
+build_develop:docker_image:
+  stage: build
+  image:
+    name: us.gcr.io/dot-gitlab-runner/aws-cli:docker
+    entrypoint: [""]
+  tags: [dot]
+  only: [development]
+  when: manual
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - docker build
+        --progress plain
+        --tag ${CI_REGISTRY_IMAGE}:development_${CI_COMMIT_SHORT_SHA}
+        --file Dockerfile.backoffice
+        .
+    - docker push ${CI_REGISTRY_IMAGE}:development_${CI_COMMIT_SHORT_SHA}
+
+deploy_develop:
+  stage: deploy
+  image: quay.io/kudaliar032/ansible:2.9.21
+  tags: [dot]
+  only: [development]
+  needs:
+    - build_develop:docker_image
+  environment:
+    name: develop
+    url: https://boilerplate-nestjs-inertia-dev.dot.co.id
+  before_script:
+    - chmod 600 $ANSIBLE_KEY_FILE
+  script:
+    - ansible-playbook --private-key $ANSIBLE_KEY_FILE -i deploy/hosts -v deploy/develop.yaml
