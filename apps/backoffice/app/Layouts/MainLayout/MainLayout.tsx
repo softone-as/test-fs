@@ -26,7 +26,9 @@ export type IProps = {
 
 }
 
-const handleLogout = () => {
+const handleLogout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent> |
+    React.KeyboardEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
     const isOk = confirm("Are you sure to logout? ")
 
     if (isOk) {
