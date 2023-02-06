@@ -9,13 +9,11 @@ import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/mo
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
-import { Link } from '@inertiajs/inertia-react'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
-import { iconActionTableStyle } from '../../../Utils/theme';
-import { RowActionButton } from '../../../Components/molecules/RowActionButtons';
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 type DataType = {
     birthDate: string,
@@ -66,7 +64,7 @@ const PermissionPage: React.FC = (props: IProps) => {
             key: 'action',
             width: '142px',
             render: () => (
-                <RowActionButton
+                <RowActionButtons
                     actions={[
                         {
                             type: 'view',

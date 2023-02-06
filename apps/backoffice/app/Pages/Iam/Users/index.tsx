@@ -13,7 +13,7 @@ import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
-import { RowActionButton } from '../../../Components/molecules/RowActionButtons';
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 type DataType = {
     birthDate: string,
@@ -65,7 +65,7 @@ const UsersPage: React.FC = (props: IProps) => {
             key: 'action',
             width: '142px',
             render: () => (
-                <RowActionButton
+                <RowActionButtons
                     actions={[
                         {
                             type: 'view',

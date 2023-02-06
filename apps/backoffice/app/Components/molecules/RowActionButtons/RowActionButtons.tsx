@@ -5,7 +5,7 @@ import { iconActionTableStyle } from '../../../Utils/theme';
 
 type ButtonType = 'view' | 'edit' | 'delete' | 'custom';
 
-interface IRowActionButtonProps {
+interface IRowActionButtonsProps {
     type?: ButtonType;
     href?: string;
     onClick?: () => void;
@@ -15,11 +15,11 @@ interface IRowActionButtonProps {
 }
 
 interface IRowActionProps {
-    actions: IRowActionButtonProps[];
+    actions: IRowActionButtonsProps[];
 }
 
-export const RowActionButton: React.FC<IRowActionProps> = ({ actions }) => {
-    const renderButton = (action: IRowActionButtonProps) => {
+export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
+    const renderButton = (action: IRowActionButtonsProps) => {
         const { type, href, onClick, title, disabled } = action;
         let { icon } = action;
 

@@ -1,5 +1,5 @@
-import { RowActionButton } from './RowActionButton';
+import { RowActionButtons } from './RowActionButtons'
 
 export {
-    RowActionButton
+    RowActionButtons
 }
