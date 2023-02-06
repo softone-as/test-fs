@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import {
     Layout,
     Typography,
@@ -18,6 +18,7 @@ import {
 import { Inertia } from '@inertiajs/inertia'
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { PageProgress } from '../../Components/molecules/Progress';
+import { AppContext } from '../../Contexts/App';
 
 
 export type IProps = {
@@ -81,38 +82,13 @@ const { Text } = Typography
 
 
 export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
-    const [loading, setLoading] = useState(false)
+    const { appState } = useContext(AppContext)
 
-    useEffect(() => {
-        const inertiaStart = Inertia.on('start', () => {
-
-            setLoading(true)
-        })
-
-        const inertiaFinish = Inertia.on('finish', (event) => {
-
-            if (event.detail.visit.completed) {
-                setLoading(false)
-            }
-            else if (event.detail.visit.interrupted) {
-                setLoading(false)
-            }
-            else if (event.detail.visit.cancelled) {
-                setLoading(false)
-            }
-        })
-
-        return () => {
-            inertiaStart()
-            inertiaFinish()
-        }
-    })
     return (
 
         <Layout style={{ minHeight: '100vh' }}>
             {
-                loading && <PageProgress />
-
+                appState.isNavigating && <PageProgress />
             }
             <Sider theme='light' style={{ backgroundColor: '#006D75' }} width="222px">
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '64px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', padding: '0rem 1rem' }}>
