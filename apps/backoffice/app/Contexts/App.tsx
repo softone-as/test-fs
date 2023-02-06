@@ -3,7 +3,6 @@ import React, { createContext, useEffect, useRef, useState } from 'react'
 
 export interface IAppContext {
     appState: IAppContextState
-    setAppState: React.Dispatch<React.SetStateAction<IAppContextState>>
 }
 export interface IAppContextState {
     isReady: boolean;
@@ -51,5 +50,5 @@ export const AppProvider: React.FunctionComponent<IAppProviderProps> = (props) =
         }
     }, [])
 
-    return <AppContext.Provider {...props} value={{ appState: state, setAppState: setState }} />
+    return <AppContext.Provider {...props} value={{ appState: state }} />
 }
