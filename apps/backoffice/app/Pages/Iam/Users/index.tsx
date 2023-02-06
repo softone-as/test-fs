@@ -129,16 +129,12 @@ const UsersPage: React.FC = (props: IProps) => {
     }
 
     const handleSort = (sorter: SorterResult<UserResponse>) => {
-
-        if (!sorter.order) {
-            return setQueryParams({})
-        }
-        //TODO sort: sorter.columnKey *klo blm dihandle BE akan kelempar error 500
-        return setQueryParams({ sort: 'created_at' as string, order: sorter.order === 'ascend' ? 'ASC' : 'DESC' })
+        return setQueryParams({ sort: 'created_at' as string, order: sorter.order })
 
     }
 
     const handleSearch = (value) => {
+        console.log(value)
         setQueryParams({ search: value })
     }
 
@@ -149,7 +145,6 @@ const UsersPage: React.FC = (props: IProps) => {
                 <Button size='large' type='primary'>New User</Button>
             ]} />
             <FilterSection
-
                 onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
@@ -163,8 +158,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
                 columns={columns}
                 dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
-                total={props?.meta?.total}
-                perPage={props.meta.perPage}
+                meta={props.meta}
                 onSort={handleSort}
                 onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />

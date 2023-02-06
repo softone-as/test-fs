@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { IndexRequest } from '../../src/common/request/index.request';
+import { OrderDirectionType } from '../../src/common/enums/index.enum';
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
     const didMountRef = useRef(false);
@@ -14,8 +15,11 @@ export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
     }, inputs);
 };
 
-export type TPropsTableFilter<T> = Omit<IndexRequest, 'perPage'> & {
+type TOrderAntD = 'ascend' | 'descend' | undefined;
+
+export type TPropsTableFilter<T> = Omit<IndexRequest, 'perPage' | 'order'> & {
     per_page?: number;
+    order?: TOrderAntD;
 } & T;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -42,20 +46,35 @@ export const useTableFilter = <T>() => {
         [filters],
     ) as TPropsTableFilter<T>;
 
+    const parseOrder = (order: TOrderAntD): OrderDirectionType => {
+        switch (order) {
+            case 'ascend':
+                return 'ASC';
+            case 'descend':
+                return 'DESC';
+            default:
+                return undefined;
+        }
+    };
+
     return {
         setQueryParams: (propsParams: TPropsTableFilter<T>) => {
-            const checkSortAndOrder = Object.keys(propsParams).some(
-                (item) => item === 'sort' || item === 'order',
-            );
-
+            // console.log(propsParams.search)
+            // console.log('existing params: ', existingParams)
+            // console.log('props params: ', propsParams)
             const data = {
                 ...existingParams,
                 ...propsParams,
+                order: parseOrder(propsParams.order),
             } as TPropsTableFilter<T>;
 
-            if (!checkSortAndOrder) {
+            if (!propsParams.order) {
                 delete data.order;
                 delete data.sort;
+            }
+
+            if (propsParams.search) {
+                data.page = 1;
             }
 
             setFilters(data);

@@ -5,10 +5,10 @@ import { Table, Pagination, Space } from 'antd';
 import type { TableProps } from 'antd/es/table';
 import type { PaginationProps } from 'antd/es/pagination'
 import { SorterResult } from 'antd/es/table/interface';
+import { TMeta } from '../../../Modules/Inertia/Entities'
 
 interface IProps<T> extends TableProps<T> {
-    total: number
-    perPage: number
+    meta: TMeta
     defaultCurrent?: number
     onSort?: (sorter: SorterResult<T>) => void
     onPageChange: (page: number, pageSize: number) => void
@@ -28,18 +28,18 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
             <Table<T> {...props} style={tableLayout}
                 size='small'
                 pagination={false}
-
                 onChange={(pagination, filters, sorter: SorterResult<T>) => props.onSort(sorter)}
             />
 
 
             <div style={stylePaginantion}>
                 {
-                    props.total && <Pagination
-                        total={props?.total}
+                    props?.meta?.total && <Pagination
+                        total={props?.meta?.total}
                         showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
                         defaultCurrent={props?.defaultCurrent || 1}
-                        pageSize={props?.perPage}
+                        current={props?.meta?.page}
+                        pageSize={props?.meta?.perPage}
                         showSizeChanger
                         onChange={handlePageChange}
                     />

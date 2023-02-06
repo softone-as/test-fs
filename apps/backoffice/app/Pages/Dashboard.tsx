@@ -160,8 +160,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
                 columns={columns}
                 dataSource={props?.data?.map(item => ({ ...item, key: item.id }))}
-                total={props?.meta?.total}
-                perPage={props?.meta?.perPage}
+                meta={props?.meta}
                 onSort={handleSort}
                 onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
             />
