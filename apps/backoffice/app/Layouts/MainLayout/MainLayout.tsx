@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
     Layout,
     Typography,
@@ -24,14 +24,6 @@ import { Route } from '../../Enums/Route';
 export type IProps = {
     children: React.ReactNode
     headerRightMenu?: React.FC
-
-}
-interface MenuItem {
-    key: string;
-    label: React.ReactNode;
-    icon: React.ReactNode;
-    theme?: string;
-    children?: Array<{ key: string, label: React.ReactNode }>;
 }
 
 const handleLogout = () => {
@@ -42,8 +34,9 @@ const handleLogout = () => {
     }
 }
 
+type MenuItem = Required<MenuProps>['items'][number];
 
-const SidebarMenu: MenuItem[] = [
+const menuItems: MenuItem[] = [
     {
         key: Route.Dashboard,
         label: <Link href={Route.Dashboard} >Dashboard</Link>,
@@ -55,7 +48,6 @@ const SidebarMenu: MenuItem[] = [
         label: 'IAM',
         icon: <MailOutlined />,
         theme: 'light',
-
         children: [
             {
                 key: Route.Users,
@@ -86,40 +78,21 @@ const SidebarMenu: MenuItem[] = [
 const { Sider, Content } = Layout
 const { Text } = Typography
 
-const rootSubmenuKeys = SidebarMenu.map((menu) => {
-    const menuKey = menu.key;
-    return menuKey;
-})
-
-
 export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
     const [loading, setLoading] = useState(false);
-    const [openKeys, setOpenKeys] = useState(null);
-    const [selectKeys, setSelectKeys] = useState(null);
 
-    const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
-        const latestOpenKey = keys.find((key) => openKeys?.indexOf(key) === -1);
-        if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
-            setOpenKeys(keys);
-        } else {
-            setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-        }
-    };
+    // active menu item key
+    const activeMenuKey = useMemo(() => window.location.pathname, [window.location.pathname]);
 
-    useEffect(() => {
-        SidebarMenu.find((item) => {
-            const active = window.location.pathname;
-            if (item.key == active) {
-                setSelectKeys(item.key);
-            }
-            item?.children?.find((chil) => {
-                if (chil.key === active) {
-                    setSelectKeys(chil.key);
-                    setOpenKeys([item.key]);
-                }
+    // key of parent's active menu item
+    const defaultOpenedKey = useMemo(() => menuItems.find((item) => {
+        if ('children' in item) {
+            const openedMenuItem = item.children?.find((chil) => {
+                return chil.key === activeMenuKey
             })
-        })
-    }, []);
+            return openedMenuItem !== undefined
+        }
+    })?.key as string, [menuItems, activeMenuKey]);
 
     useEffect(() => {
         const inertiaStart = Inertia.on('start', () => {
@@ -201,13 +174,13 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
 
                 <ConfigProvider theme={sidebarThemeConfig}>
                     <Menu
-                        items={SidebarMenu}
+                        items={menuItems}
                         theme='light'
                         style={{ backgroundColor: '#006D75' }}
                         mode='inline'
-                        openKeys={openKeys}
-                        onOpenChange={onOpenChange}
-                        selectedKeys={selectKeys} />
+                        defaultOpenKeys={[defaultOpenedKey]}
+                        selectedKeys={[activeMenuKey]}
+                    />
                 </ConfigProvider>
             </Sider>
             <Layout>
