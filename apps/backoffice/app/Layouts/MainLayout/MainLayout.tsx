@@ -18,6 +18,7 @@ import {
 import { Inertia } from '@inertiajs/inertia'
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { PageProgress } from '../../Components/molecules/Progress';
+import { Route } from '../../Enums/Route';
 
 
 export type IProps = {
@@ -44,38 +45,38 @@ const handleLogout = () => {
 
 const SidebarMenu: MenuItem[] = [
     {
-        key: '1',
-        label: <Link href='/' >Dashboard</Link>,
+        key: Route.Dashboard,
+        label: <Link href={Route.Dashboard} >Dashboard</Link>,
         icon: <DashboardOutlined />,
 
     },
     {
-        key: '2',
+        key: '#IAM',
         label: 'IAM',
         icon: <MailOutlined />,
         theme: 'light',
 
         children: [
             {
-                key: 'users',
-                label: <Link href='/users'>Users</Link>,
+                key: Route.Users,
+                label: <Link href={Route.Users}>Users</Link>,
 
             },
             {
-                key: 'roles',
-                label: <Link href='/roles'>Roles</Link>,
+                key: Route.Roles,
+                label: <Link href={Route.Roles}>Roles</Link>,
 
             },
             {
-                key: 'permissions',
-                label: <Link href='/permissions'>Permissions</Link>,
+                key: Route.Permissions,
+                label: <Link href={Route.Permissions}>Permissions</Link>,
 
             }
         ]
 
     },
     {
-        key: '5',
+        key: Route.Logout,
         label: <Link href='#' onClick={handleLogout}>Logout</Link>,
         icon: <MailOutlined />,
 
@@ -107,7 +108,7 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
 
     useEffect(() => {
         SidebarMenu.find((item) => {
-            const active = window.location.pathname.slice(1);
+            const active = window.location.pathname;
             if (item.key == active) {
                 setSelectKeys(item.key);
             }
