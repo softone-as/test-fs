@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataTable, TOnSort } from '../../../Components/organisms/DataTable';
+import { DataTable, TOnSort, sortOrder } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
@@ -62,6 +62,7 @@ const UsersPage: React.FC = (props: IProps) => {
             dataIndex: 'fullname',
             key: 'fullname',
             sorter: true,
+            sortOrder: sortOrder({ columnKey: 'fullname', order: filters.order, sort: filters.sort })
         },
         {
             title: 'Gender',
