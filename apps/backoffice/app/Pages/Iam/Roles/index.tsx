@@ -147,7 +147,7 @@ const RolesPage: React.FC = () => {
     // );
 
     return (
-        <MainLayout >
+        <MainLayout title="Roles">
             <h1>Hello</h1>
         </MainLayout>
     );

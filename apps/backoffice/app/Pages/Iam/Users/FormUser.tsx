@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
+import { Route } from '../../../Enums/Route';
 import React from 'react';
 // import { yupResolver } from '@hookform/resolvers/yup';
 // import { Inertia } from '@inertiajs/inertia';
@@ -42,10 +43,14 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 // });
 
 const FormUser: React.FC = () => {
-
-
     return (
-        <MainLayout >
+        <MainLayout
+            title="Add New User"
+            breadcrumbs={[
+                { title: 'User List', to: Route.Users },
+                { title: 'Add New' },
+            ]}
+        >
             <h1>Hallo</h1>
         </MainLayout>
     );

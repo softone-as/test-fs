@@ -1,3 +1,4 @@
+import { Route } from '../../../Enums/Route';
 import React from 'react';
 
 import { MainLayout } from '../../../Layouts/MainLayout';
@@ -56,9 +57,14 @@ const UserDetailPage: React.FC = () => {
     //     )
     // })
 
-
     return (
-        <MainLayout >
+        <MainLayout
+            title="Detail User"
+            breadcrumbs={[
+                { title: 'User List', to: Route.Users },
+                { title: 'Detail User' },
+            ]}
+        >
             <h1>Hai</h1>
         </MainLayout>
     );
