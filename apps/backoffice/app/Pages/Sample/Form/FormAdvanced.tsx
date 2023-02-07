@@ -1,6 +1,5 @@
 import {
     Button,
-    Card,
     Col,
     DatePicker,
     Form, FormProps,
@@ -14,7 +13,7 @@ import {
     Typography
 } from 'antd';
 import React, { useState } from 'react';
-import { SectionHeader } from '../../../Components/molecules/Section';
+import { Section, SectionHeader } from '../../../Components/molecules/Section';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
@@ -245,7 +244,7 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             <PageHeader title='Add Data' />
-            <Card title='Form Advanced'>
+            <Section title='Form Advanced'>
 
                 <FormContainer
                     {...props}
@@ -351,7 +350,7 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
                     />
 
                 </FormContainer>
-            </Card>
+            </Section>
         </Layout>
     )
 }

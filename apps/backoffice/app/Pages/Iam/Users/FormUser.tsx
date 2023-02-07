@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { Button, Card, Form, Input, Select } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync } from '../../../Utils/utils';
@@ -16,6 +16,7 @@ import { createUser } from '../../../Modules/User/Action';
 import { IUserForm } from '../../../Modules/User/Entities';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { IRole } from 'interface-models/iam/role.interface';
+import { Section } from 'apps/backoffice/app/Components/molecules/Section';
 
 const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
@@ -67,7 +68,7 @@ const FormUserPage: React.FC = (props: IProps) => {
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             <PageHeader title='Add New User' />
 
-            <Card>
+            <Section>
                 <FormContainer
                     onFinish={onFinish}
                     form={form}
@@ -107,7 +108,7 @@ const FormUserPage: React.FC = (props: IProps) => {
                     </Form.Item>
 
                 </FormContainer>
-            </Card>
+            </Section>
         </Layout >
     );
 };

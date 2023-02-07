@@ -1,7 +1,6 @@
 import { InboxOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
     Button,
-    Card,
     Checkbox,
     DatePicker,
     Form,
@@ -23,6 +22,7 @@ import { PageHeader } from '../../../Components/molecules/Headers';
 import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
+import { Section } from 'apps/backoffice/app/Components/molecules/Section';
 
 const { Option } = Select;
 
@@ -67,7 +67,7 @@ const FormBasic: React.FC = () => {
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             <PageHeader title='Add Data' />
-            <Card>
+            <Section>
                 <FormContainer
                     form={form}
                     onFinish={onFinish}
@@ -260,7 +260,7 @@ const FormBasic: React.FC = () => {
                     </Form.Item>
 
                 </FormContainer>
-            </Card>
+            </Section>
         </Layout>
     )
 }

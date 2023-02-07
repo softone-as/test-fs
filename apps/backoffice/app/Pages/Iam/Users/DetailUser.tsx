@@ -81,7 +81,7 @@ const UserDetailPage: React.FC = (props: IProps) => {
 
             <Space direction='vertical' size={defaultSizeSpace} style={{ width: '100%' }}>
                 <Section title='User Info'>
-                    <DescriptionContainer title='User Info' size='small' bordered column={{ md: 2, xs: 1 }}>
+                    <DescriptionContainer size='small' bordered column={{ md: 2, xs: 1 }}>
                         <Descriptions.Item label='ID'>{id}</Descriptions.Item>
                         <Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
                         <Descriptions.Item label='No Telephone'>{phoneNumber}</Descriptions.Item>

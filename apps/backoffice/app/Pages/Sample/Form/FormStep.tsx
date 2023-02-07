@@ -2,7 +2,6 @@
 import { CheckCircleFilled, UploadOutlined } from '@ant-design/icons';
 import {
     Button,
-    Card,
     Form, FormProps,
     Input,
     Row,
@@ -19,6 +18,7 @@ import { PageHeader } from '../../../Components/molecules/Headers';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
+import { Section } from '../../../Components/molecules/Section';
 
 const { Option } = Select;
 
@@ -66,7 +66,7 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             <PageHeader title='Add Data' />
 
-            <Card>
+            <Section>
                 <Steps
                     current={current}
                     items={[
@@ -91,7 +91,6 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
                         {...props}
                         initialValues={{ prefix: '62', name: 'John Doe', division: ['Industry'], suffix: 'USD' }}
                         onFinish={onFinish}
-                        // width={550}
                         form={form}
                         layout='vertical'
                         requiredMark='optional'
@@ -175,7 +174,7 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
                         </Space>
                     </Row>
                 )}
-            </Card>
+            </Section>
         </Layout>
     )
 }
