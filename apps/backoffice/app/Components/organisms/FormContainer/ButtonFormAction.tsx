@@ -7,8 +7,7 @@ export interface IButtonFormActionProps {
     style?: CSSProperties
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-function ButtonFormAction(props: IButtonFormActionProps) {
+const ButtonFormAction = (props: IButtonFormActionProps) => {
     return (
         <Row justify={props.justify} style={{ marginTop: '24px', marginBottom: '8px', ...props.style }}>
             <Space>

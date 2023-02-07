@@ -1,9 +1,7 @@
 import { Button, ButtonProps } from 'antd'
 import React from 'react'
 
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-function Buttons(props: ButtonProps) {
+const Buttons = (props: ButtonProps) => {
 
     if (props.icon) {
         return (

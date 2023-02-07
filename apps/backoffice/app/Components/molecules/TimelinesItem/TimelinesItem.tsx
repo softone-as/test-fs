@@ -13,9 +13,7 @@ const secondaryStyle = {
     opacity: '45%'
 }
 
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-function TimelinesItem(props: ITimelineItemProps) {
+const TimelinesItem = (props: ITimelineItemProps) => {
     const { title, description, time } = props
 
     return (

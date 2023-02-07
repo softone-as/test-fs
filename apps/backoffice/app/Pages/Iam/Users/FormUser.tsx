@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/naming-convention */
-
 import { Button, Form, Input, Select } from 'antd';
 import React, { useState } from 'react';
 import * as yup from 'yup';
@@ -16,12 +13,12 @@ import { createUser } from '../../../Modules/User/Action';
 import { IUserForm } from '../../../Modules/User/Entities';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { IRole } from 'interface-models/iam/role.interface';
-import { Section } from 'apps/backoffice/app/Components/molecules/Section';
+import { Section } from '../../../Components/molecules/Section';
 
 const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
     password: yup.string().required('Field password is required').min(8, 'Password at least have 8 character')
-        .test('isFormatValid', 'At least password has include 1 number and Alphabet', (value, context) => {
+        .test('isFormatValid', 'At least password has include 1 number and Alphabet', (value) => {
             const hasUpperCase = /[A-Z]/.test(value);
             const hasNumber = /[0-9]/.test(value);
 
@@ -78,7 +75,7 @@ const FormUserPage: React.FC = (props: IProps) => {
                         <Button onClick={onReset}>
                             Discard
                         </Button>,
-                        <Button type="primary" htmlType="submit" disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0} >
+                        <Button type="primary" htmlType="submit" disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0 && isLoading}  >
                             Submit
                         </Button>
                     ]}

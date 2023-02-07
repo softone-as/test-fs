@@ -9,8 +9,7 @@ interface IFormProps extends FormProps {
     buttonAction?: React.ReactNode[]
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
-function FormContainer(props: IFormProps): JSX.Element {
+const FormContainer = (props: IFormProps): JSX.Element => {
     const { isFieldCentered, centered, justifyButton = 'end', buttonAction, ...rest } = props
     const { lg } = Grid.useBreakpoint()
 

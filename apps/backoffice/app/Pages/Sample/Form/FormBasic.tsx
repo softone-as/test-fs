@@ -22,7 +22,7 @@ import { PageHeader } from '../../../Components/molecules/Headers';
 import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
-import { Section } from 'apps/backoffice/app/Components/molecules/Section';
+import { Section } from '../../../Components/molecules/Section';
 
 const { Option } = Select;
 
@@ -51,7 +51,6 @@ const suffixSelector = (
     </Form.Item>
 );
 
-/* eslint-disable @typescript-eslint/naming-convention */
 const FormBasic: React.FC = () => {
     const [form] = Form.useForm()
     const [isLoading, setIsLoading] = useState(false)
@@ -71,7 +70,7 @@ const FormBasic: React.FC = () => {
                 <FormContainer
                     form={form}
                     onFinish={onFinish}
-                    initialValues={{ prefix: '62', quantity: 3, status: true, suffix: 'USD', rate: 4, aggreement: true, 'checkbox-item': 'A' }}
+                    initialValues={{ prefix: '62', quantity: 3, status: true, suffix: 'USD', rate: 4, aggreement: true, 'checkboxItem': 'A' }}
                     isFieldCentered
                     centered
                     buttonAction={[
@@ -145,6 +144,7 @@ const FormBasic: React.FC = () => {
 
                     <Form.Item name="slider" label="Slider" required>
                         <Slider
+                            /* eslint-disable @typescript-eslint/naming-convention */
                             marks={{
                                 0: '0',
                                 25: '100',
@@ -191,7 +191,7 @@ const FormBasic: React.FC = () => {
                         </Radio.Group>
                     </Form.Item>
 
-                    <Form.Item name="checkbox-item" label="Item" tooltip='Choose at least one' required>
+                    <Form.Item name="checkboxItem" label="Item" tooltip='Choose at least one' required>
                         <Checkbox.Group>
                             <Space>
                                 <Checkbox value="A" style={{ lineHeight: '32px' }}>

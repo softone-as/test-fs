@@ -2,7 +2,7 @@
 import { CheckCircleFilled, UploadOutlined } from '@ant-design/icons';
 import {
     Button,
-    Form, FormProps,
+    Form,
     Input,
     Row,
     Select,
@@ -39,8 +39,7 @@ const prefixSelector = (
     </Form.Item>
 );
 
-/* eslint-disable @typescript-eslint/naming-convention */
-function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
+const FormStep: React.FC = () => {
     const [form] = Form.useForm()
     const [isLoading, setIsLoading] = useState(false)
     const [current, setCurrent] = useState(0);
@@ -88,7 +87,6 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
 
                 {current < 2 ? (
                     <FormContainer
-                        {...props}
                         initialValues={{ prefix: '62', name: 'John Doe', division: ['Industry'], suffix: 'USD' }}
                         onFinish={onFinish}
                         form={form}
