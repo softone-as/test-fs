@@ -20,7 +20,7 @@ import {
     ShareAltOutlined,
 } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd';
-import RowActionButtons from '../../../Components/molecules/ActionButtons';
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 type DataType = {
     birthDate: string;

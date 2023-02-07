@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/node';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { SentryService } from './sentry.service';
 import { SentryInterceptor } from '../../common/interceptors/sentry.interceptor';
+import { SentryQueryService } from './sentry-query.service';
 export const SENTRY_OPTIONS = 'SENTRY_OPTIONS';
 
 @Module({
@@ -21,13 +22,14 @@ export class SentryModule {
                     provide: SENTRY_OPTIONS,
                     useValue: options,
                 },
-                SentryService,
                 {
                     provide: APP_INTERCEPTOR,
                     useClass: SentryInterceptor,
                 },
+                SentryService,
+                SentryQueryService,
             ],
-            exports: [SentryService],
+            exports: [SentryService, SentryQueryService],
         };
     }
 }

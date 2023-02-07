@@ -7,7 +7,7 @@ import { Button, Form, MenuProps, Select, Space, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { Dayjs } from 'dayjs';
 import React, { useState } from 'react';
-import RowActionButtons from '../../../Components/molecules/ActionButtons';
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import {
     DatePicker,

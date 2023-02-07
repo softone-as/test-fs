@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react'
 import {
     Layout,
     Typography,
@@ -19,6 +19,7 @@ import {
 import { Inertia } from '@inertiajs/inertia';
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { PageProgress } from '../../Components/molecules/Progress';
+import { Route } from '../../Enums/Route';
 import { PageHeader } from '../../Components/molecules/Headers';
 import { IBreadcrumbItem } from '../../Components/molecules/Headers/PageHeader';
 
@@ -30,62 +31,75 @@ export type IProps = {
     breadcrumbs?: IBreadcrumbItem[];
 };
 
-const handleLogout = () => {
-    const isOk = confirm('Are you sure to logout? ');
+const handleLogout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent> |
+    React.KeyboardEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    const isOk = confirm("Are you sure to logout? ")
 
     if (isOk) {
         Inertia.get('/auth/logout');
     }
 };
 
-const SidebarMenu: MenuProps['items'] = [
+type MenuItem = Required<MenuProps>['items'][number];
+
+const menuItems: MenuItem[] = [
     {
-        key: '1',
-        label: <Link href="/">Dashboard</Link>,
+        key: Route.Dashboard,
+        label: <Link href={Route.Dashboard} >Dashboard</Link>,
         icon: <DashboardOutlined />,
     },
     {
-        key: '2',
+        key: '#IAM',
         label: 'IAM',
         icon: <MailOutlined />,
         theme: 'light',
-
         children: [
             {
-                key: 'users',
-                label: <Link href="/users">Users</Link>,
+                key: Route.Users,
+                label: <Link href={Route.Users}>Users</Link>,
+
             },
             {
-                key: 'roles',
-                label: <Link href="/roles">Roles</Link>,
+                key: Route.Roles,
+                label: <Link href={Route.Roles}>Roles</Link>,
+
             },
             {
-                key: 'permissions',
-                label: <Link href="/permissions">Permissions</Link>,
-            },
-        ],
+                key: Route.Permissions,
+                label: <Link href={Route.Permissions}>Permissions</Link>,
+
+            }
+        ]
+
     },
     {
-        key: '5',
-        label: (
-            <Link href="#" onClick={handleLogout}>
-                Logout
-            </Link>
-        ),
+        key: Route.Logout,
+        label: <Link href='#' onClick={handleLogout}>Logout</Link>,
         icon: <MailOutlined />,
     },
-];
+]
 
-const { Sider, Content } = Layout;
-const { Text } = Typography;
+const { Sider, Content } = Layout
+const { Text } = Typography
 
-export const MainLayout: React.FC<IProps> = ({
-    children,
-    title,
+export const MainLayout: React.FC<IProps> = ({ children, title,
     topActions,
-    breadcrumbs,
-}: IProps) => {
+    breadcrumbs }: IProps) => {
     const [loading, setLoading] = useState(false);
+
+    // active menu item key
+    const activeMenuKey = useMemo(() => window.location.pathname, [window.location.pathname]);
+
+    // key of parent's active menu item
+    const defaultOpenedKey = useMemo(() => menuItems.find((item) => {
+        if ('children' in item) {
+            const openedMenuItem = item.children?.find((chil) => {
+                return chil.key === activeMenuKey
+            })
+            return openedMenuItem !== undefined
+        }
+    })?.key as string, [menuItems, activeMenuKey]);
 
     useEffect(() => {
         const inertiaStart = Inertia.on('start', () => {
@@ -191,10 +205,12 @@ export const MainLayout: React.FC<IProps> = ({
 
                 <ConfigProvider theme={sidebarThemeConfig}>
                     <Menu
-                        items={SidebarMenu}
-                        theme="light"
+                        items={menuItems}
+                        theme='light'
                         style={{ backgroundColor: '#006D75' }}
-                        mode="inline"
+                        mode='inline'
+                        defaultOpenKeys={[defaultOpenedKey]}
+                        selectedKeys={[activeMenuKey]}
                     />
                 </ConfigProvider>
             </Sider>
@@ -211,8 +227,8 @@ export const MainLayout: React.FC<IProps> = ({
                     />
 
                     {children}
-                </Content>
-            </Layout>
-        </Layout>
+                </Content >
+            </Layout >
+        </Layout >
     );
 };

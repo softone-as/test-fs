@@ -32,7 +32,7 @@ export class UserController {
         private readonly userIndexApplication: UserIndexApplication,
     ) {}
 
-    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
+    // @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get()
     async indexPage(@Query() indexRequest: UserIndexRequest): Promise<void> {
         const props = await this.userIndexApplication.fetch(indexRequest);
@@ -45,7 +45,7 @@ export class UserController {
         });
     }
 
-    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
+    // @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get('create')
     async createPage(): Promise<void> {
         const roles = await this.roleCrudApplication.findAll();
