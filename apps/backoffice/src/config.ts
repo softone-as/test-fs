@@ -135,6 +135,8 @@ export const config = {
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
         databaseTest: process.env.DB_DATABASE_TEST,
+        maxQueryExecutionTimeInSeconds:
+            process.env.DB_MAX_QUERY_EXECUTION_TIME_IN_SECONDS || 0.001,
     },
 
     databaseTest: {
