@@ -1,11 +1,11 @@
 
 import React from 'react';
 import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-import { Badge, Card, Col, Descriptions, Grid, Image, Row, Space, Steps, Tabs, TabsProps, Timeline, Typography } from 'antd';
+import { Badge, Card, Col, Descriptions, Image, Row, Space, Steps, Tabs, TabsProps, Timeline, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
 import { IUser } from '../../../Modules/User/Entities';
-import { iconActionTableStyle } from '../../../Utils/theme';
+import { defaultGutter, iconActionTableStyle } from '../../../Utils/theme';
 
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { PageHeader } from '../../../Components/molecules/Headers';
@@ -108,10 +108,7 @@ const tabItems: TabsProps['items'] = [
     },
 ];
 
-/* eslint-disable @typescript-eslint/naming-convention */
 const DetailAdvancedPage: React.FC = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { sm } = Grid.useBreakpoint()
 
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
@@ -122,7 +119,7 @@ const DetailAdvancedPage: React.FC = () => {
                 <Buttons type='primary'>Action</Buttons>,
             ]} />
 
-            <Row gutter={[16, sm ? 16 : 0]} justify='space-between'>
+            <Row gutter={defaultGutter} justify='space-between'>
                 <Col md={24} lg={6}>
                     <Card>
                         <Space direction='vertical' align='center' style={{ width: '100%', marginBottom: '16px' }}>
