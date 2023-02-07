@@ -45,6 +45,8 @@ export const Route = {
     EditUser: '/users/edit',
 
     Home: '/dashboard/page',
+    Dashboard: '/',
+    Logout: '/auth/logout',
 };
 
 export const RouteList: RouteListType[] = [

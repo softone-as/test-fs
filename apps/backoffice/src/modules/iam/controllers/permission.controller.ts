@@ -68,6 +68,14 @@ export class PermissionController {
         });
     }
 
+    /*
+    EXAMPLE IMPLEMENT POLICY IN CONTROLLER
+    
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_PERMISSION), AbilityGuard)
+    @CheckAbilities({ action: Action.Update, subject: User })
+    
+    */
+
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_PERMISSION))
     @Post('edit/:id')
     async update(

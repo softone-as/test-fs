@@ -10,8 +10,7 @@ import { FilterSection } from '../../../Components/organisms/FilterSection'
 import { Button, MenuProps, Select, Tag } from 'antd';
 import { DateRangePicker, TRangeValue } from '../../../Components/molecules/Pickers';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { EditOutlined, EyeOutlined, FileExcelOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
-import { iconActionTableStyle } from '../../../Utils/theme';
+import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface'
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response'
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response'
@@ -19,6 +18,7 @@ import { Inertia } from '@inertiajs/inertia';
 
 
 
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[],
@@ -47,7 +47,7 @@ const UsersPage: React.FC = (props: IProps) => {
             ids: selectedRowKeys
         })
     }
-
+    //TODO Handle Modal Delete example
     const deleteModal = (id) => useModal({ title: 'Are You Sure? ', type: 'confirm', onOk: () => handleDeleteRow(id), onCancel: () => { return } })
 
     const columns: ColumnsType<UserResponse> = [
@@ -88,15 +88,29 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: (value: UserResponse) => {
-                return (
-                    <Button.Group size='small'>
-                        <Button type='link' href={`/users/${value.id}`}><EyeOutlined style={iconActionTableStyle} /></Button>
-                        <Button type='link' href={`/users/edit/${value.id}`}><EditOutlined style={iconActionTableStyle} /></Button>
-                        <Button type='text' onClick={() => deleteModal(value.id)}><DeleteOutlined style={iconActionTableStyle} /></Button>
-                    </Button.Group>
-                )
-            }
+            render: () => (
+                <RowActionButtons
+                    actions={[
+                        {
+                            type: 'view',
+                            href: `#`,
+                            title: 'view'
+                        },
+                        {
+                            type: 'edit',
+                            href: `#`,
+                            title: 'edit'
+                        },
+                        {
+                            type: 'delete',
+                            title: 'delete',
+                            onClick: () => {
+                                // TODO : handle delete function
+                            },
+                        },
+                    ]}
+                />
+            ),
         }
 
     ]
