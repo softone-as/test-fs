@@ -58,7 +58,7 @@ export class UserIndexApplication extends IndexApplication {
         } else {
             query.orderBy(
                 ALLOW_TO_SORT.indexOf(request.sort) >= 0
-                    ? request.sort ?? `user.${ALLOW_TO_SORT[0]}`
+                    ? `user.${request.sort}`
                     : `user.createdAt`,
                 this.getOrder(request.order),
             );
