@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataTable } from '../../../Components/organisms/DataTable';
+import { DataTable, sortOrder, TOnSort } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
 import { FilterSection } from '../../../Components/organisms/FilterSection'
@@ -14,7 +14,6 @@ import { RoleResponse } from '../../../../src/modules/iam/responses/role.respons
 import { Inertia } from '@inertiajs/inertia';
 import type { ColumnsType } from 'antd/es/table'
 import { useTableFilter } from '../../../Utils/hooks'
-import { SorterResult } from 'antd/es/table/interface';
 
 interface IProps extends TInertiaProps {
     data: PermissionResponse[],
@@ -41,13 +40,15 @@ const PermissionPage: React.FC = (props: IProps) => {
             title: 'Permission Name',
             dataIndex: 'name',
             key: 'name',
-            sorter: true
+            sorter: true,
+            sortOrder: sortOrder({ columnKey: 'name', order: filters.order, sort: filters.sort })
         },
         {
             title: 'Roles',
             dataIndex: 'roles',
             key: 'roles',
             sorter: true,
+            sortOrder: sortOrder({ columnKey: 'roles', order: filters.order, sort: filters.sort }),
             render: (roles: RoleResponse[]) => roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>)
         },
         {
@@ -83,7 +84,7 @@ const PermissionPage: React.FC = (props: IProps) => {
         })
     }
 
-    const handleSort = (sorter: SorterResult<PermissionResponse>) => {
+    const handleSort = (sorter: TOnSort<PermissionResponse>) => {
         return setQueryParams({ sort: sorter.columnKey as string, order: sorter.order })
 
     }
@@ -111,6 +112,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                 <Button size='large' type='primary'>New User</Button>
             ]} />
             <FilterSection
+                searchValue={filters.search}
                 onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}

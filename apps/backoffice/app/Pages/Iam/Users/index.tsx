@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataTable } from '../../../Components/organisms/DataTable';
+import { DataTable, TOnSort } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
@@ -16,7 +16,8 @@ import { GenderEnum } from '../../../../../../interface-models/iam/user.interfac
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response'
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response'
 import { Inertia } from '@inertiajs/inertia';
-import { SorterResult } from 'antd/es/table/interface';
+
+
 
 
 interface IProps extends TInertiaProps {
@@ -128,7 +129,7 @@ const UsersPage: React.FC = (props: IProps) => {
         return setQueryParams({ gender: data })
     }
 
-    const handleSort = (sorter: SorterResult<UserResponse>) => {
+    const handleSort = (sorter: TOnSort<UserResponse>) => {
         return setQueryParams({ sort: sorter.columnKey as string, order: sorter.order })
 
     }
@@ -144,6 +145,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 <Button size='large' type='primary'>New User</Button>
             ]} />
             <FilterSection
+                searchValue={filters.search}
                 onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}

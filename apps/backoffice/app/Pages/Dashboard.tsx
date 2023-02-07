@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataTable } from '../Components/organisms/DataTable';
+import { DataTable, TOnSort } from '../Components/organisms/DataTable';
 import { MainLayout } from '../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../Modules/Inertia/Entities'
@@ -14,7 +14,6 @@ import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, S
 import { Form, Typography, Space } from 'antd'
 import { Link } from '@inertiajs/inertia-react'
 import { useTableFilter } from '../Utils/hooks'
-import { SorterResult } from 'antd/es/table/interface';
 
 
 
@@ -107,7 +106,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         console.log('FINSIH : ', values)
     }
 
-    const handleSort = (sorter: SorterResult<DataType>) => {
+    const handleSort = (sorter: TOnSort<DataType>) => {
 
         return setQueryParams({ sort: sorter.columnKey as string, order: sorter.order })
 
@@ -124,7 +123,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 <Button size='large' type='primary'>New User</Button>
             ]} />
             <FilterSection
-
+                searchValue={filters.search}
                 onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}

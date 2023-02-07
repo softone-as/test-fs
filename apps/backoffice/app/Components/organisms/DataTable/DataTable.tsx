@@ -2,17 +2,9 @@
 import React from 'react';
 
 import { Table, Pagination, Space } from 'antd';
-import type { TableProps } from 'antd/es/table';
 import type { PaginationProps } from 'antd/es/pagination'
 import { SorterResult } from 'antd/es/table/interface';
-import { TMeta } from '../../../Modules/Inertia/Entities'
-
-interface IProps<T> extends TableProps<T> {
-    meta: TMeta
-    defaultCurrent?: number
-    onSort?: (sorter: SorterResult<T>) => void
-    onPageChange: (page: number, pageSize: number) => void
-}
+import { IProps } from './Entities'
 
 const stylePaginantion: React.CSSProperties = { display: 'flex', justifyContent: 'end', padding: '8px', backgroundColor: 'white' }
 const tableLayout: React.CSSProperties = { width: '100%' }
@@ -28,9 +20,8 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
             <Table<T> {...props} style={tableLayout}
                 size='small'
                 pagination={false}
-                onChange={(pagination, filters, sorter: SorterResult<T>) => props.onSort(sorter)}
+                onChange={(pagination, filters, sorter: SorterResult<T>): void => props.onSort({ ...sorter, order: sorter.order !== undefined ? sorter.order === 'ascend' ? 'ASC' : 'DESC' : undefined })}
             />
-
 
             <div style={stylePaginantion}>
                 {
