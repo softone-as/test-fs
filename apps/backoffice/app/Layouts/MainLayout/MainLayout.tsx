@@ -118,7 +118,7 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '64px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', padding: '0rem 1rem' }}>
                     {/* Apps Logo or Title */}
                     <Space>
-                        <Avatar size="default" icon={<UserOutlined />} />
+                        <img src="/img/company-logo.svg" width="60px" />
                         <Text
                             style={{
                                 fontWeight: "500",
