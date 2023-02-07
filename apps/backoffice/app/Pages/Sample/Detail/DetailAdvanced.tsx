@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-import { Badge, Card, Col, Descriptions, Image, Row, Space, Steps, Tabs, TabsProps, Timeline, Typography } from 'antd';
+import { Badge, Col, Descriptions, Image, Row, Space, Steps, Tabs, TabsProps, Timeline, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
 import { IUser } from '../../../Modules/User/Entities';
@@ -17,6 +17,7 @@ import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { Link } from '@inertiajs/inertia-react';
 import { Buttons } from '../../../Components/atoms/Buttons';
 import { DescriptionContainer } from '../../../Components/molecules/DescriptionContainer';
+import { Section } from '../../../Components/molecules/Section';
 
 
 const columns: ColumnsType<IUser> = [
@@ -121,7 +122,7 @@ const DetailAdvancedPage: React.FC = () => {
 
             <Row gutter={defaultGutter} justify='space-between'>
                 <Col md={24} lg={6}>
-                    <Card>
+                    <Section>
                         <Space direction='vertical' size={defaultSizeSpace}>
 
                             <Space direction='vertical' size={defaultSizeSpace} align='center' style={{ width: '100%' }}>
@@ -145,12 +146,12 @@ const DetailAdvancedPage: React.FC = () => {
                             </Descriptions.Item>
                         </DescriptionContainer>
 
-                    </Card>
+                    </Section>
                 </Col>
 
                 <Col md={24} lg={18}>
                     <Space size={defaultSizeSpace} direction='vertical' style={{ width: '100%' }}>
-                        <Card title='Process progress'>
+                        <Section title='Process progress' divider>
                             <Steps
                                 progressDot
                                 current={1}
@@ -170,9 +171,9 @@ const DetailAdvancedPage: React.FC = () => {
                                     },
                                 ]}
                             />
-                        </Card>
+                        </Section>
 
-                        <Card title='Activity Timeline'>
+                        <Section title='Activity Timeline' divider top>
                             <Timeline>
                                 <TimelinesItem
                                     title='Seamlessly communicate collaborative expertise through business quality'
@@ -190,11 +191,11 @@ const DetailAdvancedPage: React.FC = () => {
                                     time='2 day ago'
                                 />
                             </Timeline>
-                        </Card>
+                        </Section>
 
-                        <Card>
+                        <Section>
                             <Tabs defaultActiveKey="1" items={tabItems} />
-                        </Card>
+                        </Section>
                     </Space>
                 </Col>
             </Row>
