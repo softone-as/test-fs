@@ -11,11 +11,9 @@ import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/mo
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
-import { Link } from '@inertiajs/inertia-react'
-import { iconActionTableStyle } from '../../../Utils/theme';
-import RowActionButtons from '../../../Components/molecules/ActionButtons';
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 type DataType = {
     birthDate: string,
