@@ -15,7 +15,7 @@ export const FilterSection = (props: IFilterSection) => {
 
     const searchHandler = debounce((e) => {
         e.preventDefault()
-        console.log(e.target.value)
+
         props.onSearch(e.target.value)
     }, 500)
     return (

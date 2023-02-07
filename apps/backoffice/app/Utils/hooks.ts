@@ -59,9 +59,6 @@ export const useTableFilter = <T>() => {
 
     return {
         setQueryParams: (propsParams: TPropsTableFilter<T>) => {
-            // console.log(propsParams.search)
-            // console.log('existing params: ', existingParams)
-            // console.log('props params: ', propsParams)
             const data = {
                 ...existingParams,
                 ...propsParams,
