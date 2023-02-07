@@ -74,7 +74,7 @@ const menuItems: MenuItem[] = [
     },
 ]
 
-const { Sider, Content } = Layout
+const { Sider, Content, Header } = Layout
 const { Text } = Typography
 
 export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
@@ -126,7 +126,13 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                 loading && <PageProgress />
 
             }
-            <Sider theme='light' style={{ backgroundColor: '#006D75', height: '100vh' }} width="222px">
+            <Sider
+                theme='light'
+                style={{ backgroundColor: '#006D75', height: '100vh' }}
+                width="222px"
+                breakpoint="lg"
+                collapsedWidth="0"
+            >
                 <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '64px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', padding: '0rem 1rem' }}>
                         {/* Apps Logo or Title */}
@@ -194,6 +200,7 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                 </div>
             </Sider >
             <Layout>
+                <Header style={{ padding: 0, background: 'none', marginBottom: '22px' }} />
                 <Content
                     style={{
                         padding: "28px 24px",
