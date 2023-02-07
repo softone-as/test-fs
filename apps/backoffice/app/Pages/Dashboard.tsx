@@ -109,11 +109,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
 
     const handleSort = (sorter: SorterResult<DataType>) => {
 
-        if (!sorter.order) {
-            return setQueryParams({})
-        }
-        //TODO sort: sorter.columnKey *klo blm dihandle BE akan kelempar error 500
-        return setQueryParams({ sort: 'created_at' as string, order: sorter.order === 'ascend' ? 'ASC' : 'DESC' })
+        return setQueryParams({ sort: sorter.columnKey as string, order: sorter.order })
 
     }
     const handleSearch = (value) => {

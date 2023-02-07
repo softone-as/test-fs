@@ -129,12 +129,11 @@ const UsersPage: React.FC = (props: IProps) => {
     }
 
     const handleSort = (sorter: SorterResult<UserResponse>) => {
-        return setQueryParams({ sort: 'created_at' as string, order: sorter.order })
+        return setQueryParams({ sort: sorter.columnKey as string, order: sorter.order })
 
     }
 
     const handleSearch = (value) => {
-        console.log(value)
         setQueryParams({ search: value })
     }
 
@@ -157,7 +156,7 @@ const UsersPage: React.FC = (props: IProps) => {
             <DataTable
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
                 columns={columns}
-                dataSource={props?.data.map(item => ({ ...item, key: item.id }))}
+                dataSource={props.data.map(item => ({ ...item, key: item.id }))}
                 meta={props.meta}
                 onSort={handleSort}
                 onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}

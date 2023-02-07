@@ -84,7 +84,7 @@ const PermissionPage: React.FC = (props: IProps) => {
     }
 
     const handleSort = (sorter: SorterResult<PermissionResponse>) => {
-        return setQueryParams({ sort: 'created_at' as string, order: sorter.order })
+        return setQueryParams({ sort: sorter.columnKey as string, order: sorter.order })
 
     }
 
