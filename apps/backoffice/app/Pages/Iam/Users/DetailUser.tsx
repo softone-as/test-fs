@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
-import { Button, Card, Col, Descriptions, Row, Space, Typography } from 'antd';
+import { Button, Card, Descriptions, Row, Space, Typography } from 'antd';
 import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { IUser } from '../../../Modules/User/Entities';
 import { ColumnsType } from 'antd/es/table';
-import { iconActionTableStyle } from '../../../Utils/theme';
+import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
@@ -78,44 +78,40 @@ const UserDetailPage: React.FC = (props: IProps) => {
                 <Button type='primary'>Action</Button>,
             ]} />
 
-            <Row gutter={[0, 16]}>
-                <Col span={24}>
-                    <Card>
-                        <DescriptionContainer title='User Info' size='small' bordered column={{ md: 2, xs: 1 }}>
-                            <Descriptions.Item label='ID'>{id}</Descriptions.Item>
-                            <Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
-                            <Descriptions.Item label='No Telephone'>{phoneNumber}</Descriptions.Item>
-                            <Descriptions.Item label='Email'>{email}</Descriptions.Item>
-                        </DescriptionContainer>
-                    </Card>
-                </Col>
+            <Space direction='vertical' size={defaultSizeSpace} style={{ width: '100%' }}>
+                <Card>
+                    <DescriptionContainer title='User Info' size='small' bordered column={{ md: 2, xs: 1 }}>
+                        <Descriptions.Item label='ID'>{id}</Descriptions.Item>
+                        <Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
+                        <Descriptions.Item label='No Telephone'>{phoneNumber}</Descriptions.Item>
+                        <Descriptions.Item label='Email'>{email}</Descriptions.Item>
+                    </DescriptionContainer>
+                </Card>
 
-                <Col span={24}>
-                    <Card>
-                        <DescriptionContainer title='Advanced Information' size='small' bordered column={{ md: 2, xs: 1 }}>
-                            <Descriptions.Item label='Identity Number'>{identityNumber}</Descriptions.Item>
-                            <Descriptions.Item label='Gender'>{gender}</Descriptions.Item>
-                            <Descriptions.Item label='Address Link' span={2}>
-                                http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
-                            </Descriptions.Item>
-                        </DescriptionContainer>
+                <Card>
+                    <DescriptionContainer title='Advanced Information' size='small' bordered column={{ md: 2, xs: 1 }}>
+                        <Descriptions.Item label='Identity Number'>{identityNumber}</Descriptions.Item>
+                        <Descriptions.Item label='Gender'>{gender}</Descriptions.Item>
+                        <Descriptions.Item label='Address Link' span={2}>
+                            http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
+                        </Descriptions.Item>
+                    </DescriptionContainer>
 
 
-                        <Row justify='space-between' align='middle' style={{ width: '100%', marginTop: '16px' }}>
-                            <Typography.Text strong style={{ fontSize: '16px' }}>Table Title</Typography.Text>
-                            <Button type='primary' style={{ marginLeft: 'auto' }}>Add Data</Button>,
-                        </Row>
+                    <Row justify='space-between' align='middle' style={{ width: '100%', marginTop: '16px' }}>
+                        <Typography.Text strong style={{ fontSize: '16px' }}>Table Title</Typography.Text>
+                        <Button type='primary' style={{ marginLeft: 'auto' }}>Add Data</Button>,
+                    </Row>
 
-                        <DataTable<IUser>
-                            columns={columns}
-                            dataSource={data}
-                            total={3}
-                            perPage={10}
-                            onPageChange={() => { return }}
-                        />
-                    </Card>
-                </Col>
-            </Row>
+                    <DataTable<IUser>
+                        columns={columns}
+                        dataSource={data}
+                        total={3}
+                        perPage={10}
+                        onPageChange={() => { return }}
+                    />
+                </Card>
+            </Space>
 
         </MainLayout>
     );
