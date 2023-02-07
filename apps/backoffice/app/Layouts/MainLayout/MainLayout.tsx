@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useContext } from 'react';
 import {
     Layout,
     Typography,
@@ -21,32 +21,34 @@ import { Inertia, Page } from '@inertiajs/inertia'
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { PageProgress } from '../../Components/molecules/Progress';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
+import { AppContext } from '../../Contexts/App';
 import { Route } from '../../Enums/Route';
 
-
 export type IProps = {
-    children: React.ReactNode
-    headerRightMenu?: React.FC
-}
+    children: React.ReactNode;
+    headerRightMenu?: React.FC;
+};
 
-const handleLogout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent> |
-    React.KeyboardEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
-    const isOk = confirm("Are you sure to logout? ")
+const handleLogout = (
+    event:
+        | React.MouseEvent<HTMLAnchorElement, MouseEvent>
+        | React.KeyboardEvent<HTMLAnchorElement>,
+) => {
+    event.preventDefault();
+    const isOk = confirm('Are you sure to logout? ');
 
     if (isOk) {
-        Inertia.get('/auth/logout')
+        Inertia.get('/auth/logout');
     }
-}
+};
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const menuItems: MenuItem[] = [
     {
         key: Route.Dashboard,
-        label: <Link href={Route.Dashboard} >Dashboard</Link>,
+        label: <Link href={Route.Dashboard}>Dashboard</Link>,
         icon: <DashboardOutlined />,
-
     },
     {
         key: '#IAM',
@@ -57,73 +59,52 @@ const menuItems: MenuItem[] = [
             {
                 key: Route.Users,
                 label: <Link href={Route.Users}>Users</Link>,
-
             },
             {
                 key: Route.Roles,
                 label: <Link href={Route.Roles}>Roles</Link>,
-
             },
             {
                 key: Route.Permissions,
                 label: <Link href={Route.Permissions}>Permissions</Link>,
-
-            }
-        ]
-
+            },
+        ],
     },
 ]
 
-const { Sider, Content } = Layout
-const { Text } = Typography
+const { Sider, Content } = Layout;
+const { Text } = Typography;
 
 export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
+    const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>()
-    const [loading, setLoading] = useState(false)
 
     // active menu item key
-    const activeMenuKey = useMemo(() => window.location.pathname, [window.location.pathname]);
+    const activeMenuKey = useMemo(
+        () => window.location.pathname,
+        [window.location.pathname],
+    );
 
     // key of parent's active menu item
-    const defaultOpenedKey = useMemo(() => menuItems.find((item) => {
-        if ('children' in item) {
-            const openedMenuItem = item.children?.find((chil) => {
-                return chil.key === activeMenuKey
-            })
-            return openedMenuItem !== undefined
-        }
-    })?.key as string, [menuItems, activeMenuKey]);
+    const defaultOpenedKey = useMemo(
+        () =>
+            menuItems.find((item) => {
+                if ('children' in item) {
+                    const openedMenuItem = item.children?.find((chil) => {
+                        return chil.key === activeMenuKey;
+                    });
+                    return openedMenuItem !== undefined;
+                }
+            })?.key as string,
+        [menuItems, activeMenuKey],
+    );
 
-    useEffect(() => {
-        const inertiaStart = Inertia.on('start', () => {
-
-            setLoading(true)
-        })
-
-        const inertiaFinish = Inertia.on('finish', (event) => {
-
-            if (event.detail.visit.completed) {
-                setLoading(false)
-            }
-            else if (event.detail.visit.interrupted) {
-                setLoading(false)
-            }
-            else if (event.detail.visit.cancelled) {
-                setLoading(false)
-            }
-        })
-
-        return () => {
-            inertiaStart()
-            inertiaFinish()
-        }
-    })
     return (
 
         // Fix height, so the scroll will be belongs to Content only
         <Layout style={{ height: '100vh' }}>
             {
-                loading && <PageProgress />
+                appState.isNavigating && <PageProgress />
 
             }
             <Sider theme='light' style={{ backgroundColor: '#006D75', height: '100vh' }} width="222px">
@@ -203,7 +184,6 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                     {children}
                 </Content>
             </Layout>
-        </Layout >
-
-    )
-}
+        </Layout>
+    );
+};
