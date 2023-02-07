@@ -33,7 +33,7 @@ type TFilters = {
 
 const UsersPage: React.FC = (props: IProps) => {
 
-    const { setQueryParams, filters } = useTableFilter<TFilters>()
+    const { setQueryParams, filters, status: { isFetching } } = useTableFilter<TFilters>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
 
@@ -177,6 +177,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 meta={props.meta}
                 onSort={handleSort}
                 onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
+                loading={isFetching}
             />
         </MainLayout>
     );

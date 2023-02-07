@@ -23,7 +23,7 @@ interface IProps extends TInertiaProps {
 const PermissionPage: React.FC = (props: IProps) => {
 
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-    const { setQueryParams, filters } = useTableFilter()
+    const { setQueryParams, filters, status: { isFetching } } = useTableFilter()
 
     const handleDeleteRow = (id) => {
         return Inertia.get(`/permissions/delete/${id}`)
@@ -141,6 +141,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                 meta={props?.meta}
                 onSort={handleSort}
                 onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
+                loading={isFetching}
             />
         </MainLayout>
     );
