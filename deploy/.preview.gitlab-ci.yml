@@ -1,0 +1,46 @@
+.ci-rules: &ci-rules
+  rules:
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    when: manual
+
+build:docker_image_mr:
+  <<: *ci-rules
+  stage: build
+  image:
+    name: us.gcr.io/dot-gitlab-runner/aws-cli:docker
+    entrypoint: [""]
+  tags: [dot]
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - docker build
+        --progress plain
+        --tag ${CI_REGISTRY_IMAGE}:preview_${CI_COMMIT_SHORT_SHA}
+        --file Dockerfile.backoffice
+        .
+    - docker push ${CI_REGISTRY_IMAGE}:preview_${CI_COMMIT_SHORT_SHA}
+
+preview:mr:
+  stage: preview
+  image: dotlabs/ansible:2.10
+  rules:
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  needs: ["build:docker_image_mr"]
+  tags: [dot]
+  before_script:
+    - ansible-galaxy collection install community.docker:==3.4.0
+  script:
+    - chmod +x ./deploy/run-preview.sh
+    - ./deploy/run-preview.sh preview
+
+cleanup_preview:mr:
+  <<: *ci-rules
+  stage: .post
+  image: dotlabs/ansible:2.10
+  needs: ["preview:mr"]
+  tags: [dot]
+  before_script:
+    - ansible-galaxy collection install community.docker:==3.4.0
+  script:
+    - chmod +x ./deploy/run-preview.sh
+    - ./deploy/run-preview.sh cleanup-preview

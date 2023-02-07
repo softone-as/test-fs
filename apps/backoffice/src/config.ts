@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { AuthSchemaEnum } from './common/enums/auth.enum';
 
 dotenv.config();
 
@@ -10,6 +11,13 @@ export const config = {
     nodeEnv: process.env.NODE_ENV,
     port: process.env.PORT_BACKOFFICE || '3001',
     host: process.env.HOST_BACKOFFICE || 'localhost:3001',
+
+    auth: {
+        schema: process.env.AUTH_SCHEMA || AuthSchemaEnum.Local,
+        ldap: {
+            url: process.env.LDAP_URL || 'ldap://ldap.forumsys.com',
+        },
+    },
 
     amqp: {
         conn: null,
@@ -46,10 +54,6 @@ export const config = {
         },
     },
 
-    logging: {
-        host: process.env.HOST_LOGGIING || 'http://localhost:8080',
-    },
-
     cache: {
         ttl: 2880000,
         scope: {
@@ -72,6 +76,10 @@ export const config = {
             users: {
                 detail: 'user',
                 list: 'list-user',
+            },
+            notification: {
+                detail: 'notification',
+                list: 'list-notification',
             },
         },
     },
@@ -97,9 +105,10 @@ export const config = {
     },
 
     /**
-     * database configuration
+     * redis configuration
      */
     redis: {
+        isEnabled: process.env.REDIS_IS_ENABLED || false,
         port: process.env.REDIS_PORT || 6379,
         password: process.env.REDIS_PASSWORD || '',
         host: process.env.REDIS_HOST || 'localhost',
@@ -126,6 +135,8 @@ export const config = {
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
         databaseTest: process.env.DB_DATABASE_TEST,
+        maxQueryExecutionTimeInSeconds:
+            process.env.DB_MAX_QUERY_EXECUTION_TIME_IN_SECONDS || 0.001,
     },
 
     databaseTest: {

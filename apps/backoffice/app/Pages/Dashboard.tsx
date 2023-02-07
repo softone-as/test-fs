@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataTable } from '../Components/organisms/DataTable';
+import { DataTable, TOnSort } from '../Components/organisms/DataTable';
 import { MainLayout } from '../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../Modules/Inertia/Entities'
@@ -10,14 +10,13 @@ import { DateRangePicker, DatePicker, TRangeValue } from '../Components/molecule
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../Components/molecules/Dropdowns';
 import { PageHeader } from '../Components/molecules/Headers';
-import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
-import { Link } from '@inertiajs/inertia-react'
 import { useTableFilter } from '../Utils/hooks'
-import { SorterResult } from 'antd/es/table/interface';
 
 
 
+import { RowActionButtons } from '../Components/molecules/RowActionButtons';
 
 type DataType = {
     birthDate: string,
@@ -67,11 +66,29 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: () => <Space size='large'>
-                <Link href='#'><EyeOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
-                <Link href='#'><EditOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
-                <Link href='#'><DeleteOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
-            </Space>
+            render: () => (
+                <RowActionButtons
+                    actions={[
+                        {
+                            type: 'view',
+                            href: `#`,
+                            title: 'view'
+                        },
+                        {
+                            type: 'edit',
+                            href: `#`,
+                            title: 'edit'
+                        },
+                        {
+                            type: 'delete',
+                            title: 'delete',
+                            onClick: () => {
+                                // TODO : handle delete function
+                            },
+                        },
+                    ]}
+                />
+            ),
         }
 
     ]
@@ -107,7 +124,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         console.log('FINSIH : ', values)
     }
 
-    const handleSort = (sorter: SorterResult<DataType>) => {
+    const handleSort = (sorter: TOnSort<DataType>) => {
 
         return setQueryParams({ sort: sorter.columnKey as string, order: sorter.order })
 
@@ -124,7 +141,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 <Button size='large' type='primary'>New User</Button>
             ]} />
             <FilterSection
-
+                searchValue={filters.search}
                 onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataTable } from '../../../Components/organisms/DataTable';
+import { DataTable, TOnSort } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table'
 import { TInertiaProps } from '../../../Modules/Inertia/Entities'
@@ -10,14 +10,15 @@ import { FilterSection } from '../../../Components/organisms/FilterSection'
 import { Button, MenuProps, Select, Tag } from 'antd';
 import { DateRangePicker, TRangeValue } from '../../../Components/molecules/Pickers';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { EditOutlined, EyeOutlined, FileExcelOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
-import { iconActionTableStyle } from '../../../Utils/theme';
+import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface'
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response'
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response'
 import { Inertia } from '@inertiajs/inertia';
-import { SorterResult } from 'antd/es/table/interface';
 
+
+
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[],
@@ -46,7 +47,7 @@ const UsersPage: React.FC = (props: IProps) => {
             ids: selectedRowKeys
         })
     }
-
+    //TODO Handle Modal Delete example
     const deleteModal = (id) => useModal({ title: 'Are You Sure? ', type: 'confirm', onOk: () => handleDeleteRow(id), onCancel: () => { return } })
 
     const columns: ColumnsType<UserResponse> = [
@@ -87,15 +88,29 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: (value: UserResponse) => {
-                return (
-                    <Button.Group size='small'>
-                        <Button type='link' href={`/users/${value.id}`}><EyeOutlined style={iconActionTableStyle} /></Button>
-                        <Button type='link' href={`/users/edit/${value.id}`}><EditOutlined style={iconActionTableStyle} /></Button>
-                        <Button type='text' onClick={() => deleteModal(value.id)}><DeleteOutlined style={iconActionTableStyle} /></Button>
-                    </Button.Group>
-                )
-            }
+            render: () => (
+                <RowActionButtons
+                    actions={[
+                        {
+                            type: 'view',
+                            href: `#`,
+                            title: 'view'
+                        },
+                        {
+                            type: 'edit',
+                            href: `#`,
+                            title: 'edit'
+                        },
+                        {
+                            type: 'delete',
+                            title: 'delete',
+                            onClick: () => {
+                                // TODO : handle delete function
+                            },
+                        },
+                    ]}
+                />
+            ),
         }
 
     ]
@@ -128,7 +143,7 @@ const UsersPage: React.FC = (props: IProps) => {
         return setQueryParams({ gender: data })
     }
 
-    const handleSort = (sorter: SorterResult<UserResponse>) => {
+    const handleSort = (sorter: TOnSort<UserResponse>) => {
         return setQueryParams({ sort: sorter.columnKey as string, order: sorter.order })
 
     }
@@ -144,6 +159,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 <Button size='large' type='primary'>New User</Button>
             ]} />
             <FilterSection
+                searchValue={filters.search}
                 onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}

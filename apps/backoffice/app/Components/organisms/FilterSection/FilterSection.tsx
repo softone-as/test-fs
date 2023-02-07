@@ -1,23 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row, Input, MenuProps, Typography, Space, Dropdown, Divider } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import { debounce } from 'lodash'
 
 export interface IFilterSection {
     filters?: React.ReactNode[]
     selectedRows: React.Key[]
     batchActionMenus: MenuProps['items']
     onSearch: (value: string) => void
+    searchValue: string
 
 }
 
 export const FilterSection = (props: IFilterSection) => {
 
-    const searchHandler = debounce((e) => {
-        e.preventDefault()
+    const [value, setValue] = useState(props.searchValue)
 
-        props.onSearch(e.target.value)
-    }, 500)
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            props.onSearch(value)
+        }, 500)
+
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [value])
+
     return (
         <Row gutter={[8, 0]} align='middle'>
             {/* Batch Action */}
@@ -47,7 +54,7 @@ export const FilterSection = (props: IFilterSection) => {
 
             {/* Search */}
             <Col flex='auto'>
-                <Input prefix={<SearchOutlined />} placeholder='Search' onChange={searchHandler} />
+                <Input prefix={<SearchOutlined />} placeholder='Search' onChange={(e) => setValue(e.target.value)} value={value} allowClear />
             </Col>
         </Row >
     )
