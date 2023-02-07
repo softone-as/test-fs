@@ -264,28 +264,18 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
                     ]}
                 >
 
-                    <Row justify='space-between' gutter={32}>
+                    <Row gutter={32}>
+                        {/* Row 1 */}
                         <Col sm={24} md={12} lg={8}>
                             <Form.Item label="Input Label" name='name'>
                                 <Input placeholder='Input' />
                             </Form.Item>
-
+                        </Col>
+                        <Col sm={24} md={12} lg={8}>
                             <Form.Item label="Time" name='time'>
                                 <TimePicker style={{ width: '100%' }} />
                             </Form.Item>
-
-                            <Form.Item
-                                name="division"
-                                label="Input Label"
-                            >
-                                <Select placeholder="Select">
-                                    <Select.Option value="Industry">Department of Industry</Select.Option>
-                                    <Select.Option value="Business">Department of Business</Select.Option>
-                                    <Select.Option value="IT">Department of Information and Technology</Select.Option>
-                                </Select>
-                            </Form.Item>
                         </Col>
-
                         <Col sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="division"
@@ -297,16 +287,33 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
                                     <Select.Option value="IT">Department of Information and Technology</Select.Option>
                                 </Select>
                             </Form.Item>
+                        </Col>
 
+                        {/* Row 2 */}
+                        <Col sm={24} md={12} lg={8}>
+                            <Form.Item
+                                name="division"
+                                label="Input Label"
+                            >
+                                <Select placeholder="Select">
+                                    <Select.Option value="Industry">Department of Industry</Select.Option>
+                                    <Select.Option value="Business">Department of Business</Select.Option>
+                                    <Select.Option value="IT">Department of Information and Technology</Select.Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col sm={24} md={12} lg={8}>
                             <Form.Item label="Time" name='time'>
                                 <DatePicker style={{ width: '100%' }} />
                             </Form.Item>
-
+                        </Col>
+                        <Col sm={24} md={12} lg={8}>
                             <Form.Item label="Input Label" name='name'>
                                 <Input placeholder='Input' />
                             </Form.Item>
                         </Col>
 
+                        {/* Row 3 */}
                         <Col sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="phone"
@@ -315,7 +322,8 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
                             >
                                 <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
                             </Form.Item>
-
+                        </Col>
+                        <Col sm={24} md={12} lg={8}>
                             <Form.Item label="Input Label" name='name'>
                                 <Input placeholder='Input' />
                             </Form.Item>
