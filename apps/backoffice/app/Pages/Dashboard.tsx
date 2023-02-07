@@ -14,7 +14,7 @@ import { PageHeader } from '../Components/molecules/Headers';
 import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
 import { Breadcrumbs } from '../Enums/Breadcrumb';
-import RowActionButtons from '../Components/molecules/ActionButtons';
+import { RowActionButtons } from '../Components/molecules/RowActionButtons';
 
 type DataType = {
     birthDate: string,

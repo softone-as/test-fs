@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
     Layout,
     Typography,
@@ -20,6 +20,7 @@ import { sidebarThemeConfig } from '../../Utils/theme';
 import { PageProgress } from '../../Components/molecules/Progress';
 import Breadcrumbs from '../../Components/molecules/Breadcrumbs/Breadcrumbs';
 import { BreadcrumbsItem } from '../../Modules/Common/Entities';
+import { Route } from '../../Enums/Route';
 
 
 export type IProps = {
@@ -28,7 +29,9 @@ export type IProps = {
     breadcrumbItems?: BreadcrumbsItem[]
 }
 
-const handleLogout = () => {
+const handleLogout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent> |
+    React.KeyboardEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
     const isOk = confirm("Are you sure to logout? ")
 
     if (isOk) {
@@ -36,33 +39,34 @@ const handleLogout = () => {
     }
 }
 
-const SidebarMenu: MenuProps['items'] = [
+type MenuItem = Required<MenuProps>['items'][number];
+
+const menuItems: MenuItem[] = [
     {
-        key: '1',
-        label: <Link href='/' >Dashboard</Link>,
+        key: Route.Dashboard,
+        label: <Link href={Route.Dashboard} >Dashboard</Link>,
         icon: <DashboardOutlined />,
 
     },
     {
-        key: '2',
+        key: '#IAM',
         label: 'IAM',
         icon: <MailOutlined />,
         theme: 'light',
-
         children: [
             {
-                key: 'users',
-                label: <Link href='/users'>Users</Link>,
+                key: Route.Users,
+                label: <Link href={Route.Users}>Users</Link>,
 
             },
             {
-                key: 'roles',
-                label: <Link href='/roles'>Roles</Link>,
+                key: Route.Roles,
+                label: <Link href={Route.Roles}>Roles</Link>,
 
             },
             {
-                key: 'permissions',
-                label: <Link href='/permissions'>Permissions</Link>,
+                key: Route.Permissions,
+                label: <Link href={Route.Permissions}>Permissions</Link>,
 
             }
         ]
@@ -107,21 +111,31 @@ const SidebarMenu: MenuProps['items'] = [
 
     },
     {
-        key: '5',
+        key: Route.Logout,
         label: <Link href='#' onClick={handleLogout}>Logout</Link>,
         icon: <MailOutlined />,
 
     },
 ]
 
-
-
 const { Sider, Content } = Layout
 const { Text } = Typography
 
-
 export const MainLayout: React.FC<IProps> = ({ children, breadcrumbItems = [] }: IProps) => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+
+    // active menu item key
+    const activeMenuKey = useMemo(() => window.location.pathname, [window.location.pathname]);
+
+    // key of parent's active menu item
+    const defaultOpenedKey = useMemo(() => menuItems.find((item) => {
+        if ('children' in item) {
+            const openedMenuItem = item.children?.find((chil) => {
+                return chil.key === activeMenuKey
+            })
+            return openedMenuItem !== undefined
+        }
+    })?.key as string, [menuItems, activeMenuKey]);
 
     useEffect(() => {
         const inertiaStart = Inertia.on('start', () => {
@@ -202,7 +216,14 @@ export const MainLayout: React.FC<IProps> = ({ children, breadcrumbItems = [] }:
                 </div>
 
                 <ConfigProvider theme={sidebarThemeConfig}>
-                    <Menu items={SidebarMenu} theme='light' style={{ backgroundColor: '#006D75' }} mode='inline' />
+                    <Menu
+                        items={menuItems}
+                        theme='light'
+                        style={{ backgroundColor: '#006D75' }}
+                        mode='inline'
+                        defaultOpenKeys={[defaultOpenedKey]}
+                        selectedKeys={[activeMenuKey]}
+                    />
                 </ConfigProvider>
             </Sider>
             <Layout>

@@ -16,7 +16,7 @@ import { Form, Typography, Space } from 'antd'
 import { Link } from '@inertiajs/inertia-react'
 import { IUser } from '../../../Modules/User/Entities';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-import RowActionButtons from '../../../Components/molecules/ActionButtons';
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 interface IProps extends TInertiaProps {
     data: IUser[],

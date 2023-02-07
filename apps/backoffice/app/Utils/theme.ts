@@ -12,7 +12,7 @@ export const themeColors = {
 
 export const iconActionTableStyle: CSSProperties = {
     color: themeColors.primary,
-    fontSize: '18px',
+    fontSize: '14px',
 };
 
 export const sidebarThemeConfig: ThemeConfig = {

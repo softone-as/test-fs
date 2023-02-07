@@ -14,7 +14,7 @@ import { Form, Typography, Space } from 'antd'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-import RowActionButtons from '../../../Components/molecules/ActionButtons';
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 type DataType = {
     birthDate: string,
