@@ -4,7 +4,7 @@ import React from 'react';
 import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Link } from '@inertiajs/inertia-react';
 import {
-    Button, Card, Descriptions, Space
+    Button, Descriptions, Space
 } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
@@ -14,11 +14,12 @@ import { IUser } from '../../../Modules/User/Entities';
 import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
 
 import { Buttons } from '../../../Components/atoms/Buttons';
-import { PageHeader, SectionHeader } from '../../../Components/molecules/Headers';
+import { PageHeader } from '../../../Components/molecules/Headers';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
+import { Section, SectionHeader } from '../../../Components/molecules/Section';
 
 
 const columns: ColumnsType<IUser> = [
@@ -98,17 +99,17 @@ const DetailBasicPage: React.FC = () => {
             ]} />
 
             <Space direction='vertical' size={defaultSizeSpace} style={{ width: '100%' }}>
-                <Card>
-                    <DescriptionContainer title='User Info' size='small' bordered>
+                <Section title="User Info">
+                    <DescriptionContainer size='small' bordered>
                         <Descriptions.Item label='ID'>2</Descriptions.Item>
                         <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
                         <Descriptions.Item label='No Telephone'>+628521341231</Descriptions.Item>
                         <Descriptions.Item label='Email'>john@cena.com</Descriptions.Item>
                     </DescriptionContainer>
-                </Card>
+                </Section>
 
-                <Card>
-                    <DescriptionContainer title='Advanced Information' size='small' bordered>
+                <Section title='Advanced Information'>
+                    <DescriptionContainer size='small' bordered>
                         <Descriptions.Item label='ID'>2</Descriptions.Item>
                         <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
                         <Descriptions.Item label='Address Link' span={2}>
@@ -128,7 +129,7 @@ const DetailBasicPage: React.FC = () => {
                         perPage={10}
                         onPageChange={() => { return }}
                     />
-                </Card>
+                </Section>
             </Space>
 
         </MainLayout>
