@@ -2,7 +2,7 @@ import {
     Button,
     Col,
     DatePicker,
-    Form, FormProps,
+    Form,
     Input,
     InputNumber,
     Popconfirm,
@@ -12,14 +12,13 @@ import {
     TimePicker,
     Typography
 } from 'antd';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
 
 
@@ -105,12 +104,7 @@ const prefixSelector = (
     </Form.Item>
 );
 
-interface IProps extends TInertiaProps {
-    data: DataType[],
-}
-
-/* eslint-disable @typescript-eslint/naming-convention */
-function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element {
+const FormAdvanced = () => {
     const { setQueryParams } = useTableFilter<DataType>()
 
     const [form] = Form.useForm()
@@ -124,12 +118,13 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
 
     const [data, setData] = useState(dataResource);
     const [editingKey, setEditingKey] = useState('');
-    const isEditing = (record: DataType) => record.key === editingKey;
+    const isEditing = (record: DataType) => record?.key === editingKey;
 
     const edit = (record: Partial<DataType> & { key: React.Key }) => {
         form.setFieldsValue({ name: '', age: '', address: '', ...record });
-        setEditingKey(record.key);
+        setEditingKey(record?.key);
     };
+
 
     const cancel = () => {
         setEditingKey('');
@@ -187,14 +182,14 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
         {
             title: 'Action',
             dataIndex: 'action',
-            render: (_: any, record: DataType) => {
+            render: (text: string, record: DataType) => {
                 const editable = isEditing(record);
                 return editable ? (
                     <Space>
-                        <Typography.Link onClick={() => save(record.key)}>
+                        <Typography.Link onClick={() => save(record?.key)}>
                             Save
                         </Typography.Link>
-                        <Popconfirm title="Sure to delete?" onConfirm={() => onDelete(record.key)}>
+                        <Popconfirm title="Sure to delete?" onConfirm={() => onDelete(record?.key)}>
                             <Typography.Link >
                                 Delete
                             </Typography.Link>
@@ -212,21 +207,23 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
         },
     ]
 
-    const mergedColumns = columns.map((col) => {
-        if (!col.editable) {
-            return col;
-        }
-        return {
-            ...col,
-            onCell: (record: DataType) => ({
-                record,
-                inputType: col.dataIndex === 'age' ? 'number' : 'text',
-                dataIndex: col.dataIndex,
-                title: col.title,
-                editing: isEditing(record),
-            }),
-        };
-    });
+    const mergedColumns = useMemo(() => {
+        return columns.map((col) => {
+            if (!col.editable) {
+                return col;
+            }
+            return {
+                ...col,
+                onCell: (record: DataType) => ({
+                    record,
+                    inputType: col.dataIndex === 'age' ? 'number' : 'text',
+                    dataIndex: col.dataIndex,
+                    title: col.title,
+                    editing: isEditing(record),
+                }),
+            };
+        });
+    }, [columns])
 
     const onFinish = async (values: any) => {
         setIsLoading(true)
@@ -247,7 +244,6 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
             <Section title='Form Advanced'>
 
                 <FormContainer
-                    {...props}
                     onFinish={onFinish}
                     initialValues={{ prefix: '62' }}
                     form={form}
