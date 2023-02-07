@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import {
     Button,
+    Card,
     Col,
     DatePicker,
     Form, FormProps,
@@ -13,14 +13,15 @@ import {
     TimePicker,
     Typography
 } from 'antd';
-import { DataTable } from '../../../Components/organisms/DataTable';
-import { MainLayout as Layout } from '../../../Layouts/MainLayout';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities'
-import { useTableFilter } from '../../../Utils/hooks';
+import React, { useState } from 'react';
+import { SectionHeader } from '../../../Components/molecules/Section';
 import { PageHeader } from '../../../Components/molecules/Headers';
+import { DataTable } from '../../../Components/organisms/DataTable';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-import { TitleWithDivider } from '../../../Components/atoms/TitleWithDivider';
+import { MainLayout as Layout } from '../../../Layouts/MainLayout';
+import { TInertiaProps } from '../../../Modules/Inertia/Entities';
+import { useTableFilter } from '../../../Utils/hooks';
 
 
 type DataType = {
@@ -244,99 +245,105 @@ function FormAdvanced<T extends IProps = any>(props: FormProps<T>): JSX.Element 
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             <PageHeader title='Add Data' />
-            <FormContainer
-                title='Advanced Form'
-                {...props}
-                onFinish={onFinish}
-                initialValues={{ prefix: '62' }}
-                form={form}
-                layout='vertical'
-                requiredMark='optional'
-                buttonAction={[
-                    <Button >
-                        Cancel
-                    </Button>,
-                    <Button type="primary" htmlType="submit" disabled={isLoading} >
-                        Submit
-                    </Button>
-                ]}
-            >
+            <Card title='Form Advanced'>
 
-                <Row justify='space-between' gutter={32}>
-                    <Col sm={24} md={12} lg={8}>
-                        <Form.Item label="Input Label" name='name'>
-                            <Input placeholder='Input' />
-                        </Form.Item>
+                <FormContainer
+                    {...props}
+                    onFinish={onFinish}
+                    initialValues={{ prefix: '62' }}
+                    form={form}
+                    layout='vertical'
+                    requiredMark='optional'
+                    buttonAction={[
+                        <Button >
+                            Cancel
+                        </Button>,
+                        <Button type="primary" htmlType="submit" disabled={isLoading} >
+                            Submit
+                        </Button>
+                    ]}
+                >
 
-                        <Form.Item label="Time" name='time'>
-                            <TimePicker style={{ width: '100%' }} />
-                        </Form.Item>
+                    <Row justify='space-between' gutter={32}>
+                        <Col sm={24} md={12} lg={8}>
+                            <Form.Item label="Input Label" name='name'>
+                                <Input placeholder='Input' />
+                            </Form.Item>
 
-                        <Form.Item
-                            name="division"
-                            label="Input Label"
-                        >
-                            <Select placeholder="Select">
-                                <Select.Option value="Industry">Department of Industry</Select.Option>
-                                <Select.Option value="Business">Department of Business</Select.Option>
-                                <Select.Option value="IT">Department of Information and Technology</Select.Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
+                            <Form.Item label="Time" name='time'>
+                                <TimePicker style={{ width: '100%' }} />
+                            </Form.Item>
 
-                    <Col sm={24} md={12} lg={8}>
-                        <Form.Item
-                            name="division"
-                            label="Input Label"
-                        >
-                            <Select placeholder="Select">
-                                <Select.Option value="Industry">Department of Industry</Select.Option>
-                                <Select.Option value="Business">Department of Business</Select.Option>
-                                <Select.Option value="IT">Department of Information and Technology</Select.Option>
-                            </Select>
-                        </Form.Item>
+                            <Form.Item
+                                name="division"
+                                label="Input Label"
+                            >
+                                <Select placeholder="Select">
+                                    <Select.Option value="Industry">Department of Industry</Select.Option>
+                                    <Select.Option value="Business">Department of Business</Select.Option>
+                                    <Select.Option value="IT">Department of Information and Technology</Select.Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
 
-                        <Form.Item label="Time" name='time'>
-                            <DatePicker style={{ width: '100%' }} />
-                        </Form.Item>
+                        <Col sm={24} md={12} lg={8}>
+                            <Form.Item
+                                name="division"
+                                label="Input Label"
+                            >
+                                <Select placeholder="Select">
+                                    <Select.Option value="Industry">Department of Industry</Select.Option>
+                                    <Select.Option value="Business">Department of Business</Select.Option>
+                                    <Select.Option value="IT">Department of Information and Technology</Select.Option>
+                                </Select>
+                            </Form.Item>
 
-                        <Form.Item label="Input Label" name='name'>
-                            <Input placeholder='Input' />
-                        </Form.Item>
-                    </Col>
+                            <Form.Item label="Time" name='time'>
+                                <DatePicker style={{ width: '100%' }} />
+                            </Form.Item>
 
-                    <Col sm={24} md={12} lg={8}>
-                        <Form.Item
-                            name="phone"
-                            label="Phone Number"
-                            tooltip='Distinctively monetize cost effective networks for cross-media bandwidth'
-                        >
-                            <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-                        </Form.Item>
+                            <Form.Item label="Input Label" name='name'>
+                                <Input placeholder='Input' />
+                            </Form.Item>
+                        </Col>
 
-                        <Form.Item label="Input Label" name='name'>
-                            <Input placeholder='Input' />
-                        </Form.Item>
-                    </Col>
-                </Row>
+                        <Col sm={24} md={12} lg={8}>
+                            <Form.Item
+                                name="phone"
+                                label="Phone Number"
+                                tooltip='Distinctively monetize cost effective networks for cross-media bandwidth'
+                            >
+                                <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                            </Form.Item>
 
-                <TitleWithDivider title='Section Table List' />
+                            <Form.Item label="Input Label" name='name'>
+                                <Input placeholder='Input' />
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-                <DataTable<DataType>
-                    rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
-                    components={{
-                        body: {
-                            cell: EditableCell,
-                        },
-                    }}
-                    columns={mergedColumns}
-                    dataSource={data}
-                    total={3}
-                    perPage={10}
-                    onPageChange={(page, pageSize) => setQueryParams({ page: page?.toString(), size: pageSize?.toString() })}
-                />
+                    <SectionHeader
+                        title='Section Table List'
+                        top
+                        divider
+                    />
 
-            </FormContainer>
+                    <DataTable<DataType>
+                        rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                        components={{
+                            body: {
+                                cell: EditableCell,
+                            },
+                        }}
+                        columns={mergedColumns}
+                        dataSource={data}
+                        total={3}
+                        perPage={10}
+                        onPageChange={(page, pageSize) => setQueryParams({ page: page?.toString(), size: pageSize?.toString() })}
+                    />
+
+                </FormContainer>
+            </Card>
         </Layout>
     )
 }

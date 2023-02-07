@@ -18,7 +18,7 @@ import React, { useState } from 'react';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-import { ButtonFormAction } from '../../../Components/organisms/FormContainer';
+import { FormContainer } from '../../../Components/organisms/FormContainer';
 
 const { Option } = Select;
 
@@ -87,14 +87,26 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
                 />
 
                 {current < 2 ? (
-                    <Form
+                    <FormContainer
                         {...props}
                         initialValues={{ prefix: '62', name: 'John Doe', division: ['Industry'], suffix: 'USD' }}
                         onFinish={onFinish}
-                        style={{ width: 550, margin: '0 auto' }}
+                        // width={550}
                         form={form}
                         layout='vertical'
                         requiredMark='optional'
+                        centered
+                        buttonAction={[
+                            <Button type='link'>
+                                Cancel
+                            </Button>,
+                            <Button onClick={prev}>
+                                Previous
+                            </Button>,
+                            <Button type="primary" htmlType="submit" disabled={isLoading} onClick={next}>
+                                Next
+                            </Button>
+                        ]}
                     >
                         <Typography.Paragraph style={{ opacity: '65%' }}>
                             These are instructions in the form layout to fill in the fields so that they conform to the rules
@@ -140,18 +152,8 @@ function FormStep<T extends object = any>(props: FormProps<T>): JSX.Element {
                             </Upload>
                         </Form.Item>
 
-                        <ButtonFormAction justify='end' buttonAction={[
-                            <Button type='link'>
-                                Cancel
-                            </Button>,
-                            <Button onClick={prev}>
-                                Previous
-                            </Button>,
-                            <Button type="primary" htmlType="submit" disabled={isLoading} onClick={next}>
-                                Next
-                            </Button>
-                        ]} />
-                    </Form>
+                    </FormContainer>
+
                 ) : (
 
                     <Row justify='center'>
