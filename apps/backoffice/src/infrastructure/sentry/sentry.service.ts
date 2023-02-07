@@ -28,7 +28,7 @@ export class SentryService {
 
         // recreate transaction based from HTTP request
         const transaction = Sentry.startTransaction({
-            name: `Route: ${method} ${url}`,
+            name: url,
             op: 'transaction',
         });
 
