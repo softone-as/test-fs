@@ -3,6 +3,7 @@ import { Inject } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { CacheService } from '../services/cache.service';
 
+// decorator for get cache if exist or set cache if no exist
 export const CacheGetSet = (key: string): any => {
     const injectCacheService = Inject(CacheService);
     const injectRequest = Inject(REQUEST);
@@ -32,8 +33,6 @@ export const CacheGetSet = (key: string): any => {
                 JSON.stringify(args).replace(/[^\w\s]/gi, ''),
             ].join('-');
             const dataCache = await this.cacheService.getCache(nameKey);
-
-            console.log(nameKey);
 
             if (dataCache) {
                 return dataCache;

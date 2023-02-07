@@ -11,13 +11,12 @@ import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/mo
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined} from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
 import { Link } from '@inertiajs/inertia-react'
-import { iconActionTableStyle } from '../../../Utils/theme';
 import { IUser } from '../../../Modules/User/Entities';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 interface IProps extends TInertiaProps {
     data: IUser[],
@@ -54,11 +53,29 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: ({ id }) => <Space size='large'>
-                <Link href={`/users/${id}`}><EyeOutlined style={iconActionTableStyle} /></Link>
-                <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
-                <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
-            </Space>
+            render: () => (
+                <RowActionButtons
+                    actions={[
+                        {
+                            type: 'view',
+                            href: `#`,
+                            title: 'view'
+                        },
+                        {
+                            type: 'edit',
+                            href: `#`,
+                            title: 'edit'
+                        },
+                        {
+                            type: 'delete',
+                            title: 'delete',
+                            onClick: () => {
+                                // TODO : handle delete function
+                            },
+                        },
+                    ]}
+                />
+            ),
         }
 
     ]

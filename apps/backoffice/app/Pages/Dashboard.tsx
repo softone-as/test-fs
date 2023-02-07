@@ -11,12 +11,10 @@ import { DateRangePicker, DatePicker, TRangeValue } from '../Components/molecule
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../Components/molecules/Dropdowns';
 import { PageHeader } from '../Components/molecules/Headers';
-import { EditOutlined, EyeOutlined, FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
-import { Link } from '@inertiajs/inertia-react'
 import { Breadcrumbs } from '../Enums/Breadcrumb';
-
-
+import { RowActionButtons } from '../Components/molecules/RowActionButtons';
 
 type DataType = {
     birthDate: string,
@@ -66,11 +64,29 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: () => <Space size='large'>
-                <Link href='#'><EyeOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
-                <Link href='#'><EditOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
-                <Link href='#'><DeleteOutlined style={{ color: '#006D75', fontSize: '18px' }} /></Link>
-            </Space>
+            render: () => (
+                <RowActionButtons
+                    actions={[
+                        {
+                            type: 'view',
+                            href: `#`,
+                            title: 'view'
+                        },
+                        {
+                            type: 'edit',
+                            href: `#`,
+                            title: 'edit'
+                        },
+                        {
+                            type: 'delete',
+                            title: 'delete',
+                            onClick: () => {
+                                // TODO : handle delete function
+                            },
+                        },
+                    ]}
+                />
+            ),
         }
 
     ]

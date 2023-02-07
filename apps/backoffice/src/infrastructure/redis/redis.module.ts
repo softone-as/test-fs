@@ -7,11 +7,15 @@ import { config } from 'apps/backoffice/src/config';
     providers: [
         {
             provide: REDIS,
-            useValue: redis.createClient({
-                port: +config.redis.port,
-                host: config.redis.host,
-                password: config.redis.password,
-            }),
+            useValue: redis.createClient(
+                config.redis.isEnabled == 'true'
+                    ? {
+                          port: +config.redis.port,
+                          host: config.redis.host,
+                          password: config.redis.password,
+                      }
+                    : {},
+            ),
         },
     ],
     exports: [REDIS],
