@@ -35,7 +35,7 @@ interface IProps extends TInertiaProps {
 }
 
 const PermissionPage: React.FC = (props: IProps) => {
-    const { setQueryParams } = useTableFilter<DataType>()
+    const { setQueryParams, status: { isFetching } } = useTableFilter<DataType>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
     const columns: ColumnsType<DataType> = [
@@ -165,6 +165,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
                 onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), per_page: pageSize.toString() })}
+                loading={isFetching}
             />
         </MainLayout>
     );
