@@ -1,4 +1,4 @@
-import { Span, Transaction } from '@sentry/tracing';
+import { Span } from '@sentry/tracing';
 import { config } from 'apps/backoffice/src/config';
 import { DatabaseLogger } from 'databases/applications/dababase.logger';
 import { Config } from 'entities/config/config.entity';
@@ -33,11 +33,7 @@ export const connectionOption: ConnectionOptions = {
     logging: config.nodeEnv === 'local',
     charset: 'utf8mb4_unicode_ci',
     maxQueryExecutionTime: +config.database.maxQueryExecutionTimeInSeconds,
-    logger: new DatabaseLogger(
-        new SentryQueryService(),
-        Transaction as any,
-        Span as any,
-    ) as any,
+    logger: new DatabaseLogger(new SentryQueryService(), Span as any) as any,
 };
 
 export const databaseConnection = createConnection(connectionOption);

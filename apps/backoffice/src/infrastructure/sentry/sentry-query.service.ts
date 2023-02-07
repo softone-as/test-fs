@@ -1,43 +1,44 @@
 import { Span, Transaction } from '@sentry/tracing';
 import * as Sentry from '@sentry/node';
-
-export type SentryQueryResponse = {
-    transaction: Transaction;
-    span: Span;
-};
+import { Request } from 'express';
 
 export class SentryQueryService {
-    startTransaction(name: string, query?: string): SentryQueryResponse {
-        const transaction = Sentry.startTransaction({
-            op: 'Query ' + name,
-            name: 'Query ' + name,
-        });
+    startTransaction(req?: Request): Transaction {
+        const transaction = Sentry.getCurrentHub().getScope().getTransaction();
 
-        Sentry.getCurrentHub().configureScope((scope) =>
-            scope.setSpan(transaction as any),
-        );
+        if (transaction) return transaction as unknown as Transaction;
 
-        const span = transaction.startChild({
+        return Sentry.startTransaction({
+            op: 'Query ' + req.url,
+            name: 'Query',
+            status: 'ok',
+        }) as unknown as Transaction;
+    }
+
+    startSpan(transaction: Transaction, query: string): Span {
+        return transaction.startChild({
             op: 'query',
             description: query,
         });
-
-        return {
-            transaction: transaction as unknown as Transaction,
-            span: span as unknown as Span,
-        };
     }
 
-    finishTransaction(sentryQuery: SentryQueryResponse) {
+    finishSpan(span: Span) {
         try {
-            sentryQuery.span.setStatus('ok');
+            span.setStatus('ok');
         } catch (err) {
-            sentryQuery.span.setStatus(err);
+            span.setStatus(err);
             throw err;
         } finally {
-            sentryQuery.span.finish();
-            sentryQuery.transaction.finish();
-            console.log(sentryQuery.transaction);
+            span.finish();
+        }
+    }
+
+    finishTransaction(transaction: Transaction) {
+        try {
+            transaction.finish();
+        } catch (err) {
+            transaction.setStatus(err);
+            throw err;
         }
     }
 }

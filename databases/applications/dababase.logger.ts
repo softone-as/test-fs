@@ -1,28 +1,30 @@
-import { Span, Transaction } from '@sentry/tracing';
+import { Span } from '@sentry/tracing';
 import { SentryQueryService } from 'apps/backoffice/src/infrastructure/sentry/sentry-query.service';
 
 export class DatabaseLogger {
     constructor(
         private sentryQueryService: SentryQueryService,
-        private transaction: Transaction,
         private span: Span,
     ) {}
 
     logQuery(query: string): any {
-        const sentry = this.sentryQueryService.startTransaction(
-            query.slice(0, 30),
-            query,
-        );
+        const transaction = this.sentryQueryService.startTransaction();
+        const span = this.sentryQueryService.startSpan(transaction, query);
 
-        this.transaction = sentry.transaction;
-        this.span = sentry.span;
+        this.span = span;
     }
 
-    logQuerySlow(time: number): any {
-        this.transaction.description = 'Time execute: ' + time;
-        this.sentryQueryService.finishTransaction({
-            transaction: this.transaction,
-            span: this.span,
-        });
+    logQuerySlow(): any {
+        this.sentryQueryService.finishSpan(this.span);
+    }
+
+    logQueryError(error: string | Error, query: string): any {
+        const transaction = this.sentryQueryService.startTransaction();
+        const span = this.sentryQueryService.startSpan(
+            transaction,
+            'Error' + error + query,
+        );
+
+        this.span = span;
     }
 }
