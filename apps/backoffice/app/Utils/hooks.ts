@@ -84,7 +84,6 @@ export const useTableFilter = <T>() => {
                         listPropsParams.includes('order')
                     )
                 ) {
-                    console.log('Run this: ', listPropsParams);
                     data.page = 1;
                 }
             }
