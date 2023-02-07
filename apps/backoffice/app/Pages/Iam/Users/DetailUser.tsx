@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
-import { Button, Card, Descriptions, Row, Space, Typography } from 'antd';
+import { Button, Descriptions, Space } from 'antd';
 import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
 import { MainLayout } from '../../../Layouts/MainLayout';
@@ -13,6 +13,7 @@ import { DataTable } from '../../../Components/organisms/DataTable';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { Buttons } from '../../../Components/atoms/Buttons';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
+import { Section, SectionHeader } from '../../../Components/molecules/Section';
 
 const columns: ColumnsType<IUser> = [
     {
@@ -79,17 +80,17 @@ const UserDetailPage: React.FC = (props: IProps) => {
             ]} />
 
             <Space direction='vertical' size={defaultSizeSpace} style={{ width: '100%' }}>
-                <Card>
+                <Section title='User Info'>
                     <DescriptionContainer title='User Info' size='small' bordered column={{ md: 2, xs: 1 }}>
                         <Descriptions.Item label='ID'>{id}</Descriptions.Item>
                         <Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
                         <Descriptions.Item label='No Telephone'>{phoneNumber}</Descriptions.Item>
                         <Descriptions.Item label='Email'>{email}</Descriptions.Item>
                     </DescriptionContainer>
-                </Card>
+                </Section>
 
-                <Card>
-                    <DescriptionContainer title='Advanced Information' size='small' bordered column={{ md: 2, xs: 1 }}>
+                <Section title='Advanced Information'>
+                    <DescriptionContainer size='small' bordered column={{ md: 2, xs: 1 }}>
                         <Descriptions.Item label='Identity Number'>{identityNumber}</Descriptions.Item>
                         <Descriptions.Item label='Gender'>{gender}</Descriptions.Item>
                         <Descriptions.Item label='Address Link' span={2}>
@@ -98,10 +99,10 @@ const UserDetailPage: React.FC = (props: IProps) => {
                     </DescriptionContainer>
 
 
-                    <Row justify='space-between' align='middle' style={{ width: '100%', marginTop: '16px' }}>
-                        <Typography.Text strong style={{ fontSize: '16px' }}>Table Title</Typography.Text>
-                        <Button type='primary' style={{ marginLeft: 'auto' }}>Add Data</Button>,
-                    </Row>
+                    <SectionHeader
+                        title='Table Title'
+                        actions={<Button type='primary'>Add Data</Button>}
+                    />
 
                     <DataTable<IUser>
                         columns={columns}
@@ -110,7 +111,7 @@ const UserDetailPage: React.FC = (props: IProps) => {
                         perPage={10}
                         onPageChange={() => { return }}
                     />
-                </Card>
+                </Section>
             </Space>
 
         </MainLayout>

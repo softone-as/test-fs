@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Card, Form, Input, Select } from 'antd';
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync } from '../../../Utils/utils';
@@ -67,46 +67,47 @@ const FormUserPage: React.FC = (props: IProps) => {
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
             <PageHeader title='Add New User' />
 
-            {/* Implement Form User */}
-            <FormContainer
-                onFinish={onFinish}
-                form={form}
-                layout='vertical'
-                centered
-                buttonAction={[
-                    <Button onClick={onReset}>
-                        Discard
-                    </Button>,
-                    <Button type="primary" htmlType="submit" disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0} >
-                        Submit
-                    </Button>
-                ]}
-            >
-                <Form.Item label="Full Name" name='fullname' rules={[yupSync]} required>
-                    <Input placeholder='Input' />
-                </Form.Item>
+            <Card>
+                <FormContainer
+                    onFinish={onFinish}
+                    form={form}
+                    layout='vertical'
+                    centered
+                    buttonAction={[
+                        <Button onClick={onReset}>
+                            Discard
+                        </Button>,
+                        <Button type="primary" htmlType="submit" disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0} >
+                            Submit
+                        </Button>
+                    ]}
+                >
+                    <Form.Item label="Full Name" name='fullname' rules={[yupSync]} required>
+                        <Input placeholder='Input' />
+                    </Form.Item>
 
-                <Form.Item label="Email" name='email' rules={[yupSync]} required>
-                    <Input type='email' placeholder='Input' />
-                </Form.Item>
+                    <Form.Item label="Email" name='email' rules={[yupSync]} required>
+                        <Input type='email' placeholder='Input' />
+                    </Form.Item>
 
-                <Form.Item label="Password" name='password' rules={[yupSync]} required>
-                    <Input.Password placeholder='Input' />
-                </Form.Item>
+                    <Form.Item label="Password" name='password' rules={[yupSync]} required>
+                        <Input.Password placeholder='Input' />
+                    </Form.Item>
 
-                <Form.Item label="Phone Number" name='phoneNumber' rules={[yupSync]} required>
-                    <Input style={{ width: '100%' }} placeholder='Input' />
-                </Form.Item>
+                    <Form.Item label="Phone Number" name='phoneNumber' rules={[yupSync]} required>
+                        <Input style={{ width: '100%' }} placeholder='Input' />
+                    </Form.Item>
 
-                <Form.Item label="Roles" name='roles' rules={[yupSync]} required>
-                    <Select placeholder='Select' mode='multiple'>
-                        {props.roles.map(role => (
-                            <Select.Option value={role.id} key={role.id}>{role.name}</Select.Option>
-                        ))}
-                    </Select>
-                </Form.Item>
+                    <Form.Item label="Roles" name='roles' rules={[yupSync]} required>
+                        <Select placeholder='Select' mode='multiple'>
+                            {props.roles.map(role => (
+                                <Select.Option value={role.id} key={role.id}>{role.name}</Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
 
-            </FormContainer>
+                </FormContainer>
+            </Card>
         </Layout >
     );
 };
