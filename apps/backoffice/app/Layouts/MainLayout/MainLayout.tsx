@@ -130,20 +130,7 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                 <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '64px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', padding: '0rem 1rem' }}>
                         {/* Apps Logo or Title */}
-                        <Space>
-                            <Avatar size="default" icon={<UserOutlined />} />
-                            <Text
-                                style={{
-                                    fontWeight: "500",
-                                    fontSize: "18px",
-                                    color: "#ffffff",
-                                    textAlign: 'center',
-                                    lineHeight: '32px'
-                                }}
-                            >
-                                Company
-                            </Text>
-                        </Space>
+                        <img src="/img/company-logo.svg" width="80px" />
                     </div>
 
                     {pageProps.userDetail && (
