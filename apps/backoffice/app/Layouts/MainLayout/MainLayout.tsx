@@ -117,20 +117,7 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
             <Sider theme='light' style={{ backgroundColor: '#006D75' }} width="222px">
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '64px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', padding: '0rem 1rem' }}>
                     {/* Apps Logo or Title */}
-                    <Space>
-                        <img src="/img/company-logo.svg" width="60px" />
-                        <Text
-                            style={{
-                                fontWeight: "500",
-                                fontSize: "18px",
-                                color: "#ffffff",
-                                textAlign: 'center',
-                                lineHeight: '32px'
-                            }}
-                        >
-                            Company
-                        </Text>
-                    </Space>
+                    <img src="/img/company-logo.svg" width="80px" />
                 </div>
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '58px', padding: '8px 16px', marginBottom: '14px' }}>
 
