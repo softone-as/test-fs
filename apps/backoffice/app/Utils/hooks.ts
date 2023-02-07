@@ -65,13 +65,28 @@ export const useTableFilter = <T>() => {
                 order: parseOrder(propsParams.order),
             } as TPropsTableFilter<T>;
 
-            if (!propsParams.order) {
+            if (propsParams.order === undefined) {
                 delete data.order;
                 delete data.sort;
             }
 
-            if (propsParams.search) {
-                data.page = 1;
+            const listPropsParams = Object.keys(propsParams) as string[];
+
+            if (
+                !(
+                    listPropsParams.includes('page') &&
+                    listPropsParams.includes('per_page')
+                )
+            ) {
+                if (
+                    !(
+                        listPropsParams.includes('sort') &&
+                        listPropsParams.includes('order')
+                    )
+                ) {
+                    console.log('Run this: ', listPropsParams);
+                    data.page = 1;
+                }
             }
 
             setFilters(data);
