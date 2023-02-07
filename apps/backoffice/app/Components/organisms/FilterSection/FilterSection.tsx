@@ -44,7 +44,7 @@ export const FilterSection = (props: IFilterSection) => {
 
             {/* Search */}
             <Col flex='auto'>
-                <Input prefix={<SearchOutlined />} placeholder='Search' onChange={searchHandler} />
+                <Input prefix={<SearchOutlined />} placeholder='Search' onChange={searchHandler} allowClear />
             </Col>
         </Row >
     )
