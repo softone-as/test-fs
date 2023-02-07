@@ -5,7 +5,7 @@ import { Badge, Card, Col, Descriptions, Image, Row, Space, Steps, Tabs, TabsPro
 import { ColumnsType } from 'antd/es/table';
 
 import { IUser } from '../../../Modules/User/Entities';
-import { defaultGutter, iconActionTableStyle } from '../../../Utils/theme';
+import { defaultGutter, defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
 
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { PageHeader } from '../../../Components/molecules/Headers';
@@ -122,73 +122,80 @@ const DetailAdvancedPage: React.FC = () => {
             <Row gutter={defaultGutter} justify='space-between'>
                 <Col md={24} lg={6}>
                     <Card>
-                        <Space direction='vertical' align='center' style={{ width: '100%', marginBottom: '16px' }}>
-                            <Image src='https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' width={90} preview={false} style={{ borderRadius: '50%' }} />
-                            <Typography.Text style={{ fontSize: '20px' }} strong>John Cena</Typography.Text>
-                        </Space>
+                        <Space direction='vertical' size={defaultSizeSpace}>
 
-                        <DescriptionContainer layout='vertical' column={{ xl: 1, lg: 1, md: 2, sm: 1, xs: 1 }} size='small'>
-                            <Descriptions.Item label='ID'>109820348998734897</Descriptions.Item>
-                            <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
-                            <Descriptions.Item label='Email'>john.lbf@gmail.com</Descriptions.Item>
-                            <Descriptions.Item label='No Telephone'>0812376152345</Descriptions.Item>
-                            <Descriptions.Item label='Address'>Rectory Cottage, Farleigh Court Road, Warlingham, CR6 9PX</Descriptions.Item>
-                        </DescriptionContainer>
+                            <Space direction='vertical' size={defaultSizeSpace} align='center' style={{ width: '100%' }}>
+                                <Image src='https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' width={90} preview={false} style={{ borderRadius: '50%' }} />
+                                <Typography.Text style={{ fontSize: '20px' }} strong>John Cena</Typography.Text>
+                            </Space>
+
+                            <DescriptionContainer layout='vertical' column={{ xl: 1, lg: 1, md: 2, sm: 1, xs: 1 }} size='small'>
+                                <Descriptions.Item label='ID'>109820348998734897</Descriptions.Item>
+                                <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
+                                <Descriptions.Item label='Email'>john.lbf@gmail.com</Descriptions.Item>
+                                <Descriptions.Item label='No Telephone'>0812376152345</Descriptions.Item>
+                                <Descriptions.Item label='Address'>Rectory Cottage, Farleigh Court Road, Warlingham, CR6 9PX</Descriptions.Item>
+                            </DescriptionContainer>
+
+                        </Space>
 
                         <DescriptionContainer column={1} size='small'>
                             <Descriptions.Item label='Status'>
                                 <Badge status="warning" text='Warning' style={{ fontWeight: 400 }} />
                             </Descriptions.Item>
                         </DescriptionContainer>
+
                     </Card>
                 </Col>
 
                 <Col md={24} lg={18}>
-                    <Card title='Process progress'>
-                        <Steps
-                            progressDot
-                            current={1}
-                            size='small'
-                            items={[
-                                {
-                                    title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Create Project</Typography.Text>,
-                                    description: 'Description Blabla..',
-                                },
-                                {
-                                    title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Department Preliminary Review</Typography.Text>,
-                                    description: 'Description Blabla..',
-                                },
-                                {
-                                    title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Financial Preview </Typography.Text>,
-                                    description: 'Description Blabla..',
-                                },
-                            ]}
-                        />
-                    </Card>
+                    <Space size={defaultSizeSpace} direction='vertical' style={{ width: '100%' }}>
+                        <Card title='Process progress'>
+                            <Steps
+                                progressDot
+                                current={1}
+                                size='small'
+                                items={[
+                                    {
+                                        title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Create Project</Typography.Text>,
+                                        description: 'Description Blabla..',
+                                    },
+                                    {
+                                        title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Department Preliminary Review</Typography.Text>,
+                                        description: 'Description Blabla..',
+                                    },
+                                    {
+                                        title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Financial Preview </Typography.Text>,
+                                        description: 'Description Blabla..',
+                                    },
+                                ]}
+                            />
+                        </Card>
 
-                    <Card title='Activity Timeline' style={{ margin: '1em 0' }}>
-                        <Timeline>
-                            <TimelinesItem
-                                title='Seamlessly communicate collaborative expertise through business quality'
-                                description='Description timeline'
-                                time='2 day ago'
-                            />
-                            <TimelinesItem
-                                title='Seamlessly communicate collaborative expertise through business quality'
-                                description='Description timeline'
-                                time='2 day ago'
-                            />
-                            <TimelinesItem
-                                title='Seamlessly communicate collaborative expertise through business quality'
-                                description='Description timeline'
-                                time='2 day ago'
-                            />
-                        </Timeline>
-                    </Card>
+                        <Card title='Activity Timeline'>
+                            <Timeline>
+                                <TimelinesItem
+                                    title='Seamlessly communicate collaborative expertise through business quality'
+                                    description='Description timeline'
+                                    time='2 day ago'
+                                />
+                                <TimelinesItem
+                                    title='Seamlessly communicate collaborative expertise through business quality'
+                                    description='Description timeline'
+                                    time='2 day ago'
+                                />
+                                <TimelinesItem
+                                    title='Seamlessly communicate collaborative expertise through business quality'
+                                    description='Description timeline'
+                                    time='2 day ago'
+                                />
+                            </Timeline>
+                        </Card>
 
-                    <Card>
-                        <Tabs defaultActiveKey="1" items={tabItems} />
-                    </Card>
+                        <Card>
+                            <Tabs defaultActiveKey="1" items={tabItems} />
+                        </Card>
+                    </Space>
                 </Col>
             </Row>
 
