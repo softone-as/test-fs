@@ -2,6 +2,7 @@ import {
     IsDate,
     IsEmail,
     IsEnum,
+    IsOptional,
     IsPhoneNumber,
     IsString,
 } from 'class-validator';
@@ -22,11 +23,12 @@ export class ProfileEditRequest {
     @IsString()
     identityNumber: string;
 
+    @IsOptional()
     @IsString()
     @IsEnum(GenderEnum)
     gender: GenderEnum;
 
+    @IsOptional()
     @IsDate()
-    @IsEmail()
     birthDate: Date;
 }
