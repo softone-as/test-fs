@@ -1,5 +1,5 @@
 import { Button, Form, Input, Select } from 'antd';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync } from '../../../Utils/utils';
 
@@ -14,6 +14,7 @@ import { IUserForm } from '../../../Modules/User/Entities';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { IRole } from 'interface-models/iam/role.interface';
 import { Section } from '../../../Components/molecules/Section';
+import { AppContext } from '../../../Contexts/App';
 
 const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
@@ -41,6 +42,7 @@ const FormUserPage: React.FC = (props: IProps) => {
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm()
     const [isLoading, setIsLoading] = useState(false)
+    const { notifyNavigating } = useContext(AppContext)
 
     const onFinish = async () => {
         setIsLoading(true)
@@ -50,6 +52,7 @@ const FormUserPage: React.FC = (props: IProps) => {
             await form.validateFields()
             // TODO: do post API
             createUser(data)
+            notifyNavigating()
             setIsLoading(false)
 
         } catch (error) {

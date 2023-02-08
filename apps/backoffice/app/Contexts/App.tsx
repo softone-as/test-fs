@@ -2,8 +2,10 @@ import { Inertia } from '@inertiajs/inertia';
 import React, { createContext, useEffect, useRef, useState } from 'react'
 
 export interface IAppContext {
-    appState: IAppContextState
+    appState: IAppContextState;
+    notifyNavigating: () => void;
 }
+
 export interface IAppContextState {
     isNavigating: boolean;
     isRefreshing: boolean;
@@ -28,6 +30,10 @@ export const AppProvider: React.FunctionComponent<IAppProviderProps> = (props) =
         setState((oldState) => ({ ...oldState, ...newState }))
     }
 
+    const notifyNavigating = () => {
+        handleSetState({ isNavigating: true })
+    }
+
     useEffect(() => {
         const inertiaStart = Inertia.on('start', (event) => {
             const isNavigating = currentPathRef.current !== event.detail.visit.url.pathname
@@ -46,5 +52,5 @@ export const AppProvider: React.FunctionComponent<IAppProviderProps> = (props) =
         }
     }, [])
 
-    return <AppContext.Provider {...props} value={{ appState: state }} />
+    return <AppContext.Provider {...props} value={{ appState: state, notifyNavigating }} />
 }
