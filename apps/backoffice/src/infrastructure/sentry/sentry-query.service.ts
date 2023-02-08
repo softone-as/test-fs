@@ -9,7 +9,7 @@ export class SentryQueryService {
         if (transaction) return transaction as unknown as Transaction;
 
         return Sentry.startTransaction({
-            op: 'Query ' + req.url,
+            op: 'Query ' + req?.url,
             name: 'Query',
             status: 'ok',
         }) as unknown as Transaction;
