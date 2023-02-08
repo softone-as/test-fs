@@ -37,7 +37,6 @@ const FormProfilePage: React.FC = () => {
 
         try {
             await form.validateFields()
-            // TODO: do post API
             editProfilePassword(data)
             notifyNavigating()
             setIsLoading(false)

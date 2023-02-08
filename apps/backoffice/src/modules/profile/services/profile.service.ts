@@ -16,7 +16,6 @@ export class ProfileService {
     async findOneById(id: number): Promise<IUser> {
         return await this.profileRepository.findOneOrFail({
             where: { id },
-            relations: ['roles'],
         });
     }
 

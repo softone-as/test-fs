@@ -19,8 +19,8 @@ const schema: yup.SchemaOf<IProfileForm> = yup.object().shape({
     email: yup.string().email().required('Field email is required'),
     phoneNumber: yup.string().required('Field phone number is required'),
     identityNumber: yup.string().required('Field identityNumber is required'),
-    gender: yup.string().optional(),
-    birthDate: yup.string().optional(),
+    gender: yup.string().nullable(),
+    birthDate: yup.string().nullable(),
 })
 
 interface IProps extends TInertiaProps {
@@ -39,7 +39,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
 
         try {
             await form.validateFields()
-            // TODO: do post API
             editProfile(data)
             notifyNavigating()
             setIsLoading(false)
@@ -53,8 +52,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
         form.resetFields()
     }
 
-    const { fullname, email, phoneNumber, identityNumber, gender, birthDate } = props.data
-
     return (
         <Layout breadcrumbItems={Breadcrumbs.Profile.EDIT}>
             <PageHeader title='Edit Profile' />
@@ -65,6 +62,7 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     form={form}
                     layout='vertical'
                     centered
+                    initialValues={props.data}
                     buttonAction={[
                         <Button onClick={onReset}>
                             Discard
@@ -75,19 +73,19 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     ]}
                 >
                     <Form.Item label="Full Name" name='fullname' rules={[yupSync]} required>
-                        <Input placeholder='Input' defaultValue={fullname} />
+                        <Input placeholder='Input' />
                     </Form.Item>
 
                     <Form.Item label="Email" name='email' rules={[yupSync]} required>
-                        <Input type='email' placeholder='Input' defaultValue={email} />
+                        <Input type='email' placeholder='Input' />
                     </Form.Item>
 
                     <Form.Item label="Phone Number" name='phoneNumber' rules={[yupSync]} required>
-                        <Input placeholder='Input' defaultValue={phoneNumber} />
+                        <Input placeholder='Input' />
                     </Form.Item>
 
                     <Form.Item label="Identity Number" name='identityNumber' rules={[yupSync]} required>
-                        <Input placeholder='Input' defaultValue={identityNumber} />
+                        <Input placeholder='Input' />
                     </Form.Item>
 
                     <Form.Item
@@ -96,13 +94,13 @@ const FormProfilePage: React.FC = (props: IProps) => {
                         required
                     >
                         <Radio.Group>
-                            <Radio.Button defaultChecked={GenderEnum.LakiLaki == gender} value={GenderEnum.LakiLaki}>{GenderEnum.LakiLaki}</Radio.Button>
-                            <Radio.Button defaultChecked={GenderEnum.Perempuan == gender} value={GenderEnum.Perempuan}>{GenderEnum.Perempuan}</Radio.Button>
+                            <Radio.Button value={GenderEnum.LakiLaki}>{GenderEnum.LakiLaki}</Radio.Button>
+                            <Radio.Button value={GenderEnum.Perempuan}>{GenderEnum.Perempuan}</Radio.Button>
                         </Radio.Group>
                     </Form.Item>
 
                     <Form.Item label="Birth Date" name='birthDate' rules={[yupSync]}>
-                        <DatePicker defaultValue={birthDate as any} />
+                        <DatePicker />
                     </Form.Item>
 
                 </FormContainer>

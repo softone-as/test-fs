@@ -23,10 +23,12 @@ const UserDetailPage: React.FC = (props: IProps) => {
 		<MainLayout breadcrumbItems={Breadcrumbs.Profile.INDEX} >
 			<PageHeader title='Profile' topActions={[
 				<Buttons type='primary' href={Route.EditProfile} icon={<EditOutlined />}>Edit</Buttons>,
+				<Buttons type='primary' href={Route.EditProfilePassword} icon={<EditOutlined />}>Edit Password</Buttons>,
 			]} />
 
+
 			<Space direction='vertical' size={defaultSizeSpace} style={{ width: '100%' }}>
-				<Section title='User Info'>
+				<Section title='Profile Info'>
 					<DescriptionContainer size='small' bordered column={{ md: 2, xs: 1 }}>
 						<Descriptions.Item label='ID'>{id}</Descriptions.Item>
 						<Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
