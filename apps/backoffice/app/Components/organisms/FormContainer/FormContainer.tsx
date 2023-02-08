@@ -10,7 +10,7 @@ interface IFormProps extends FormProps {
 }
 
 const FormContainer = (props: IFormProps): JSX.Element => {
-    const { isFieldCentered, centered, justifyButton = 'end', buttonAction, ...rest } = props
+    const { isFieldCentered, centered, justifyButton = 'end', buttonAction, children, ...rest } = props
     const { lg } = Grid.useBreakpoint()
 
     return (
@@ -32,14 +32,15 @@ const FormContainer = (props: IFormProps): JSX.Element => {
                     wrapperCol={isFieldCentered && { span: 18 }}
                     style={{ ...props.style }}
                 >
-
+                    <>
+                        {children}
+                        <ButtonFormAction
+                            justify={justifyButton}
+                            buttonAction={buttonAction}
+                            style={{ marginInlineEnd: isFieldCentered && '25%' }}
+                        />
+                    </>
                 </Form>
-
-                <ButtonFormAction
-                    justify={justifyButton}
-                    buttonAction={buttonAction}
-                    style={{ marginInlineEnd: isFieldCentered && '25%' }}
-                />
             </Col>
         </Row>
     )
