@@ -37,7 +37,6 @@ interface IProps extends TInertiaProps {
 const PermissionPage: React.FC = (props: IProps) => {
     const { setQueryParams, status: { isFetching } } = useTableFilter<DataType>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-    const [dates, setDates] = useState<TRangeValue>(null);
 
     const columns: ColumnsType<DataType> = [
         {
@@ -100,7 +99,7 @@ const PermissionPage: React.FC = (props: IProps) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
-    const handleCalendarChange = (val: TRangeValue) => setDates(val)
+    const handleCalendarChange = (val: TRangeValue) => console.log(val)
 
     const batchActionMenus: MenuProps['items'] = [
         {
@@ -155,7 +154,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                         ]}
                         />,
 
-                        <DateRangePicker value={dates} range={10} onChange={handleRange} onCalendarChange={handleCalendarChange} />,
+                        <DateRangePicker range={10} onChange={handleRange} onCalendarChange={handleCalendarChange} />,
                         <DatePicker onChange={handleDate} />
                     ]
                 } />

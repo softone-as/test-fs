@@ -28,7 +28,6 @@ const UsersPage: React.FC = (props: IProps) => {
     const { setQueryParams, status: { isFetching } } = useTableFilter<IUser>()
 
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-    const [dates, setDates] = useState<TRangeValue>(null);
 
     const columns: ColumnsType<IUser> = [
         {
@@ -145,7 +144,7 @@ const UsersPage: React.FC = (props: IProps) => {
                         ]}
                         />,
 
-                        <DateRangePicker value={dates} range={10} onChange={handleRange} onCalendarChange={handleCalendarChange} />,
+                        <DateRangePicker onChange={handleRange} onCalendarChange={handleCalendarChange} />,
                         <DatePicker onChange={handleDate} />
                     ]
                 } />
