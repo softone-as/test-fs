@@ -1,3 +1,4 @@
+import { RowProps, SpaceProps } from 'antd';
 import type { ThemeConfig } from 'antd/es/config-provider/context';
 import type { CSSProperties } from 'react';
 
@@ -29,6 +30,10 @@ export const sidebarThemeConfig: ThemeConfig = {
     },
 };
 
+export const defaultGutter: RowProps['gutter'] = [16, 16];
+
+export const defaultSizeSpace: SpaceProps['size'] = 'middle';
+
 export const globalThemeConfig: ThemeConfig = {
     components: {
         Button: {
@@ -42,6 +47,24 @@ export const globalThemeConfig: ThemeConfig = {
         Table: {
             controlItemBgActive: '#E6FFFB',
             controlItemBgActiveHover: '#E6FFFB',
+        },
+        Steps: {
+            colorPrimary: themeColors.primary,
+        },
+        Tabs: {
+            colorPrimary: themeColors.primary,
+        },
+        Upload: {
+            colorPrimary: themeColors.primary,
+        },
+        Radio: {
+            colorPrimary: themeColors.primary,
+        },
+        Switch: {
+            colorPrimary: themeColors.primary,
+        },
+        Timeline: {
+            colorPrimary: themeColors.primary,
         },
     },
 };
