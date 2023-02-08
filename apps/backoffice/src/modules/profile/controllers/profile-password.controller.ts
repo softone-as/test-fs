@@ -15,15 +15,9 @@ export class ProfilePasswordController {
     ) {}
 
     @Get()
-    async editPage(@GetUserLogged() user: IUser): Promise<void> {
-        const data = await this.profileApplication.findOneByIdOnlyPassword(
-            user.id,
-        );
+    async editPage(): Promise<void> {
         return this.inertiaAdapter.render({
             component: 'Profile/FormProfilePassword',
-            props: {
-                data,
-            },
         });
     }
 
@@ -33,6 +27,7 @@ export class ProfilePasswordController {
         @Body() request: ProfileEditPasswordRequest,
     ): Promise<void> {
         await this.profileApplication.editPassword(user.id, request);
+        this.inertiaAdapter.share('success');
         return this.inertiaAdapter.successResponse('/profile', 'Sukses edit');
     }
 }

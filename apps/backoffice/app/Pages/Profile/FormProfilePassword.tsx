@@ -6,12 +6,10 @@ import { PageHeader } from '../../Components/molecules/Headers';
 import { FormContainer } from '../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
-import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { Section } from '../../Components/molecules/Section';
 import { AppContext } from '../../Contexts/App';
 import { IProfileFormPassword } from '../../Modules/Profile/Entities';
 import { editProfilePassword } from '../../Modules/Profile/Action';
-import { IUser } from '../../Modules/User/Entities';
 
 const schema: yup.SchemaOf<IProfileFormPassword> = yup.object().shape({
     password: yup.string().required('Field password is required').min(8, 'Password at least have 8 character')
@@ -27,11 +25,7 @@ const schema: yup.SchemaOf<IProfileFormPassword> = yup.object().shape({
         }),
 })
 
-interface IProps extends TInertiaProps {
-    data: IUser,
-}
-
-const FormProfilePage: React.FC = (props: IProps) => {
+const FormProfilePage: React.FC = () => {
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm()
     const [isLoading, setIsLoading] = useState(false)
@@ -57,8 +51,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
         form.resetFields()
     }
 
-    const { password } = props.data
-
     return (
         <Layout breadcrumbItems={Breadcrumbs.Profile.EDITPASSWORD}>
             <PageHeader title='Edit Password' />
@@ -79,7 +71,7 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     ]}
                 >
                     <Form.Item label="Password" name='password' rules={[yupSync]} required>
-                        <Input.Password type='password' placeholder='Input' defaultValue={password} />
+                        <Input.Password type='password' placeholder='Input' />
                     </Form.Item>
 
                 </FormContainer>

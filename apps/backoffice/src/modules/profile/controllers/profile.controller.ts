@@ -42,6 +42,7 @@ export class ProfileController {
         @Body() request: ProfileEditRequest,
     ): Promise<void> {
         await this.profileApplication.edit(user.id, request);
+        this.inertiaAdapter.share('success');
         return this.inertiaAdapter.successResponse('/profile', 'Sukses edit');
     }
 }

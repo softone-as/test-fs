@@ -33,11 +33,6 @@ export class ProfileApplication {
         return ProfileResponse.fromEntity(data);
     }
 
-    async findOneByIdOnlyPassword(id: number): Promise<ProfileResponse> {
-        const data = await this.profileService.findOneById(id);
-        return ProfileResponse.fromEntity(data);
-    }
-
     async editPassword(
         id: number,
         request: ProfileEditPasswordRequest,

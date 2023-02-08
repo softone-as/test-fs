@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd';
+import { Button, DatePicker, Form, Input, Radio } from 'antd';
 import React, { useContext, useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync } from '../../Utils/utils';
@@ -12,6 +12,7 @@ import { AppContext } from '../../Contexts/App';
 import { IProfileForm } from '../../Modules/Profile/Entities';
 import { editProfile } from '../../Modules/Profile/Action';
 import { IUser } from '../../Modules/User/Entities';
+import { GenderEnum } from '../../../../../interface-models/iam/user.interface'
 
 const schema: yup.SchemaOf<IProfileForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
@@ -89,14 +90,19 @@ const FormProfilePage: React.FC = (props: IProps) => {
                         <Input placeholder='Input' defaultValue={identityNumber} />
                     </Form.Item>
 
-                    <Form.Item label="Gender" name='gender' rules={[yupSync]}>
-                        {/* TODO: Radio option gender update gender */}
-                        <Input placeholder='Input' defaultValue={gender} />
+                    <Form.Item
+                        name="gender"
+                        label="Gender"
+                        required
+                    >
+                        <Radio.Group>
+                            <Radio.Button defaultChecked={GenderEnum.LakiLaki == gender} value={GenderEnum.LakiLaki}>{GenderEnum.LakiLaki}</Radio.Button>
+                            <Radio.Button defaultChecked={GenderEnum.Perempuan == gender} value={GenderEnum.Perempuan}>{GenderEnum.Perempuan}</Radio.Button>
+                        </Radio.Group>
                     </Form.Item>
 
                     <Form.Item label="Birth Date" name='birthDate' rules={[yupSync]}>
-                        {/* TODO: Date picker update birthDate */}
-                        <Input placeholder='Input' defaultValue={birthDate?.toString()} />
+                        <DatePicker defaultValue={birthDate as any} />
                     </Form.Item>
 
                 </FormContainer>
