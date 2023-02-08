@@ -7,9 +7,10 @@ export type TRangeValue = [Dayjs | null, Dayjs | null] | null;
 export type TDateRangePicker = {
     range?: number;
     onChange: (val: TRangeValue) => void;
+    hasPresets?: boolean
 };
 
-export const DateRangePicker = ({ onChange, range = 7 }: TDateRangePicker) => {
+export const DateRangePicker = ({ onChange, range = 7, hasPresets = true }: TDateRangePicker) => {
     const [dates, setDates] = useState<TRangeValue>(null);
     const [value, setValue] = useState<TRangeValue>(null);
 
@@ -42,12 +43,12 @@ export const DateRangePicker = ({ onChange, range = 7 }: TDateRangePicker) => {
             onCalendarChange={(val) => setDates(val)}
             onChange={handleChange}
             onOpenChange={onOpenChange}
-            presets={[
+            presets={hasPresets ? [
                 { label: 'Last 7 Days', value: [dayjs().add(-7, 'd'), dayjs()] },
                 { label: 'Last 14 Days', value: [dayjs().add(-14, 'd'), dayjs()] },
                 { label: 'Last 30 Days', value: [dayjs().add(-30, 'd'), dayjs()] },
                 { label: 'Last 90 Days', value: [dayjs().add(-90, 'd'), dayjs()] },
-            ]}
+            ] : null}
         />
     )
 }

@@ -13,6 +13,7 @@ import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@an
 import { Form, Typography, Space } from 'antd'
 import { useTableFilter } from '../../../Utils/hooks'
 import { useModal } from '../../../Utils/modal'
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 type DataType = {
@@ -34,7 +35,7 @@ interface IProps extends TInertiaProps {
 }
 
 const PermissionPage: React.FC = (props: IProps) => {
-    const { setQueryParams } = useTableFilter<DataType>()
+    const { setQueryParams, status: { isFetching } } = useTableFilter<DataType>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
     const columns: ColumnsType<DataType> = [
@@ -125,7 +126,7 @@ const PermissionPage: React.FC = (props: IProps) => {
     }
 
     return (
-        <MainLayout >
+        <MainLayout breadcrumbItems={Breadcrumbs.Permissions.INDEX}>
             <PageHeader title='Permissions' topActions={[
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
                 <Button size='large' type='primary'>New User</Button>
@@ -164,6 +165,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
                 onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), per_page: pageSize.toString() })}
+                loading={isFetching}
             />
         </MainLayout>
     );
