@@ -90,7 +90,7 @@ const UsersPage: React.FC = (props: IProps) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
-    const handleCalendarChange = (val: TRangeValue) => setDates(val)
+    const handleCalendarChange = (val: TRangeValue) => { console.log(val) }
 
     const batchActionMenus: MenuProps['items'] = [
         {
