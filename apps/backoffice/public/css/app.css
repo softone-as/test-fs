@@ -163,10 +163,26 @@ button:disabled:hover {
 .react-datepicker__year-text--selected:hover,
 .react-datepicker__year-text--in-selecting-range:hover,
 .react-datepicker__year-text--in-range:hover,
-.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected:hover,
-.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected,
-.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected,
-.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected:hover,
+.react-datepicker__time-container
+    .react-datepicker__time
+    .react-datepicker__time-box
+    ul.react-datepicker__time-list
+    li.react-datepicker__time-list-item--selected:hover,
+.react-datepicker__time-container
+    .react-datepicker__time
+    .react-datepicker__time-box
+    ul.react-datepicker__time-list
+    li.react-datepicker__time-list-item--selected,
+.react-datepicker__time-container
+    .react-datepicker__time
+    .react-datepicker__time-box
+    ul.react-datepicker__time-list
+    li.react-datepicker__time-list-item--selected,
+.react-datepicker__time-container
+    .react-datepicker__time
+    .react-datepicker__time-box
+    ul.react-datepicker__time-list
+    li.react-datepicker__time-list-item--selected:hover,
 .react-datepicker__close-icon::after,
 .react-datepicker__month-text.react-datepicker__month--selected:hover,
 .react-datepicker__month-text.react-datepicker__month--in-range:hover,
@@ -222,7 +238,7 @@ button:disabled:hover {
     display: none;
 }
 
-.avatar-edit input+label {
+.avatar-edit input + label {
     display: inline-block;
     width: 34px;
     height: 34px;
@@ -235,7 +251,7 @@ button:disabled:hover {
     transition: all 0.2s ease-in-out;
 }
 
-.avatar-edit input+label {
+.avatar-edit input + label {
     cursor: pointer;
 }
 
@@ -247,7 +263,7 @@ button:disabled:hover {
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
 }
 
-.avatar-preview>div {
+.avatar-preview > div {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -491,4 +507,8 @@ a.sidebar__link:hover .sidebar__icon .icon {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.1);
     padding: 20px;
+}
+
+.ant-descriptions-item-content {
+    opacity: 45%;
 }

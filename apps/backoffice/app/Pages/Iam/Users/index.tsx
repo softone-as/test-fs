@@ -11,34 +11,25 @@ import { DateRangePicker, DatePicker, TRangeValue } from '../../../Components/mo
 import type { Dayjs } from 'dayjs'
 import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined} from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
+import { Link } from '@inertiajs/inertia-react'
+import { IUser } from '../../../Modules/User/Entities';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
-type DataType = {
-    birthDate: string,
-    email: string,
-    emailVerifiedAt: string,
-    fullname: string,
-    gender: string,
-    id: number,
-    identityNumber: string,
-    oneSignalPlayerIds: string,
-    password: string,
-    phoneNumber: string,
-    phoneNumberVerifiedAt: string
-}
-
 interface IProps extends TInertiaProps {
-    data: DataType[],
+    data: IUser[],
 }
 
 const UsersPage: React.FC = (props: IProps) => {
 
-    const { setQueryParams, status: { isFetching } } = useTableFilter<DataType>()
+
+    const { setQueryParams, status: { isFetching } } = useTableFilter<IUser>()
+
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
-    const columns: ColumnsType<DataType> = [
+    const columns: ColumnsType<IUser> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -125,10 +116,10 @@ const UsersPage: React.FC = (props: IProps) => {
         console.log('FINSIH : ', values)
     }
     return (
-        <MainLayout >
+        <MainLayout breadcrumbItems={Breadcrumbs.Users.INDEX}>
             <PageHeader title='User List' topActions={[
                 <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
-                <Button size='large' type='primary'>New User</Button>
+                <Link href='users/create'><Button size='large' type='primary'>New User</Button></Link>
             ]} />
             <FilterSection searchHandler={handleSearch}
                 selectedRows={selectedRowKeys}

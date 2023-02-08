@@ -11,7 +11,7 @@ export const PageHeader: React.FC<IProps> = (props: IProps) => {
     return (
         <Row style={{ marginBottom: '16px' }}>
             <Col flex='auto'>
-                <Title style={{ fontSize: '24px', lineHeight: '32px' }}>{props.title}</Title>
+                <Title style={{ fontSize: '24px', lineHeight: '32px', margin: 0 }}>{props.title}</Title>
             </Col>
             <Col>
                 <Space>

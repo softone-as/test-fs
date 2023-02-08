@@ -20,14 +20,17 @@ import {
 import { Inertia, Page } from '@inertiajs/inertia'
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { PageProgress } from '../../Components/molecules/Progress';
+import Breadcrumbs from '../../Components/molecules/Breadcrumbs/Breadcrumbs';
+import { BreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { AppContext } from '../../Contexts/App';
 import { Route } from '../../Enums/Route';
 
 export type IProps = {
-    children: React.ReactNode;
-    headerRightMenu?: React.FC;
-};
+    children: React.ReactNode
+    headerRightMenu?: React.FC
+    breadcrumbItems?: BreadcrumbsItem[]
+}
 
 const handleLogout = (
     event:
@@ -70,12 +73,57 @@ const menuItems: MenuItem[] = [
             },
         ],
     },
+    {
+        key: '#Sample-Form',
+        label: 'Sample Form',
+        icon: <MailOutlined />,
+        theme: 'light',
+        children: [
+            {
+                key: '3-1',
+                label: <Link href='/sample/form/basic'>Form Basic</Link>,
+            },
+            {
+                key: '3-2',
+                label: <Link href='/sample/form/step'>Form Step</Link>,
+            },
+            {
+                key: '3-3',
+                label: <Link href='/sample/form/advanced'>Form Advanced</Link>,
+            },
+        ]
+
+    },
+    {
+        key: '#Sample-Detail',
+        label: 'Sample Detail',
+        icon: <MailOutlined />,
+        theme: 'light',
+        children: [
+            {
+                key: '4-1',
+                label: <Link href='/sample/detail/basic'>Detail Basic</Link>,
+            },
+            {
+                key: '4-2',
+                label: <Link href='/sample/detail/advanced'>Detail Advanced</Link>,
+            },
+        ]
+
+    },
+    {
+        key: Route.Logout,
+        label: <Link href='#' onClick={handleLogout}>Logout</Link>,
+        icon: <MailOutlined />,
+
+    },
 ]
 
 const { Sider, Content } = Layout;
 const { Text } = Typography;
 
-export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
+
+export const MainLayout: React.FC<IProps> = ({ children, breadcrumbItems = [] }: IProps) => {
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>()
 
@@ -181,6 +229,8 @@ export const MainLayout: React.FC<IProps> = ({ children }: IProps) => {
                         overflow: "auto",
                     }}
                 >
+                    <Breadcrumbs breadcrumb={breadcrumbItems} />
+
                     {children}
                 </Content>
             </Layout>
