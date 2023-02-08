@@ -19,9 +19,9 @@ const defaultPresets: RangePickerProps['presets'] = [
     { label: 'Last 90 Days', value: [dayjs().add(-90, 'd'), dayjs()] },
 ]
 
-export const DateRangePicker = ({ onChange, range = 7, presets, disabledDate, value, ...rest }: TDateRangePicker) => {
+export const DateRangePicker = ({ onChange, range, presets, disabledDate, value, ...rest }: TDateRangePicker) => {
     const defaultDisabledDate = (current: Dayjs) => {
-        if (!value) {
+        if (!value || !range) {
             return false;
         }
         const tooLate = value[0] && current.diff(value[0], 'days') > range;
