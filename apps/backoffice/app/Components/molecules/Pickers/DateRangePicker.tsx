@@ -40,7 +40,10 @@ export const DateRangePicker = ({ onChange, range, presets, disabledDate, value,
     }
 
     const handleOnCalendarChange = (values: [dayjs.Dayjs, dayjs.Dayjs], formatString: [string, string], info) => {
-        rest.onCalendarChange(values, formatString, info)
+        if (rest.onCalendarChange) {
+            rest.onCalendarChange(values, formatString, info)
+        }
+
         setDates(values)
     }
 
