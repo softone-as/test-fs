@@ -38,6 +38,8 @@ const UsersPage: React.FC = (props: IProps) => {
     const { setQueryParams } = useTableFilter<DataType>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
+    const [dates, setDates] = useState<TRangeValue>(null);
+
     const columns: ColumnsType<DataType> = [
         {
             title: 'ID',
@@ -99,7 +101,7 @@ const UsersPage: React.FC = (props: IProps) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
-
+    const handleCalendarChange = (val: TRangeValue) => setDates(val)
 
     const batchActionMenus: MenuProps['items'] = [
         {
@@ -153,7 +155,7 @@ const UsersPage: React.FC = (props: IProps) => {
                         ]}
                         />,
 
-                        <DateRangePicker range={10} onChange={handleRange} />,
+                        <DateRangePicker value={dates} range={10} onChange={handleRange} onCalendarChange={handleCalendarChange} />,
                         <DatePicker onChange={handleDate} />
                     ]
                 } />

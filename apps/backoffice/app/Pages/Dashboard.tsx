@@ -36,6 +36,7 @@ interface IProps extends TInertiaProps {
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
     const { setQueryParams } = useTableFilter<DataType>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+    const [dates, setDates] = useState<TRangeValue>(null);
 
     const columns: ColumnsType<DataType> = [
         {
@@ -113,6 +114,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
     const handleRange = (val: TRangeValue) => console.log(val.map(item => item.toDate()))
     const handleDate = (val: Dayjs) => console.log(val.toDate())
 
+    const handleCalendarChange = (val: TRangeValue) => setDates(val)
 
     const handleStatus = (data) => {
         console.log('DATa Status: ', data)
@@ -153,7 +155,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                         ]}
                         />,
 
-                        <DateRangePicker range={10} onChange={handleRange} />,
+                        <DateRangePicker value={dates} range={10} onChange={handleRange} onCalendarChange={handleCalendarChange} />,
                         <DatePicker onChange={handleDate} />
                     ]
                 } />

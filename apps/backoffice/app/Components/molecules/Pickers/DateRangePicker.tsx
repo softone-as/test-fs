@@ -1,53 +1,53 @@
-import React, { useState } from 'react'
+import React from 'react'
 import dayjs from 'dayjs'
 import type { Dayjs } from 'dayjs'
 import { DatePicker } from 'antd'
-import type { RangePickerProps } from 'antd/es/date-picker';
+import type { RangePickerProps, } from 'antd/es/date-picker';
 
 export type TRangeValue = [Dayjs | null, Dayjs | null] | null;
-export type TDateRangePicker = RangePickerProps & {
+
+export type TDateRangePicker = Omit<RangePickerProps, 'presets'> & {
     range?: number;
-    onChange: (val: TRangeValue) => void;
+    onChange: (val: TRangeValue) => void
+    presets?: RangePickerProps['presets'] | false
 };
 
-type TRangePreset = {
-    label: string;
-    value: [Dayjs, Dayjs];
-}[]
-
-const defaultPresets: TRangePreset = [
+const defaultPresets: RangePickerProps['presets'] = [
     { label: 'Last 7 Days', value: [dayjs().add(-7, 'd'), dayjs()] },
     { label: 'Last 14 Days', value: [dayjs().add(-14, 'd'), dayjs()] },
     { label: 'Last 30 Days', value: [dayjs().add(-30, 'd'), dayjs()] },
     { label: 'Last 90 Days', value: [dayjs().add(-90, 'd'), dayjs()] },
 ]
 
-export const DateRangePicker = ({ onChange, range, presets, disabledDate, ...rest }: TDateRangePicker) => {
-    const [dates, setDates] = useState<TRangeValue>(null);
-    const [value, setValue] = useState<TRangeValue>(null);
-
+export const DateRangePicker = ({ onChange, range = 7, presets, disabledDate, value, ...rest }: TDateRangePicker) => {
     const defaultDisabledDate = (current: Dayjs) => {
-        if (!dates) {
+        if (!value) {
             return false;
         }
-        const tooLate = dates[0] && current.diff(dates[0], 'days') > range;
-        const tooEarly = dates[1] && dates[1].diff(current, 'days') > range;
+        const tooLate = value[0] && current.diff(value[0], 'days') > range;
+        const tooEarly = value[1] && value[1].diff(current, 'days') > range;
         return !!tooEarly || !!tooLate;
     };
 
     const handleChange = (val) => {
-        setValue(val)
         onChange(val)
     }
 
+    const rangePickerPreset = presets === false ? [] : presets || defaultPresets
+
     return (
 
-        <DatePicker.RangePicker value={dates || value}
-            disabledDate={disabledDate || defaultDisabledDate}
-            onCalendarChange={(val) => setDates(val)}
-            onChange={handleChange}
-            presets={presets || defaultPresets}
+        <DatePicker.RangePicker
             {...rest}
+            value={value}
+            disabledDate={disabledDate || defaultDisabledDate}
+            onChange={handleChange}
+            picker={rest.picker}
+            // behaviour preset props
+            // if props false = there is no preset at all
+            // if props not set / undefined = use default preset
+            // if props array = use preset from props
+            presets={rangePickerPreset}
         />
     )
 }
