@@ -17,10 +17,12 @@ export class SentryInterceptor implements NestInterceptor {
     constructor(private sentryService: SentryService) {}
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+        const request = context.switchToHttp().getRequest() as Request;
         // start a child span for performance tracing
         const span = this.sentryService.startChild({
-            op: `route handler`,
+            op: `http.server`,
             status: 'ok',
+            description: request.method + request.url,
         });
 
         return next.handle().pipe(
