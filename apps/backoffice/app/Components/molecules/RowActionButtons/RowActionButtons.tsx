@@ -69,7 +69,7 @@ export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
 
     return isMobile ? (
         <Dropdown
-            overlayStyle={{ position: "absolute", top: "-30px" }}
+            overlayStyle={{ position: "revert-layer", top: "10px" }}
             trigger={['click']}
             overlay={
                 <Space direction="vertical">

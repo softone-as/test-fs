@@ -14,6 +14,7 @@ import { PageHeader } from '../../../Components/molecules/Headers';
 import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd'
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
+import { useMediaQuery } from "react-responsive";
 
 type DataType = {
     birthDate: string,
@@ -38,6 +39,8 @@ const UsersPage: React.FC = (props: IProps) => {
     const { setQueryParams } = useTableFilter<DataType>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
+    const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+
     const columns: ColumnsType<DataType> = [
         {
             title: 'ID',
@@ -54,17 +57,39 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Gender',
             dataIndex: 'gender',
             key: 'gender',
+            render: (value) => (isMobile && (value === 'male' ? 'm' : 'f')) || value,
         },
         {
             title: 'Phone Number',
             dataIndex: 'phoneNumber',
             key: 'phoneNumber',
+            render: (value) => (isMobile ? '+62xxx' : value),
         },
         {
-            title: 'Action',
+            title: isMobile ? (<RowActionButtons
+                actions={[
+                    {
+                        type: 'view',
+                        href: `#`,
+                        title: 'view'
+                    },
+                    {
+                        type: 'edit',
+                        href: `#`,
+                        title: 'edit'
+                    },
+                    {
+                        type: 'delete',
+                        title: 'delete',
+                        onClick: () => {
+                            // TODO : handle delete function
+                        },
+                    },
+                ]}
+            />) : 'Action',
             key: 'action',
             width: '142px',
-            render: () => (
+            render: () => !isMobile && (
                 <RowActionButtons
                     actions={[
                         {
