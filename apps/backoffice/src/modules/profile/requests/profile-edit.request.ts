@@ -1,4 +1,11 @@
-import { IsEmail, IsPhoneNumber, IsString } from 'class-validator';
+import {
+    IsDate,
+    IsEmail,
+    IsEnum,
+    IsPhoneNumber,
+    IsString,
+} from 'class-validator';
+import { GenderEnum } from 'interface-models/iam/user.interface';
 
 export class ProfileEditRequest {
     @IsString()
@@ -11,4 +18,15 @@ export class ProfileEditRequest {
     @IsString()
     @IsPhoneNumber('ID')
     phoneNumber: string;
+
+    @IsString()
+    identityNumber: string;
+
+    @IsString()
+    @IsEnum(GenderEnum)
+    gender: GenderEnum;
+
+    @IsDate()
+    @IsEmail()
+    birthDate: Date;
 }
