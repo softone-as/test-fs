@@ -1,3 +1,5 @@
+import { IUser } from 'interface-models/iam/user.interface';
+
 export type TErrorProps = {
     errors: Error | null;
     message: string;
@@ -11,12 +13,17 @@ export type TMeta = {
     totalPage: number;
 };
 
+export type TNotificationProps = {
+    notificationUnread: number;
+};
+
 export type TInertiaProps = {
     error: TErrorProps | null;
     meta: TMeta | null;
     playerId: string | null;
     success: string | null;
-    userDetail: string | null;
+    userDetail: IUser | null;
+    notifications: TNotificationProps | null;
 };
 
 export type TInertiaPages = {

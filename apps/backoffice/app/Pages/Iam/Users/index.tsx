@@ -21,30 +21,16 @@ import {
 } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd';
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
-
-type DataType = {
-    birthDate: string;
-    email: string;
-    emailVerifiedAt: string;
-    fullname: string;
-    gender: string;
-    id: number;
-    identityNumber: string;
-    oneSignalPlayerIds: string;
-    password: string;
-    phoneNumber: string;
-    phoneNumberVerifiedAt: string;
-};
-
+import { IUser } from 'interface-models/iam/user.interface';
 interface IProps extends TInertiaProps {
-    data: DataType[];
+    data: IUser[];
 }
 
 const UsersPage: React.FC = (props: IProps) => {
-    const { setQueryParams } = useTableFilter<DataType>();
+    const { setQueryParams, status: { isFetching } } = useTableFilter<IUser>()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
-    const columns: ColumnsType<DataType> = [
+    const columns: ColumnsType<IUser> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -236,9 +222,8 @@ const UsersPage: React.FC = (props: IProps) => {
                 }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
-                onPageChange={(page) =>
-                    setQueryParams({ page: page.toString() })
-                }
+                onPageChange={(page) => setQueryParams({ page: page.toString() })}
+                loading={isFetching}
             />
         </MainLayout>
     );

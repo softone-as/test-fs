@@ -1,3 +1,4 @@
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import React from 'react';
 // import { Inertia } from '@inertiajs/inertia';
 // import { CellProps, Column } from 'react-table';
@@ -147,7 +148,7 @@ const RolesPage: React.FC = () => {
     // );
 
     return (
-        <MainLayout title="Roles">
+        <MainLayout title="Roles" breadcrumbs={Breadcrumbs.Roles.INDEX}>
             <h1>Hello</h1>
         </MainLayout>
     );

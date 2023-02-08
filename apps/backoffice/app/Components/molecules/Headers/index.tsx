@@ -1,5 +1,5 @@
 import { PageHeader } from './PageHeader'
 
 export {
-    PageHeader
+    PageHeader,
 }

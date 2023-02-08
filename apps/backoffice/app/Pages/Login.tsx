@@ -11,9 +11,10 @@ import { Link } from '@inertiajs/inertia-react';
 import { doLogin, } from '../Modules/Auth/Login/Actions';
 import { TLogin } from '../Modules/Auth/Login/Entities'
 import { TInertiaProps } from '../Modules/Inertia/Entities';
+import { createYupSync } from '../Utils/utils';
 
 
-const schema = yup.object().shape({
+const schema: yup.SchemaOf<TLogin> = yup.object().shape({
     email: yup
         .string()
         .email('Field Email wajib berformat email')
@@ -22,7 +23,7 @@ const schema = yup.object().shape({
 });
 
 const Login = (props: TInertiaProps) => {
-
+    const yupSync = createYupSync(schema);
     const [form] = Form.useForm<TLogin>()
 
     const [api, contextHolder] = notification.useNotification()
@@ -69,13 +70,13 @@ const Login = (props: TInertiaProps) => {
 
                 <Form.Item
                     name="email"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
+                    rules={[yupSync]}
                 >
                     <Input placeholder='Username' prefix={<UserOutlined />} />
                 </Form.Item>
                 <Form.Item
                     name="password"
-                    rules={[{ required: true, message: 'Please input your Password!' }]}
+                    rules={[yupSync]}
                     validateStatus={props?.error?.message && 'error'}
                     help={props?.error?.message}
                 >

@@ -1,18 +1,25 @@
-import React from 'react';
-import { Link } from '@inertiajs/inertia-react';
-import { Button, Descriptions, Space } from 'antd';
-import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
-import { MainLayout } from '../../../Layouts/MainLayout';
-import { IUser } from '../../../Modules/User/Entities';
+import React from 'react';
+
+import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { Link } from '@inertiajs/inertia-react';
+import {
+    Button, Descriptions, Space
+} from 'antd';
 import { ColumnsType } from 'antd/es/table';
+
+
+import { IUser } from '../../../Modules/User/Entities';
+
 import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
-import { DataTable } from '../../../Components/organisms/DataTable';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+
 import { Buttons } from '../../../Components/atoms/Buttons';
+import { DataTable } from '../../../Components/organisms/DataTable';
+import { MainLayout } from '../../../Layouts/MainLayout';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
+
 
 const columns: ColumnsType<IUser> = [
     {
@@ -41,7 +48,7 @@ const columns: ColumnsType<IUser> = [
         key: 'action',
         width: '142px',
         render: () => <Space size='large'>
-            <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link>
+            <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link >
             <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
             <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
         </Space>
@@ -55,51 +62,60 @@ const data: IUser[] = [
         fullname: 'John Cena',
         email: 'john@cena.com',
         password: '4123',
+        phoneNumber: '0841231322',
+        identityNumber: '231',
+
+    },
+    {
+        id: 2,
+        fullname: 'John Wick',
+        email: 'john@wick.com',
+        password: '4123',
         identityNumber: '231',
         phoneNumber: '0841231322',
-    }
+
+    },
+    {
+        id: 3,
+        fullname: 'John LBF',
+        email: 'john@lbf.com',
+        password: '4123',
+        identityNumber: '231',
+        phoneNumber: '0841231322',
+
+    },
 ]
 
-
-
-interface IProps extends TInertiaProps {
-    data: IUser,
-}
-
-const UserDetailPage: React.FC = (props: IProps) => {
-    const { id, identityNumber, email, fullname, phoneNumber, gender } = props.data
+const DetailBasicPage: React.FC = () => {
 
     return (
-        <MainLayout
-            title="Detail User"
-            breadcrumbs={Breadcrumbs.Users.DETAIL}
+        <MainLayout title='Detail User' breadcrumbs={Breadcrumbs.Users.DETAIL}
             topActions={<>
-                <Buttons icon={<DeleteOutlined />}>Delete</Buttons>,
-                <Buttons icon={<EditOutlined />}>Edit</Buttons>,
-                <Buttons icon={<DownloadOutlined />}>Download</Buttons>,
-                <Button type='primary'>Action</Button>
+                <Buttons icon={<DeleteOutlined />}>Delete</Buttons>
+                <Buttons icon={<EditOutlined />}>Edit</Buttons>
+                <Buttons icon={<DownloadOutlined />}>Download</Buttons>
+                <Buttons type='primary'>Action</Buttons>
             </>}
         >
 
             <Space direction='vertical' size={defaultSizeSpace} style={{ width: '100%' }}>
-                <Section title='User Info'>
-                    <DescriptionContainer size='small' bordered column={{ md: 2, xs: 1 }}>
-                        <Descriptions.Item label='ID'>{id}</Descriptions.Item>
-                        <Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
-                        <Descriptions.Item label='No Telephone'>{phoneNumber}</Descriptions.Item>
-                        <Descriptions.Item label='Email'>{email}</Descriptions.Item>
+                <Section title="User Info">
+                    <DescriptionContainer size='small' bordered>
+                        <Descriptions.Item label='ID'>2</Descriptions.Item>
+                        <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
+                        <Descriptions.Item label='No Telephone'>+628521341231</Descriptions.Item>
+                        <Descriptions.Item label='Email'>john@cena.com</Descriptions.Item>
                     </DescriptionContainer>
                 </Section>
 
                 <Section title='Advanced Information'>
-                    <DescriptionContainer size='small' bordered column={{ md: 2, xs: 1 }}>
-                        <Descriptions.Item label='Identity Number'>{identityNumber}</Descriptions.Item>
-                        <Descriptions.Item label='Gender'>{gender}</Descriptions.Item>
+                    <DescriptionContainer size='small' bordered>
+                        <Descriptions.Item label='ID'>2</Descriptions.Item>
+                        <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
                         <Descriptions.Item label='Address Link' span={2}>
                             http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
                         </Descriptions.Item>
                     </DescriptionContainer>
-
 
                     <SectionHeader
                         title='Table Title'
@@ -117,7 +133,9 @@ const UserDetailPage: React.FC = (props: IProps) => {
             </Space>
 
         </MainLayout>
-    );
-};
+    )
+}
 
-export default UserDetailPage;
+
+export default DetailBasicPage;
+

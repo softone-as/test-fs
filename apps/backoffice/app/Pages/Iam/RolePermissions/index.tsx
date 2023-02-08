@@ -49,7 +49,7 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 
 const RolePermissionsPage: React.FC = () => {
     return (
-        <MainLayout title="Role Permission">
+        <MainLayout title="Role Permission" breadcrumbs={[]}>
             <h1>Hello</h1>
         </MainLayout>
     );

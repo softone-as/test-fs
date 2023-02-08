@@ -20,6 +20,7 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 type DataType = {
     birthDate: string;
@@ -40,8 +41,8 @@ interface IProps extends TInertiaProps {
 }
 
 const PermissionPage: React.FC = (props: IProps) => {
-    const { setQueryParams } = useTableFilter<DataType>();
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const { setQueryParams, status: { isFetching } } = useTableFilter<DataType>()
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
     const columns: ColumnsType<DataType> = [
         {
@@ -133,6 +134,7 @@ const PermissionPage: React.FC = (props: IProps) => {
 
     return (
         <MainLayout
+            breadcrumbs={Breadcrumbs.Permissions.INDEX}
             title="Permissions"
             topActions={
                 <>
@@ -236,12 +238,8 @@ const PermissionPage: React.FC = (props: IProps) => {
                 }))}
                 total={props?.meta?.total}
                 perPage={props.meta.perPage}
-                onPageChange={(page, pageSize) =>
-                    setQueryParams({
-                        page: page.toString(),
-                        per_page: pageSize.toString(),
-                    })
-                }
+                onPageChange={(page, pageSize) => setQueryParams({ page: page.toString(), per_page: pageSize.toString() })}
+                loading={isFetching}
             />
         </MainLayout>
     );

@@ -1,42 +1,19 @@
-import { Breadcrumb, Col, Row, Space } from 'antd';
+import { Col, Row, Space } from 'antd';
 import Title from 'antd/es/typography/Title';
+import { TBreadcrumbsItem } from 'apps/backoffice/app/Modules/Common/Entities';
 import React from 'react';
-
-export interface IBreadcrumbItem {
-    title: string;
-    to?: string;
-}
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 interface IProps {
     title: string;
     topActions?: React.ReactNode;
-    breadcrumbs?: IBreadcrumbItem[];
+    breadcrumbs?: TBreadcrumbsItem[];
 }
 
 export const PageHeader: React.FC<IProps> = (props: IProps) => {
     return (
         <Row style={{ marginBottom: '24px' }}>
             <Col flex="auto">
-                {props?.breadcrumbs?.length > 0 && (
-                    <Breadcrumb style={{ marginBottom: '8px' }}>
-                        {props?.breadcrumbs?.map(({ title, to }) => {
-                            return !to ? (
-                                <Breadcrumb.Item key={title}>
-                                    <span
-                                        style={{
-                                            color: 'rgba(0, 0, 0, 0.88)',
-                                        }}
-                                    >
-                                        {title}
-                                    </span>
-                                </Breadcrumb.Item>
-                            ) : (
-                                <Breadcrumb.Item key={title}>
-                                    <a href={to}>{title}</a>
-                                </Breadcrumb.Item>
-                            );
-                        })}
-                    </Breadcrumb>
-                )}
+                {props?.breadcrumbs?.length > 0 && <Breadcrumbs breadcrumbs={props.breadcrumbs} />}
 
                 <Title style={{ fontSize: '24px', lineHeight: '32px' }}>
                     {props.title}
