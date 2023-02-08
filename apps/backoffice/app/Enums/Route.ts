@@ -44,6 +44,8 @@ export const Route = {
     CreateUser: '/users/create',
     EditUser: '/users/edit',
 
+    LogActivity: '/logs',
+
     Home: '/dashboard/page',
     Dashboard: '/',
     Logout: '/auth/logout',
@@ -91,6 +93,12 @@ export const RouteList: RouteListType[] = [
                 icon: RiShieldUserLine,
             },
         ],
+    },
+    {
+        permissions: [],
+        name: 'Logs',
+        href: Route.LogActivity,
+        icon: RiShieldUserLine,
     },
     {
         permissions: [PERMISSION_BACKOFFICE_SHOW_CONFIG],
