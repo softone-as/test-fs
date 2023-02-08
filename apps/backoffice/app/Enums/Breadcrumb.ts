@@ -7,6 +7,37 @@ const Dashboard = {
     ],
 };
 
+const Profile = {
+    INDEX: [
+        {
+            label: 'Profile',
+            path: '/profile',
+        },
+    ],
+
+    EDIT: [
+        {
+            label: 'Profile',
+            path: '/profile',
+        },
+        {
+            label: 'Edit Profile',
+            path: '/profile/edit/',
+        },
+    ],
+
+    EDITPASSWORD: [
+        {
+            label: 'Profile',
+            path: '/profile',
+        },
+        {
+            label: 'Edit Password',
+            path: '/profile/edit/password',
+        },
+    ],
+};
+
 const Permissions = {
     INDEX: [
         {
@@ -64,4 +95,4 @@ const Users = {
     ],
 };
 
-export const Breadcrumbs = { Users, Dashboard, Permissions, Roles };
+export const Breadcrumbs = { Users, Profile, Dashboard, Permissions, Roles };

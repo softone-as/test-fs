@@ -3,21 +3,21 @@ import { ProfileEditPasswordRequest } from '../requests/profile-edit-password.re
 import { ProfileEditRequest } from '../requests/profile-edit.request';
 import { ProfileService } from '../services/profile.service';
 import * as bcrypt from 'bcrypt';
-import { ProfileUserResponse } from '../responses/profile.response';
+import { ProfileResponse } from '../responses/profile.response';
 
 @Injectable()
 export class ProfileApplication {
     constructor(private readonly profileService: ProfileService) {}
 
-    async findById(id: number): Promise<ProfileUserResponse> {
+    async findOneById(id: number): Promise<ProfileResponse> {
         const data = await this.profileService.findOneById(id);
-        return ProfileUserResponse.fromEntity(data);
+        return ProfileResponse.fromEntity(data);
     }
 
     async edit(
         id: number,
         request: ProfileEditRequest,
-    ): Promise<ProfileUserResponse> {
+    ): Promise<ProfileResponse> {
         const user = await this.profileService.findOneById(id);
 
         user.fullname = request.fullname;
@@ -30,18 +30,23 @@ export class ProfileApplication {
         // Don't use object assign because not all field updatable
 
         const data = await this.profileService.update(id, user);
-        return ProfileUserResponse.fromEntity(data);
+        return ProfileResponse.fromEntity(data);
+    }
+
+    async findOneByIdOnlyPassword(id: number): Promise<ProfileResponse> {
+        const data = await this.profileService.findOneById(id);
+        return ProfileResponse.fromEntity(data);
     }
 
     async editPassword(
         id: number,
         request: ProfileEditPasswordRequest,
-    ): Promise<ProfileUserResponse> {
+    ): Promise<ProfileResponse> {
         const user = await this.profileService.findOneById(id);
 
         user.password = await bcrypt.hash(request.password, 10);
 
         const data = await this.profileService.update(id, user);
-        return ProfileUserResponse.fromEntity(data);
+        return ProfileResponse.fromEntity(data);
     }
 }

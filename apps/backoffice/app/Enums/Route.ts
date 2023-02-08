@@ -22,6 +22,10 @@ export type RouteListType = RouteType & {
 };
 
 export const Route = {
+    Profile: '/profile',
+    EditProfile: '/profile/edit',
+    EditProfilePassword: '/profile/edit/password',
+
     Products: '/products',
     CreateProduct: '/products/create',
     EditProduct: '/products/edit',
@@ -109,6 +113,10 @@ export const RouteList: RouteListType[] = [
 ];
 
 export const EndpointRoute = {
+    Profile: '/profile',
+    EditProfile: '/profile/edit',
+    EditProfilePassword: '/profile/edit/password',
+
     AdminLogin: '/auth/login',
     ForgotPassword: '/auth/forgot-password',
     ConfirmForgotPassword: '/auth/confirm-forgot-password',

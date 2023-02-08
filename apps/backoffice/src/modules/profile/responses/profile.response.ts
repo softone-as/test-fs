@@ -2,9 +2,9 @@ import { OmitType } from '@nestjs/swagger';
 import { User } from 'entities/iam/user.entity';
 import { IUser } from 'interface-models/iam/user.interface';
 
-export class ProfileUserResponse extends OmitType(User, ['password']) {
-    static fromEntity(entity: IUser): ProfileUserResponse {
-        const response = new ProfileUserResponse();
+export class ProfileResponse extends OmitType(User, ['password']) {
+    static fromEntity(entity: IUser): ProfileResponse {
+        const response = new ProfileResponse();
 
         response.id = entity.id;
         response.roles = entity.roles;

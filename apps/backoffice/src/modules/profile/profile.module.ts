@@ -9,13 +9,14 @@ import { ProfileService } from './services/profile.service';
 import { User } from 'entities/iam/user.entity';
 import { Role } from 'entities/iam/role.entity';
 import { Permission } from 'entities/iam/permission.entity';
+import { ProfilePasswordController } from './controllers/profile-password.controller';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([User, Role, Permission, RolePermission]),
         CacheModule,
     ],
-    controllers: [ProfileController],
+    controllers: [ProfilePasswordController, ProfileController],
     providers: [InertiaAdapter, ProfileApplication, ProfileService],
 })
 export class ProfileModule {}

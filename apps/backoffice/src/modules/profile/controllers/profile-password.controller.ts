@@ -4,44 +4,35 @@ import { IUser } from 'interface-models/iam/user.interface';
 import { LoggedInGuard } from '../../auth/guards/logged-in.guard';
 import { GetUserLogged } from '../../iam/decorators/get-user.decorator';
 import { ProfileApplication } from '../applications/profile.application';
-import { ProfileEditRequest } from '../requests/profile-edit.request';
+import { ProfileEditPasswordRequest } from '../requests/profile-edit-password.request';
 
-@Controller('profile')
+@Controller('profile/edit/password')
 @UseGuards(LoggedInGuard)
-export class ProfileController {
+export class ProfilePasswordController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
         private readonly profileApplication: ProfileApplication,
     ) {}
 
     @Get()
-    async detailPage(@GetUserLogged() user: IUser): Promise<void> {
-        const data = await this.profileApplication.findOneById(user.id);
-        return this.inertiaAdapter.render({
-            component: 'Profile',
-            props: {
-                data,
-            },
-        });
-    }
-
-    @Get('edit')
     async editPage(@GetUserLogged() user: IUser): Promise<void> {
-        const data = await this.profileApplication.findOneById(user.id);
+        const data = await this.profileApplication.findOneByIdOnlyPassword(
+            user.id,
+        );
         return this.inertiaAdapter.render({
-            component: 'Profile/FormProfile',
+            component: 'Profile/FormProfilePassword',
             props: {
                 data,
             },
         });
     }
 
-    @Put('edit')
-    async edit(
+    @Put()
+    async editPassword(
         @GetUserLogged() user: IUser,
-        @Body() request: ProfileEditRequest,
+        @Body() request: ProfileEditPasswordRequest,
     ): Promise<void> {
-        await this.profileApplication.edit(user.id, request);
+        await this.profileApplication.editPassword(user.id, request);
         return this.inertiaAdapter.successResponse('/profile', 'Sukses edit');
     }
 }
