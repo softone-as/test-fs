@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Space, Tooltip, Button, Dropdown } from 'antd';
-import { EyeOutlined, EditOutlined, DeleteOutlined, MoreOutlined } from '@ant-design/icons';
+import {
+    EyeOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    MoreOutlined,
+} from '@ant-design/icons';
 import { iconActionTableStyle } from '../../../Utils/theme';
 
 type ButtonType = 'view' | 'edit' | 'delete' | 'custom';
@@ -69,12 +74,14 @@ export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
 
     return isMobile ? (
         <Dropdown
-            overlayStyle={{ position: "revert-layer", top: "10px" }}
+            overlayStyle={{ position: 'revert-layer', top: '25px' }}
             trigger={['click']}
             overlay={
                 <Space direction="vertical">
                     <Space wrap>
-                        {actions.slice(0, 3).map(action => renderButton(action))}
+                        {actions
+                            .slice(0, 3)
+                            .map((action) => renderButton(action))}
                     </Space>
                 </Space>
             }
@@ -84,7 +91,7 @@ export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
         </Dropdown>
     ) : (
         <Space direction="vertical">
-            <Space wrap>{actions.map(action => renderButton(action))}</Space>
+            <Space wrap>{actions.map((action) => renderButton(action))}</Space>
         </Space>
-    )
+    );
 };
