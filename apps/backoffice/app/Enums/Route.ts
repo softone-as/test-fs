@@ -20,6 +20,10 @@ export type RouteListType = RouteType & {
 };
 
 export const Route = {
+    Profile: '/profile',
+    EditProfile: '/profile/edit',
+    EditProfilePassword: '/profile/edit/password',
+
     Products: '/products',
     CreateProduct: '/products/create',
     EditProduct: '/products/edit',
@@ -47,6 +51,13 @@ export const Route = {
     Home: '/dashboard/page',
     Dashboard: '/',
     Logout: '/auth/logout',
+
+    SampleDetailBasic: '/sample/detail/basic',
+    SampleDetailAdvanced: '/sample/detail/advanced',
+
+    SampleFormBasic: '/sample/form/basic',
+    SampleFormStep: '/sample/form/step',
+    SampleFormAdvanced: '/sample/form/advanced',
 };
 
 export const RouteList: RouteListType[] = [
@@ -95,6 +106,10 @@ export const RouteList: RouteListType[] = [
 ];
 
 export const EndpointRoute = {
+    Profile: '/profile',
+    EditProfile: '/profile/edit',
+    EditProfilePassword: '/profile/edit/password',
+
     AdminLogin: '/auth/login',
     ForgotPassword: '/auth/forgot-password',
     ConfirmForgotPassword: '/auth/confirm-forgot-password',
