@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
     DataTable,
     TOnSort,
@@ -187,73 +187,79 @@ const UsersPage: React.FC = (props: IProps) => {
     };
 
     // Notification when user's created is success
-    pageProps.success != null &&
-        useNotification({
-            type: 'success',
-            message: pageProps.success.message,
-        });
+    const successNotification = useMemo(() => {
+        if (pageProps.success != null) {
+            return useNotification({
+                type: 'success',
+                message: pageProps.success.message,
+            });
+        }
+    }, [pageProps.success]);
 
     return (
         <MainLayout breadcrumbItems={Breadcrumbs.Users.INDEX}>
-            <PageHeader
-                title="User List"
-                topActions={[
-                    <Button
-                        size="large"
-                        icon={<FileExcelOutlined />}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        Import
-                    </Button>,
-                    <Link href="users/create">
-                        <Button size="large" type="primary">
-                            New User
-                        </Button>
-                    </Link>,
-                ]}
-            />
-            <FilterSection
-                searchValue={filters.search}
-                onSearch={handleSearch}
-                selectedRows={selectedRowKeys}
-                batchActionMenus={batchActionMenus}
-                filters={[
-                    <Select
-                        placeholder="Gender"
-                        defaultValue={filters.gender}
-                        options={genderOptions}
-                        onChange={handleFilterGender}
-                        allowClear
-                        style={{ width: '90px' }}
-                    />,
-                    <DateRangePicker
-                        range={10}
-                        onChange={handleRange}
-                        defaultValue={[
-                            dayjs(filters.start_at),
-                            dayjs(filters.end_at),
-                        ]}
-                    />,
-                ]}
-            />
-            <DataTable
-                rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
-                columns={columns}
-                dataSource={props.data.map((item) => ({
-                    ...item,
-                    key: item.id,
-                }))}
-                meta={props.meta}
-                onSort={handleSort}
-                onPageChange={(page, pageSize) =>
-                    setQueryParams({ page: page, per_page: pageSize })
-                }
-                loading={isFetching}
-            />
+            <>
+                {successNotification}
+                <PageHeader
+                    title="User List"
+                    topActions={[
+                        <Button
+                            size="large"
+                            icon={<FileExcelOutlined />}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            Import
+                        </Button>,
+                        <Link href="users/create">
+                            <Button size="large" type="primary">
+                                New User
+                            </Button>
+                        </Link>,
+                    ]}
+                />
+                <FilterSection
+                    searchValue={filters.search}
+                    onSearch={handleSearch}
+                    selectedRows={selectedRowKeys}
+                    batchActionMenus={batchActionMenus}
+                    filters={[
+                        <Select
+                            placeholder="Gender"
+                            defaultValue={filters.gender}
+                            options={genderOptions}
+                            onChange={handleFilterGender}
+                            allowClear
+                            style={{ width: '90px' }}
+                        />,
+                        <DateRangePicker
+                            range={10}
+                            onChange={handleRange}
+                            defaultValue={[
+                                dayjs(filters.start_at),
+                                dayjs(filters.end_at),
+                            ]}
+                        />,
+                    ]}
+                />
+                <DataTable
+                    rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                    columns={columns}
+                    dataSource={props.data.map((item) => ({
+                        ...item,
+                        key: item.id,
+                    }))}
+                    meta={props.meta}
+                    onSort={handleSort}
+                    onPageChange={(page, pageSize) =>
+                        setQueryParams({ page: page, per_page: pageSize })
+                    }
+                    loading={isFetching}
+                />
+            </>
         </MainLayout>
     );
 };
