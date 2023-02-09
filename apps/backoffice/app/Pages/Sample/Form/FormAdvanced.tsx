@@ -20,6 +20,7 @@ import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { useTableFilter } from '../../../Utils/hooks';
+import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 
 type DataType = {
     key: string;
@@ -100,8 +101,8 @@ const prefixSelector = (
     </Form.Item>
 );
 
-const FormAdvanced = () => {
-    const { setQueryParams } = useTableFilter<DataType>();
+const FormAdvanced = (props: TInertiaProps) => {
+    const { setQueryParams } = useTableFilter();
 
     const [form] = Form.useForm();
 
@@ -335,7 +336,7 @@ const FormAdvanced = () => {
 
                     <SectionHeader title="Section Table List" top divider />
 
-                    <DataTable<DataType>
+                    <DataTable
                         rowSelection={{
                             selectedRowKeys,
                             onChange: onSelectChange,
@@ -347,13 +348,9 @@ const FormAdvanced = () => {
                         }}
                         columns={mergedColumns}
                         dataSource={data}
-                        total={3}
-                        perPage={10}
+                        meta={props.meta}
                         onPageChange={(page, pageSize) =>
-                            setQueryParams({
-                                page: page?.toString(),
-                                size: pageSize?.toString(),
-                            })
+                            setQueryParams({ page: page, per_page: pageSize })
                         }
                     />
                 </FormContainer>

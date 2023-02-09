@@ -21,6 +21,7 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
+import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 
 const columns: ColumnsType<IUser> = [
     {
@@ -90,7 +91,7 @@ const data: IUser[] = [
     },
 ];
 
-const DetailBasicPage: React.FC = () => {
+const DetailBasicPage: React.FC = (props: TInertiaProps) => {
     return (
         <MainLayout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
             <PageHeader
@@ -142,8 +143,7 @@ const DetailBasicPage: React.FC = () => {
                     <DataTable<IUser>
                         columns={columns}
                         dataSource={data}
-                        total={3}
-                        perPage={10}
+                        meta={props.meta}
                         onPageChange={() => {
                             return;
                         }}

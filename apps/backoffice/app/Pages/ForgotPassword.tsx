@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import React from 'react';
-import { Form, Space, Input, Button, Typography, notification } from 'antd';
+import { Form, Space, Input, Button, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 import { LoginLayout } from '../Layouts';
@@ -22,9 +22,9 @@ const ForgotPassword = (props: TInertiaProps) => {
 
     const [form] = Form.useForm<TForgotPassword>();
 
-    const [contextHolder] = notification.useNotification();
+    //TODO Open notification when success / failed request new password
+    // const [api, contextHolder] = notification.useNotification();
 
-    // TODO : Error Husky pre Commit
     // const openNotification = (type: string) => {
     //     if (type === 'error') {
     //         api.error({
@@ -48,7 +48,6 @@ const ForgotPassword = (props: TInertiaProps) => {
     };
     return (
         <LoginLayout title="Forgot Password">
-            {contextHolder}
             <Space
                 size={16}
                 direction="vertical"

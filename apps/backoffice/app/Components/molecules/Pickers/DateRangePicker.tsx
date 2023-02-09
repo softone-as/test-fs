@@ -8,15 +8,17 @@ export type TDateRangePicker = {
     range?: number;
     onChange: (val: TRangeValue) => void;
     hasPresets?: boolean;
+    defaultValue?: TRangeValue;
 };
 
 export const DateRangePicker = ({
     onChange,
     range = 7,
     hasPresets = true,
+    defaultValue,
 }: TDateRangePicker) => {
     const [dates, setDates] = useState<TRangeValue>(null);
-    const [value, setValue] = useState<TRangeValue>(null);
+    const [value, setValue] = useState<TRangeValue>(defaultValue);
 
     const disabledDate = (current: Dayjs) => {
         if (!dates) {

@@ -1,43 +1,60 @@
 import React, { useState } from 'react';
-import { DataTable } from '../../../Components/organisms/DataTable';
+import {
+    DataTable,
+    TOnSort,
+    sortOrder,
+} from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
+import {} from '../../../Utils/notification';
 import { FilterSection } from '../../../Components/organisms/FilterSection';
-import { Button, MenuProps, Select } from 'antd';
+import { Button, MenuProps, Select, Tag } from 'antd';
 import {
     DateRangePicker,
-    DatePicker,
     TRangeValue,
 } from '../../../Components/molecules/Pickers';
-import type { Dayjs } from 'dayjs';
-import { MultiFilterDropdown } from '../../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../../Components/molecules/Headers';
-import {
-    FileExcelOutlined,
-    QuestionCircleOutlined,
-    ShareAltOutlined,
-} from '@ant-design/icons';
-import { Form, Typography, Space } from 'antd';
+import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
+import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
+import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
+import { Inertia } from '@inertiajs/inertia';
+
+import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
+
 import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
+import dayjs from 'dayjs';
 import { isMobileScreen } from '../../../Utils/utils';
 
 interface IProps extends TInertiaProps {
-    data: IUser[];
+    data: UserResponse[];
 }
+
+type TFilters = {
+    gender?: string;
+    start_at?: string;
+    end_at?: string;
+};
 
 const UsersPage: React.FC = (props: IProps) => {
     const {
         setQueryParams,
+        filters,
         status: { isFetching },
-    } = useTableFilter<IUser>();
-
+    } = useTableFilter<TFilters>();
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const isMobile = isMobileScreen();
+
+    const handleBatchDelete = () => {
+        return Inertia.post(`/users/deletes`, {
+            ids: selectedRowKeys,
+        });
+    };
 
     const columns: ColumnsType<IUser> = [
         {
@@ -49,22 +66,40 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Name',
             dataIndex: 'fullname',
             key: 'fullname',
+            sorter: true,
+            sortOrder: sortOrder({
+                columnKey: 'fullname',
+                order: filters.order,
+                sort: filters.sort,
+            }),
         },
         {
             title: 'Gender',
             dataIndex: 'gender',
             key: 'gender',
             render: (value) =>
-                (isMobileScreen && (value === 'male' ? 'm' : 'f')) || value,
+                (isMobile && (value === 'male' ? 'm' : 'f')) || value,
         },
         {
             title: 'Phone Number',
             dataIndex: 'phoneNumber',
             key: 'phoneNumber',
-            render: (value) => (isMobileScreen ? '+62xxx' : value),
+            render: (value) => (isMobile ? '+62xxx' : value),
         },
         {
-            title: isMobileScreen ? null : 'Action',
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Roles',
+            dataIndex: 'roles',
+            key: 'roles',
+            render: (roles: RoleResponse[]) =>
+                roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>),
+        },
+        {
+            title: 'Action',
             key: 'action',
             width: '142px',
             render: () => (
@@ -93,9 +128,10 @@ const UsersPage: React.FC = (props: IProps) => {
         },
     ];
 
-    const handleSearch = (val) => {
-        return setQueryParams({ search: val });
-    };
+    const genderOptions = [
+        { label: 'Pria', value: GenderEnum.LakiLaki },
+        { label: 'Wanita', value: GenderEnum.Perempuan },
+    ];
 
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
@@ -108,27 +144,36 @@ const UsersPage: React.FC = (props: IProps) => {
             onClick: () =>
                 useModal({
                     title: 'Are You Sure? ',
-                    type: 'warning',
-                    onOk: () => alert('Ok Delete'),
+                    type: 'confirm',
+                    onOk: handleBatchDelete,
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },
         },
     ];
 
-    const handleRange = (val: TRangeValue) =>
-        console.log(val.map((item) => item.toDate()));
-    const handleDate = (val: Dayjs) => console.log(val.toDate());
-
-    const handleStatus = (data) => {
-        console.log('DATa Status: ', data);
+    const handleRange = (val: TRangeValue) => {
+        return setQueryParams({
+            start_at: val?.[0].toISOString(),
+            end_at: val?.[1].toISOString(),
+        });
     };
 
-    const [form] = Form.useForm<{ status: string }>();
-
-    const handleFinish = (values) => {
-        console.log('FINSIH : ', values);
+    const handleFilterGender = (data) => {
+        return setQueryParams({ gender: data });
     };
+
+    const handleSort = (sorter: TOnSort<UserResponse>) => {
+        return setQueryParams({
+            sort: sorter.columnKey as string,
+            order: sorter.order,
+        });
+    };
+
+    const handleSearch = (value) => {
+        setQueryParams({ search: value });
+    };
+
     return (
         <MainLayout breadcrumbItems={Breadcrumbs.Users.INDEX}>
             <PageHeader
@@ -153,90 +198,40 @@ const UsersPage: React.FC = (props: IProps) => {
                 ]}
             />
             <FilterSection
-                searchHandler={handleSearch}
+                searchValue={filters.search}
+                onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
                 filters={[
-                    <MultiFilterDropdown
-                        form={form}
-                        title="Filter"
-                        initialValues={{ status: '' }}
-                        onFinish={handleFinish}
-                        onReset={() => console.log('Hello')}
-                        fieldsForm={[
-                            <Form.Item
-                                label={
-                                    <Space size="small">
-                                        <Typography.Text>
-                                            Status
-                                        </Typography.Text>{' '}
-                                        <QuestionCircleOutlined
-                                            style={{
-                                                color: 'rgba(0, 0, 0, 0.45)',
-                                            }}
-                                        />
-                                        <Typography.Text
-                                            style={{
-                                                color: 'rgba(0, 0, 0, 0.45)',
-                                            }}
-                                        >
-                                            (optional)
-                                        </Typography.Text>
-                                    </Space>
-                                }
-                                name="status"
-                                rules={[{ required: true }]}
-                            >
-                                <Select
-                                    options={[
-                                        { label: 'Done', value: 'done' },
-                                        { label: 'Pending', value: 'pending' },
-                                    ]}
-                                    onChange={handleStatus}
-                                    allowClear
-                                    style={{ width: '100%' }}
-                                />
-                            </Form.Item>,
-                            <Form.Item label="Status" name="status">
-                                <Select
-                                    options={[
-                                        { label: 'Done', value: 'done' },
-                                        { label: 'Pending', value: 'pending' },
-                                    ]}
-                                    onChange={handleStatus}
-                                    allowClear
-                                    style={{ width: '100%' }}
-                                />
-                            </Form.Item>,
-                            <Form.Item label="Status" name="status">
-                                <Select
-                                    options={[
-                                        { label: 'Done', value: 'done' },
-                                        { label: 'Pending', value: 'pending' },
-                                    ]}
-                                    onChange={handleStatus}
-                                    allowClear
-                                    style={{ width: '100%' }}
-                                />
-                            </Form.Item>,
+                    <Select
+                        placeholder="Gender"
+                        defaultValue={filters.gender}
+                        options={genderOptions}
+                        onChange={handleFilterGender}
+                        allowClear
+                        style={{ width: '90px' }}
+                    />,
+                    <DateRangePicker
+                        range={10}
+                        onChange={handleRange}
+                        defaultValue={[
+                            dayjs(filters.start_at),
+                            dayjs(filters.end_at),
                         ]}
                     />,
-
-                    <DateRangePicker range={10} onChange={handleRange} />,
-                    <DatePicker onChange={handleDate} />,
                 ]}
             />
             <DataTable
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
                 columns={columns}
-                dataSource={props?.data.map((item) => ({
+                dataSource={props.data.map((item) => ({
                     ...item,
                     key: item.id,
                 }))}
-                total={props?.meta?.total}
-                perPage={props.meta.perPage}
-                onPageChange={(page) =>
-                    setQueryParams({ page: page.toString() })
+                meta={props.meta}
+                onSort={handleSort}
+                onPageChange={(page, pageSize) =>
+                    setQueryParams({ page: page, per_page: pageSize })
                 }
                 loading={isFetching}
             />

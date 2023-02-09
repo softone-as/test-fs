@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Space, Tooltip, Button, Dropdown, Card } from 'antd';
 import {
     EyeOutlined,
@@ -7,6 +7,7 @@ import {
     MoreOutlined,
 } from '@ant-design/icons';
 import { iconActionTableStyle } from '../../../Utils/theme';
+import { isMobileScreen } from '../../../Utils/utils';
 
 type ButtonType = 'view' | 'edit' | 'delete' | 'custom';
 
@@ -24,19 +25,7 @@ interface IRowActionProps {
 }
 
 export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        setIsMobile(window.innerWidth <= 768);
-        window.addEventListener('resize', handleWindowResize);
-        return () => {
-            window.removeEventListener('resize', handleWindowResize);
-        };
-    }, []);
-
-    const handleWindowResize = () => {
-        setIsMobile(window.innerWidth <= 768);
-    };
+    const isMobile = isMobileScreen();
 
     const renderButton = (action: IRowActionButtonsProps) => {
         const { type, href, onClick, title, disabled } = action;

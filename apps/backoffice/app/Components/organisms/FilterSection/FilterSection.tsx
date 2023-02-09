@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Col,
     Row,
@@ -10,21 +10,29 @@ import {
     Divider,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { debounce } from 'lodash';
 import { isMobileScreen } from '../../../Utils/utils';
 
 export interface IFilterSection {
-    searchHandler: (search: string) => void;
     filters?: React.ReactNode[];
     selectedRows: React.Key[];
     batchActionMenus: MenuProps['items'];
+    onSearch: (value: string) => void;
+    searchValue: string;
 }
 
 export const FilterSection = (props: IFilterSection) => {
-    const searchHandler = debounce((e) => {
-        e.preventDefault();
-        props.searchHandler(e.target.value);
-    }, 500);
+    const [value, setValue] = useState(props.searchValue);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            props.onSearch(value);
+        }, 500);
+
+        return () => {
+            clearTimeout(timeout);
+        };
+    }, [value]);
+
     return (
         <Row gutter={[8, 0]} align="middle">
             {/* Batch Action */}
@@ -46,7 +54,7 @@ export const FilterSection = (props: IFilterSection) => {
             )}
 
             {/* Filters */}
-            {props.filters.map((item, index) => {
+            {props.filters?.map((item, index) => {
                 return (
                     <Col
                         key={index}
@@ -62,7 +70,8 @@ export const FilterSection = (props: IFilterSection) => {
                 <Input
                     prefix={<SearchOutlined />}
                     placeholder="Search"
-                    onChange={searchHandler}
+                    onChange={(e) => setValue(e.target.value)}
+                    value={value}
                     allowClear
                     style={{ margin: isMobileScreen ? '5px 0' : '2px' }}
                 />

@@ -141,8 +141,12 @@ const UserDetailPage: React.FC = (props: IProps) => {
                     <DataTable<IUser>
                         columns={columns}
                         dataSource={data}
-                        total={3}
-                        perPage={10}
+                        meta={{
+                            page: 1,
+                            perPage: 10,
+                            total: 23,
+                            totalPage: 3,
+                        }}
                         onPageChange={() => {
                             return;
                         }}

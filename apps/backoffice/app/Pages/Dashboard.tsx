@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { DataTable } from '../Components/organisms/DataTable';
+import { DataTable, TOnSort } from '../Components/organisms/DataTable';
 import { MainLayout } from '../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
-import { useTableFilter } from '../Utils/hooks';
 import { useModal } from '../Utils/modal';
 import { FilterSection } from '../Components/organisms/FilterSection';
 import { Button, MenuProps, Select } from 'antd';
@@ -21,6 +20,8 @@ import {
     ShareAltOutlined,
 } from '@ant-design/icons';
 import { Form, Typography, Space } from 'antd';
+import { useTableFilter } from '../Utils/hooks';
+
 import { Breadcrumbs } from '../Enums/Breadcrumb';
 import { RowActionButtons } from '../Components/molecules/RowActionButtons';
 
@@ -43,8 +44,8 @@ interface IProps extends TInertiaProps {
 }
 
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
-    const { setQueryParams } = useTableFilter<DataType>();
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const { setQueryParams, filters } = useTableFilter();
 
     const columns: ColumnsType<DataType> = [
         {
@@ -97,10 +98,6 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         },
     ];
 
-    const handleSearch = (val) => {
-        return setQueryParams({ search: val });
-    };
-
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
@@ -134,6 +131,16 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         console.log('FINSIH : ', values);
     };
 
+    const handleSort = (sorter: TOnSort<DataType>) => {
+        return setQueryParams({
+            sort: sorter.columnKey as string,
+            order: sorter.order,
+        });
+    };
+    const handleSearch = (value) => {
+        setQueryParams({ search: value });
+    };
+
     return (
         <MainLayout breadcrumbItems={Breadcrumbs.Dashboard.INDEX}>
             <PageHeader
@@ -156,7 +163,8 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 ]}
             />
             <FilterSection
-                searchHandler={handleSearch}
+                searchValue={filters.search}
+                onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
                 filters={[
@@ -236,13 +244,10 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                     ...item,
                     key: item.id,
                 }))}
-                total={props?.meta?.total}
-                perPage={props?.meta?.perPage}
+                meta={props?.meta}
+                onSort={handleSort}
                 onPageChange={(page, pageSize) =>
-                    setQueryParams({
-                        page: page?.toString(),
-                        size: pageSize?.toString(),
-                    })
+                    setQueryParams({ page: page, per_page: pageSize })
                 }
             />
         </MainLayout>
