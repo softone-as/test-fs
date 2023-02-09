@@ -82,18 +82,20 @@ import * as Sentry from '@sentry/node';
                 },
             },
         }),
-        SentryModule.forRoot({
-            dsn: config.sentry.dsn,
-            attachStacktrace: true,
-            debug: false,
-            environment: config.nodeEnv,
-            ignoreErrors: [
-                'EntityNotFoundError',
-                'QueryFailedError',
-                'FindRelationsNotFoundError',
-            ],
-            tracesSampleRate: 1.0,
-        }),
+        SentryModule.forRoot(
+            config.sentry.isEnabled == 'true' && {
+                dsn: config.sentry.dsn,
+                attachStacktrace: true,
+                debug: false,
+                environment: config.nodeEnv,
+                ignoreErrors: [
+                    'EntityNotFoundError',
+                    'QueryFailedError',
+                    'FindRelationsNotFoundError',
+                ],
+                tracesSampleRate: 1.0,
+            },
+        ),
 
         // write your module here
         CacheModule,
@@ -192,7 +194,6 @@ export class AppModule implements NestModule {
                 InertiaSharePropsMiddleware,
                 UserDetailMiddleware,
                 NotificationUnreadMiddleware,
-                // SentryQueryMiddleware,
             )
             .forRoutes('*');
     }
