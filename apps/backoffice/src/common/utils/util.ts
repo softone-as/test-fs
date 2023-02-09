@@ -4,6 +4,7 @@ import { config } from 'apps/backoffice/src/config';
 import BigNumber from 'bignumber.js';
 import { Request } from 'express';
 import * as fs from 'fs';
+import * as bcrypt from 'bcrypt';
 import * as path from 'path';
 import { InternalServerErrorException } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
@@ -13,6 +14,10 @@ import { snakeCase } from 'snake-case';
 export class Utils {
     static md5(contents: string): string {
         return crypto.createHash('md5').update(contents).digest('hex');
+    }
+
+    static async bcryptHash(contents: string): Promise<string> {
+        return await bcrypt.hash(contents, 10);
     }
 
     static nowTime(): number {
