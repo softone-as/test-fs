@@ -170,3 +170,8 @@ yarn schema:drop && yarn migrate && yarn seed:run
 ├── node_modules (generated)           → NPM dependencies
 └── test                               → All unit test writen
 ```
+
+# VSCode Extentions
+
+-   [Prettier - Code Formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+-   [Eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
