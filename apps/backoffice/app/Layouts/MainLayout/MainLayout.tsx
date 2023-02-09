@@ -81,16 +81,18 @@ const menuItems: MenuItem[] = [
         theme: 'light',
         children: [
             {
-                key: '3-1',
-                label: <Link href="/sample/form/basic">Form Basic</Link>,
+                key: Route.SampleFormBasic,
+                label: <Link href={Route.SampleFormBasic}>Form Basic</Link>,
             },
             {
-                key: '3-2',
-                label: <Link href="/sample/form/step">Form Step</Link>,
+                key: Route.SampleFormStep,
+                label: <Link href={Route.SampleFormStep}>Form Step</Link>,
             },
             {
-                key: '3-3',
-                label: <Link href="/sample/form/advanced">Form Advanced</Link>,
+                key: Route.SampleFormAdvanced,
+                label: (
+                    <Link href={Route.SampleFormAdvanced}>Form Advanced</Link>
+                ),
             },
         ],
     },
@@ -101,25 +103,18 @@ const menuItems: MenuItem[] = [
         theme: 'light',
         children: [
             {
-                key: '4-1',
-                label: <Link href="/sample/detail/basic">Detail Basic</Link>,
+                key: Route.SampleDetailBasic,
+                label: <Link href={Route.SampleDetailBasic}>Detail Basic</Link>,
             },
             {
-                key: '4-2',
+                key: Route.SampleDetailAdvanced,
                 label: (
-                    <Link href="/sample/detail/advanced">Detail Advanced</Link>
+                    <Link href={Route.SampleDetailAdvanced}>
+                        Detail Advanced
+                    </Link>
                 ),
             },
         ],
-    },
-    {
-        key: Route.Logout,
-        label: (
-            <Link href="#" onClick={handleLogout}>
-                Logout
-            </Link>
-        ),
-        icon: <MailOutlined />,
     },
 ];
 
@@ -198,40 +193,42 @@ export const MainLayout: React.FC<IProps> = ({
                             }}
                         >
                             {/* User Icon */}
-                            <Space size="small">
-                                <Avatar
-                                    size="default"
-                                    icon={<UserOutlined />}
-                                />
+                            <Link href={Route.Profile}>
+                                <Space size="small">
+                                    <Avatar
+                                        size="default"
+                                        icon={<UserOutlined />}
+                                    />
 
-                                <Space.Compact
-                                    direction="vertical"
-                                    size="small"
-                                >
-                                    {/* Username */}
-                                    <Text
-                                        style={{
-                                            fontWeight: '500',
-                                            fontSize: '14px',
-                                            color: '#ffffff',
-                                        }}
+                                    <Space.Compact
+                                        direction="vertical"
+                                        size="small"
                                     >
-                                        {pageProps.userDetail?.fullname}
-                                    </Text>
+                                        {/* Username */}
+                                        <Text
+                                            style={{
+                                                fontWeight: '500',
+                                                fontSize: '14px',
+                                                color: '#ffffff',
+                                            }}
+                                        >
+                                            {pageProps.userDetail?.fullname}
+                                        </Text>
 
-                                    {/* User Roles */}
-                                    <Text
-                                        style={{
-                                            fontSize: '12px',
-                                            color: '#B5F5EC',
-                                        }}
-                                    >
-                                        {pageProps.userDetail.roles
-                                            ?.map((r) => r.name)
-                                            .join(', ')}
-                                    </Text>
-                                </Space.Compact>
-                            </Space>
+                                        {/* User Roles */}
+                                        <Text
+                                            style={{
+                                                fontSize: '12px',
+                                                color: '#B5F5EC',
+                                            }}
+                                        >
+                                            {pageProps.userDetail.roles
+                                                ?.map((r) => r.name)
+                                                .join(', ')}
+                                        </Text>
+                                    </Space.Compact>
+                                </Space>
+                            </Link>
 
                             {/* Notification Icon */}
                             <Tooltip title="Notifications" placement="right">
