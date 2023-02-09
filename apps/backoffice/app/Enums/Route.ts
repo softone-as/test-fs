@@ -47,6 +47,13 @@ export const Route = {
     Home: '/dashboard/page',
     Dashboard: '/',
     Logout: '/auth/logout',
+
+    SampleDetailBasic: '/sample/detail/basic',
+    SampleDetailAdvanced: '/sample/detail/advanced',
+
+    SampleFormBasic: '/sample/form/basic',
+    SampleFormStep: '/sample/form/step',
+    SampleFormAdvanced: '/sample/form/advanced',
 };
 
 export const RouteList: RouteListType[] = [
