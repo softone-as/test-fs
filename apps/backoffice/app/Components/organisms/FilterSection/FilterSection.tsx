@@ -23,6 +23,8 @@ export interface IFilterSection {
 export const FilterSection = (props: IFilterSection) => {
     const [value, setValue] = useState(props.searchValue);
 
+    const isMobile = isMobileScreen();
+
     useEffect(() => {
         const timeout = setTimeout(() => {
             props.onSearch(value);
@@ -58,7 +60,7 @@ export const FilterSection = (props: IFilterSection) => {
                 return (
                     <Col
                         key={index}
-                        style={{ margin: isMobileScreen ? '5px 0' : '2px' }}
+                        style={{ margin: isMobile ? '5px 0' : '2px' }}
                     >
                         {item}
                     </Col>
@@ -73,7 +75,7 @@ export const FilterSection = (props: IFilterSection) => {
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
                     allowClear
-                    style={{ margin: isMobileScreen ? '5px 0' : '2px' }}
+                    style={{ margin: isMobile ? '5px 0' : '2px' }}
                 />
             </Col>
         </Row>
