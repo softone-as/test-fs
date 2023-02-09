@@ -23,6 +23,7 @@ import {
 import { Form, Typography, Space } from 'antd';
 import { Breadcrumbs } from '../Enums/Breadcrumb';
 import { RowActionButtons } from '../Components/molecules/RowActionButtons';
+import { CheckboxDropdown } from '../Components/molecules/Dropdowns/CheckboxDropdown';
 
 type DataType = {
     birthDate: string;
@@ -36,6 +37,7 @@ type DataType = {
     password: string;
     phoneNumber: string;
     phoneNumberVerifiedAt: string;
+    categories: string;
 };
 
 interface IProps extends TInertiaProps {
@@ -43,7 +45,7 @@ interface IProps extends TInertiaProps {
 }
 
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
-    const { setQueryParams } = useTableFilter<DataType>();
+    const { setQueryParams, filters } = useTableFilter<DataType>();
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
     const columns: ColumnsType<DataType> = [
@@ -160,6 +162,19 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
                 filters={[
+                    <CheckboxDropdown
+                        onChange={(value) => {
+                            setQueryParams({ categories: value.join(',') });
+                        }}
+                        value={filters.categories?.split(',')}
+                        label="Category"
+                        options={[
+                            { label: 'Category 1', value: 'category 1' },
+                            { label: 'Category 2', value: 'category 2' },
+                            { label: 'Category 3', value: 'category 3' },
+                            { label: 'Category 4', value: 'category 4' },
+                        ]}
+                    />,
                     <MultiFilterDropdown
                         form={form}
                         title="Filter"
