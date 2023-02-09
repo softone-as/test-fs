@@ -14,3 +14,15 @@ export default {
 const Template: ComponentStory<typeof DateRangePicker> = (args) => <DateRangePicker {...args} />;
 
 export const DateRangePickerMolecule = Template.bind({});
+
+export const DateRangePickerRange = Template.bind({});
+
+DateRangePickerRange.args = {
+  range: 7,
+};
+
+export const DateRangePickerNoPresets = Template.bind({});
+
+DateRangePickerNoPresets.args = {
+  presets: false,
+};
