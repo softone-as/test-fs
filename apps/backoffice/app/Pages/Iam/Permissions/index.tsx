@@ -1,64 +1,88 @@
 import React, { useState } from 'react';
-import { DataTable, sortOrder, TOnSort } from '../../../Components/organisms/DataTable';
+import {
+    DataTable,
+    sortOrder,
+    TOnSort,
+} from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities'
-import { FilterSection } from '../../../Components/organisms/FilterSection'
+import { TInertiaProps } from '../../../Modules/Inertia/Entities';
+import { FilterSection } from '../../../Components/organisms/FilterSection';
 import { Button, MenuProps, Tag } from 'antd';
 import { PageHeader } from '../../../Components/molecules/Headers';
 import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { useModal } from '../../../Utils/modal'
+import { useModal } from '../../../Utils/modal';
 
-import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response'
+import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
 import { Inertia } from '@inertiajs/inertia';
-import type { ColumnsType } from 'antd/es/table'
-import { useTableFilter } from '../../../Utils/hooks'
+import type { ColumnsType } from 'antd/es/table';
+import { useTableFilter } from '../../../Utils/hooks';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
-
 interface IProps extends TInertiaProps {
-    data: PermissionResponse[],
+    data: PermissionResponse[];
 }
 
 const PermissionPage: React.FC = (props: IProps) => {
-
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-    const { setQueryParams, filters, status: { isFetching } } = useTableFilter()
-
-    const handleDeleteRow = (id) => {
-        return Inertia.get(`/permissions/delete/${id}`)
-    }
+    console.log(props);
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const {
+        setQueryParams,
+        filters,
+        status: { isFetching },
+    } = useTableFilter();
 
     //TODO Confirm Delete Modal Example
-    const deleteModal = (id) => useModal({ title: 'Are You Sure? ', type: 'confirm', onOk: () => handleDeleteRow(id), onCancel: () => { return } })
+    // const handleDeleteRow = (id) => {
+    //     return Inertia.get(`/permissions/delete/${id}`);
+    // };
+
+    // const deleteModal = (id) =>
+    //     useModal({
+    //         title: 'Are You Sure? ',
+    //         type: 'confirm',
+    //         onOk: () => handleDeleteRow(id),
+    //         onCancel: () => {
+    //             return;
+    //         },
+    //     });
 
     const columns: ColumnsType<PermissionResponse> = [
         {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
-
         },
         {
             title: 'Permission Name',
             dataIndex: 'name',
             key: 'name',
             sorter: true,
-            sortOrder: sortOrder({ columnKey: 'name', order: filters.order, sort: filters.sort })
+            sortOrder: sortOrder({
+                columnKey: 'name',
+                order: filters.order,
+                sort: filters.sort,
+            }),
         },
         {
             title: 'Roles',
             dataIndex: 'roles',
             key: 'roles',
             sorter: true,
-            sortOrder: sortOrder({ columnKey: 'roles', order: filters.order, sort: filters.sort }),
-            render: (roles: RoleResponse[]) => roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>)
+            sortOrder: sortOrder({
+                columnKey: 'roles',
+                order: filters.order,
+                sort: filters.sort,
+            }),
+            render: (roles: RoleResponse[]) =>
+                roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>),
         },
         {
             title: 'Key',
             dataIndex: 'key',
             key: 'key',
-            sorter: true
+            sorter: true,
         },
         {
             title: 'Action',
@@ -70,12 +94,12 @@ const PermissionPage: React.FC = (props: IProps) => {
                         {
                             type: 'view',
                             href: `#`,
-                            title: 'view'
+                            title: 'view',
                         },
                         {
                             type: 'edit',
                             href: `#`,
-                            title: 'edit'
+                            title: 'edit',
                         },
                         {
                             type: 'delete',
@@ -87,9 +111,8 @@ const PermissionPage: React.FC = (props: IProps) => {
                     ]}
                 />
             ),
-        }
-
-    ]
+        },
+    ];
 
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
@@ -97,37 +120,57 @@ const PermissionPage: React.FC = (props: IProps) => {
 
     const handleBatchDelete = () => {
         Inertia.post(`/permissions/deletes`, {
-            ids: selectedRowKeys
-        })
-    }
+            ids: selectedRowKeys,
+        });
+    };
 
     const handleSort = (sorter: TOnSort<PermissionResponse>) => {
-        return setQueryParams({ sort: sorter.columnKey as string, order: sorter.order })
-
-    }
+        return setQueryParams({
+            sort: sorter.columnKey as string,
+            order: sorter.order,
+        });
+    };
 
     const batchActionMenus: MenuProps['items'] = [
         {
             key: '1',
             label: 'Delete',
-            onClick: () => useModal({ title: 'Are You Sure? ', type: 'confirm', onOk: () => handleBatchDelete() }),
+            onClick: () =>
+                useModal({
+                    title: 'Are You Sure? ',
+                    type: 'confirm',
+                    onOk: () => handleBatchDelete(),
+                }),
             icon: <ShareAltOutlined />,
-            style: { width: '151px' }
-        }
-    ]
+            style: { width: '151px' },
+        },
+    ];
 
     const handleSearch = (value) => {
-
-        setQueryParams({ search: value })
-    }
-
+        setQueryParams({ search: value });
+    };
 
     return (
-        <MainLayout >
-            <PageHeader title='Permissions' topActions={[
-                <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>,
-                <Button size='large' type='primary'>New User</Button>
-            ]} />
+        <MainLayout breadcrumbItems={Breadcrumbs.Permissions.INDEX}>
+            <PageHeader
+                title="Permissions"
+                topActions={[
+                    <Button
+                        size="large"
+                        icon={<FileExcelOutlined />}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        Import
+                    </Button>,
+                    <Button size="large" type="primary">
+                        New User
+                    </Button>,
+                ]}
+            />
             <FilterSection
                 searchValue={filters.search}
                 onSearch={handleSearch}
@@ -140,7 +183,9 @@ const PermissionPage: React.FC = (props: IProps) => {
                 dataSource={props?.data}
                 meta={props?.meta}
                 onSort={handleSort}
-                onPageChange={(page, pageSize) => setQueryParams({ page: page, per_page: pageSize })}
+                onPageChange={(page, pageSize) =>
+                    setQueryParams({ page: page, per_page: pageSize })
+                }
                 loading={isFetching}
             />
         </MainLayout>

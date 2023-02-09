@@ -1,16 +1,20 @@
-import React, { useState } from 'react'
-import dayjs from 'dayjs'
-import type { Dayjs } from 'dayjs'
-import { DatePicker } from 'antd'
+import React, { useState } from 'react';
+import dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
+import { DatePicker } from 'antd';
 
 export type TRangeValue = [Dayjs | null, Dayjs | null] | null;
 export type TDateRangePicker = {
     range?: number;
     onChange: (val: TRangeValue) => void;
-
+    hasPresets?: boolean;
 };
 
-export const DateRangePicker = ({ onChange, range = 7 }: TDateRangePicker) => {
+export const DateRangePicker = ({
+    onChange,
+    range = 7,
+    hasPresets = true,
+}: TDateRangePicker) => {
     const [dates, setDates] = useState<TRangeValue>(null);
     const [value, setValue] = useState<TRangeValue>(null);
 
@@ -32,24 +36,39 @@ export const DateRangePicker = ({ onChange, range = 7 }: TDateRangePicker) => {
     };
 
     const handleChange = (val) => {
-        setValue(val)
-        onChange(val)
-    }
+        setValue(val);
+        onChange(val);
+    };
 
     return (
-
-        <DatePicker.RangePicker value={dates || value}
-
+        <DatePicker.RangePicker
+            value={dates || value}
             disabledDate={disabledDate}
             onCalendarChange={(val) => setDates(val)}
             onChange={handleChange}
             onOpenChange={onOpenChange}
-            presets={[
-                { label: 'Last 7 Days', value: [dayjs().add(-7, 'd'), dayjs()] },
-                { label: 'Last 14 Days', value: [dayjs().add(-14, 'd'), dayjs()] },
-                { label: 'Last 30 Days', value: [dayjs().add(-30, 'd'), dayjs()] },
-                { label: 'Last 90 Days', value: [dayjs().add(-90, 'd'), dayjs()] },
-            ]}
+            presets={
+                hasPresets
+                    ? [
+                          {
+                              label: 'Last 7 Days',
+                              value: [dayjs().add(-7, 'd'), dayjs()],
+                          },
+                          {
+                              label: 'Last 14 Days',
+                              value: [dayjs().add(-14, 'd'), dayjs()],
+                          },
+                          {
+                              label: 'Last 30 Days',
+                              value: [dayjs().add(-30, 'd'), dayjs()],
+                          },
+                          {
+                              label: 'Last 90 Days',
+                              value: [dayjs().add(-90, 'd'), dayjs()],
+                          },
+                      ]
+                    : null
+            }
         />
-    )
-}
+    );
+};
