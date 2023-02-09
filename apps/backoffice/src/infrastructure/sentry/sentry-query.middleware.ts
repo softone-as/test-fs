@@ -7,7 +7,7 @@ export class SentryQueryMiddleware implements NestMiddleware {
     constructor(private sentryQueryService: SentryQueryService) {}
 
     async use(req: Request, res: Response, next: () => void): Promise<void> {
-        const transaction = this.sentryQueryService.startTransaction(req);
+        const transaction = this.sentryQueryService.startTransaction();
         const nextCall = next();
         this.sentryQueryService.finishTransaction(transaction);
         return nextCall;

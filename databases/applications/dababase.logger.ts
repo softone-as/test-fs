@@ -7,18 +7,18 @@ export class DatabaseLogger {
         private span: Span,
     ) {}
 
-    logQuery(query: string): any {
+    logQuery(query: string): void {
         const transaction = this.sentryQueryService.startTransaction();
         const span = this.sentryQueryService.startSpan(transaction, query);
 
         this.span = span;
     }
 
-    logQuerySlow(): any {
+    logQuerySlow(): void {
         this.sentryQueryService.finishSpan(this.span);
     }
 
-    logQueryError(error: string | Error, query: string): any {
+    logQueryError(error: string | Error, query: string): void {
         const transaction = this.sentryQueryService.startTransaction();
         const span = this.sentryQueryService.startSpan(
             transaction,
