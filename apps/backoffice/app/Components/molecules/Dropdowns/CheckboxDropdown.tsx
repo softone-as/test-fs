@@ -12,7 +12,7 @@ import { CheckboxValueType } from 'antd/es/checkbox/Group';
 
 const { useToken } = theme;
 
-interface IPropsCheckboxDropdown {
+export interface IPropsCheckboxDropdown {
     label?: React.ReactNode;
     options?: CheckboxOptionType[];
     value?: CheckboxValueType[];
