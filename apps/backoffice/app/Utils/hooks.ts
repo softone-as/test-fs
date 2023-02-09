@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Inertia } from '@inertiajs/inertia';
-
+import { IndexRequest } from '../../src/common/request/index.request';
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
     const didMountRef = useRef(false);
@@ -14,17 +14,20 @@ export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
     }, inputs);
 };
 
-type PropsParams = {
-    [K: string]: string | number | boolean;
-};
+type TOrderAntD = 'ASC' | 'DESC' | undefined;
+
+export type TPropsTableFilter<T> = Omit<IndexRequest, 'perPage' | 'order'> & {
+    per_page?: number;
+    order?: TOrderAntD;
+} & T;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useTableFilter = <T = any>() => {
+export const useTableFilter = <T>() => {
     const [status, setStatus] = useState({
         isFetching: false,
     });
 
-    const [filters, setFilters] = useState(() => {
+    const [filters, setFilters] = useState<TPropsTableFilter<T> | any>(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const filtersObj = {};
         for (const [key, value] of queryParams.entries()) {
@@ -40,14 +43,37 @@ export const useTableFilter = <T = any>() => {
                 {},
             ),
         [filters],
-    );
+    ) as TPropsTableFilter<T>;
 
     return {
-        setQueryParams: (propsParams: PropsParams) => {
+        setQueryParams: (propsParams: TPropsTableFilter<T>) => {
             const data = {
                 ...existingParams,
                 ...propsParams,
-            };
+            } as TPropsTableFilter<T>;
+
+            if (data.order === undefined) {
+                delete data.sort;
+            }
+
+            const listPropsParams = Object.keys(propsParams) as string[];
+
+            if (
+                !(
+                    listPropsParams.includes('page') &&
+                    listPropsParams.includes('per_page')
+                )
+            ) {
+                if (
+                    !(
+                        listPropsParams.includes('sort') &&
+                        listPropsParams.includes('order')
+                    )
+                ) {
+                    data.page = 1;
+                }
+            }
+
             setFilters(data);
             Inertia.visit(window.location.pathname, {
                 data: data,
@@ -66,49 +92,7 @@ export const useTableFilter = <T = any>() => {
                 },
             });
         },
-        // implementFilterTable: (
-        //     pagination: TablePaginationConfig,
-        //     filterTable: Record<string, FilterValue>,
-        //     sorter: SorterResult<T>,
-        // ) => {
-        //     const tableFilters = {};
-        //     if (!Number.isNaN(pagination.current))
-        //         tableFilters["page"] = pagination.current;
-        //     if (!Number.isNaN(pagination.pageSize))
-        //         tableFilters["per_page"] = pagination.pageSize;
-
-        //     if (sorter?.order) {
-        //         if (sorter?.columnKey) tableFilters["sort"] = sorter?.columnKey;
-
-        //         if (sorter.order === "ascend") tableFilters["order"] = "asc";
-        //         else if (sorter.order === "descend")
-        //             tableFilters["order"] = "desc";
-        //     } else {
-        //         tableFilters["sort"] = undefined;
-        //         tableFilters["order"] = undefined;
-        //     }
-
-        //     const data = { ...existingParams, ...tableFilters };
-
-        //     setFilters(data);
-        //     Inertia.visit(window.location.pathname, {
-        //         data: data,
-        //         preserveState: true,
-        //         preserveScroll: true,
-        //         replace: true,
-        //         onBefore: () => {
-        //             setStatus({
-        //                 isFetching: true,
-        //             });
-        //         },
-        //         onFinish: () => {
-        //             setStatus({
-        //                 isFetching: false,
-        //             });
-        //         },
-        //     });
-        // },
-        filters: filters as Record<any, string>,
+        filters: filters as TPropsTableFilter<T>,
         status,
     };
 };
