@@ -25,7 +25,6 @@ interface IProps extends TInertiaProps {
 }
 
 const PermissionPage: React.FC = (props: IProps) => {
-    console.log(props);
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const {
         setQueryParams,

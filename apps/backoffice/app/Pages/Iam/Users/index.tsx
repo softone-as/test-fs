@@ -28,6 +28,7 @@ import { RowActionButtons } from '../../../Components/molecules/RowActionButtons
 import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import dayjs from 'dayjs';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -218,7 +219,14 @@ const UsersPage: React.FC = (props: IProps) => {
                         allowClear
                         style={{ width: '90px' }}
                     />,
-                    <DateRangePicker range={10} onChange={handleRange} />,
+                    <DateRangePicker
+                        range={10}
+                        onChange={handleRange}
+                        defaultValue={[
+                            dayjs(filters.start_at),
+                            dayjs(filters.end_at),
+                        ]}
+                    />,
                 ]}
             />
             <DataTable
