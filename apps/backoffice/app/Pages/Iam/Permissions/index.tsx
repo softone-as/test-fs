@@ -99,7 +99,6 @@ const PermissionPage: React.FC = (props: IProps) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
-    const handleCalendarChange = (val: TRangeValue) => console.log(val)
 
     const batchActionMenus: MenuProps['items'] = [
         {
@@ -154,7 +153,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                         ]}
                         />,
 
-                        <DateRangePicker range={10} onChange={handleRange} onCalendarChange={handleCalendarChange} />,
+                        <DateRangePicker range={10} onChange={handleRange} />,
                         <DatePicker onChange={handleDate} />
                     ]
                 } />

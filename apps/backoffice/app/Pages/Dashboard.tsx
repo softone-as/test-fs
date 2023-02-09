@@ -114,7 +114,6 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
     const handleRange = (val: TRangeValue) => console.log(val.map(item => item.toDate()))
     const handleDate = (val: Dayjs) => console.log(val.toDate())
 
-    const handleCalendarChange = (val: TRangeValue) => { console.log(val) }
 
     const handleStatus = (data) => {
         console.log('DATa Status: ', data)
@@ -155,7 +154,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                         ]}
                         />,
 
-                        <DateRangePicker range={10} onChange={handleRange} onCalendarChange={handleCalendarChange} />,
+                        <DateRangePicker range={10} onChange={handleRange} />,
                         <DatePicker onChange={handleDate} />
                     ]
                 } />
