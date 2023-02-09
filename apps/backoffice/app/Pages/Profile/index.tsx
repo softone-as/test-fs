@@ -13,35 +13,66 @@ import { Section } from '../../Components/molecules/Section';
 import { Route } from '../../Enums/Route';
 
 interface IProps extends TInertiaProps {
-	data: IUser,
+    data: IUser;
 }
 
 const UserDetailPage: React.FC = (props: IProps) => {
-	const { id, identityNumber, email, fullname, phoneNumber, gender } = props.data
+    const { id, identityNumber, email, fullname, phoneNumber, gender } =
+        props.data;
 
-	return (
-		<MainLayout breadcrumbItems={Breadcrumbs.Profile.INDEX} >
-			<PageHeader title='Profile' topActions={[
-				<Buttons type='primary' href={Route.EditProfile} icon={<EditOutlined />}>Edit</Buttons>,
-				<Buttons type='primary' href={Route.EditProfilePassword} icon={<EditOutlined />}>Edit Password</Buttons>,
-			]} />
+    return (
+        <MainLayout breadcrumbItems={Breadcrumbs.Profile.INDEX}>
+            <PageHeader
+                title="Profile"
+                topActions={[
+                    <Buttons
+                        type="primary"
+                        href={Route.EditProfile}
+                        icon={<EditOutlined />}
+                    >
+                        Edit
+                    </Buttons>,
+                    <Buttons
+                        href={Route.EditProfilePassword}
+                        icon={<EditOutlined />}
+                    >
+                        Edit Password
+                    </Buttons>,
+                ]}
+            />
 
-
-			<Space direction='vertical' size={defaultSizeSpace} style={{ width: '100%' }}>
-				<Section title='Profile Info'>
-					<DescriptionContainer size='small' bordered column={{ md: 2, xs: 1 }}>
-						<Descriptions.Item label='ID'>{id}</Descriptions.Item>
-						<Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
-						<Descriptions.Item label='No Telephone'>{phoneNumber}</Descriptions.Item>
-						<Descriptions.Item label='Email'>{email}</Descriptions.Item>
-						<Descriptions.Item label='Identity Number'>{identityNumber}</Descriptions.Item>
-						<Descriptions.Item label='Gender'>{gender}</Descriptions.Item>
-					</DescriptionContainer>
-				</Section>
-			</Space>
-
-		</MainLayout>
-	);
+            <Space
+                direction="vertical"
+                size={defaultSizeSpace}
+                style={{ width: '100%' }}
+            >
+                <Section title="Profile Info">
+                    <DescriptionContainer
+                        size="small"
+                        bordered
+                        column={{ md: 2, xs: 1 }}
+                    >
+                        <Descriptions.Item label="ID">{id}</Descriptions.Item>
+                        <Descriptions.Item label="Name">
+                            {fullname}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="No Telephone">
+                            {phoneNumber}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Email">
+                            {email}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Identity Number">
+                            {identityNumber}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Gender">
+                            {gender}
+                        </Descriptions.Item>
+                    </DescriptionContainer>
+                </Section>
+            </Space>
+        </MainLayout>
+    );
 };
 
 export default UserDetailPage;

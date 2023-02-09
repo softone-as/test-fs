@@ -190,7 +190,6 @@ export class AppModule implements NestModule {
                 InertiaSharePropsMiddleware,
                 UserDetailMiddleware,
                 NotificationUnreadMiddleware,
-                // SentryQueryMiddleware,
             )
             .forRoutes('*');
     }
