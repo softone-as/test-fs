@@ -1,5 +1,4 @@
-import ButtonFormAction from "./ButtonFormAction"
-import FormContainer from "./FormContainer"
+import ButtonFormAction from './ButtonFormAction';
+import FormContainer from './FormContainer';
 
-
-export { FormContainer, ButtonFormAction }
+export { FormContainer, ButtonFormAction };

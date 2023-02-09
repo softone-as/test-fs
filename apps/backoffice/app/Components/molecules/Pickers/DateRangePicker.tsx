@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
-import dayjs from 'dayjs'
-import type { Dayjs } from 'dayjs'
-import { DatePicker } from 'antd'
-import type { RangePickerProps, } from 'antd/es/date-picker';
+import React, { useState } from 'react';
+import dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
+import { DatePicker } from 'antd';
+import type { RangePickerProps } from 'antd/es/date-picker';
 
 export type TRangeValue = [Dayjs | null, Dayjs | null] | null;
 
 export type TDateRangePicker = Omit<RangePickerProps, 'presets'> & {
     range?: number;
-    onChange: (val: TRangeValue) => void
+    onChange: (val: TRangeValue) => void;
     // behaviour preset props
     // if props false = there is no preset at all
     // if props not set / undefined = use default preset
     // if props array = use preset from props
-    presets?: RangePickerProps['presets'] | false
+    presets?: RangePickerProps['presets'] | false;
+    defaultValue?: TRangeValue;
 };
 
 const defaultPresets: RangePickerProps['presets'] = [
@@ -21,10 +22,18 @@ const defaultPresets: RangePickerProps['presets'] = [
     { label: 'Last 14 Days', value: [dayjs().add(-14, 'd'), dayjs()] },
     { label: 'Last 30 Days', value: [dayjs().add(-30, 'd'), dayjs()] },
     { label: 'Last 90 Days', value: [dayjs().add(-90, 'd'), dayjs()] },
-]
+];
 
-export const DateRangePicker = ({ onChange, range, presets, disabledDate, value, ...rest }: TDateRangePicker) => {
+export const DateRangePicker = ({
+    onChange,
+    range,
+    presets,
+    defaultValue,
+    disabledDate,
+    ...rest
+}: TDateRangePicker) => {
     const [dates, setDates] = useState<TRangeValue>(null);
+    const [value, setValue] = useState<TRangeValue>(defaultValue);
 
     const defaultDisabledDate = (current: Dayjs) => {
         if (!dates || !range) {
@@ -36,29 +45,34 @@ export const DateRangePicker = ({ onChange, range, presets, disabledDate, value,
     };
 
     const handleChange = (val) => {
-        onChange(val)
-    }
+        onChange(val);
+        setValue(val);
+    };
 
-    const handleOnCalendarChange = (values: [dayjs.Dayjs, dayjs.Dayjs], formatString: [string, string], info) => {
+    const handleOnCalendarChange = (
+        values: [dayjs.Dayjs, dayjs.Dayjs],
+        formatString: [string, string],
+        info,
+    ) => {
         if (rest.onCalendarChange) {
-            rest.onCalendarChange(values, formatString, info)
+            rest.onCalendarChange(values, formatString, info);
         }
 
-        setDates(values)
-    }
+        setDates(values);
+    };
 
-    const rangePickerPreset = presets === false ? [] : presets || defaultPresets
+    const rangePickerPreset =
+        presets === false ? [] : presets || defaultPresets;
 
     return (
-
         <DatePicker.RangePicker
             {...rest}
-            value={value || dates}
+            value={dates || value}
             disabledDate={disabledDate || defaultDisabledDate}
             onChange={handleChange}
             onCalendarChange={handleOnCalendarChange}
             picker={rest.picker}
             presets={rangePickerPreset}
         />
-    )
-}
+    );
+};

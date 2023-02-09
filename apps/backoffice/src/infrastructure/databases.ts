@@ -9,7 +9,7 @@ import { User } from 'entities/iam/user.entity';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
 import { Otp } from 'entities/otp/otp.entity';
-import { ConnectionOptions, createConnection } from 'typeorm';
+import { ConnectionOptions, createConnection, Logger } from 'typeorm';
 import { SentryQueryService } from './sentry/sentry-query.service';
 
 export const connectionOption: ConnectionOptions = {
@@ -33,7 +33,10 @@ export const connectionOption: ConnectionOptions = {
     logging: config.nodeEnv === 'local',
     charset: 'utf8mb4_unicode_ci',
     maxQueryExecutionTime: +config.database.maxQueryExecutionTimeInSeconds,
-    logger: new DatabaseLogger(new SentryQueryService(), Span as any) as any,
+    logger: new DatabaseLogger(
+        new SentryQueryService(),
+        Span as unknown as Span,
+    ) as unknown as Logger,
 };
 
 export const databaseConnection = createConnection(connectionOption);

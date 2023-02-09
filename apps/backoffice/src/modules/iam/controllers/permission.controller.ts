@@ -88,4 +88,26 @@ export class PermissionController {
             'Success edit',
         );
     }
+
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_PERMISSION))
+    @Get('delete/:id')
+    async delete(@Param('id') id: number): Promise<void> {
+        //TODO Delete Permissions
+        console.log(id);
+        return this.inertiaAdapter.successResponse(
+            'permissions',
+            `Success Delete ${id} Data`,
+        );
+    }
+
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_PERMISSION))
+    @Post('deletes')
+    async batchDelete(@Body() ids: number[]): Promise<void> {
+        //TODO Batch Delete Permissions
+        console.log(ids);
+        return this.inertiaAdapter.successResponse(
+            'permissions',
+            'Success Delete All Data',
+        );
+    }
 }

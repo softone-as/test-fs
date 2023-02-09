@@ -1,3 +1,3 @@
-import TimelinesItem from "./TimelinesItem";
+import TimelinesItem from './TimelinesItem';
 
-export { TimelinesItem }
+export { TimelinesItem };

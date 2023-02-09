@@ -39,6 +39,9 @@ module.exports = (env) => {
         },
         resolve: {
             extensions: ['*', '.js', '.jsx', '.tsx', '.ts'],
+            alias: {
+                apps: path.resolve(__dirname, '../'),
+            },
         },
         output: {
             path: path.resolve(__dirname, 'public/js'),
