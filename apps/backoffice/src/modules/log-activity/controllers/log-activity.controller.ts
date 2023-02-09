@@ -26,9 +26,7 @@ export class LogActivityController {
         const data = await this.logActivityIndexApplication.fetch(indexRequest);
         return this.inertiaAdapter.render({
             component: 'LogActivities',
-            props: {
-                data,
-            },
+            props: data,
         });
     }
 

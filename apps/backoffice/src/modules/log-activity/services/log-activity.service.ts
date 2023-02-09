@@ -16,6 +16,8 @@ export class LogActivityService {
     }
 
     async findOneById(id: number): Promise<ILogActivity> {
-        return await this.logActivityRepo.findOneOrFail(id);
+        return await this.logActivityRepo.findOneOrFail(id, {
+            relations: ['user'],
+        });
     }
 }

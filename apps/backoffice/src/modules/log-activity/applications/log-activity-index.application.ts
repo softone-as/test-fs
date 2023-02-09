@@ -20,8 +20,9 @@ export class LogActivityIndexApplication extends IndexApplication {
     async fetch(
         request: LogActivityIndexRequest,
     ): Promise<IPaginateResponse<LogActivity>> {
-        const query =
-            this.logActivityRepository.createQueryBuilder('logActivity');
+        const query = this.logActivityRepository
+            .createQueryBuilder('logActivity')
+            .leftJoinAndSelect('logActivity.user', 'user');
 
         if (request.search) {
             query.where(

@@ -7,7 +7,6 @@ export class LogActivityCrudApplication {
     constructor(private readonly logActivityService: LogActivityService) {}
 
     async findOneById(id: number): Promise<ILogActivity> {
-        const data = await this.logActivityService.findOneById(id);
-        return data;
+        return await this.logActivityService.findOneById(id);
     }
 }

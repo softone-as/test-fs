@@ -15,19 +15,17 @@ import {
 import type { Dayjs } from 'dayjs';
 import { MultiFilterDropdown } from '../../Components/molecules/Dropdowns';
 import { PageHeader } from '../../Components/molecules/Headers';
-import {
-    FileExcelOutlined,
-    QuestionCircleOutlined,
-    ShareAltOutlined,
-} from '@ant-design/icons';
-import { Form, Typography, Space } from 'antd';
-import { Link } from '@inertiajs/inertia-react';
+import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { Form } from 'antd';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
+import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
+import { Route } from '../../Enums/Route';
 
 interface IProps extends TInertiaProps {
     data: ILogActivity[];
+    meta: IPaginationMeta;
 }
 
 const LogActivityPage: React.FC = (props: IProps) => {
@@ -44,29 +42,14 @@ const LogActivityPage: React.FC = (props: IProps) => {
             key: 'id',
         },
         {
-            title: 'Name',
-            dataIndex: 'user.name',
-            key: 'user.name',
-        },
-        {
-            title: 'Source',
-            dataIndex: 'source',
-            key: 'source',
-        },
-        {
-            title: 'Meta Data',
-            dataIndex: 'meta_data',
-            key: 'meta_data',
+            title: 'Menu',
+            dataIndex: 'menu',
+            key: 'menu',
         },
         {
             title: 'Activity',
             dataIndex: 'activity',
             key: 'activity',
-        },
-        {
-            title: 'Menu',
-            dataIndex: 'menu',
-            key: 'menu',
         },
         {
             title: 'Path',
@@ -82,7 +65,7 @@ const LogActivityPage: React.FC = (props: IProps) => {
                     actions={[
                         {
                             type: 'view',
-                            href: `#`,
+                            href: `${Route.LogActivity}/1`, // TODO: endpoint dinamis by id
                             title: 'view',
                         },
                     ]}
@@ -118,8 +101,8 @@ const LogActivityPage: React.FC = (props: IProps) => {
         console.log(val.map((item) => item.toDate()));
     const handleDate = (val: Dayjs) => console.log(val.toDate());
 
-    const handleStatus = (data) => {
-        console.log('DATa Status: ', data);
+    const handleMenu = (data) => {
+        console.log('Data menu: ', data);
     };
 
     const [form] = Form.useForm<{ status: string }>();
@@ -128,11 +111,12 @@ const LogActivityPage: React.FC = (props: IProps) => {
         console.log('FINSIH : ', values);
     };
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.Users.INDEX}>
+        <MainLayout breadcrumbItems={Breadcrumbs.LogActivity.INDEX}>
             <PageHeader
-                title="User List"
+                title="Logs"
                 topActions={[
                     <Button
+                        type="primary"
                         size="large"
                         icon={<FileExcelOutlined />}
                         style={{
@@ -141,13 +125,8 @@ const LogActivityPage: React.FC = (props: IProps) => {
                             justifyContent: 'center',
                         }}
                     >
-                        Import
+                        Export
                     </Button>,
-                    <Link href="users/create">
-                        <Button size="large" type="primary">
-                            New User
-                        </Button>
-                    </Link>,
                 ]}
             />
             <FilterSection
@@ -162,57 +141,16 @@ const LogActivityPage: React.FC = (props: IProps) => {
                         onFinish={handleFinish}
                         onReset={() => console.log('Hello')}
                         fieldsForm={[
-                            <Form.Item
-                                label={
-                                    <Space size="small">
-                                        <Typography.Text>
-                                            Status
-                                        </Typography.Text>{' '}
-                                        <QuestionCircleOutlined
-                                            style={{
-                                                color: 'rgba(0, 0, 0, 0.45)',
-                                            }}
-                                        />
-                                        <Typography.Text
-                                            style={{
-                                                color: 'rgba(0, 0, 0, 0.45)',
-                                            }}
-                                        >
-                                            (optional)
-                                        </Typography.Text>
-                                    </Space>
-                                }
-                                name="status"
-                                rules={[{ required: true }]}
-                            >
+                            <Form.Item label="Menu" name="menu">
                                 <Select
                                     options={[
-                                        { label: 'Done', value: 'done' },
-                                        { label: 'Pending', value: 'pending' },
+                                        { label: 'ROLE', value: 'ROLE' },
+                                        {
+                                            label: 'PERMISSION',
+                                            value: 'PERMISSION',
+                                        },
                                     ]}
-                                    onChange={handleStatus}
-                                    allowClear
-                                    style={{ width: '100%' }}
-                                />
-                            </Form.Item>,
-                            <Form.Item label="Status" name="status">
-                                <Select
-                                    options={[
-                                        { label: 'Done', value: 'done' },
-                                        { label: 'Pending', value: 'pending' },
-                                    ]}
-                                    onChange={handleStatus}
-                                    allowClear
-                                    style={{ width: '100%' }}
-                                />
-                            </Form.Item>,
-                            <Form.Item label="Status" name="status">
-                                <Select
-                                    options={[
-                                        { label: 'Done', value: 'done' },
-                                        { label: 'Pending', value: 'pending' },
-                                    ]}
-                                    onChange={handleStatus}
+                                    onChange={handleMenu}
                                     allowClear
                                     style={{ width: '100%' }}
                                 />

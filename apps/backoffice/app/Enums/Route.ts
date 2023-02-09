@@ -1,6 +1,5 @@
-import { FaUserAlt, FaHamburger } from 'react-icons/fa';
+import { FaUserAlt } from 'react-icons/fa';
 import { RiShieldUserLine } from 'react-icons/ri';
-import { RiArchiveLine } from 'react-icons/ri';
 
 export type RouteType = {
     permissions: string[];
@@ -10,7 +9,6 @@ export type RouteType = {
 };
 import {
     PERMISSION_BACKOFFICE_SHOW_DASHBOARD,
-    PERMISSION_BACKOFFICE_SHOW_CONFIG,
     PERMISSION_BACKOFFICE_SHOW_USER,
     PERMISSION_BACKOFFICE_SHOW_ROLE,
     PERMISSION_BACKOFFICE_SHOW_ROLE_PERMISSION,
@@ -91,26 +89,6 @@ export const RouteList: RouteListType[] = [
                 name: 'Role Permission',
                 href: Route.RolePermissions,
                 icon: RiShieldUserLine,
-            },
-        ],
-    },
-    {
-        permissions: [],
-        name: 'Logs',
-        href: Route.LogActivity,
-        icon: RiShieldUserLine,
-    },
-    {
-        permissions: [PERMISSION_BACKOFFICE_SHOW_CONFIG],
-        name: 'Config',
-        href: '#',
-        icon: FaHamburger,
-        children: [
-            {
-                permissions: [PERMISSION_BACKOFFICE_SHOW_CONFIG],
-                name: 'General',
-                href: Route.Configs,
-                icon: RiArchiveLine,
             },
         ],
     },

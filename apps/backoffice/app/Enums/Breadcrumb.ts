@@ -25,6 +25,26 @@ const Roles = {
     ],
 };
 
+const LogActivity = {
+    INDEX: [
+        {
+            label: 'Logs',
+            path: '/logs',
+        },
+    ],
+
+    DETAIL: [
+        {
+            label: 'Logs',
+            path: '/logs',
+        },
+        {
+            label: 'Log Detail',
+            path: '/logs/detail',
+        },
+    ],
+};
+
 const Users = {
     INDEX: [
         {
@@ -64,4 +84,10 @@ const Users = {
     ],
 };
 
-export const Breadcrumbs = { Users, Dashboard, Permissions, Roles };
+export const Breadcrumbs = {
+    Users,
+    Dashboard,
+    Permissions,
+    Roles,
+    LogActivity,
+};
