@@ -27,6 +27,7 @@ import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Section } from '../../../Components/molecules/Section';
+import { CheckboxDropdown } from 'apps/backoffice/app/Components/molecules/Dropdowns/CheckboxDropdown';
 
 const { Option } = Select;
 
@@ -311,6 +312,15 @@ const FormBasic: React.FC = () => {
 
                     <Form.Item name="agreement" valuePropName="checked">
                         <Checkbox>I have read the agreement</Checkbox>
+                    </Form.Item>
+
+                    <Form.Item label="Categories" name="categories" required>
+                        <CheckboxDropdown
+                            label="Categories"
+                            options={[
+                                { label: 'Checkbox 1', value: 'checkbox 1' },
+                            ]}
+                        />
                     </Form.Item>
                 </FormContainer>
             </Section>
