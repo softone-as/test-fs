@@ -193,40 +193,42 @@ export const MainLayout: React.FC<IProps> = ({
                             }}
                         >
                             {/* User Icon */}
-                            <Space size="small">
-                                <Avatar
-                                    size="default"
-                                    icon={<UserOutlined />}
-                                />
+                            <Link href={Route.Profile}>
+                                <Space size="small">
+                                    <Avatar
+                                        size="default"
+                                        icon={<UserOutlined />}
+                                    />
 
-                                <Space.Compact
-                                    direction="vertical"
-                                    size="small"
-                                >
-                                    {/* Username */}
-                                    <Text
-                                        style={{
-                                            fontWeight: '500',
-                                            fontSize: '14px',
-                                            color: '#ffffff',
-                                        }}
+                                    <Space.Compact
+                                        direction="vertical"
+                                        size="small"
                                     >
-                                        {pageProps.userDetail?.fullname}
-                                    </Text>
+                                        {/* Username */}
+                                        <Text
+                                            style={{
+                                                fontWeight: '500',
+                                                fontSize: '14px',
+                                                color: '#ffffff',
+                                            }}
+                                        >
+                                            {pageProps.userDetail?.fullname}
+                                        </Text>
 
-                                    {/* User Roles */}
-                                    <Text
-                                        style={{
-                                            fontSize: '12px',
-                                            color: '#B5F5EC',
-                                        }}
-                                    >
-                                        {pageProps.userDetail.roles
-                                            ?.map((r) => r.name)
-                                            .join(', ')}
-                                    </Text>
-                                </Space.Compact>
-                            </Space>
+                                        {/* User Roles */}
+                                        <Text
+                                            style={{
+                                                fontSize: '12px',
+                                                color: '#B5F5EC',
+                                            }}
+                                        >
+                                            {pageProps.userDetail.roles
+                                                ?.map((r) => r.name)
+                                                .join(', ')}
+                                        </Text>
+                                    </Space.Compact>
+                                </Space>
+                            </Link>
 
                             {/* Notification Icon */}
                             <Tooltip title="Notifications" placement="right">
