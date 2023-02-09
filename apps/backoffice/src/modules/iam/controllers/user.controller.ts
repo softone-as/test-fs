@@ -106,4 +106,12 @@ export class UserController {
         await this.userCrudApplication.delete(id);
         this.inertiaAdapter.successResponse('users', 'Success update');
     }
+
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_USER))
+    @Post('deletes')
+    async batchDelete(@Body() ids: number[]): Promise<void> {
+        //TODO Batch Delete Users
+        console.log(ids);
+        this.inertiaAdapter.successResponse('users', 'Success update');
+    }
 }

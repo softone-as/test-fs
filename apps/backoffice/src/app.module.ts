@@ -48,19 +48,14 @@ import { GlobalServiceModule } from './modules/glob/global-service.module';
 import { NotificationUnreadMiddleware } from './modules/notification/middlewares/notification-unread.middleware';
 import { SentryModule } from './infrastructure/sentry/sentry.module';
 import * as Sentry from '@sentry/node';
+import { ProfileModule } from './modules/profile/profile.module';
 
 @Module({
     imports: [
+        TypeOrmModule.forRoot(connectionOption),
         CacheModuleManager.register({
             isGlobal: true,
         }),
-
-        TypeOrmModule.forRoot(connectionOption),
-        RavenModule,
-        RedisModule,
-        ConfigModule,
-        InAppNotificationModule,
-
         MailerModule.forRoot({
             transport: {
                 host: config.mail.smtp.host,
@@ -94,20 +89,6 @@ import * as Sentry from '@sentry/node';
             ],
             tracesSampleRate: 1.0,
         }),
-
-        // write your module here
-        CacheModule,
-        AdminAuthModule,
-        MainModule,
-        CommonModule,
-        IamModule,
-        NotificationModule,
-        InAppNotificationModule,
-
-        ScheduleModule.forRoot(),
-
-        InertiaModule,
-        LogActivityModule,
         WinstonModule.forRoot({
             transports: [
                 new winston.transports.File({
@@ -119,7 +100,24 @@ import * as Sentry from '@sentry/node';
                 }),
             ],
         }),
+
+        // write your module here
+        RavenModule,
+        RedisModule,
+        ConfigModule,
+        InAppNotificationModule,
+        CacheModule,
+        AdminAuthModule,
+        MainModule,
+        CommonModule,
+        IamModule,
+        NotificationModule,
+        InAppNotificationModule,
+        ScheduleModule.forRoot(),
+        InertiaModule,
+        LogActivityModule,
         GlobalServiceModule,
+        ProfileModule,
     ],
     providers: [
         {
@@ -192,7 +190,6 @@ export class AppModule implements NestModule {
                 InertiaSharePropsMiddleware,
                 UserDetailMiddleware,
                 NotificationUnreadMiddleware,
-                // SentryQueryMiddleware,
             )
             .forRoutes('*');
     }

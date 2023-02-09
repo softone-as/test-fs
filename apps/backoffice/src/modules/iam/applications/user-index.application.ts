@@ -22,11 +22,32 @@ export class UserIndexApplication extends IndexApplication {
 
     @CacheGetSet(config.cache.name.users.list)
     async fetch(request: UserIndexRequest): Promise<IPaginateResponse<IUser>> {
-        const query = this.userRepository.createQueryBuilder('user');
+        const query = this.userRepository
+            .createQueryBuilder('user')
+            .leftJoinAndSelect('user.roles', 'role');
 
         if (request.search) {
-            query.where(`concat(user.fullname, ' ', user.id) like :search`, {
-                search: `%${request.search}%`,
+            query.where(
+                `concat(user.fullname, ' ', user.id, ' ', user.phoneNumber, ' ', user.email) like :search`,
+                {
+                    search: `%${request.search}%`,
+                },
+            );
+        }
+
+        if (request.start_at && request.end_at) {
+            query
+                .where(`user.createdAt >= :startAt`, {
+                    startAt: request.start_at,
+                })
+                .andWhere(`user.createdAt <= :endAt`, {
+                    endAt: request.end_at,
+                });
+        }
+
+        if (request.gender) {
+            query.where(`user.gender = :gender`, {
+                gender: `${request.gender}`,
             });
         }
 
@@ -37,7 +58,7 @@ export class UserIndexApplication extends IndexApplication {
         } else {
             query.orderBy(
                 ALLOW_TO_SORT.indexOf(request.sort) >= 0
-                    ? request.sort ?? `user.${ALLOW_TO_SORT[0]}`
+                    ? `user.${request.sort}`
                     : `user.createdAt`,
                 this.getOrder(request.order),
             );

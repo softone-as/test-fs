@@ -10,7 +10,7 @@ import {
     Select,
     Space,
     TimePicker,
-    Typography
+    Typography,
 } from 'antd';
 import React, { useMemo, useState } from 'react';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
@@ -20,14 +20,14 @@ import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { useTableFilter } from '../../../Utils/hooks';
-
+import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 
 type DataType = {
     key: string;
     name: string;
     age: number;
     address: string;
-}
+};
 
 interface IEditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean;
@@ -77,21 +77,18 @@ const dataResource: DataType[] = [
         name: 'John Brown',
         age: 32,
         address: 'New York No. 1 Lake Park',
-
     },
     {
         key: '2',
         name: 'Jim Green',
         age: 42,
         address: 'London No. 1 Lake Park',
-
     },
     {
         key: '3',
         name: 'Joe Black',
         age: 32,
         address: 'Sidney No. 1 Lake Park',
-
     },
 ];
 
@@ -104,13 +101,13 @@ const prefixSelector = (
     </Form.Item>
 );
 
-const FormAdvanced = () => {
-    const { setQueryParams } = useTableFilter<DataType>()
+const FormAdvanced = (props: TInertiaProps) => {
+    const { setQueryParams } = useTableFilter();
 
-    const [form] = Form.useForm()
+    const [form] = Form.useForm();
 
-    const [isLoading, setIsLoading] = useState(false)
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+    const [isLoading, setIsLoading] = useState(false);
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
@@ -124,7 +121,6 @@ const FormAdvanced = () => {
         form.setFieldsValue({ name: '', age: '', address: '', ...record });
         setEditingKey(record?.key);
     };
-
 
     const cancel = () => {
         setEditingKey('');
@@ -155,9 +151,9 @@ const FormAdvanced = () => {
     };
 
     const onDelete = async (key: React.Key) => {
-        setData(data => data.filter(item => item.key != key))
-        setEditingKey('')
-    }
+        setData((data) => data.filter((item) => item.key != key));
+        setEditingKey('');
+    };
 
     const columns = [
         {
@@ -189,23 +185,27 @@ const FormAdvanced = () => {
                         <Typography.Link onClick={() => save(record?.key)}>
                             Save
                         </Typography.Link>
-                        <Popconfirm title="Sure to delete?" onConfirm={() => onDelete(record?.key)}>
-                            <Typography.Link >
-                                Delete
-                            </Typography.Link>
+                        <Popconfirm
+                            title="Sure to delete?"
+                            onConfirm={() => onDelete(record?.key)}
+                        >
+                            <Typography.Link>Delete</Typography.Link>
                         </Popconfirm>
                         <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
                             <a>Cancel</a>
                         </Popconfirm>
                     </Space>
                 ) : (
-                    <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
+                    <Typography.Link
+                        disabled={editingKey !== ''}
+                        onClick={() => edit(record)}
+                    >
                         Edit
                     </Typography.Link>
                 );
             },
         },
-    ]
+    ];
 
     const mergedColumns = useMemo(() => {
         return columns.map((col) => {
@@ -223,88 +223,94 @@ const FormAdvanced = () => {
                 }),
             };
         });
-    }, [columns])
+    }, [columns]);
 
     const onFinish = async (values: any) => {
-        setIsLoading(true)
+        setIsLoading(true);
 
         try {
-            await form.validateFields()
+            await form.validateFields();
             console.log('Received values of form: ', values);
         } catch (error) {
             console.log(error);
         }
 
-        setIsLoading(false)
+        setIsLoading(false);
     };
 
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
-            <PageHeader title='Add Data' />
-            <Section title='Form Advanced'>
-
+            <PageHeader title="Add Data" />
+            <Section title="Form Advanced">
                 <FormContainer
                     onFinish={onFinish}
                     initialValues={{ prefix: '62' }}
                     form={form}
-                    layout='vertical'
-                    requiredMark='optional'
+                    layout="vertical"
+                    requiredMark="optional"
                     buttonAction={[
-                        <Button >
-                            Cancel
-                        </Button>,
-                        <Button type="primary" htmlType="submit" disabled={isLoading} >
+                        <Button>Cancel</Button>,
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            disabled={isLoading}
+                        >
                             Submit
-                        </Button>
+                        </Button>,
                     ]}
                 >
-
                     <Row gutter={32}>
                         {/* Row 1 */}
                         <Col sm={24} md={12} lg={8}>
-                            <Form.Item label="Input Label" name='name'>
-                                <Input placeholder='Input' />
+                            <Form.Item label="Input Label" name="name">
+                                <Input placeholder="Input" />
                             </Form.Item>
                         </Col>
                         <Col sm={24} md={12} lg={8}>
-                            <Form.Item label="Time" name='time'>
+                            <Form.Item label="Time" name="time">
                                 <TimePicker style={{ width: '100%' }} />
                             </Form.Item>
                         </Col>
                         <Col sm={24} md={12} lg={8}>
-                            <Form.Item
-                                name="division"
-                                label="Input Label"
-                            >
+                            <Form.Item name="division" label="Input Label">
                                 <Select placeholder="Select">
-                                    <Select.Option value="Industry">Department of Industry</Select.Option>
-                                    <Select.Option value="Business">Department of Business</Select.Option>
-                                    <Select.Option value="IT">Department of Information and Technology</Select.Option>
+                                    <Select.Option value="Industry">
+                                        Department of Industry
+                                    </Select.Option>
+                                    <Select.Option value="Business">
+                                        Department of Business
+                                    </Select.Option>
+                                    <Select.Option value="IT">
+                                        Department of Information and Technology
+                                    </Select.Option>
                                 </Select>
                             </Form.Item>
                         </Col>
 
                         {/* Row 2 */}
                         <Col sm={24} md={12} lg={8}>
-                            <Form.Item
-                                name="division"
-                                label="Input Label"
-                            >
+                            <Form.Item name="division" label="Input Label">
                                 <Select placeholder="Select">
-                                    <Select.Option value="Industry">Department of Industry</Select.Option>
-                                    <Select.Option value="Business">Department of Business</Select.Option>
-                                    <Select.Option value="IT">Department of Information and Technology</Select.Option>
+                                    <Select.Option value="Industry">
+                                        Department of Industry
+                                    </Select.Option>
+                                    <Select.Option value="Business">
+                                        Department of Business
+                                    </Select.Option>
+                                    <Select.Option value="IT">
+                                        Department of Information and Technology
+                                    </Select.Option>
                                 </Select>
                             </Form.Item>
                         </Col>
                         <Col sm={24} md={12} lg={8}>
-                            <Form.Item label="Time" name='time'>
+                            <Form.Item label="Time" name="time">
                                 <DatePicker style={{ width: '100%' }} />
                             </Form.Item>
                         </Col>
                         <Col sm={24} md={12} lg={8}>
-                            <Form.Item label="Input Label" name='name'>
-                                <Input placeholder='Input' />
+                            <Form.Item label="Input Label" name="name">
+                                <Input placeholder="Input" />
                             </Form.Item>
                         </Col>
 
@@ -313,26 +319,28 @@ const FormAdvanced = () => {
                             <Form.Item
                                 name="phone"
                                 label="Phone Number"
-                                tooltip='Distinctively monetize cost effective networks for cross-media bandwidth'
+                                tooltip="Distinctively monetize cost effective networks for cross-media bandwidth"
                             >
-                                <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                                <Input
+                                    addonBefore={prefixSelector}
+                                    style={{ width: '100%' }}
+                                />
                             </Form.Item>
                         </Col>
                         <Col sm={24} md={12} lg={8}>
-                            <Form.Item label="Input Label" name='name'>
-                                <Input placeholder='Input' />
+                            <Form.Item label="Input Label" name="name">
+                                <Input placeholder="Input" />
                             </Form.Item>
                         </Col>
                     </Row>
 
-                    <SectionHeader
-                        title='Section Table List'
-                        top
-                        divider
-                    />
+                    <SectionHeader title="Section Table List" top divider />
 
-                    <DataTable<DataType>
-                        rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                    <DataTable
+                        rowSelection={{
+                            selectedRowKeys,
+                            onChange: onSelectChange,
+                        }}
                         components={{
                             body: {
                                 cell: EditableCell,
@@ -340,16 +348,15 @@ const FormAdvanced = () => {
                         }}
                         columns={mergedColumns}
                         dataSource={data}
-                        total={3}
-                        perPage={10}
-                        onPageChange={(page, pageSize) => setQueryParams({ page: page?.toString(), size: pageSize?.toString() })}
+                        meta={props.meta}
+                        onPageChange={(page, pageSize) =>
+                            setQueryParams({ page: page, per_page: pageSize })
+                        }
                     />
-
                 </FormContainer>
             </Section>
         </Layout>
-    )
-}
-
+    );
+};
 
 export default FormAdvanced;

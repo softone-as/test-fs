@@ -14,5 +14,7 @@ export class UserMapper {
         phoneNumberVerifiedAt: user.phoneNumberVerifiedAt,
         gender: user.gender,
         birthDate: user.birthDate,
+        roles: user.roles,
+        createdAt: user.createdAt,
     });
 }
