@@ -4,6 +4,7 @@ import BN from 'bn.js';
 import { config } from 'apps/api/src/config';
 import BigNumber from 'bignumber.js';
 import * as fs from 'fs';
+import * as bcrypt from 'bcrypt';
 import * as path from 'path';
 import * as AWS from 'aws-sdk';
 import {
@@ -17,6 +18,10 @@ import moment from 'moment-timezone';
 export class Utils {
     static md5(contents: string): string {
         return crypto.createHash('md5').update(contents).digest('hex');
+    }
+
+    static async bcryptHash(contents: string): Promise<string> {
+        return await bcrypt.hash(contents, 10);
     }
 
     static randStr(length: number) {
@@ -272,13 +277,13 @@ export class Utils {
         if (startingDate.getDay() == 6 && nearestDay == 5) {
             nearestTime.setDate(
                 startingDate.getDate() +
-                ((7 + nearestDay - startingDate.getDay()) % 7) -
-                7,
+                    ((7 + nearestDay - startingDate.getDay()) % 7) -
+                    7,
             );
         } else {
             nearestTime.setDate(
                 startingDate.getDate() +
-                ((7 + nearestDay - startingDate.getDay()) % 7),
+                    ((7 + nearestDay - startingDate.getDay()) % 7),
             );
         }
 

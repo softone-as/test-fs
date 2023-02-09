@@ -7,8 +7,8 @@ import { UserService } from '../services/user.service';
 import { UserUpdateRequest } from '../requests/user-update.request';
 import { config } from 'apps/backoffice/src/config';
 import { RoleService } from '../services/role.service';
-import * as bcrypt from 'bcrypt';
 import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
+import { Utils } from 'apps/backoffice/src/common/utils/util';
 
 @Injectable()
 export class UserCrudApplication {
@@ -82,7 +82,7 @@ export class UserCrudApplication {
         };
 
         if (request.password) {
-            updateUser.password = await bcrypt.hash(request.password, 10);
+            updateUser.password = await Utils.bcryptHash(request.password);
         }
 
         await this.adminService.update(id, updateUser, userExists);
