@@ -1,12 +1,11 @@
-
-import { Link } from '@inertiajs/inertia-react'
-import { Breadcrumb, Typography } from 'antd'
-import { BreadcrumbsItem } from '../../../Modules/Common/Entities'
-import React from 'react'
+import { Link } from '@inertiajs/inertia-react';
+import { Breadcrumb, Typography } from 'antd';
+import { BreadcrumbsItem } from '../../../Modules/Common/Entities';
+import React from 'react';
 
 type PropsBreadcrumb = {
-    breadcrumb?: BreadcrumbsItem[]
-}
+    breadcrumb?: BreadcrumbsItem[];
+};
 
 const Breadcrumbs = ({ breadcrumb }: PropsBreadcrumb) => {
     return (
@@ -21,7 +20,7 @@ const Breadcrumbs = ({ breadcrumb }: PropsBreadcrumb) => {
                 </Breadcrumb.Item>
             ))}
         </Breadcrumb>
-    )
-}
+    );
+};
 
-export default Breadcrumbs
+export default Breadcrumbs;

@@ -1,7 +1,12 @@
 import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
 import { Button, Descriptions, Space } from 'antd';
-import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import {
+    DeleteOutlined,
+    DownloadOutlined,
+    EditOutlined,
+    EyeOutlined,
+} from '@ant-design/icons';
 
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { PageHeader } from '../../../Components/molecules/Headers';
@@ -20,7 +25,6 @@ const columns: ColumnsType<IUser> = [
         title: 'ID',
         dataIndex: 'id',
         key: 'id',
-
     },
     {
         title: 'Name',
@@ -41,14 +45,21 @@ const columns: ColumnsType<IUser> = [
         title: 'Action',
         key: 'action',
         width: '142px',
-        render: () => <Space size='large'>
-            <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link>
-            <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
-            <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
-        </Space>
-    }
-
-]
+        render: () => (
+            <Space size="large">
+                <Link href="#">
+                    <EyeOutlined style={iconActionTableStyle} />
+                </Link>
+                <Link href="#">
+                    <EditOutlined style={iconActionTableStyle} />
+                </Link>
+                <Link href="#">
+                    <DeleteOutlined style={iconActionTableStyle} />
+                </Link>
+            </Space>
+        ),
+    },
+];
 
 const data: IUser[] = [
     {
@@ -58,62 +69,90 @@ const data: IUser[] = [
         password: '4123',
         identityNumber: '231',
         phoneNumber: '0841231322',
-    }
-]
-
-
+    },
+];
 
 interface IProps extends TInertiaProps {
-    data: IUser,
+    data: IUser;
 }
 
 const UserDetailPage: React.FC = (props: IProps) => {
-    const { id, identityNumber, email, fullname, phoneNumber, gender } = props.data
+    const { id, identityNumber, email, fullname, phoneNumber, gender } =
+        props.data;
 
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.Users.DETAIL} >
-            <PageHeader title='Detail User' topActions={[
-                <Buttons icon={<DeleteOutlined />}>Delete</Buttons>,
-                <Buttons icon={<EditOutlined />}>Edit</Buttons>,
-                <Buttons icon={<DownloadOutlined />}>Download</Buttons>,
-                <Button type='primary'>Action</Button>,
-            ]} />
+        <MainLayout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
+            <PageHeader
+                title="Detail User"
+                topActions={[
+                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>,
+                    <Buttons icon={<EditOutlined />}>Edit</Buttons>,
+                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>,
+                    <Button type="primary">Action</Button>,
+                ]}
+            />
 
-            <Space direction='vertical' size={defaultSizeSpace} style={{ width: '100%' }}>
-                <Section title='User Info'>
-                    <DescriptionContainer size='small' bordered column={{ md: 2, xs: 1 }}>
-                        <Descriptions.Item label='ID'>{id}</Descriptions.Item>
-                        <Descriptions.Item label='Name'>{fullname}</Descriptions.Item>
-                        <Descriptions.Item label='No Telephone'>{phoneNumber}</Descriptions.Item>
-                        <Descriptions.Item label='Email'>{email}</Descriptions.Item>
+            <Space
+                direction="vertical"
+                size={defaultSizeSpace}
+                style={{ width: '100%' }}
+            >
+                <Section title="User Info">
+                    <DescriptionContainer
+                        size="small"
+                        bordered
+                        column={{ md: 2, xs: 1 }}
+                    >
+                        <Descriptions.Item label="ID">{id}</Descriptions.Item>
+                        <Descriptions.Item label="Name">
+                            {fullname}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="No Telephone">
+                            {phoneNumber}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Email">
+                            {email}
+                        </Descriptions.Item>
                     </DescriptionContainer>
                 </Section>
 
-                <Section title='Advanced Information'>
-                    <DescriptionContainer size='small' bordered column={{ md: 2, xs: 1 }}>
-                        <Descriptions.Item label='Identity Number'>{identityNumber}</Descriptions.Item>
-                        <Descriptions.Item label='Gender'>{gender}</Descriptions.Item>
-                        <Descriptions.Item label='Address Link' span={2}>
+                <Section title="Advanced Information">
+                    <DescriptionContainer
+                        size="small"
+                        bordered
+                        column={{ md: 2, xs: 1 }}
+                    >
+                        <Descriptions.Item label="Identity Number">
+                            {identityNumber}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Gender">
+                            {gender}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Address Link" span={2}>
                             http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
                         </Descriptions.Item>
                     </DescriptionContainer>
 
-
                     <SectionHeader
-                        title='Table Title'
-                        actions={<Button type='primary'>Add Data</Button>}
+                        title="Table Title"
+                        actions={<Button type="primary">Add Data</Button>}
                     />
 
                     <DataTable<IUser>
                         columns={columns}
                         dataSource={data}
-                        total={3}
-                        perPage={10}
-                        onPageChange={() => { return }}
+                        meta={{
+                            page: 1,
+                            perPage: 10,
+                            total: 23,
+                            totalPage: 3,
+                        }}
+                        onPageChange={() => {
+                            return;
+                        }}
                     />
                 </Section>
             </Space>
-
         </MainLayout>
     );
 };

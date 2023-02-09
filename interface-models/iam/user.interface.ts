@@ -2,8 +2,8 @@ import { IBaseEntity } from 'interface-models/base-entity.interface';
 import { IRole } from './role.interface';
 
 export enum GenderEnum {
-    Perempuan = 'perempuan',
-    LakiLaki = 'laki-laki',
+    Perempuan = 'FEMALE',
+    LakiLaki = 'MALE',
 }
 
 export interface IUser extends IBaseEntity {
