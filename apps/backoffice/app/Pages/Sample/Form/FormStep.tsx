@@ -1,4 +1,3 @@
-
 import { CheckCircleFilled, UploadOutlined } from '@ant-design/icons';
 import {
     Button,
@@ -9,7 +8,7 @@ import {
     Space,
     Steps,
     Typography,
-    Upload
+    Upload,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
@@ -40,8 +39,8 @@ const prefixSelector = (
 );
 
 const FormStep: React.FC = () => {
-    const [form] = Form.useForm()
-    const [isLoading, setIsLoading] = useState(false)
+    const [form] = Form.useForm();
+    const [isLoading, setIsLoading] = useState(false);
     const [current, setCurrent] = useState(0);
 
     const next = () => {
@@ -53,9 +52,9 @@ const FormStep: React.FC = () => {
     };
 
     const onFinish = async (values: any) => {
-        setIsLoading(true)
-        await form.validateFields()
-        setIsLoading(false)
+        setIsLoading(true);
+        await form.validateFields();
+        setIsLoading(false);
         console.log('Received values of form: ', values);
     };
 
@@ -63,7 +62,7 @@ const FormStep: React.FC = () => {
 
     return (
         <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
-            <PageHeader title='Add Data' />
+            <PageHeader title="Add Data" />
 
             <Section>
                 <Steps
@@ -82,59 +81,75 @@ const FormStep: React.FC = () => {
                             description,
                         },
                     ]}
-                    style={{ padding: '0  80px', paddingBottom: '32px', paddingTop: '8px' }}
+                    style={{
+                        padding: '0  80px',
+                        paddingBottom: '32px',
+                        paddingTop: '8px',
+                    }}
                 />
 
                 {current < 2 ? (
                     <FormContainer
-                        initialValues={{ prefix: '62', name: 'John Doe', division: ['Industry'], suffix: 'USD' }}
+                        initialValues={{
+                            prefix: '62',
+                            name: 'John Doe',
+                            division: ['Industry'],
+                            suffix: 'USD',
+                        }}
                         onFinish={onFinish}
                         form={form}
-                        layout='vertical'
-                        requiredMark='optional'
+                        layout="vertical"
+                        requiredMark="optional"
                         centered
                         buttonAction={[
-                            <Button type='link'>
-                                Cancel
-                            </Button>,
-                            <Button onClick={prev}>
-                                Previous
-                            </Button>,
-                            <Button type="primary" htmlType="submit" disabled={isLoading} onClick={next}>
+                            <Button type="link">Cancel</Button>,
+                            <Button onClick={prev}>Previous</Button>,
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                disabled={isLoading}
+                                onClick={next}
+                            >
                                 Next
-                            </Button>
+                            </Button>,
                         ]}
                     >
                         <Typography.Paragraph style={{ opacity: '65%' }}>
-                            These are instructions in the form layout to fill in the fields so that they conform to the rules
+                            These are instructions in the form layout to fill in
+                            the fields so that they conform to the rules
                         </Typography.Paragraph>
 
-                        <Form.Item label="Name" name='name' required>
-                            <Input placeholder='Input' />
+                        <Form.Item label="Name" name="name" required>
+                            <Input placeholder="Input" />
                         </Form.Item>
 
-                        <Form.Item
-                            name="division"
-                            label="Division"
-                            required
-                        >
-                            <Select placeholder="Select" mode='multiple'>
-                                <Option value="Industry">Department of Industry</Option>
-                                <Option value="Business">Department of Business</Option>
-                                <Option value="IT">Department of Information and Technology</Option>
+                        <Form.Item name="division" label="Division" required>
+                            <Select placeholder="Select" mode="multiple">
+                                <Option value="Industry">
+                                    Department of Industry
+                                </Option>
+                                <Option value="Business">
+                                    Department of Business
+                                </Option>
+                                <Option value="IT">
+                                    Department of Information and Technology
+                                </Option>
                             </Select>
                         </Form.Item>
 
                         <Form.Item
                             name="phone"
                             label="Phone Number"
-                            tooltip='Distinctively monetize cost effective networks for cross-media bandwidth'
+                            tooltip="Distinctively monetize cost effective networks for cross-media bandwidth"
                         >
-                            <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                            <Input
+                                addonBefore={prefixSelector}
+                                style={{ width: '100%' }}
+                            />
                         </Form.Item>
 
-                        <Form.Item label="Description" name='description' >
-                            <TextArea placeholder='Textarea' />
+                        <Form.Item label="Description" name="description">
+                            <TextArea placeholder="Textarea" />
                         </Form.Item>
 
                         <Form.Item
@@ -142,31 +157,50 @@ const FormStep: React.FC = () => {
                             label="Upload"
                             valuePropName="fileList"
                             getValueFromEvent={normFile}
-                            tooltip='upload file'
+                            tooltip="upload file"
                         >
                             <Upload name="logo" action="/upload.do">
-                                <Button icon={<UploadOutlined />}>Upload</Button>
+                                <Button icon={<UploadOutlined />}>
+                                    Upload
+                                </Button>
                             </Upload>
                         </Form.Item>
-
                     </FormContainer>
-
                 ) : (
+                    <Row justify="center">
+                        <Space
+                            direction="vertical"
+                            align="center"
+                            style={{
+                                paddingTop: '42px',
+                                paddingBottom: '72px',
+                                textAlign: 'center',
+                            }}
+                        >
+                            <CheckCircleFilled
+                                style={{ fontSize: 63, color: '#52C41A' }}
+                            />
 
-                    <Row justify='center'>
-                        <Space direction='vertical' align='center' style={{ paddingTop: '42px', paddingBottom: '72px', textAlign: 'center' }}>
-                            <CheckCircleFilled style={{ fontSize: 63, color: '#52C41A' }} />
-
-                            <Typography.Title level={2} style={{ marginTop: '1rem', marginBottom: 0 }}>
+                            <Typography.Title
+                                level={2}
+                                style={{ marginTop: '1rem', marginBottom: 0 }}
+                            >
                                 This is result title
                             </Typography.Title>
 
-                            <Typography.Paragraph style={{ opacity: '45%' }} >
-                                Objectively scale orthogonal collaboration and idea-sharing after enterprise-wide manufactured products.
-                                <br />Compellingly strategize high-quality niche markets through sustainable.
+                            <Typography.Paragraph style={{ opacity: '45%' }}>
+                                Objectively scale orthogonal collaboration and
+                                idea-sharing after enterprise-wide manufactured
+                                products.
+                                <br />
+                                Compellingly strategize high-quality niche
+                                markets through sustainable.
                             </Typography.Paragraph>
 
-                            <Button type='primary' onClick={() => setCurrent(0)}>
+                            <Button
+                                type="primary"
+                                onClick={() => setCurrent(0)}
+                            >
                                 Ok
                             </Button>
                         </Space>
@@ -174,8 +208,7 @@ const FormStep: React.FC = () => {
                 )}
             </Section>
         </Layout>
-    )
-}
-
+    );
+};
 
 export default FormStep;

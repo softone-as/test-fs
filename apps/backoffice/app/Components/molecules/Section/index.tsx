@@ -1,7 +1,4 @@
-import { Section } from './Section'
-import { SectionHeader } from './SectionHeader'
+import { Section } from './Section';
+import { SectionHeader } from './SectionHeader';
 
-export {
-    Section,
-    SectionHeader
-}
+export { Section, SectionHeader };

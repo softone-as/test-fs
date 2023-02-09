@@ -40,5 +40,6 @@ deploy_develop:
     url: https://boilerplate-nestjs-inertia-dev.dot.co.id
   before_script:
     - chmod 600 $ANSIBLE_KEY_FILE
+    - ansible-galaxy collection install community.docker:==3.4.0
   script:
     - ansible-playbook --private-key $ANSIBLE_KEY_FILE -i deploy/hosts -v deploy/develop.yaml
