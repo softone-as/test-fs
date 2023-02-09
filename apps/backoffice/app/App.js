@@ -11,6 +11,9 @@ import { AppProvider } from './Contexts/App';
 import { ConfigProvider } from 'antd';
 import 'antd/dist/reset.css';
 import { globalThemeConfig } from './Utils/theme';
+import LogRocket from 'logrocket';
+
+LogRocket.init(process.env.LOGROCKET_APP_ID);
 
 const App = () => {
     // TEMP disabled

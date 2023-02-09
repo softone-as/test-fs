@@ -115,6 +115,7 @@
         "inertia-node": "^2.0.0",
         "jwt-decode": "^3.1.2",
         "ldapjs": "^2.3.3",
+        "logrocket": "^3.0.1",
         "moment-timezone": "^0.5.40",
         "move-file": "^3.0.0",
         "mysql2": "^2.3.0",
