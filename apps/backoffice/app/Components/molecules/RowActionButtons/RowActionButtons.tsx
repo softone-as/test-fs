@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Space, Tooltip, Button, Dropdown } from 'antd';
+import { Space, Tooltip, Button, Dropdown, Card } from 'antd';
 import {
     EyeOutlined,
     EditOutlined,
@@ -74,16 +74,15 @@ export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
 
     return isMobile ? (
         <Dropdown
-            overlayStyle={{ position: 'revert-layer', top: '25px' }}
             trigger={['click']}
             overlay={
-                <Space direction="vertical">
+                <Card size="small">
                     <Space wrap>
                         {actions
                             .slice(0, 3)
                             .map((action) => renderButton(action))}
                     </Space>
-                </Space>
+                </Card>
             }
             placement="bottomLeft"
         >

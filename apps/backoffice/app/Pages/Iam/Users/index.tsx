@@ -25,7 +25,7 @@ import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
-import { useMediaQuery } from 'react-responsive';
+import { isMobileScreen } from '../../../Utils/utils';
 
 interface IProps extends TInertiaProps {
     data: IUser[];
@@ -38,8 +38,6 @@ const UsersPage: React.FC = (props: IProps) => {
     } = useTableFilter<IUser>();
 
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
-    const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
     const columns: ColumnsType<IUser> = [
         {
@@ -57,16 +55,19 @@ const UsersPage: React.FC = (props: IProps) => {
             dataIndex: 'gender',
             key: 'gender',
             render: (value) =>
-                (isMobile && (value === 'male' ? 'm' : 'f')) || value,
+                (isMobileScreen && (value === 'male' ? 'm' : 'f')) || value,
         },
         {
             title: 'Phone Number',
             dataIndex: 'phoneNumber',
             key: 'phoneNumber',
-            render: (value) => (isMobile ? '+62xxx' : value),
+            render: (value) => (isMobileScreen ? '+62xxx' : value),
         },
         {
-            title: isMobile ? (
+            title: isMobileScreen ? null : 'Action',
+            key: 'action',
+            width: '142px',
+            render: () => (
                 <RowActionButtons
                     actions={[
                         {
@@ -88,35 +89,7 @@ const UsersPage: React.FC = (props: IProps) => {
                         },
                     ]}
                 />
-            ) : (
-                'Action'
             ),
-            key: 'action',
-            width: '142px',
-            render: () =>
-                !isMobile && (
-                    <RowActionButtons
-                        actions={[
-                            {
-                                type: 'view',
-                                href: `#`,
-                                title: 'view',
-                            },
-                            {
-                                type: 'edit',
-                                href: `#`,
-                                title: 'edit',
-                            },
-                            {
-                                type: 'delete',
-                                title: 'delete',
-                                onClick: () => {
-                                    // TODO : handle delete function
-                                },
-                            },
-                        ]}
-                    />
-                ),
         },
     ];
 
