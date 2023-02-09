@@ -116,15 +116,6 @@ const menuItems: MenuItem[] = [
             },
         ],
     },
-    {
-        key: Route.Logout,
-        label: (
-            <Link href="#" onClick={handleLogout}>
-                Logout
-            </Link>
-        ),
-        icon: <MailOutlined />,
-    },
 ];
 
 const { Sider, Content } = Layout;
