@@ -49,7 +49,6 @@ import { NotificationUnreadMiddleware } from './modules/notification/middlewares
 import { SentryModule } from './infrastructure/sentry/sentry.module';
 import * as Sentry from '@sentry/node';
 import { ProfileModule } from './modules/profile/profile.module';
-import { SentryQueryMiddleware } from './infrastructure/sentry/sentry-query.middleware';
 
 @Module({
     imports: [
@@ -191,7 +190,7 @@ export class AppModule implements NestModule {
                 InertiaSharePropsMiddleware,
                 UserDetailMiddleware,
                 NotificationUnreadMiddleware,
-                SentryQueryMiddleware,
+                // SentryQueryMiddleware,
             )
             .forRoutes('*');
     }
