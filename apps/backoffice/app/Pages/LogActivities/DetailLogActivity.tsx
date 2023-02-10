@@ -26,7 +26,7 @@ const DetailBasicPage: React.FC = (props: IProps) => {
                 size={defaultSizeSpace}
                 style={{ width: '100%' }}
             >
-                <Section>
+                <Section title="Detail Log">
                     <DescriptionContainer size="small" bordered>
                         <Descriptions.Item label="ID">{id}</Descriptions.Item>
                         <Descriptions.Item label="Full Name">
