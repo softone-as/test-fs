@@ -223,8 +223,8 @@ const UsersPage: React.FC = (props: IProps) => {
                         range={10}
                         onChange={handleRange}
                         defaultValue={[
-                            dayjs(filters.start_at),
-                            dayjs(filters.end_at),
+                            filters.start_at && dayjs(filters.start_at),
+                            filters.end_at && dayjs(filters.end_at),
                         ]}
                     />,
                 ]}
