@@ -3,7 +3,7 @@ import { Permission } from './permission.type';
 
 @ObjectType()
 export class Role {
-    @Field(type => Int)
+    @Field((_type) => Int)
     id: number;
 
     @Field({ nullable: true })
@@ -12,6 +12,6 @@ export class Role {
     @Field({ nullable: true })
     key?: string;
 
-    @Field(type => [Permission])
+    @Field((_type) => [Permission])
     permissions?: Permission[];
 }

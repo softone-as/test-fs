@@ -41,8 +41,8 @@
         "schema:sync": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config databases/config.js schema:sync",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
-        "prettier-fix": "prettier --write \"apps/backoffice/app/**/*.{ts,tsx,js,jsx}\" \"apps/backoffice/src/**/*.{ts,tsx,js,jsx}\" \"apps/api/src/**/*.{ts,tsx,js,jsx}\"",
-        "eslint-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx apps/backoffice/app/** apps/backoffice/src/** apps/api/src/**",
+        "prettier-fix": "prettier --write \"**/*.{ts,tsx,js,jsx}\"",
+        "eslint-fix": "eslint --fix \"**/*.{ts,tsx,js,jsx}\"",
         "lint-fix": "yarn prettier-fix && yarn eslint-fix"
     },
     "dependencies": {
