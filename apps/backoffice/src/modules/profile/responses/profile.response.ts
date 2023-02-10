@@ -1,11 +1,8 @@
 import { OmitType } from '@nestjs/swagger';
 import { User } from 'entities/iam/user.entity';
 import { IUser } from 'interface-models/iam/user.interface';
-import dayjs from 'dayjs';
 
-export class ProfileResponse extends OmitType(User, ['password', 'birthDate']) {
-    birthDate: dayjs.Dayjs;
-
+export class ProfileResponse extends OmitType(User, ['password']) {
     static fromEntity(entity: IUser): ProfileResponse {
         const response = new ProfileResponse();
 
@@ -19,7 +16,7 @@ export class ProfileResponse extends OmitType(User, ['password', 'birthDate']) {
         response.emailVerifiedAt = entity.emailVerifiedAt;
         response.phoneNumberVerifiedAt = entity.phoneNumberVerifiedAt;
         response.gender = entity.gender;
-        response.birthDate = dayjs(entity.birthDate);
+        response.birthDate = entity.birthDate;
 
         return response;
     }
