@@ -78,7 +78,7 @@ import { ProfileModule } from './modules/profile/profile.module';
             },
         }),
         SentryModule.forRoot(
-            config.sentry.isEnabled == 'true' && {
+            config.sentry.dsn && {
                 dsn: config.sentry.dsn,
                 attachStacktrace: true,
                 debug: false,

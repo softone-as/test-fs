@@ -16,7 +16,7 @@ const ASSET_VERSION = '1';
 
 async function bootstrap() {
     // Sentry
-    config.sentry.isEnabled == 'true' &&
+    config.sentry.dsn &&
         Sentry.init({
             dsn: config.sentry.dsn,
             attachStacktrace: true,

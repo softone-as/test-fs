@@ -186,7 +186,6 @@ export const config = {
      * Sentry configuration
      */
     sentry: {
-        isEnabled: process.env.SENTRY_IS_ENABLED,
         dsn: process.env.SENTRY_DSN,
     },
 
