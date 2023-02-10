@@ -13,7 +13,6 @@ import { IProfileForm } from '../../Modules/Profile/Entities';
 import { editProfile } from '../../Modules/Profile/Action';
 import { IProfile } from '../../Modules/User/Entities';
 import { GenderEnum } from '../../../../../interface-models/iam/user.interface';
-import dayjs from 'dayjs';
 import { BasicDatePicker } from '../../Components/molecules/Pickers/BasicDatePicker';
 
 const schema: yup.SchemaOf<IProfileForm> = yup.object().shape({
@@ -132,9 +131,7 @@ const FormProfilePage: React.FC = (props: IProps) => {
                         name="birthDate"
                         rules={[yupSync]}
                     >
-                        <BasicDatePicker
-                            defaultValue={dayjs(props.data.birthDate)}
-                        />
+                        <BasicDatePicker />
                     </Form.Item>
                 </FormContainer>
             </Section>
