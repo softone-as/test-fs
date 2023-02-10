@@ -12,6 +12,7 @@ import { useModal } from '../../../Utils/modal';
 import {} from '../../../Utils/notification';
 import { FilterSection } from '../../../Components/organisms/FilterSection';
 import { Button, MenuProps, Select, Tag } from 'antd';
+import dayjs from 'dayjs';
 import {
     DateRangePicker,
     TRangeValue,
@@ -211,7 +212,14 @@ const UsersPage: React.FC = (props: IProps) => {
                         allowClear
                         style={{ width: '90px' }}
                     />,
-                    <DateRangePicker range={10} onChange={handleRange} />,
+                    <DateRangePicker
+                        range={10}
+                        onChange={handleRange}
+                        defaultValue={[
+                            filters.start_at && dayjs(filters.start_at),
+                            filters.end_at && dayjs(filters.end_at),
+                        ]}
+                    />,
                 ]}
             />
             <DataTable
