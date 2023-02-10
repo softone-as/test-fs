@@ -12,10 +12,13 @@ import {
 import type { MenuProps } from 'antd';
 import { Link, usePage } from '@inertiajs/inertia-react';
 import {
+    BarsOutlined,
     BellOutlined,
     DashboardOutlined,
+    HistoryOutlined,
     LogoutOutlined,
-    MailOutlined,
+    ProfileOutlined,
+    SettingOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 import { Inertia, Page } from '@inertiajs/inertia';
@@ -57,7 +60,7 @@ const menuItems: MenuItem[] = [
     {
         key: '#IAM',
         label: 'IAM',
-        icon: <MailOutlined />,
+        icon: <ProfileOutlined />,
         theme: 'light',
         children: [
             {
@@ -77,7 +80,7 @@ const menuItems: MenuItem[] = [
     {
         key: '#Sample-Form',
         label: 'Sample Form',
-        icon: <MailOutlined />,
+        icon: <BarsOutlined />,
         theme: 'light',
         children: [
             {
@@ -99,7 +102,7 @@ const menuItems: MenuItem[] = [
     {
         key: '#Sample-Detail',
         label: 'Sample Detail',
-        icon: <MailOutlined />,
+        icon: <BarsOutlined />,
         theme: 'light',
         children: [
             {
@@ -115,6 +118,16 @@ const menuItems: MenuItem[] = [
                 ),
             },
         ],
+    },
+    {
+        key: '#Log-Activity',
+        label: <Link href="/logs">Log Activity</Link>,
+        icon: <HistoryOutlined />,
+    },
+    {
+        key: '#Config',
+        label: <Link href="#">Configuration</Link>,
+        icon: <SettingOutlined />,
     },
 ];
 
