@@ -26,8 +26,9 @@ export class PermissionIndexApplication extends IndexApplication {
     async fetch(
         request: PermissionIndexRequest,
     ): Promise<IPaginateResponse<IPermission>> {
-        const query =
-            this.PermissionRepository.createQueryBuilder('permission');
+        const query = this.PermissionRepository.createQueryBuilder(
+            'permission',
+        ).leftJoinAndSelect('permission.roles', 'role');
 
         if (request.search) {
             query.where(

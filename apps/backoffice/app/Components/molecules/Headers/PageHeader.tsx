@@ -13,7 +13,9 @@ export const PageHeader: React.FC<IProps> = (props: IProps) => {
     return (
         <Row style={{ marginBottom: '24px' }}>
             <Col flex="auto">
-                {props?.breadcrumbs?.length > 0 && <Breadcrumbs breadcrumbs={props.breadcrumbs} />}
+                {props?.breadcrumbs?.length > 0 && (
+                    <Breadcrumbs breadcrumbs={props.breadcrumbs} />
+                )}
 
                 <Title style={{ fontSize: '24px', lineHeight: '32px' }}>
                     {props.title}

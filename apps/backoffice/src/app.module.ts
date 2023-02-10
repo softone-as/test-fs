@@ -48,20 +48,14 @@ import { GlobalServiceModule } from './modules/glob/global-service.module';
 import { NotificationUnreadMiddleware } from './modules/notification/middlewares/notification-unread.middleware';
 import { SentryModule } from './infrastructure/sentry/sentry.module';
 import * as Sentry from '@sentry/node';
-import { SentryQueryMiddleware } from './infrastructure/sentry/sentry-query.middleware';
+import { ProfileModule } from './modules/profile/profile.module';
 
 @Module({
     imports: [
+        TypeOrmModule.forRoot(connectionOption),
         CacheModuleManager.register({
             isGlobal: true,
         }),
-
-        TypeOrmModule.forRoot(connectionOption),
-        RavenModule,
-        RedisModule,
-        ConfigModule,
-        InAppNotificationModule,
-
         MailerModule.forRoot({
             transport: {
                 host: config.mail.smtp.host,
@@ -83,32 +77,20 @@ import { SentryQueryMiddleware } from './infrastructure/sentry/sentry-query.midd
                 },
             },
         }),
-        SentryModule.forRoot({
-            dsn: config.sentry.dsn,
-            attachStacktrace: true,
-            debug: false,
-            environment: config.nodeEnv,
-            ignoreErrors: [
-                'EntityNotFoundError',
-                'QueryFailedError',
-                'FindRelationsNotFoundError',
-            ],
-            tracesSampleRate: 1.0,
-        }),
-
-        // write your module here
-        CacheModule,
-        AdminAuthModule,
-        MainModule,
-        CommonModule,
-        IamModule,
-        NotificationModule,
-        InAppNotificationModule,
-
-        ScheduleModule.forRoot(),
-
-        InertiaModule,
-        LogActivityModule,
+        SentryModule.forRoot(
+            config.sentry.dsn && {
+                dsn: config.sentry.dsn,
+                attachStacktrace: true,
+                debug: false,
+                environment: config.nodeEnv,
+                ignoreErrors: [
+                    'EntityNotFoundError',
+                    'QueryFailedError',
+                    'FindRelationsNotFoundError',
+                ],
+                tracesSampleRate: 1.0,
+            },
+        ),
         WinstonModule.forRoot({
             transports: [
                 new winston.transports.File({
@@ -120,7 +102,24 @@ import { SentryQueryMiddleware } from './infrastructure/sentry/sentry-query.midd
                 }),
             ],
         }),
+
+        // write your module here
+        RavenModule,
+        RedisModule,
+        ConfigModule,
+        InAppNotificationModule,
+        CacheModule,
+        AdminAuthModule,
+        MainModule,
+        CommonModule,
+        IamModule,
+        NotificationModule,
+        InAppNotificationModule,
+        ScheduleModule.forRoot(),
+        InertiaModule,
+        LogActivityModule,
         GlobalServiceModule,
+        ProfileModule,
     ],
     providers: [
         {
@@ -193,7 +192,6 @@ export class AppModule implements NestModule {
                 InertiaSharePropsMiddleware,
                 UserDetailMiddleware,
                 NotificationUnreadMiddleware,
-                SentryQueryMiddleware,
             )
             .forRoutes('*');
     }

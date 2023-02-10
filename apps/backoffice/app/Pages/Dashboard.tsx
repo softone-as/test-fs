@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { DataTable } from '../Components/organisms/DataTable';
+import { DataTable, TOnSort } from '../Components/organisms/DataTable';
 import { MainLayout } from '../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
-import { useTableFilter } from '../Utils/hooks';
 import { useModal } from '../Utils/modal';
 import { FilterSection } from '../Components/organisms/FilterSection';
 import { Button, MenuProps, Select } from 'antd';
@@ -14,8 +13,14 @@ import {
 } from '../Components/molecules/Pickers';
 import type { Dayjs } from 'dayjs';
 import { MultiFilterDropdown } from '../Components/molecules/Dropdowns';
-import { FileExcelOutlined, QuestionCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { Form, Typography, Space } from 'antd'
+import {
+    FileExcelOutlined,
+    QuestionCircleOutlined,
+    ShareAltOutlined,
+} from '@ant-design/icons';
+import { Form, Typography, Space } from 'antd';
+import { useTableFilter } from '../Utils/hooks';
+
 import { Breadcrumbs } from '../Enums/Breadcrumb';
 import { RowActionButtons } from '../Components/molecules/RowActionButtons';
 
@@ -38,8 +43,8 @@ interface IProps extends TInertiaProps {
 }
 
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
-    const { setQueryParams } = useTableFilter<DataType>();
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const { setQueryParams, filters } = useTableFilter();
 
     const columns: ColumnsType<DataType> = [
         {
@@ -92,10 +97,6 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         },
     ];
 
-    const handleSearch = (val) => {
-        return setQueryParams({ search: val });
-    };
-
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
@@ -129,17 +130,42 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         console.log('FINSIH : ', values);
     };
 
+    const handleSort = (sorter: TOnSort<DataType>) => {
+        return setQueryParams({
+            sort: sorter.columnKey as string,
+            order: sorter.order,
+        });
+    };
+    const handleSearch = (value) => {
+        setQueryParams({ search: value });
+    };
+
     return (
         <MainLayout
             title="Dashboard"
             breadcrumbs={Breadcrumbs.Dashboard.INDEX}
-            topActions={<>
-                <Button size='large' icon={<FileExcelOutlined />} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Import</Button>
-                <Button size='large' type='primary'>New User</Button>
-            </>}
+            topActions={
+                <>
+                    <Button
+                        size="large"
+                        icon={<FileExcelOutlined />}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        Import
+                    </Button>
+                    <Button size="large" type="primary">
+                        New User
+                    </Button>
+                </>
+            }
         >
-
-            <FilterSection searchHandler={handleSearch}
+            <FilterSection
+                searchValue={filters.search}
+                onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
                 filters={[
@@ -219,13 +245,10 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                     ...item,
                     key: item.id,
                 }))}
-                total={props?.meta?.total}
-                perPage={props?.meta?.perPage}
+                meta={props?.meta}
+                onSort={handleSort}
                 onPageChange={(page, pageSize) =>
-                    setQueryParams({
-                        page: page?.toString(),
-                        size: pageSize?.toString(),
-                    })
+                    setQueryParams({ page: page, per_page: pageSize })
                 }
             />
         </MainLayout>

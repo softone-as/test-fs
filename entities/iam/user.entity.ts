@@ -35,34 +35,34 @@ export class User extends BaseEntity implements IUser {
     @Column()
     fullname: string;
 
+    @Column({ unique: true, nullable: true })
+    email: string;
+
+    @Column()
+    @Exclude()
+    password: string;
+
     @Column({ name: 'identity_number', unique: true })
     identityNumber: string;
 
     @Column({ name: 'phone_number', unique: true })
     phoneNumber: string;
 
-    @Column({ name: 'email_verified_at', nullable: true })
-    emailVerifiedAt: Date;
-
     @Column({ name: 'one_signal_player_ids', nullable: true, type: 'json' })
     @Transform((value) => JSON.stringify(value))
     oneSignalPlayerIds: string[];
 
+    @Column({ name: 'email_verified_at', nullable: true })
+    emailVerifiedAt: Date;
+
     @Column({ name: 'phone_verified_at', nullable: true })
     phoneNumberVerifiedAt: Date;
-
-    @Column({ unique: true, nullable: true })
-    email: string;
-
-    @Column({ name: 'birth_date', nullable: true })
-    birthDate?: Date;
 
     @Column({ name: 'gender' })
     gender?: GenderEnum = GenderEnum.LakiLaki;
 
-    @Column()
-    @Exclude()
-    password: string;
+    @Column({ name: 'birth_date', nullable: true })
+    birthDate?: Date;
 
     @AfterUpdate()
     async createLogActivityUpdate() {

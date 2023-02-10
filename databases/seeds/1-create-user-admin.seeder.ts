@@ -2,7 +2,7 @@ import { User } from 'entities/iam/user.entity';
 import { Connection } from 'typeorm';
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Role } from 'entities/iam/role.entity';
-import * as bcrypt from 'bcrypt';
+import { Utils } from 'apps/backoffice/src/common/utils/util';
 
 export class CreateUserAdminSeeder implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<void> {
@@ -24,7 +24,7 @@ export class CreateUserAdminSeeder implements Seeder {
                     Object.assign(new User(), {
                         fullname: data[i].fullname,
                         email: data[i].email,
-                        password: await bcrypt.hash(data[i].password, 10),
+                        password: await Utils.bcryptHash(data[i].password),
                         identityNumber: data[i].identityNumber,
                         phoneNumber: data[i].phoneNumber,
                         role: [role],

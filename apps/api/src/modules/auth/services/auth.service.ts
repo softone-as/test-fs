@@ -6,6 +6,7 @@ import { In, Not, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CacheClear } from 'apps/api/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { config } from 'apps/api/src/config';
+import { Utils } from 'apps/api/src/common/utils/util';
 
 @Injectable()
 export class AuthService {
@@ -115,7 +116,7 @@ export class AuthService {
         phoneNumber: string,
         password: string,
     ): Promise<void> {
-        const passwordHash = await bcrypt.hash(password, 10);
+        const passwordHash = await Utils.bcryptHash(password);
         await this.userRepository.update(
             { phoneNumber },
             {

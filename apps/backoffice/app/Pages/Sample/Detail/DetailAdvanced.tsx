@@ -1,11 +1,31 @@
-
 import React from 'react';
-import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-import { Badge, Col, Descriptions, Image, Row, Space, Steps, Tabs, TabsProps, Timeline, Typography } from 'antd';
+import {
+    DeleteOutlined,
+    DownloadOutlined,
+    EditOutlined,
+    EyeOutlined,
+} from '@ant-design/icons';
+import {
+    Badge,
+    Col,
+    Descriptions,
+    Image,
+    Row,
+    Space,
+    Steps,
+    Tabs,
+    TabsProps,
+    Timeline,
+    Typography,
+} from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
 import { IUser } from '../../../Modules/User/Entities';
-import { defaultGutter, defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
+import {
+    defaultGutter,
+    defaultSizeSpace,
+    iconActionTableStyle,
+} from '../../../Utils/theme';
 
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { TimelinesItem } from '../../../Components/molecules/TimelinesItem';
@@ -18,13 +38,11 @@ import { Buttons } from '../../../Components/atoms/Buttons';
 import { DescriptionContainer } from '../../../Components/molecules/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
 
-
 const columns: ColumnsType<IUser> = [
     {
         title: 'ID',
         dataIndex: 'id',
         key: 'id',
-
     },
     {
         title: 'Name',
@@ -45,14 +63,21 @@ const columns: ColumnsType<IUser> = [
         title: 'Action',
         key: 'action',
         width: '142px',
-        render: () => <Space size='large'>
-            <Link href='#'><EyeOutlined style={iconActionTableStyle} /></Link >
-            <Link href='#'><EditOutlined style={iconActionTableStyle} /></Link>
-            <Link href='#'><DeleteOutlined style={iconActionTableStyle} /></Link>
-        </Space>
-    }
-
-]
+        render: () => (
+            <Space size="large">
+                <Link href="#">
+                    <EyeOutlined style={iconActionTableStyle} />
+                </Link>
+                <Link href="#">
+                    <EditOutlined style={iconActionTableStyle} />
+                </Link>
+                <Link href="#">
+                    <DeleteOutlined style={iconActionTableStyle} />
+                </Link>
+            </Space>
+        ),
+    },
+];
 
 const data: IUser[] = [
     {
@@ -62,7 +87,6 @@ const data: IUser[] = [
         password: '4123',
         phoneNumber: '0841231322',
         identityNumber: '231',
-
     },
     {
         id: 2,
@@ -71,7 +95,6 @@ const data: IUser[] = [
         password: '4123',
         identityNumber: '231',
         phoneNumber: '0841231322',
-
     },
     {
         id: 3,
@@ -80,21 +103,28 @@ const data: IUser[] = [
         password: '4123',
         identityNumber: '231',
         phoneNumber: '0841231322',
-
     },
-]
+];
 
 const tabItems: TabsProps['items'] = [
     {
         key: '1',
         label: `Tab 1`,
-        children: <DataTable<IUser>
-            columns={columns}
-            dataSource={data}
-            total={3}
-            perPage={10}
-            onPageChange={() => { return }}
-        />,
+        children: (
+            <DataTable<IUser>
+                columns={columns}
+                dataSource={data}
+                meta={{
+                    page: 1,
+                    perPage: 10,
+                    totalPage: 3,
+                    total: 30,
+                }}
+                onPageChange={() => {
+                    return;
+                }}
+            />
+        ),
     },
     {
         key: '2',
@@ -109,87 +139,153 @@ const tabItems: TabsProps['items'] = [
 ];
 
 const DetailAdvancedPage: React.FC = () => {
-
     return (
-        <Layout title='Detail Advanced' breadcrumbs={Breadcrumbs.Users.DETAIL}
-            topActions={<>
-                <Buttons icon={<DeleteOutlined />} >Delete</Buttons>
-                <Buttons icon={<EditOutlined />} >Edit</Buttons>
-                <Buttons icon={<DownloadOutlined />} >Download</Buttons>
-                <Buttons type='primary'>Action</Buttons>
-            </>}
+        <Layout
+            title="Detail Advanced"
+            breadcrumbs={Breadcrumbs.Users.DETAIL}
+            topActions={
+                <>
+                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>
+                    <Buttons icon={<EditOutlined />}>Edit</Buttons>
+                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>
+                    <Buttons type="primary">Action</Buttons>
+                </>
+            }
         >
-
-
-            <Row gutter={defaultGutter} justify='space-between'>
+            <Row gutter={defaultGutter} justify="space-between">
                 <Col md={24} lg={6}>
                     <Section>
-                        <Space direction='vertical' size={defaultSizeSpace}>
-
-                            <Space direction='vertical' size={defaultSizeSpace} align='center' style={{ width: '100%' }}>
-                                <Image src='https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' width={90} preview={false} style={{ borderRadius: '50%' }} />
-                                <Typography.Text style={{ fontSize: '20px' }} strong>John Cena</Typography.Text>
+                        <Space direction="vertical" size={defaultSizeSpace}>
+                            <Space
+                                direction="vertical"
+                                size={defaultSizeSpace}
+                                align="center"
+                                style={{ width: '100%' }}
+                            >
+                                <Image
+                                    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                                    width={90}
+                                    preview={false}
+                                    style={{ borderRadius: '50%' }}
+                                />
+                                <Typography.Text
+                                    style={{ fontSize: '20px' }}
+                                    strong
+                                >
+                                    John Cena
+                                </Typography.Text>
                             </Space>
 
-                            <DescriptionContainer layout='vertical' column={{ xl: 1, lg: 1, md: 2, sm: 1, xs: 1 }} size='small'>
-                                <Descriptions.Item label='ID'>109820348998734897</Descriptions.Item>
-                                <Descriptions.Item label='Name'>John Cena</Descriptions.Item>
-                                <Descriptions.Item label='Email'>john.lbf@gmail.com</Descriptions.Item>
-                                <Descriptions.Item label='No Telephone'>0812376152345</Descriptions.Item>
-                                <Descriptions.Item label='Address'>Rectory Cottage, Farleigh Court Road, Warlingham, CR6 9PX</Descriptions.Item>
+                            <DescriptionContainer
+                                layout="vertical"
+                                column={{ xl: 1, lg: 1, md: 2, sm: 1, xs: 1 }}
+                                size="small"
+                            >
+                                <Descriptions.Item label="ID">
+                                    109820348998734897
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Name">
+                                    John Cena
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Email">
+                                    john.lbf@gmail.com
+                                </Descriptions.Item>
+                                <Descriptions.Item label="No Telephone">
+                                    0812376152345
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Address">
+                                    Rectory Cottage, Farleigh Court Road,
+                                    Warlingham, CR6 9PX
+                                </Descriptions.Item>
                             </DescriptionContainer>
-
                         </Space>
 
-                        <DescriptionContainer column={1} size='small'>
-                            <Descriptions.Item label='Status'>
-                                <Badge status="warning" text='Warning' style={{ fontWeight: 400 }} />
+                        <DescriptionContainer column={1} size="small">
+                            <Descriptions.Item label="Status">
+                                <Badge
+                                    status="warning"
+                                    text="Warning"
+                                    style={{ fontWeight: 400 }}
+                                />
                             </Descriptions.Item>
                         </DescriptionContainer>
-
                     </Section>
                 </Col>
 
                 <Col md={24} lg={18}>
-                    <Space size={defaultSizeSpace} direction='vertical' style={{ width: '100%' }}>
-                        <Section title='Process progress' divider>
+                    <Space
+                        size={defaultSizeSpace}
+                        direction="vertical"
+                        style={{ width: '100%' }}
+                    >
+                        <Section title="Process progress" divider>
                             <Steps
                                 progressDot
                                 current={1}
-                                size='small'
+                                size="small"
                                 items={[
                                     {
-                                        title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Create Project</Typography.Text>,
+                                        title: (
+                                            <Typography.Text
+                                                style={{
+                                                    lineHeight: '22px',
+                                                    fontWeight: 600,
+                                                    fontSize: '14px',
+                                                }}
+                                            >
+                                                Create Project
+                                            </Typography.Text>
+                                        ),
                                         description: 'Description Blabla..',
                                     },
                                     {
-                                        title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Department Preliminary Review</Typography.Text>,
+                                        title: (
+                                            <Typography.Text
+                                                style={{
+                                                    lineHeight: '22px',
+                                                    fontWeight: 600,
+                                                    fontSize: '14px',
+                                                }}
+                                            >
+                                                Department Preliminary Review
+                                            </Typography.Text>
+                                        ),
                                         description: 'Description Blabla..',
                                     },
                                     {
-                                        title: <Typography.Text style={{ lineHeight: '22px', fontWeight: 600, fontSize: '14px' }}>Financial Preview </Typography.Text>,
+                                        title: (
+                                            <Typography.Text
+                                                style={{
+                                                    lineHeight: '22px',
+                                                    fontWeight: 600,
+                                                    fontSize: '14px',
+                                                }}
+                                            >
+                                                Financial Preview{' '}
+                                            </Typography.Text>
+                                        ),
                                         description: 'Description Blabla..',
                                     },
                                 ]}
                             />
                         </Section>
 
-                        <Section title='Activity Timeline' divider top>
+                        <Section title="Activity Timeline" divider top>
                             <Timeline>
                                 <TimelinesItem
-                                    title='Seamlessly communicate collaborative expertise through business quality'
-                                    description='Description timeline'
-                                    time='2 day ago'
+                                    title="Seamlessly communicate collaborative expertise through business quality"
+                                    description="Description timeline"
+                                    time="2 day ago"
                                 />
                                 <TimelinesItem
-                                    title='Seamlessly communicate collaborative expertise through business quality'
-                                    description='Description timeline'
-                                    time='2 day ago'
+                                    title="Seamlessly communicate collaborative expertise through business quality"
+                                    description="Description timeline"
+                                    time="2 day ago"
                                 />
                                 <TimelinesItem
-                                    title='Seamlessly communicate collaborative expertise through business quality'
-                                    description='Description timeline'
-                                    time='2 day ago'
+                                    title="Seamlessly communicate collaborative expertise through business quality"
+                                    description="Description timeline"
+                                    time="2 day ago"
                                 />
                             </Timeline>
                         </Section>
@@ -200,10 +296,8 @@ const DetailAdvancedPage: React.FC = () => {
                     </Space>
                 </Col>
             </Row>
-
         </Layout>
-    )
-}
-
+    );
+};
 
 export default DetailAdvancedPage;

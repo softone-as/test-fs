@@ -1,4 +1,8 @@
-import { InboxOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+    InboxOutlined,
+    MinusCircleOutlined,
+    PlusOutlined,
+} from '@ant-design/icons';
 import {
     Button,
     Checkbox,
@@ -13,7 +17,7 @@ import {
     Space,
     Switch,
     TimePicker,
-    Upload
+    Upload,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
@@ -22,6 +26,7 @@ import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Section } from '../../../Components/molecules/Section';
+import { CheckboxDropdown } from 'apps/backoffice/app/Components/molecules/Dropdowns/CheckboxDropdown';
 
 const { Option } = Select;
 
@@ -51,84 +56,101 @@ const suffixSelector = (
 );
 
 const FormBasic: React.FC = () => {
-    const [form] = Form.useForm()
-    const [isLoading, setIsLoading] = useState(false)
+    const [form] = Form.useForm();
+    const [isLoading, setIsLoading] = useState(false);
 
     const onFinish = async (values: any) => {
-        setIsLoading(true)
-        await form.validateFields()
+        setIsLoading(true);
+        await form.validateFields();
         console.log(form.validateFields());
-        setIsLoading(false)
+        setIsLoading(false);
         console.log('Received values of form: ', values);
     };
 
     return (
-        <Layout title='Add Data' breadcrumbs={Breadcrumbs.Users.CREATE}>
+        <Layout title="Add Data" breadcrumbs={Breadcrumbs.Users.CREATE}>
             <Section>
                 <FormContainer
                     form={form}
                     onFinish={onFinish}
-                    initialValues={{ prefix: '62', quantity: 3, status: true, suffix: 'USD', rate: 4, aggreement: true, 'checkboxItem': 'A' }}
+                    initialValues={{
+                        prefix: '62',
+                        quantity: 3,
+                        status: true,
+                        suffix: 'USD',
+                        rate: 4,
+                        aggreement: true,
+                        checkboxItem: 'A',
+                    }}
                     isFieldCentered
                     centered
                     buttonAction={[
-                        <Button >
-                            Cancel
-                        </Button>,
-                        <Button type="primary" htmlType="submit" disabled={isLoading}>
+                        <Button>Cancel</Button>,
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            disabled={isLoading}
+                        >
                             Submit
-                        </Button>
+                        </Button>,
                     ]}
                 >
-                    <Form.Item label="Email" name='email' required>
-                        <Input type='email' placeholder='Input' />
+                    <Form.Item label="Email" name="email" required>
+                        <Input type="email" placeholder="Input" />
                     </Form.Item>
 
-                    <Form.Item label="Password" name='password' required>
+                    <Form.Item label="Password" name="password" required>
                         <Input.Password />
                     </Form.Item>
 
-                    <Form.Item
-                        name="phone"
-                        label="Phone Number"
-                        required
-                    >
-                        <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                    <Form.Item name="phone" label="Phone Number" required>
+                        <Input
+                            addonBefore={prefixSelector}
+                            style={{ width: '100%' }}
+                        />
                     </Form.Item>
 
-                    <Form.Item label="Description" name='description' required>
-                        <TextArea placeholder='Textarea' />
+                    <Form.Item label="Description" name="description" required>
+                        <TextArea placeholder="Textarea" />
                     </Form.Item>
 
-                    <Form.Item
-                        name="gender"
-                        label="Gender"
-                        required
-                    >
+                    <Form.Item name="gender" label="Gender" required>
                         <Select placeholder="Select">
                             <Option value="Men">Men</Option>
                             <Option value="Woman">Woman</Option>
                         </Select>
                     </Form.Item>
 
-                    <Form.Item label="DatePicker" name='date' required>
+                    <Form.Item label="DatePicker" name="date" required>
                         <DatePicker />
                     </Form.Item>
 
-                    <Form.Item label="DatePickerRange" name='dateRange' required>
-                        <DateRangePicker onChange={() => { return }} />
+                    <Form.Item
+                        label="DatePickerRange"
+                        name="dateRange"
+                        required
+                    >
+                        <DateRangePicker
+                            onChange={() => {
+                                return;
+                            }}
+                        />
                     </Form.Item>
 
-                    <Form.Item label="Time" name='time' required>
+                    <Form.Item label="Time" name="time" required>
                         <TimePicker />
                     </Form.Item>
 
-                    <Form.Item label="Quantity" name='quantity' required>
+                    <Form.Item label="Quantity" name="quantity" required>
                         <InputNumber />
                     </Form.Item>
 
-                    <Form.Item name="status" label="Status Active" tooltip="Check status"
-                        valuePropName="checked">
+                    <Form.Item
+                        name="status"
+                        label="Status Active"
+                        tooltip="Check status"
+                        valuePropName="checked"
+                    >
                         <Switch />
                     </Form.Item>
 
@@ -136,8 +158,11 @@ const FormBasic: React.FC = () => {
                         <Button>Button</Button>
                     </Form.Item>
 
-                    <Form.Item label="Price" name='price' required>
-                        <InputNumber addonAfter={suffixSelector} style={{ width: '100%' }} />
+                    <Form.Item label="Price" name="price" required>
+                        <InputNumber
+                            addonAfter={suffixSelector}
+                            style={{ width: '100%' }}
+                        />
                     </Form.Item>
 
                     <Form.Item name="slider" label="Slider" required>
@@ -157,23 +182,32 @@ const FormBasic: React.FC = () => {
                         <Rate />
                     </Form.Item>
 
-                    <Form.Item label="Dragger" tooltip='Upload file' required>
-                        <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-                            <Upload.Dragger name="files" action="/upload.do" listType="picture">
+                    <Form.Item label="Dragger" tooltip="Upload file" required>
+                        <Form.Item
+                            name="dragger"
+                            valuePropName="fileList"
+                            getValueFromEvent={normFile}
+                            noStyle
+                        >
+                            <Upload.Dragger
+                                name="files"
+                                action="/upload.do"
+                                listType="picture"
+                            >
                                 <p className="ant-upload-drag-icon">
                                     <InboxOutlined />
                                 </p>
-                                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                                <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+                                <p className="ant-upload-text">
+                                    Click or drag file to this area to upload
+                                </p>
+                                <p className="ant-upload-hint">
+                                    Support for a single or bulk upload.
+                                </p>
                             </Upload.Dragger>
                         </Form.Item>
                     </Form.Item>
 
-                    <Form.Item
-                        name="status"
-                        label="Status"
-                        required
-                    >
+                    <Form.Item name="status" label="Status" required>
                         <Radio.Group>
                             <Radio.Button value="a">item 1</Radio.Button>
                             <Radio.Button value="b">item 2</Radio.Button>
@@ -189,25 +223,37 @@ const FormBasic: React.FC = () => {
                         </Radio.Group>
                     </Form.Item>
 
-                    <Form.Item name="checkboxItem" label="Item" tooltip='Choose at least one' required>
+                    <Form.Item
+                        name="checkboxItem"
+                        label="Item"
+                        tooltip="Choose at least one"
+                        required
+                    >
                         <Checkbox.Group>
                             <Space>
-                                <Checkbox value="A" style={{ lineHeight: '32px' }}>
+                                <Checkbox
+                                    value="A"
+                                    style={{ lineHeight: '32px' }}
+                                >
                                     Checbox
                                 </Checkbox>
-                                <Checkbox value="B" style={{ lineHeight: '32px' }}>
+                                <Checkbox
+                                    value="B"
+                                    style={{ lineHeight: '32px' }}
+                                >
                                     Checbox
                                 </Checkbox>
-                                <Checkbox value="C" style={{ lineHeight: '32px' }}>
+                                <Checkbox
+                                    value="C"
+                                    style={{ lineHeight: '32px' }}
+                                >
                                     Checbox
                                 </Checkbox>
                             </Space>
                         </Checkbox.Group>
                     </Form.Item>
 
-                    <Form.List
-                        name="names"
-                    >
+                    <Form.List name="names">
                         {(fields, { add, remove }, { errors }) => (
                             <>
                                 {fields.map((field) => (
@@ -218,22 +264,31 @@ const FormBasic: React.FC = () => {
                                     >
                                         <Form.Item
                                             {...field}
-                                            validateTrigger={['onChange', 'onBlur']}
+                                            validateTrigger={[
+                                                'onChange',
+                                                'onBlur',
+                                            ]}
                                             rules={[
                                                 {
                                                     required: true,
                                                     whitespace: true,
-                                                    message: "Please input passenger's name or delete this field.",
+                                                    message:
+                                                        "Please input passenger's name or delete this field.",
                                                 },
                                             ]}
                                             noStyle
                                         >
-                                            <Input placeholder="passenger name" style={{ width: '60%' }} />
+                                            <Input
+                                                placeholder="passenger name"
+                                                style={{ width: '60%' }}
+                                            />
                                         </Form.Item>
                                         {fields.length > 1 ? (
                                             <MinusCircleOutlined
                                                 className="dynamic-delete-button"
-                                                onClick={() => remove(field.name)}
+                                                onClick={() =>
+                                                    remove(field.name)
+                                                }
                                                 style={{ marginLeft: 6 }}
                                             />
                                         ) : null}
@@ -257,11 +312,18 @@ const FormBasic: React.FC = () => {
                         <Checkbox>I have read the agreement</Checkbox>
                     </Form.Item>
 
+                    <Form.Item label="Categories" name="categories" required>
+                        <CheckboxDropdown
+                            label="Categories"
+                            options={[
+                                { label: 'Checkbox 1', value: 'checkbox 1' },
+                            ]}
+                        />
+                    </Form.Item>
                 </FormContainer>
             </Section>
         </Layout>
-    )
-}
-
+    );
+};
 
 export default FormBasic;

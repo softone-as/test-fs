@@ -1,11 +1,10 @@
-
-import { Breadcrumb } from 'antd'
-import React from 'react'
-import { TBreadcrumbsItem } from '../../../Modules/Common/Entities'
+import { Breadcrumb } from 'antd';
+import React from 'react';
+import { TBreadcrumbsItem } from '../../../Modules/Common/Entities';
 
 type PropsBreadcrumb = {
-    breadcrumbs: TBreadcrumbsItem[]
-}
+    breadcrumbs: TBreadcrumbsItem[];
+};
 
 const Breadcrumbs = ({ breadcrumbs }: PropsBreadcrumb) => {
     return (
@@ -28,7 +27,7 @@ const Breadcrumbs = ({ breadcrumbs }: PropsBreadcrumb) => {
                 );
             })}
         </Breadcrumb>
-    )
-}
+    );
+};
 
-export default Breadcrumbs
+export default Breadcrumbs;

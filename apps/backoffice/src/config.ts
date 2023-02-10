@@ -183,7 +183,7 @@ export const config = {
     },
 
     /**
-     * online error log service credentials
+     * Sentry configuration
      */
     sentry: {
         dsn: process.env.SENTRY_DSN,
