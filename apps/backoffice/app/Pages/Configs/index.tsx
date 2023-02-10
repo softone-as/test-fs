@@ -4,9 +4,7 @@ import { MainLayout } from '../../Layouts/MainLayout';
 
 const ConfigsPage: React.FC = () => {
     return (
-        <MainLayout
-            title="Config"
-        >
+        <MainLayout title="Config">
             <h1>Hello</h1>
         </MainLayout>
     );

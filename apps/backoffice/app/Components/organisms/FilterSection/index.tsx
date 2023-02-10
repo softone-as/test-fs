@@ -1,5 +1,3 @@
-import { FilterSection } from './FilterSection'
+import { FilterSection } from './FilterSection';
 
-export {
-    FilterSection
-}
+export { FilterSection };

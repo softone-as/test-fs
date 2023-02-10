@@ -1,10 +1,8 @@
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-import { Expose } from 'class-transformer';
-import { IsNotEmpty, IsNumberString, IsString, Matches } from 'class-validator';
+import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
 
 @InputType()
 export class AuthLoginRequest {
-
     @Field()
     @IsNotEmpty()
     @IsNumberString()
@@ -14,31 +12,28 @@ export class AuthLoginRequest {
     @IsNotEmpty()
     @IsString()
     password: string;
-
 }
 
 @ObjectType()
 export class AuthUserResponse {
-
-    @Field(type => Int)
+    @Field((_type) => Int)
     id: number;
 
-    @Field(type => String)
+    @Field((_type) => String)
     fullname: string;
 
-    @Field(type => String)
+    @Field((_type) => String)
     email: string;
 
-    @Field(type => String)
+    @Field((_type) => String)
     phoneNumber: string;
 }
 
 @ObjectType()
 export class AuthLoginResponse {
-
-    @Field(type => AuthUserResponse)
+    @Field((_type) => AuthUserResponse)
     user: AuthUserResponse;
 
-    @Field(type => String)
+    @Field((_type) => String)
     token: string;
 }

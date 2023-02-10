@@ -16,4 +16,4 @@ import { config } from '../../config';
     providers: [CacheService],
     exports: [CacheService],
 })
-export class CacheModule { }
+export class CacheModule {}

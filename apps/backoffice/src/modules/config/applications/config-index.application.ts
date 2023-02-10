@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { config } from 'apps/backoffice/src/config';
 import { IndexApplication } from 'apps/backoffice/src/infrastructure/applications/index.application';
 import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
 import { Config } from 'entities/config/config.entity';

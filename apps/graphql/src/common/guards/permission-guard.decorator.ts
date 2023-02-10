@@ -1,4 +1,8 @@
-import { ForbiddenException, Inject, UnauthorizedException } from '@nestjs/common';
+import {
+    ForbiddenException,
+    Inject,
+    UnauthorizedException,
+} from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { UserService } from '../../modules/iam/services/user.service';
@@ -31,8 +35,12 @@ export const PermissionGuard = (key: string): any => {
 
             const tokenAuth = request.headers['authorization'];
             const user = Utils.tokenAuthDecoder(tokenAuth);
-            const userValidation = await this.userService.findOneById(user['id']);
-            const permissions = userValidation.role.permissions.map((x) => x.key);
+            const userValidation = await this.userService.findOneById(
+                user['id'],
+            );
+            const permissions = userValidation.role.permissions.map(
+                (x) => x.key,
+            );
             const isContainsKey = permissions.includes(key);
             if (!isContainsKey) {
                 throw new ForbiddenException();

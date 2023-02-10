@@ -2,7 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class Permission {
-    @Field(type => Int)
+    @Field((_type) => Int)
     id: number;
 
     @Field({ nullable: true })

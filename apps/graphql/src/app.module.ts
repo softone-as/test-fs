@@ -1,9 +1,5 @@
-import {
-    HttpException,
-    Module,
-    ValidationPipe,
-} from '@nestjs/common';
-import { APP_PIPE, APP_INTERCEPTOR, APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { HttpException, Module, ValidationPipe } from '@nestjs/common';
+import { APP_PIPE, APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
 import { RavenInterceptor, RavenModule } from 'nest-raven';
 import { QueryFailedError } from 'typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -23,7 +19,7 @@ import { QueryExceptionFilter } from './common/filters/query-failed-error.filter
             isGlobal: true,
             buildSchemaOptions: {
                 dateScalarMode: 'timestamp',
-            }
+            },
         }),
 
         TypeOrmModule.forRoot(connectionOption),
@@ -72,5 +68,4 @@ import { QueryExceptionFilter } from './common/filters/query-failed-error.filter
         },
     ],
 })
-
-export class AppModule { }
+export class AppModule {}
