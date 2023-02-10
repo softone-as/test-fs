@@ -11,28 +11,40 @@ import { AppContext } from '../../Contexts/App';
 import { IProfileFormPassword } from '../../Modules/Profile/Entities';
 import { editProfilePassword } from '../../Modules/Profile/Action';
 
-const schema: yup.SchemaOf<IProfileFormPassword> = yup.object().shape({
-    password: yup
-        .string()
-        .required('Field password is required')
-        .min(8, 'Password at least have 8 character')
-        .test(
-            'isFormatValid',
-            'At least password has include 1 number and Alphabet',
-            (value) => {
-                const hasUpperCase = /[A-Z]/.test(value);
-                const hasNumber = /[0-9]/.test(value);
-
-                if (hasNumber && hasUpperCase) {
-                    return true;
-                }
-
-                return false;
-            },
-        ),
-});
-
 const FormProfilePage: React.FC = () => {
+    const [password, setPassword] = useState<string>();
+
+    const schema: yup.SchemaOf<IProfileFormPassword> = yup.object().shape({
+        password: yup
+            .string()
+            .required('Field password is required')
+            .min(8, 'Password at least have 8 character')
+            .test(
+                'isFormatValid',
+                'At least password has include 1 number and Alphabet',
+                (value) => {
+                    const hasUpperCase = /[A-Z]/.test(value);
+                    const hasNumber = /[0-9]/.test(value);
+                    setPassword(value);
+
+                    if (hasNumber && hasUpperCase) {
+                        return true;
+                    }
+
+                    return false;
+                },
+            ),
+        passwordConfirm: yup
+            .string()
+            .required('Field password is required')
+            .min(8, 'Password at least have 8 character')
+            .test(
+                'isFormatValid',
+                'Password confirmation must match with password',
+                (value) => password == value,
+            ),
+    });
+
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
@@ -85,6 +97,15 @@ const FormProfilePage: React.FC = () => {
                     <Form.Item
                         label="Password"
                         name="password"
+                        rules={[yupSync]}
+                        required
+                    >
+                        <Input.Password type="password" placeholder="Input" />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Password Confirmation"
+                        name="passwordConfirm"
                         rules={[yupSync]}
                         required
                     >
