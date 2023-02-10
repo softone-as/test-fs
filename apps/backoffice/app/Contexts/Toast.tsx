@@ -1,7 +1,7 @@
-import { createContext } from 'react'
+import { createContext } from 'react';
 
 export interface IToastContext {
-    username: string
+    username: string;
 }
 
-export const ToastContext = createContext<Partial<IToastContext>>({})
+export const ToastContext = createContext<Partial<IToastContext>>({});

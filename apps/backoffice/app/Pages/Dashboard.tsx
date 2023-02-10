@@ -13,7 +13,6 @@ import {
 } from '../Components/molecules/Pickers';
 import type { Dayjs } from 'dayjs';
 import { MultiFilterDropdown } from '../Components/molecules/Dropdowns';
-import { PageHeader } from '../Components/molecules/Headers';
 import {
     FileExcelOutlined,
     QuestionCircleOutlined,
@@ -142,10 +141,11 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
     };
 
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.Dashboard.INDEX}>
-            <PageHeader
-                title="Permissions"
-                topActions={[
+        <MainLayout
+            title="Dashboard"
+            breadcrumbs={Breadcrumbs.Dashboard.INDEX}
+            topActions={
+                <>
                     <Button
                         size="large"
                         icon={<FileExcelOutlined />}
@@ -156,12 +156,13 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                         }}
                     >
                         Import
-                    </Button>,
+                    </Button>
                     <Button size="large" type="primary">
                         New User
-                    </Button>,
-                ]}
-            />
+                    </Button>
+                </>
+            }
+        >
             <FilterSection
                 searchValue={filters.search}
                 onSearch={handleSearch}

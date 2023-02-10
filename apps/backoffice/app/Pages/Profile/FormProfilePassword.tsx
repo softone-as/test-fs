@@ -2,7 +2,6 @@ import { Button, Form, Input } from 'antd';
 import React, { useContext, useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync } from '../../Utils/utils';
-import { PageHeader } from '../../Components/molecules/Headers';
 import { FormContainer } from '../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
@@ -69,9 +68,10 @@ const FormProfilePage: React.FC = () => {
     };
 
     return (
-        <Layout breadcrumbItems={Breadcrumbs.Profile.EDITPASSWORD}>
-            <PageHeader title="Edit Password" />
-
+        <Layout
+            title="Edit Password"
+            breadcrumbs={Breadcrumbs.Profile.EDITPASSWORD}
+        >
             <Section>
                 <FormContainer
                     onFinish={onFinish}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Row, Col } from 'antd'
+import { Layout, Row, Col } from 'antd';
 
 type TLoginLayout = {
     children: React.ReactNode;
@@ -8,12 +8,17 @@ type TLoginLayout = {
 
 const { Content } = Layout;
 
-export const LoginLayout: React.FC<TLoginLayout> = ({ children, title }) => {
+export const LoginLayout: React.FC<TLoginLayout> = ({ children }) => {
     return (
         <>
-
             <Layout style={{ minHeight: '100vh' }}>
-                <Content style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <Content
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}
+                >
                     <Row>
                         <Col span={12} offset={6}>
                             {children}
@@ -22,7 +27,5 @@ export const LoginLayout: React.FC<TLoginLayout> = ({ children, title }) => {
                 </Content>
             </Layout>
         </>
-    )
-}
-
-
+    );
+};

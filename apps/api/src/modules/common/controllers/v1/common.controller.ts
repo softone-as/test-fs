@@ -9,7 +9,6 @@ import {
     UseInterceptors,
     Req,
     Inject,
-    Patch,
 } from '@nestjs/common';
 import { generateRandomCode, Utils } from 'apps/api/src/common/utils/util';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
@@ -20,7 +19,6 @@ import { IApiResponse } from 'apps/api/src/common/interface/response.interface';
 import { CommonApplication } from '../../applications/common.application';
 import { UserService } from '../../../user/services/user.service';
 import { REQUEST } from '@nestjs/core';
-import { IUser } from 'interface-models/iam/user.interface';
 
 @Controller('commons')
 @UseGuards(LoggedInGuard)
@@ -29,7 +27,7 @@ export class CommonController {
         @Inject(REQUEST) private readonly request: Request,
         private readonly commonApplication: CommonApplication,
         private readonly userService: UserService,
-    ) { }
+    ) {}
 
     @Post('/upload-photo')
     @UseInterceptors(FileInterceptor('photo'))
@@ -79,12 +77,12 @@ export class CommonController {
 
         const fourDigitCombination = String(
             timeNow.getFullYear() +
-            timeNow.getMonth() +
-            timeNow.getDate() +
-            timeNow.getHours() +
-            timeNow.getMinutes() +
-            timeNow.getSeconds() +
-            Number(id),
+                timeNow.getMonth() +
+                timeNow.getDate() +
+                timeNow.getHours() +
+                timeNow.getMinutes() +
+                timeNow.getSeconds() +
+                Number(id),
         );
 
         const code =

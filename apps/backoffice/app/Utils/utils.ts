@@ -1,5 +1,6 @@
 import { FormInstance, RuleObject, RuleRender } from 'antd/es/form';
 import { AnyObject } from 'yup/lib/types';
+import { useMediaQuery } from 'react-responsive';
 
 /* 
     How to Use
@@ -32,4 +33,8 @@ export const createYupSync = (schema: AnyObject): RuleObject | RuleRender => {
     }
 
     return rule;
+};
+
+export const isMobileScreen = () => {
+    return useMediaQuery({ query: '(max-width: 767px)' });
 };

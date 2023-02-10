@@ -15,7 +15,6 @@ import { IUser } from '../../../Modules/User/Entities';
 import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
 
 import { Buttons } from '../../../Components/atoms/Buttons';
-import { PageHeader } from '../../../Components/molecules/Headers';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
@@ -93,17 +92,18 @@ const data: IUser[] = [
 
 const DetailBasicPage: React.FC = (props: TInertiaProps) => {
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
-            <PageHeader
-                title="Detail User"
-                topActions={[
-                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>,
-                    <Buttons icon={<EditOutlined />}>Edit</Buttons>,
-                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>,
-                    <Buttons type="primary">Action</Buttons>,
-                ]}
-            />
-
+        <MainLayout
+            title="Detail User"
+            breadcrumbs={Breadcrumbs.Users.DETAIL}
+            topActions={
+                <>
+                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>
+                    <Buttons icon={<EditOutlined />}>Edit</Buttons>
+                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>
+                    <Buttons type="primary">Action</Buttons>
+                </>
+            }
+        >
             <Space
                 direction="vertical"
                 size={defaultSizeSpace}

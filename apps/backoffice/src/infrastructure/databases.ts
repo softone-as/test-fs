@@ -32,7 +32,7 @@ export const connectionOption: ConnectionOptions = {
     synchronize: false,
     logging: config.nodeEnv === 'local',
     charset: 'utf8mb4_unicode_ci',
-    maxQueryExecutionTime: +config.database.maxQueryExecutionTimeInSeconds,
+    maxQueryExecutionTime: +config.database.maxQueryExecutionTimeInMs,
     logger: new DatabaseLogger(
         new SentryQueryService(),
         Span as unknown as Span,

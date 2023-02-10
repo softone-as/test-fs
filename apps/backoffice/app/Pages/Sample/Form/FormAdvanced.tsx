@@ -14,7 +14,6 @@ import {
 } from 'antd';
 import React, { useMemo, useState } from 'react';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
-import { PageHeader } from '../../../Components/molecules/Headers';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
@@ -239,8 +238,7 @@ const FormAdvanced = (props: TInertiaProps) => {
     };
 
     return (
-        <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
-            <PageHeader title="Add Data" />
+        <Layout title="Add Data" breadcrumbs={Breadcrumbs.Users.CREATE}>
             <Section title="Form Advanced">
                 <FormContainer
                     onFinish={onFinish}

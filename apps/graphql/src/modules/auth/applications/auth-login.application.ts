@@ -3,14 +3,18 @@ import { AuthService } from '../services/auth.service';
 import { IUserWithToken } from 'interface-models/iam/user-with-token.interface';
 import { JwtService } from '@nestjs/jwt';
 import { IJwtPayload } from 'interface-models/iam/jwt-payload.interface';
-import { AuthLoginRequest, AuthLoginResponse, AuthUserResponse } from '../types/auth-login.type';
+import {
+    AuthLoginRequest,
+    AuthLoginResponse,
+    AuthUserResponse,
+} from '../types/auth-login.type';
 
 @Injectable()
 export class AuthLoginApplication {
     constructor(
         private jwtService: JwtService,
         private readonly userService: AuthService,
-    ) { }
+    ) {}
 
     async basic(data: AuthLoginRequest): Promise<AuthLoginResponse> {
         try {
@@ -32,8 +36,8 @@ export class AuthLoginApplication {
                     phoneNumber: user.phoneNumber,
                     email: user.email,
                 },
-                token: accessToken
-            }
+                token: accessToken,
+            };
         } catch (_) {
             throw new BadRequestException(
                 'No. Telp and Kata Sandi tidak dikenali',

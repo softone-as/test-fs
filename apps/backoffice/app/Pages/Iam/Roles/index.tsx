@@ -148,7 +148,7 @@ const RolesPage: React.FC = () => {
     // );
 
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.Roles.INDEX}>
+        <MainLayout title="Roles" breadcrumbs={Breadcrumbs.Roles.INDEX}>
             <h1>Hello</h1>
         </MainLayout>
     );

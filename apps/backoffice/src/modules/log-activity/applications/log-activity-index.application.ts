@@ -2,31 +2,31 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
 import { IndexApplication } from 'apps/backoffice/src/infrastructure/applications/index.application';
-import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
-import { Config } from 'entities/config/config.entity';
+import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { Repository } from 'typeorm';
-import { ConfigIndexRequest } from '../requests/config-index.request';
+import { LogActivityIndexRequest } from '../requests/log-activity-index.request';
 
-const ALLOW_TO_SORT = ['latest', 'oldest', 'name', 'key', 'value'];
+const ALLOW_TO_SORT = ['latest', 'oldest', 'menu'];
 
 @Injectable()
-export class ConfigIndexApplication extends IndexApplication {
+export class LogActivityIndexApplication extends IndexApplication {
     constructor(
-        @InjectRepository(Config)
-        private readonly configRepository: Repository<Config>,
-        private readonly cacheService: CacheService,
+        @InjectRepository(LogActivity)
+        private readonly logActivityRepository: Repository<LogActivity>,
     ) {
         super();
     }
 
     async fetch(
-        request: ConfigIndexRequest,
-    ): Promise<IPaginateResponse<Config>> {
-        const query = this.configRepository.createQueryBuilder('config');
+        request: LogActivityIndexRequest,
+    ): Promise<IPaginateResponse<LogActivity>> {
+        const query = this.logActivityRepository
+            .createQueryBuilder('logActivity')
+            .leftJoinAndSelect('logActivity.user', 'user');
 
         if (request.search) {
             query.where(
-                `concat(config.name, ' ', config.id, ' ', config.value) like :search`,
+                `concat(logActivity.id, ' ', logActivity.meta_data, ' ', logActivity.source, ' ', logActivity.activity, ' ', logActivity.menu, ' ', logActivity.path) like :search`,
                 {
                     search: `%${request.search}%`,
                 },
@@ -41,9 +41,9 @@ export class ConfigIndexApplication extends IndexApplication {
             query.orderBy(
                 ALLOW_TO_SORT.indexOf(request.sort) >= 0
                     ? request.sort
-                        ? `config.${request.sort}`
-                        : `config.${ALLOW_TO_SORT[0]}`
-                    : `config.createdAt`,
+                        ? `logActivity.${request.sort}`
+                        : `logActivity.${ALLOW_TO_SORT[0]}`
+                    : `logActivity.createdAt`,
                 this.getOrder(request.order),
             );
         }

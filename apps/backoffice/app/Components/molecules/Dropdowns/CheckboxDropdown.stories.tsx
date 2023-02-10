@@ -1,23 +1,23 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { CheckboxDropdown } from './index';
+import { CheckboxDropdown as CheckboxDropdownComponent } from './index';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'Components/Molecules/Dropdowns',
-    component: CheckboxDropdown,
+    title: 'Components/Molecules/Dropdowns/CheckboxDropdown',
+    component: CheckboxDropdownComponent,
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-} as ComponentMeta<typeof CheckboxDropdown>;
+} as ComponentMeta<typeof CheckboxDropdownComponent>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof CheckboxDropdown> = (args) => (
-    <CheckboxDropdown {...args} />
+const Template: ComponentStory<typeof CheckboxDropdownComponent> = (args) => (
+    <CheckboxDropdownComponent {...args} />
 );
 
-export const CheckboxDropdownMolecule = Template.bind({});
+export const CheckboxDropdown = Template.bind({});
 
-CheckboxDropdownMolecule.args = {
+CheckboxDropdown.args = {
     label: 'Dropdown',
     options: [
         { label: 'Checkbox 1', value: 'checkbox 1' },
