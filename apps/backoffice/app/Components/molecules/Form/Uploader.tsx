@@ -7,23 +7,20 @@ const { Dragger } = Upload;
 
 export type TUploader = UploadProps & {
     icon?: React.ReactNode;
-    text?: React.ReactNode;
+    text?: string;
+    hint?: string;
 };
 
-const Uploader = ({ icon, text, ...rest }: TUploader) => {
+const Uploader = ({ icon, text, hint, ...rest }: TUploader) => {
     return (
         <Dragger {...rest}>
             <p className="ant-upload-drag-icon">{icon ?? <InboxOutlined />}</p>
-            {text ?? (
-                <>
-                    <p className="ant-upload-text">
-                        Click or drag file to this area to upload
-                    </p>
-                    <p className="ant-upload-hint">
-                        Support for a single or bulk upload
-                    </p>
-                </>
-            )}
+            <p className="ant-upload-text">
+                {text ?? 'Click or drag file to this area to upload'}
+            </p>
+            <p className="ant-upload-hint">
+                {hint ?? 'Support for a single or bulk upload'}
+            </p>
         </Dragger>
     );
 };

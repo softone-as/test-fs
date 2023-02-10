@@ -21,14 +21,8 @@ export const Uploader = Template.bind({});
 export const UploaderCustomText = Template.bind({});
 
 UploaderCustomText.args = {
-    text: (
-        <>
-            <p className="ant-upload-text">
-                Click or drag aomething to this area to upload
-            </p>
-            <p className="ant-upload-hint">Support for bulk upload</p>
-        </>
-    ),
+    text: 'Click or drag something to this area to upload',
+    hint: 'Just Single Upload',
 };
 
 export const UploaderCustomIcon = Template.bind({});

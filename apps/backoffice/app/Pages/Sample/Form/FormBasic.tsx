@@ -189,6 +189,8 @@ const FormBasic: React.FC = () => {
                                 name="files"
                                 action="/upload.do"
                                 listType="picture"
+                                text="Hello World"
+                                hint="HHHH"
                             />
                         </Form.Item>
                     </Form.Item>
