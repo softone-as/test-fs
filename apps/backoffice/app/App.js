@@ -6,6 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 // import 'react-toastify/dist/ReactToastify.css';
 // import { ToastContext } from './Contexts/Toast';
 import { AppProvider } from './Contexts/App';
+import { NotificationResponseProvider } from './Contexts/NotificationResponse';
 
 //Ant Design
 import { ConfigProvider } from 'antd';
@@ -32,14 +33,16 @@ const App = () => {
         <>
             <ConfigProvider theme={globalThemeConfig}>
                 <AppProvider>
-                    <InertiaApp
-                        initialPage={JSON.parse(app.dataset.page)}
-                        resolveComponent={(pageString) =>
-                            import(`./Pages/${pageString}`).then(
-                                (module) => module.default,
-                            )
-                        }
-                    />
+                    <NotificationResponseProvider>
+                        <InertiaApp
+                            initialPage={JSON.parse(app.dataset.page)}
+                            resolveComponent={(pageString) =>
+                                import(`./Pages/${pageString}`).then(
+                                    (module) => module.default,
+                                )
+                            }
+                        />
+                    </NotificationResponseProvider>
                 </AppProvider>
             </ConfigProvider>
         </>

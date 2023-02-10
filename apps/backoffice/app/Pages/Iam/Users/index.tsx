@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     DataTable,
     TOnSort,
@@ -25,12 +25,12 @@ import { Inertia } from '@inertiajs/inertia';
 
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 import { Page } from '@inertiajs/inertia';
-import { useNotification } from '../../../Utils/notification';
 
 import { Link, usePage } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import dayjs from 'dayjs';
+import { NotificationResponseContext } from 'apps/backoffice/app/Contexts/NotificationResponse';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -44,7 +44,9 @@ type TFilters = {
 
 const UsersPage: React.FC = (props: IProps) => {
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
-
+    const { notificationState, setNotificationMessage } = useContext(
+        NotificationResponseContext,
+    );
     const {
         setQueryParams,
         filters,
@@ -187,19 +189,17 @@ const UsersPage: React.FC = (props: IProps) => {
     };
 
     // Notification when user's created is success
-    const successNotification = useMemo(() => {
-        if (pageProps.success != null) {
-            return useNotification({
-                type: 'success',
-                message: pageProps.success.message,
-            });
+    useEffect(() => {
+        if (pageProps.success) {
+            setNotificationMessage(pageProps.success.message);
         }
-    }, [pageProps.success]);
+    }, []);
 
     return (
         <MainLayout breadcrumbItems={Breadcrumbs.Users.INDEX}>
             <>
-                {successNotification}
+                {/* Component Notification */}
+                {notificationState.notifications}
                 <PageHeader
                     title="User List"
                     topActions={[
