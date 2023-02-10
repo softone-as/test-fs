@@ -1,24 +1,31 @@
-import { Link } from '@inertiajs/inertia-react';
-import { Breadcrumb, Typography } from 'antd';
-import { BreadcrumbsItem } from '../../../Modules/Common/Entities';
+import { Breadcrumb } from 'antd';
 import React from 'react';
+import { TBreadcrumbsItem } from '../../../Modules/Common/Entities';
 
 type PropsBreadcrumb = {
-    breadcrumb?: BreadcrumbsItem[];
+    breadcrumbs: TBreadcrumbsItem[];
 };
 
-const Breadcrumbs = ({ breadcrumb }: PropsBreadcrumb) => {
+const Breadcrumbs = ({ breadcrumbs }: PropsBreadcrumb) => {
     return (
-        <Breadcrumb style={{ marginBottom: 8 }}>
-            {breadcrumb?.map((data, index) => (
-                <Breadcrumb.Item key={index}>
-                    {breadcrumb.length === 1 + index ? (
-                        <Typography.Text>{data.label}</Typography.Text>
-                    ) : (
-                        <Link href={data.path}>{data.label}</Link>
-                    )}
-                </Breadcrumb.Item>
-            ))}
+        <Breadcrumb style={{ marginBottom: '8px' }}>
+            {breadcrumbs?.map(({ label, path }) => {
+                return !path ? (
+                    <Breadcrumb.Item key={label}>
+                        <span
+                            style={{
+                                color: 'rgba(0, 0, 0, 0.88)',
+                            }}
+                        >
+                            {label}
+                        </span>
+                    </Breadcrumb.Item>
+                ) : (
+                    <Breadcrumb.Item key={label}>
+                        <a href={path}>{label}</a>
+                    </Breadcrumb.Item>
+                );
+            })}
         </Breadcrumb>
     );
 };

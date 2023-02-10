@@ -22,7 +22,6 @@ import {
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
-import { PageHeader } from '../../../Components/molecules/Headers';
 import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
@@ -69,8 +68,7 @@ const FormBasic: React.FC = () => {
     };
 
     return (
-        <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
-            <PageHeader title="Add Data" />
+        <Layout title="Add Data" breadcrumbs={Breadcrumbs.Users.CREATE}>
             <Section>
                 <FormContainer
                     form={form}

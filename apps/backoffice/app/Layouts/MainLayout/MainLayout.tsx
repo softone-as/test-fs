@@ -1,16 +1,3 @@
-import React, { useMemo, useContext } from 'react';
-import {
-    Layout,
-    Typography,
-    Space,
-    Menu,
-    ConfigProvider,
-    Avatar,
-    Badge,
-    Tooltip,
-} from 'antd';
-import type { MenuProps } from 'antd';
-import { Link, usePage } from '@inertiajs/inertia-react';
 import {
     BarsOutlined,
     BellOutlined,
@@ -22,19 +9,34 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import { Inertia, Page } from '@inertiajs/inertia';
-import { sidebarThemeConfig } from '../../Utils/theme';
+import { Head, Link, usePage } from '@inertiajs/inertia-react';
+import type { MenuProps } from 'antd';
+import {
+    Avatar,
+    Badge,
+    ConfigProvider,
+    Layout,
+    Menu,
+    Space,
+    Tooltip,
+    Typography,
+} from 'antd';
+import React, { useContext, useMemo } from 'react';
+import { PageHeader } from '../../Components/molecules/Headers';
 import { PageProgress } from '../../Components/molecules/Progress';
-import Breadcrumbs from '../../Components/molecules/Breadcrumbs/Breadcrumbs';
-import { BreadcrumbsItem } from '../../Modules/Common/Entities';
-import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { AppContext } from '../../Contexts/App';
 import { Route } from '../../Enums/Route';
+import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
+import { TInertiaProps } from '../../Modules/Inertia/Entities';
+import { sidebarThemeConfig } from '../../Utils/theme';
 import { isMobileScreen } from '../../Utils/utils';
 
 export type IProps = {
     children: React.ReactNode;
     headerRightMenu?: React.FC;
-    breadcrumbItems?: BreadcrumbsItem[];
+    title: string;
+    topActions?: React.ReactNode;
+    breadcrumbs?: TBreadcrumbsItem[];
 };
 
 const handleLogout = (
@@ -137,7 +139,9 @@ const { Text } = Typography;
 
 export const MainLayout: React.FC<IProps> = ({
     children,
-    breadcrumbItems = [],
+    title,
+    topActions,
+    breadcrumbs,
 }: IProps) => {
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
@@ -166,7 +170,10 @@ export const MainLayout: React.FC<IProps> = ({
     return (
         // Fix height, so the scroll will be belongs to Content only
         <Layout style={{ height: '100vh' }}>
+            <Head title={title} />
+
             {appState.isNavigating && <PageProgress />}
+
             <Sider
                 theme="light"
                 style={{
@@ -319,7 +326,11 @@ export const MainLayout: React.FC<IProps> = ({
                         marginTop: isMobile ? '25px' : 0,
                     }}
                 >
-                    <Breadcrumbs breadcrumb={breadcrumbItems} />
+                    <PageHeader
+                        title={title}
+                        topActions={topActions}
+                        breadcrumbs={breadcrumbs}
+                    />
 
                     {children}
                 </Content>

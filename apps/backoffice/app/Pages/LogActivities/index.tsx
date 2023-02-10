@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DataTable } from '../../Components/organisms/DataTable';
+import { DataTable, TOnSort } from '../../Components/organisms/DataTable';
 import { MainLayout } from '../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
@@ -14,7 +14,6 @@ import {
 } from '../../Components/molecules/Pickers';
 import type { Dayjs } from 'dayjs';
 import { MultiFilterDropdown } from '../../Components/molecules/Dropdowns';
-import { PageHeader } from '../../Components/molecules/Headers';
 import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form } from 'antd';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
@@ -31,8 +30,10 @@ interface IProps extends TInertiaProps {
 const LogActivityPage: React.FC = (props: IProps) => {
     const {
         setQueryParams,
+        filters,
         status: { isFetching },
-    } = useTableFilter<ILogActivity>();
+    } = useTableFilter<Partial<ILogActivity>>();
+
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
     const columns: ColumnsType<ILogActivity> = [
@@ -105,32 +106,40 @@ const LogActivityPage: React.FC = (props: IProps) => {
         console.log('Data menu: ', data);
     };
 
+    const handleSort = (sorter: TOnSort<ILogActivity>) => {
+        return setQueryParams({
+            sort: sorter.columnKey as string,
+            order: sorter.order,
+        });
+    };
+
     const [form] = Form.useForm<{ status: string }>();
 
     const handleFinish = (values) => {
         console.log('FINSIH : ', values);
     };
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.LogActivity.INDEX}>
-            <PageHeader
-                title="Logs"
-                topActions={[
-                    <Button
-                        type="primary"
-                        size="large"
-                        icon={<FileExcelOutlined />}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        Export
-                    </Button>,
-                ]}
-            />
+        <MainLayout
+            title="Logs"
+            breadcrumbs={Breadcrumbs.LogActivity.INDEX}
+            topActions={
+                <Button
+                    type="primary"
+                    size="large"
+                    icon={<FileExcelOutlined />}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    Export
+                </Button>
+            }
+        >
             <FilterSection
-                searchHandler={handleSearch}
+                searchValue={filters.search}
+                onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus}
                 filters={[
@@ -165,14 +174,14 @@ const LogActivityPage: React.FC = (props: IProps) => {
             <DataTable
                 rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
                 columns={columns}
-                dataSource={props?.data.map((item) => ({
+                dataSource={props.data.map((item) => ({
                     ...item,
                     key: item.id,
                 }))}
-                total={props?.meta?.total}
-                perPage={props.meta.perPage}
-                onPageChange={(page) =>
-                    setQueryParams({ page: page.toString() })
+                meta={props.meta}
+                onSort={handleSort}
+                onPageChange={(page, pageSize) =>
+                    setQueryParams({ page: page, per_page: pageSize })
                 }
                 loading={isFetching}
             />

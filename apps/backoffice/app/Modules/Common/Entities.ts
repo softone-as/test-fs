@@ -1,4 +1,4 @@
-export type BreadcrumbsItem = {
+export type TBreadcrumbsItem = {
     label: string;
     path: string;
 };

@@ -13,7 +13,6 @@ import {
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
 
-import { PageHeader } from '../../../Components/molecules/Headers';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
@@ -61,9 +60,7 @@ const FormStep: React.FC = () => {
     const description = 'This is a description.';
 
     return (
-        <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
-            <PageHeader title="Add Data" />
-
+        <Layout title="Add Data" breadcrumbs={Breadcrumbs.Users.CREATE}>
             <Section>
                 <Steps
                     current={current}

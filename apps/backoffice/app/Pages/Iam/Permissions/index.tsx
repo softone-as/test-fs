@@ -8,7 +8,6 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { FilterSection } from '../../../Components/organisms/FilterSection';
 import { Button, MenuProps, Tag } from 'antd';
-import { PageHeader } from '../../../Components/molecules/Headers';
 import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { useModal } from '../../../Utils/modal';
 
@@ -18,7 +17,7 @@ import { Inertia } from '@inertiajs/inertia';
 import type { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../../../Utils/hooks';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
+import { RowActionButtons } from 'apps/backoffice/app/Components/molecules/RowActionButtons';
 
 interface IProps extends TInertiaProps {
     data: PermissionResponse[];
@@ -150,10 +149,11 @@ const PermissionPage: React.FC = (props: IProps) => {
     };
 
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.Permissions.INDEX}>
-            <PageHeader
-                title="Permissions"
-                topActions={[
+        <MainLayout
+            breadcrumbs={Breadcrumbs.Permissions.INDEX}
+            title="Permissions"
+            topActions={
+                <>
                     <Button
                         size="large"
                         icon={<FileExcelOutlined />}
@@ -164,12 +164,13 @@ const PermissionPage: React.FC = (props: IProps) => {
                         }}
                     >
                         Import
-                    </Button>,
+                    </Button>
                     <Button size="large" type="primary">
-                        New User
-                    </Button>,
-                ]}
-            />
+                        New Permission
+                    </Button>
+                </>
+            }
+        >
             <FilterSection
                 searchValue={filters.search}
                 onSearch={handleSearch}

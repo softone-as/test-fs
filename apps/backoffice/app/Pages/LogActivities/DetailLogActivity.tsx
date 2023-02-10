@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Descriptions, Space } from 'antd';
 import { defaultSizeSpace } from '../../Utils/theme';
-import { PageHeader } from '../../Components/molecules/Headers';
 import { MainLayout } from '../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import DescriptionContainer from '../../Components/molecules/DescriptionContainer/DescriptionContainer';
@@ -18,9 +17,10 @@ const DetailBasicPage: React.FC = (props: IProps) => {
     const { id, user, source, metaData, activity, menu, path } = props.data;
 
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.LogActivity.DETAIL}>
-            <PageHeader title="Detail Log" />
-
+        <MainLayout
+            title="Detail Log"
+            breadcrumbs={Breadcrumbs.LogActivity.DETAIL}
+        >
             <Space
                 direction="vertical"
                 size={defaultSizeSpace}

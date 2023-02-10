@@ -2,7 +2,6 @@ import React from 'react';
 import { Descriptions, Space } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { MainLayout } from '../../Layouts/MainLayout';
-import { PageHeader } from '../../Components/molecules/Headers';
 import { IUser } from '../../Modules/User/Entities';
 import { defaultSizeSpace } from '../../Utils/theme';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
@@ -21,26 +20,27 @@ const UserDetailPage: React.FC = (props: IProps) => {
         props.data;
 
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.Profile.INDEX}>
-            <PageHeader
-                title="Profile"
-                topActions={[
+        <MainLayout
+            title="Profile"
+            breadcrumbs={Breadcrumbs.Profile.INDEX}
+            topActions={
+                <>
                     <Buttons
                         type="primary"
                         href={Route.EditProfile}
                         icon={<EditOutlined />}
                     >
                         Edit
-                    </Buttons>,
+                    </Buttons>
                     <Buttons
                         href={Route.EditProfilePassword}
                         icon={<EditOutlined />}
                     >
                         Edit Password
-                    </Buttons>,
-                ]}
-            />
-
+                    </Buttons>
+                </>
+            }
+        >
             <Space
                 direction="vertical"
                 size={defaultSizeSpace}
