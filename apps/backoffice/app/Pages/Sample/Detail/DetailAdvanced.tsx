@@ -28,7 +28,6 @@ import {
 } from '../../../Utils/theme';
 
 import { DataTable } from '../../../Components/organisms/DataTable';
-import { PageHeader } from '../../../Components/molecules/Headers';
 import { TimelinesItem } from '../../../Components/molecules/TimelinesItem';
 
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
@@ -141,17 +140,18 @@ const tabItems: TabsProps['items'] = [
 
 const DetailAdvancedPage: React.FC = () => {
     return (
-        <Layout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
-            <PageHeader
-                title="Detail Advanced"
-                topActions={[
-                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>,
-                    <Buttons icon={<EditOutlined />}>Edit</Buttons>,
-                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>,
-                    <Buttons type="primary">Action</Buttons>,
-                ]}
-            />
-
+        <Layout
+            title="Detail Advanced"
+            breadcrumbs={Breadcrumbs.Users.DETAIL}
+            topActions={
+                <>
+                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>
+                    <Buttons icon={<EditOutlined />}>Edit</Buttons>
+                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>
+                    <Buttons type="primary">Action</Buttons>
+                </>
+            }
+        >
             <Row gutter={defaultGutter} justify="space-between">
                 <Col md={24} lg={6}>
                     <Section>

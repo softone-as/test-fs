@@ -9,7 +9,6 @@ import {
 } from '@ant-design/icons';
 
 import { MainLayout } from '../../../Layouts/MainLayout';
-import { PageHeader } from '../../../Components/molecules/Headers';
 import { IUser } from '../../../Modules/User/Entities';
 import { ColumnsType } from 'antd/es/table';
 import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
@@ -81,17 +80,18 @@ const UserDetailPage: React.FC = (props: IProps) => {
         props.data;
 
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.Users.DETAIL}>
-            <PageHeader
-                title="Detail User"
-                topActions={[
+        <MainLayout
+            title="Detail User"
+            breadcrumbs={Breadcrumbs.Users.DETAIL}
+            topActions={
+                <>
                     <Buttons icon={<DeleteOutlined />}>Delete</Buttons>,
                     <Buttons icon={<EditOutlined />}>Edit</Buttons>,
                     <Buttons icon={<DownloadOutlined />}>Download</Buttons>,
-                    <Button type="primary">Action</Button>,
-                ]}
-            />
-
+                    <Button type="primary">Action</Button>
+                </>
+            }
+        >
             <Space
                 direction="vertical"
                 size={defaultSizeSpace}

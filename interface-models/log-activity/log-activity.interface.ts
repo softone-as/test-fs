@@ -7,7 +7,7 @@ export interface ILogActivity {
 
     source: string;
 
-    meta_data: any;
+    metaData: any;
 
     activity: string;
 

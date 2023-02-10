@@ -7,6 +7,11 @@ export const PERMISSION_BACKOFFICE_UPDATE_CONFIG = 'backoffice-update-config';
 export const PERMISSION_BACKOFFICE_CREATE_CONFIG = 'backoffice-create-config';
 export const PERMISSION_BACKOFFICE_DELETE_CONFIG = 'backoffice-delete-config';
 
+export const PERMISSION_BACKOFFICE_SHOW_LOG_ACTIVITY =
+    'backoffice-show-log-activity';
+export const PERMISSION_BACKOFFICE_DETAIL_LOG_ACTIVITY =
+    'backoffice-detail-log-activity';
+
 export const PERMISSION_BACKOFFICE_SHOW_USER = 'backoffice-show-user';
 export const PERMISSION_BACKOFFICE_DETAIL_USER = 'backoffice-detail-user';
 export const PERMISSION_BACKOFFICE_UPDATE_USER = 'backoffice-update-user';
