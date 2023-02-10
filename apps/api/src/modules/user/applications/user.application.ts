@@ -20,7 +20,7 @@ import { config } from 'apps/api/src/config';
 import { OTP_UPDATE_EMAIL } from 'apps/api/src/common/constants/otp.constant';
 import { UserUpdatePhoneNumberRequest } from '../request/user-update-phone.reques';
 import { GoSmsApiNotificationService } from 'apps/api/src/infrastructure/notification/services/gosmsapi-notification.service';
-import { } from 'apps/api/src/common/utils/util';
+import { Utils } from 'apps/api/src/common/utils/util';
 
 @Injectable()
 export class UserApplication {
@@ -30,7 +30,7 @@ export class UserApplication {
         private readonly otpService: OtpService,
         private readonly smsNotificationService: GoSmsApiNotificationService,
         private readonly emailNotificationService: EmailNotificationService,
-    ) { }
+    ) {}
 
     async editUser(
         dataUpdate: UserUpdateProfileRequest,
@@ -73,9 +73,8 @@ export class UserApplication {
             throw new BadRequestException('Password lama tidak sesuai');
         }
 
-        const newPassword = await bcrypt.hash(
+        const newPassword = await Utils.bcryptHash(
             userPasswordUpdate.newPassword,
-            10,
         );
 
         await this.userService.changePassword(userId, newPassword);
@@ -100,7 +99,7 @@ export class UserApplication {
         const oneMinuteWaiting = new Date(
             currentOtp.updatedAt.setMinutes(
                 new Date(currentOtp.updatedAt).getMinutes() +
-                Number(oneMinutesToResend),
+                    Number(oneMinutesToResend),
             ),
         );
         const halfMinuteWaiting = new Date(
@@ -112,7 +111,7 @@ export class UserApplication {
         const fiveMinuteWaiting = new Date(
             currentOtp.updatedAt.setMinutes(
                 new Date(currentOtp.updatedAt).getMinutes() +
-                Number(fiveMinutesToResend),
+                    Number(fiveMinutesToResend),
             ),
         );
 

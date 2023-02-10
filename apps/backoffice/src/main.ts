@@ -16,13 +16,14 @@ const ASSET_VERSION = '1';
 
 async function bootstrap() {
     // Sentry
-    Sentry.init({
-        dsn: config.sentry.dsn,
-        attachStacktrace: true,
-        debug: config.nodeEnv === 'local',
-        environment: config.nodeEnv,
-        tracesSampleRate: 1.0,
-    });
+    config.sentry.dsn &&
+        Sentry.init({
+            dsn: config.sentry.dsn,
+            attachStacktrace: true,
+            debug: config.nodeEnv === 'local',
+            environment: config.nodeEnv,
+            tracesSampleRate: 1.0,
+        });
 
     initializeTransactionalContext();
     patchTypeORMRepositoryWithBaseRepository();
@@ -64,10 +65,9 @@ async function bootstrap() {
     };
 
     app.use(inertia(html, ASSET_VERSION));
-
     app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-
     app.enableCors();
+
     const port: string = config.port;
     await app.listen(port);
     Logger.log(`Application running on port ${port}`, 'NestApplication');

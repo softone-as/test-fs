@@ -65,6 +65,7 @@ export const FilterSection = (props: IFilterSection) => {
                         {item}
                     </Col>
                 );
+                return <Col key={index}>{item}</Col>;
             })}
 
             {/* Search */}

@@ -77,18 +77,20 @@ import { ProfileModule } from './modules/profile/profile.module';
                 },
             },
         }),
-        SentryModule.forRoot({
-            dsn: config.sentry.dsn,
-            attachStacktrace: true,
-            debug: false,
-            environment: config.nodeEnv,
-            ignoreErrors: [
-                'EntityNotFoundError',
-                'QueryFailedError',
-                'FindRelationsNotFoundError',
-            ],
-            tracesSampleRate: 1.0,
-        }),
+        SentryModule.forRoot(
+            config.sentry.dsn && {
+                dsn: config.sentry.dsn,
+                attachStacktrace: true,
+                debug: false,
+                environment: config.nodeEnv,
+                ignoreErrors: [
+                    'EntityNotFoundError',
+                    'QueryFailedError',
+                    'FindRelationsNotFoundError',
+                ],
+                tracesSampleRate: 1.0,
+            },
+        ),
         WinstonModule.forRoot({
             transports: [
                 new winston.transports.File({
