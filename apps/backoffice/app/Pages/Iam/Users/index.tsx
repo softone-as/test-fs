@@ -61,6 +61,7 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
+            responsive: ['lg'],
         },
         {
             title: 'Name',
@@ -79,17 +80,20 @@ const UsersPage: React.FC = (props: IProps) => {
             key: 'gender',
             render: (value) =>
                 (isMobile && (value === 'male' ? 'm' : 'f')) || value,
+            responsive: ['lg'],
         },
         {
             title: 'Phone Number',
             dataIndex: 'phoneNumber',
             key: 'phoneNumber',
             render: (value) => (isMobile ? '+62xxx' : value),
+            responsive: ['lg'],
         },
         {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
+            responsive: ['md'],
         },
         {
             title: 'Roles',
@@ -99,7 +103,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>),
         },
         {
-            title: 'Action',
+            title: isMobile ? null : 'Action',
             key: 'action',
             width: '142px',
             render: () => (

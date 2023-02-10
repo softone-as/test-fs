@@ -26,6 +26,7 @@ import { BreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { AppContext } from '../../Contexts/App';
 import { Route } from '../../Enums/Route';
+import { isMobileScreen } from '../../Utils/utils';
 
 export type IProps = {
     children: React.ReactNode;
@@ -118,7 +119,7 @@ const menuItems: MenuItem[] = [
     },
 ];
 
-const { Sider, Content, Header } = Layout;
+const { Sider, Content } = Layout;
 const { Text } = Typography;
 
 export const MainLayout: React.FC<IProps> = ({
@@ -127,6 +128,7 @@ export const MainLayout: React.FC<IProps> = ({
 }: IProps) => {
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
+    const isMobile = isMobileScreen();
 
     // active menu item key
     const activeMenuKey = useMemo(
@@ -154,7 +156,11 @@ export const MainLayout: React.FC<IProps> = ({
             {appState.isNavigating && <PageProgress />}
             <Sider
                 theme="light"
-                style={{ backgroundColor: '#006D75', height: '100vh' }}
+                style={{
+                    backgroundColor: '#006D75',
+                    height: '100vh',
+                    marginTop: isMobile ? '-60px' : 0,
+                }}
                 width="222px"
                 breakpoint="lg"
                 collapsedWidth="0"
@@ -293,17 +299,11 @@ export const MainLayout: React.FC<IProps> = ({
                 </div>
             </Sider>
             <Layout>
-                <Header
-                    style={{
-                        padding: 0,
-                        background: 'none',
-                        marginBottom: '22px',
-                    }}
-                />
                 <Content
                     style={{
                         padding: '28px 24px',
                         overflow: 'auto',
+                        marginTop: isMobile ? '25px' : 0,
                     }}
                 >
                     <Breadcrumbs breadcrumb={breadcrumbItems} />
