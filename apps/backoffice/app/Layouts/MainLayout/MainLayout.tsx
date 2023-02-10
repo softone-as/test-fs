@@ -1,8 +1,11 @@
 import {
+    BarsOutlined,
     BellOutlined,
     DashboardOutlined,
+    HistoryOutlined,
     LogoutOutlined,
-    MailOutlined,
+    ProfileOutlined,
+    SettingOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 import { Inertia, Page } from '@inertiajs/inertia';
@@ -26,6 +29,7 @@ import { Route } from '../../Enums/Route';
 import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { sidebarThemeConfig } from '../../Utils/theme';
+import { isMobileScreen } from '../../Utils/utils';
 
 export type IProps = {
     children: React.ReactNode;
@@ -59,7 +63,7 @@ const menuItems: MenuItem[] = [
     {
         key: '#IAM',
         label: 'IAM',
-        icon: <MailOutlined />,
+        icon: <ProfileOutlined />,
         theme: 'light',
         children: [
             {
@@ -79,7 +83,7 @@ const menuItems: MenuItem[] = [
     {
         key: '#Sample-Form',
         label: 'Sample Form',
-        icon: <MailOutlined />,
+        icon: <BarsOutlined />,
         theme: 'light',
         children: [
             {
@@ -101,7 +105,7 @@ const menuItems: MenuItem[] = [
     {
         key: '#Sample-Detail',
         label: 'Sample Detail',
-        icon: <MailOutlined />,
+        icon: <BarsOutlined />,
         theme: 'light',
         children: [
             {
@@ -119,13 +123,14 @@ const menuItems: MenuItem[] = [
         ],
     },
     {
-        key: Route.Logout,
-        label: (
-            <Link href="#" onClick={handleLogout}>
-                Logout
-            </Link>
-        ),
-        icon: <MailOutlined />,
+        key: '#Log-Activity',
+        label: <Link href="/logs">Log Activity</Link>,
+        icon: <HistoryOutlined />,
+    },
+    {
+        key: '#Config',
+        label: <Link href="#">Configuration</Link>,
+        icon: <SettingOutlined />,
     },
 ];
 
@@ -140,6 +145,7 @@ export const MainLayout: React.FC<IProps> = ({
 }: IProps) => {
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
+    const isMobile = isMobileScreen();
 
     // active menu item key
     const activeMenuKey = useMemo(
@@ -170,8 +176,14 @@ export const MainLayout: React.FC<IProps> = ({
 
             <Sider
                 theme="light"
-                style={{ backgroundColor: '#006D75', height: '100vh' }}
+                style={{
+                    backgroundColor: '#006D75',
+                    height: '100vh',
+                    marginTop: isMobile ? '-60px' : 0,
+                }}
                 width="222px"
+                breakpoint="lg"
+                collapsedWidth="0"
             >
                 <div
                     style={{
@@ -311,6 +323,7 @@ export const MainLayout: React.FC<IProps> = ({
                     style={{
                         padding: '28px 24px',
                         overflow: 'auto',
+                        marginTop: isMobile ? '25px' : 0,
                     }}
                 >
                     <PageHeader

@@ -10,6 +10,7 @@ import {
     Divider,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import { isMobileScreen } from '../../../Utils/utils';
 
 export interface IFilterSection {
     filters?: React.ReactNode[];
@@ -21,6 +22,8 @@ export interface IFilterSection {
 
 export const FilterSection = (props: IFilterSection) => {
     const [value, setValue] = useState(props.searchValue);
+
+    const isMobile = isMobileScreen();
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -54,6 +57,14 @@ export const FilterSection = (props: IFilterSection) => {
 
             {/* Filters */}
             {props.filters?.map((item, index) => {
+                return (
+                    <Col
+                        key={index}
+                        style={{ margin: isMobile ? '5px 0' : '2px' }}
+                    >
+                        {item}
+                    </Col>
+                );
                 return <Col key={index}>{item}</Col>;
             })}
 
@@ -65,6 +76,7 @@ export const FilterSection = (props: IFilterSection) => {
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
                     allowClear
+                    style={{ margin: isMobile ? '5px 0' : '2px' }}
                 />
             </Col>
         </Row>

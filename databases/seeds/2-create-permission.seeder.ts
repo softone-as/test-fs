@@ -24,6 +24,8 @@ import {
     PERMISSION_BACKOFFICE_UPDATE_ROLE_PERMISSION,
     PERMISSION_BACKOFFICE_CREATE_ROLE_PERMISSION,
     PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION,
+    PERMISSION_BACKOFFICE_SHOW_LOG_ACTIVITY,
+    PERMISSION_BACKOFFICE_DETAIL_LOG_ACTIVITY,
 } from 'constants/permission.constant';
 import { Permission } from '../../entities/iam/permission.entity';
 import { Exception } from 'handlebars';
@@ -38,6 +40,9 @@ export class CreatePermissionSeeder implements Seeder {
                 PERMISSION_BACKOFFICE_UPDATE_CONFIG,
                 PERMISSION_BACKOFFICE_CREATE_CONFIG,
                 PERMISSION_BACKOFFICE_DELETE_CONFIG,
+
+                PERMISSION_BACKOFFICE_SHOW_LOG_ACTIVITY,
+                PERMISSION_BACKOFFICE_DETAIL_LOG_ACTIVITY,
 
                 PERMISSION_BACKOFFICE_SHOW_USER,
                 PERMISSION_BACKOFFICE_DETAIL_USER,
