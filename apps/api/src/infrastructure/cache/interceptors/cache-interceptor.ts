@@ -13,7 +13,7 @@ import { CacheService } from '../services/cache.service';
 
 @Injectable()
 export class CacheInterceptor implements NestInterceptor {
-    constructor(private readonly cacheService: CacheService) { }
+    constructor(private readonly cacheService: CacheService) {}
 
     async intercept(
         context: ExecutionContext,
@@ -53,7 +53,6 @@ export class CacheInterceptor implements NestInterceptor {
                                     ? request.headers['timezone']?.toString()
                                     : config.timezone,
                             );
-
                         }
 
                         if (data?.meta) {
@@ -83,7 +82,7 @@ export class CacheInterceptor implements NestInterceptor {
 
                         return data;
                     }
-                })
+                }),
             );
         }
     }

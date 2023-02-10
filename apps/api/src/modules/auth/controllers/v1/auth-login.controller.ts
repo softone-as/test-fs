@@ -11,7 +11,7 @@ export class AuthLoginController {
     constructor(
         private readonly authLoginApplication: AuthLoginApplication,
         private readonly authLogoutApplication: AuthLogoutApplication,
-    ) { }
+    ) {}
 
     @Post('login')
     async loginBasic(
