@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, Radio } from 'antd';
+import { Button, Form, Input, Radio } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync, setServerError } from '../../Utils/utils';
@@ -10,8 +10,9 @@ import { Section } from '../../Components/molecules/Section';
 import { AppContext } from '../../Contexts/App';
 import { IProfileForm } from '../../Modules/Profile/Entities';
 import { editProfile } from '../../Modules/Profile/Action';
-import { IUser } from '../../Modules/User/Entities';
+import { IProfile } from '../../Modules/User/Entities';
 import { GenderEnum } from '../../../../../interface-models/iam/user.interface';
+import { BasicDatePicker } from '../../Components/molecules/Pickers/BasicDatePicker';
 
 const schema: yup.SchemaOf<IProfileForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
@@ -23,7 +24,7 @@ const schema: yup.SchemaOf<IProfileForm> = yup.object().shape({
 });
 
 interface IProps extends TInertiaProps {
-    data: IUser;
+    data: IProfile;
 }
 
 const FormProfilePage: React.FC = (props: IProps) => {
@@ -87,7 +88,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     >
                         <Input placeholder="Input" />
                     </Form.Item>
-
                     <Form.Item
                         label="Email"
                         name="email"
@@ -96,7 +96,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     >
                         <Input type="email" placeholder="Input" />
                     </Form.Item>
-
                     <Form.Item
                         label="Phone Number"
                         name="phoneNumber"
@@ -105,7 +104,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     >
                         <Input placeholder="Input" />
                     </Form.Item>
-
                     <Form.Item
                         label="Identity Number"
                         name="identityNumber"
@@ -114,7 +112,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     >
                         <Input placeholder="Input" />
                     </Form.Item>
-
                     <Form.Item name="gender" label="Gender" required>
                         <Radio.Group>
                             <Radio.Button value={GenderEnum.LakiLaki}>
@@ -131,7 +128,7 @@ const FormProfilePage: React.FC = (props: IProps) => {
                         name="birthDate"
                         rules={[yupSync]}
                     >
-                        <DatePicker />
+                        <BasicDatePicker />
                     </Form.Item>
                 </FormContainer>
             </Section>
