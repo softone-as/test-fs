@@ -24,7 +24,6 @@ export class ResponseInterceptor implements NestInterceptor {
                             ? request.headers['timezone']?.toString()
                             : config.timezone,
                     );
-
                 }
 
                 if (data?.meta) {

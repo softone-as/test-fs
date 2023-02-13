@@ -5,7 +5,7 @@ import { CacheService } from '../services/cache.service';
 
 @Injectable()
 export class CacheCleanMiddleware implements NestMiddleware {
-    constructor(private readonly cacheService: CacheService) { }
+    constructor(private readonly cacheService: CacheService) {}
 
     async use(req: Request, res: Response, next: NextFunction): Promise<any> {
         if (req.query['cache']) {

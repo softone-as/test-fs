@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class EmailNotificationService {
-    constructor(private mailerService: MailerService) { }
+    constructor(private mailerService: MailerService) {}
 
     async sendEmail(
         subject: string,
@@ -22,7 +22,7 @@ export class EmailNotificationService {
                 console.log('[Email Sender] - Error ' + e.message);
             })
             .finally(() => {
-                console.log('[Email Sender] - Done')
-            })
+                console.log('[Email Sender] - Done');
+            });
     }
 }

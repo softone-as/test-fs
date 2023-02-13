@@ -9,8 +9,7 @@ export class RoleService {
     constructor(
         @InjectRepository(Role)
         private readonly RoleRepository: Repository<Role>,
-    ) { }
-
+    ) {}
 
     async findOneById(id: number): Promise<IRole> {
         return await this.RoleRepository.findOneOrFail({
@@ -22,5 +21,4 @@ export class RoleService {
     async findAll(): Promise<IRole[]> {
         return await this.RoleRepository.find();
     }
-
 }

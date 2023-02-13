@@ -20,7 +20,7 @@ export class LogActivity implements ILogActivity {
     user: IUser;
 
     @Column({ name: 'meta_data', type: 'json', nullable: true })
-    meta_data: any;
+    metaData: any;
 
     @Column({ name: 'source', nullable: true })
     source: string;

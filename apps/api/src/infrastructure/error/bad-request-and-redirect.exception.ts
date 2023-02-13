@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException } from '@nestjs/common';
+import { HttpException } from '@nestjs/common';
 
 export default class UnverifiedPhoneNumberException extends HttpException {
     public errorCode: number;

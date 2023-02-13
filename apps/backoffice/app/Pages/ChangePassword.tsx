@@ -4,11 +4,7 @@ import React from 'react';
 
 import { LoginLayout } from '../Layouts/';
 
-
-
 const ForgotPassword = (): JSX.Element => {
-
-
     return (
         <LoginLayout title="Change Password">
             <h1>Hello</h1>

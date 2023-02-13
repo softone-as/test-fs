@@ -1,5 +1,3 @@
-import { LoginLayout } from './Login/LoginLayout'
+import { LoginLayout } from './Login/LoginLayout';
 
-export {
-    LoginLayout
-}
+export { LoginLayout };

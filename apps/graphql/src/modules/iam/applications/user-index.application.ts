@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
 import { IPaginateResponse } from 'apps/graphql/src/common/interface/index.interface';
-import { config } from 'apps/graphql/src/config';
 import { IndexApplication } from 'apps/graphql/src/infrastructure/applications/index.application';
-import { CacheService } from 'apps/graphql/src/infrastructure/cache/services/cache.service';
 import { User } from 'entities/iam/user.entity';
 import { Repository } from 'typeorm';
 import { UserIndexRequest } from '../types/user.type';

@@ -19,7 +19,7 @@ export class AuthLoginApplication {
         private readonly oneSignalPushNotificationService: OneSignalPushNotificationService,
         private readonly goSmsNotificationService: GoSmsApiNotificationService,
         private readonly emailNotificationService: EmailNotificationService,
-    ) { }
+    ) {}
 
     async basic(data: AuthLoginDto): Promise<IUserWithToken> {
         try {
@@ -51,7 +51,10 @@ export class AuthLoginApplication {
     ): Promise<void> {
         if (playerId) {
             await this.userService.addOneSignalPlayerIdById(id, playerId);
-            await this.oneSignalPushNotificationService.setStatus(playerId, true);
+            await this.oneSignalPushNotificationService.setStatus(
+                playerId,
+                true,
+            );
         }
     }
 

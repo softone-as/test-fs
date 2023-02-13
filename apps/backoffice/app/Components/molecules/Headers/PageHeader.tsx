@@ -1,28 +1,28 @@
 import { Col, Row, Space } from 'antd';
 import Title from 'antd/es/typography/Title';
+import { TBreadcrumbsItem } from 'apps/backoffice/app/Modules/Common/Entities';
 import React from 'react';
-
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 interface IProps {
     title: string;
-    topActions?: React.ReactNode[];
+    topActions?: React.ReactNode;
+    breadcrumbs?: TBreadcrumbsItem[];
 }
 
 export const PageHeader: React.FC<IProps> = (props: IProps) => {
     return (
-        <Row style={{ marginBottom: '16px' }}>
+        <Row style={{ marginBottom: '24px' }}>
             <Col flex="auto">
-                <Title
-                    style={{ fontSize: '24px', lineHeight: '32px', margin: 0 }}
-                >
+                {props?.breadcrumbs?.length > 0 && (
+                    <Breadcrumbs breadcrumbs={props.breadcrumbs} />
+                )}
+
+                <Title style={{ fontSize: '24px', lineHeight: '32px' }}>
                     {props.title}
                 </Title>
             </Col>
             <Col>
-                <Space>
-                    {props.topActions?.map((field, key) => (
-                        <React.Fragment key={key}>{field}</React.Fragment>
-                    ))}
-                </Space>
+                <Space>{props?.topActions && props.topActions}</Space>
             </Col>
         </Row>
     );

@@ -4,7 +4,7 @@ import { Request } from 'express';
 import { UserService } from '../../modules/iam/services/user.service';
 import { Utils } from '../utils/util';
 
-export const AuthGuard = (key: string = "user"): any => {
+export const AuthGuard = (key = 'user'): any => {
     const injectRequest = Inject(REQUEST);
     const injectUserService = Inject(UserService);
 
@@ -33,17 +33,21 @@ export const AuthGuard = (key: string = "user"): any => {
             const user = Utils.tokenAuthDecoder(tokenAuth);
 
             const dateExp = new Date(user['exp'] * 1000);
-            const userValidation = await this.userService.findOneById(user['id']);
+            const userValidation = await this.userService.findOneById(
+                user['id'],
+            );
             if (!userValidation) {
                 throw new UnauthorizedException();
             }
 
-            if (dateExp > (new Date()) && user['phoneNumber'] == userValidation.phoneNumber) {
+            if (
+                dateExp > new Date() &&
+                user['phoneNumber'] == userValidation.phoneNumber
+            ) {
                 return await originalMethod.apply(this, args);
             } else {
                 throw new UnauthorizedException();
             }
-
         };
     };
 };

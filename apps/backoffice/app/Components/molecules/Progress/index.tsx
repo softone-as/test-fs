@@ -1,5 +1,3 @@
-import { PageProgress } from './PageProgress'
+import { PageProgress } from './PageProgress';
 
-export {
-    PageProgress
-}
+export { PageProgress };

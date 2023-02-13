@@ -1,36 +1,42 @@
-import React, { useMemo, useContext } from 'react';
 import {
-    Layout,
-    Typography,
-    Space,
-    Menu,
-    ConfigProvider,
-    Avatar,
-    Badge,
-    Tooltip,
-} from 'antd';
-import type { MenuProps } from 'antd';
-import { Link, usePage } from '@inertiajs/inertia-react';
-import {
+    BarsOutlined,
     BellOutlined,
     DashboardOutlined,
+    HistoryOutlined,
     LogoutOutlined,
-    MailOutlined,
+    ProfileOutlined,
+    SettingOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 import { Inertia, Page } from '@inertiajs/inertia';
-import { sidebarThemeConfig } from '../../Utils/theme';
+import { Head, Link, usePage } from '@inertiajs/inertia-react';
+import type { MenuProps } from 'antd';
+import {
+    Avatar,
+    Badge,
+    ConfigProvider,
+    Layout,
+    Menu,
+    Space,
+    Tooltip,
+    Typography,
+} from 'antd';
+import React, { useContext, useMemo } from 'react';
+import { PageHeader } from '../../Components/molecules/Headers';
 import { PageProgress } from '../../Components/molecules/Progress';
-import Breadcrumbs from '../../Components/molecules/Breadcrumbs/Breadcrumbs';
-import { BreadcrumbsItem } from '../../Modules/Common/Entities';
-import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { AppContext } from '../../Contexts/App';
 import { Route } from '../../Enums/Route';
+import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
+import { TInertiaProps } from '../../Modules/Inertia/Entities';
+import { sidebarThemeConfig } from '../../Utils/theme';
+import { isMobileScreen } from '../../Utils/utils';
 
 export type IProps = {
     children: React.ReactNode;
     headerRightMenu?: React.FC;
-    breadcrumbItems?: BreadcrumbsItem[];
+    title: string;
+    topActions?: React.ReactNode;
+    breadcrumbs?: TBreadcrumbsItem[];
 };
 
 const handleLogout = (
@@ -57,7 +63,7 @@ const menuItems: MenuItem[] = [
     {
         key: '#IAM',
         label: 'IAM',
-        icon: <MailOutlined />,
+        icon: <ProfileOutlined />,
         theme: 'light',
         children: [
             {
@@ -77,7 +83,7 @@ const menuItems: MenuItem[] = [
     {
         key: '#Sample-Form',
         label: 'Sample Form',
-        icon: <MailOutlined />,
+        icon: <BarsOutlined />,
         theme: 'light',
         children: [
             {
@@ -99,7 +105,7 @@ const menuItems: MenuItem[] = [
     {
         key: '#Sample-Detail',
         label: 'Sample Detail',
-        icon: <MailOutlined />,
+        icon: <BarsOutlined />,
         theme: 'light',
         children: [
             {
@@ -116,6 +122,16 @@ const menuItems: MenuItem[] = [
             },
         ],
     },
+    {
+        key: '#Log-Activity',
+        label: <Link href="/logs">Log Activity</Link>,
+        icon: <HistoryOutlined />,
+    },
+    {
+        key: '#Config',
+        label: <Link href="#">Configuration</Link>,
+        icon: <SettingOutlined />,
+    },
 ];
 
 const { Sider, Content } = Layout;
@@ -123,10 +139,13 @@ const { Text } = Typography;
 
 export const MainLayout: React.FC<IProps> = ({
     children,
-    breadcrumbItems = [],
+    title,
+    topActions,
+    breadcrumbs,
 }: IProps) => {
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
+    const isMobile = isMobileScreen();
 
     // active menu item key
     const activeMenuKey = useMemo(
@@ -151,11 +170,20 @@ export const MainLayout: React.FC<IProps> = ({
     return (
         // Fix height, so the scroll will be belongs to Content only
         <Layout style={{ height: '100vh' }}>
+            <Head title={title} />
+
             {appState.isNavigating && <PageProgress />}
+
             <Sider
                 theme="light"
-                style={{ backgroundColor: '#006D75', height: '100vh' }}
+                style={{
+                    backgroundColor: '#006D75',
+                    height: '100vh',
+                    marginTop: isMobile ? '-60px' : 0,
+                }}
                 width="222px"
+                breakpoint="lg"
+                collapsedWidth="0"
             >
                 <div
                     style={{
@@ -295,9 +323,14 @@ export const MainLayout: React.FC<IProps> = ({
                     style={{
                         padding: '28px 24px',
                         overflow: 'auto',
+                        marginTop: isMobile ? '25px' : 0,
                     }}
                 >
-                    <Breadcrumbs breadcrumb={breadcrumbItems} />
+                    <PageHeader
+                        title={title}
+                        topActions={topActions}
+                        breadcrumbs={breadcrumbs}
+                    />
 
                     {children}
                 </Content>
