@@ -27,7 +27,9 @@ export const FilterSection = (props: IFilterSection) => {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            props.onSearch(value);
+            if (value || (!value && props.searchValue.length > 0)) {
+                props.onSearch(value);
+            }
         }, 500);
 
         return () => {
