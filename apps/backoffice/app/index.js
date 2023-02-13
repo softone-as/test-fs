@@ -15,7 +15,7 @@ if (process.env.SENTRY_DSN) {
 
         // We recommend adjusting this value in production, or using tracesSampler
         // for finer control
-        tracesSampleRate: 1.0,
+        tracesSampleRate: +process.env.TRACES_SAMPLE_RATE || 1.0,
     });
 }
 
