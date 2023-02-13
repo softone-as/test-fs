@@ -26,6 +26,7 @@ import { BreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { AppContext } from '../../Contexts/App';
 import { Route } from '../../Enums/Route';
+import { getNotificationResponse } from '../../Utils/notification';
 
 export type IProps = {
     children: React.ReactNode;
@@ -147,6 +148,17 @@ export const MainLayout: React.FC<IProps> = ({
             })?.key as string,
         [menuItems, activeMenuKey],
     );
+
+    // notification
+    const notification = useMemo(() => {
+        if (pageProps.success) {
+            getNotificationResponse('success', pageProps.success.message);
+        }
+
+        if (pageProps.error) {
+            getNotificationResponse('error', pageProps.error.message);
+        }
+    }, [pageProps.success, pageProps.error]);
 
     return (
         // Fix height, so the scroll will be belongs to Content only
@@ -297,9 +309,13 @@ export const MainLayout: React.FC<IProps> = ({
                         overflow: 'auto',
                     }}
                 >
-                    <Breadcrumbs breadcrumb={breadcrumbItems} />
+                    <>
+                        <Breadcrumbs breadcrumb={breadcrumbItems} />
+                        {/* Notification */}
+                        {notification}
 
-                    {children}
+                        {children}
+                    </>
                 </Content>
             </Layout>
         </Layout>

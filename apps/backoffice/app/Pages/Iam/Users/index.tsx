@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     DataTable,
     TOnSort,
@@ -24,13 +24,11 @@ import { RoleResponse } from '../../../../src/modules/iam/responses/role.respons
 import { Inertia } from '@inertiajs/inertia';
 
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
-import { Page } from '@inertiajs/inertia';
 
-import { Link, usePage } from '@inertiajs/inertia-react';
+import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import dayjs from 'dayjs';
-import { NotificationResponseContext } from 'apps/backoffice/app/Contexts/NotificationResponse';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -43,10 +41,6 @@ type TFilters = {
 };
 
 const UsersPage: React.FC = (props: IProps) => {
-    const { props: pageProps } = usePage<Page<TInertiaProps>>();
-    const { notificationState, setNotificationMessage } = useContext(
-        NotificationResponseContext,
-    );
     const {
         setQueryParams,
         filters,
@@ -188,78 +182,67 @@ const UsersPage: React.FC = (props: IProps) => {
         setQueryParams({ search: value });
     };
 
-    // Notification when user's created is success
-    useEffect(() => {
-        if (pageProps.success) {
-            setNotificationMessage(pageProps.success.message);
-        }
-    }, []);
-
     return (
         <MainLayout breadcrumbItems={Breadcrumbs.Users.INDEX}>
-            <>
-                {/* Component Notification */}
-                {notificationState.notifications}
-                <PageHeader
-                    title="User List"
-                    topActions={[
-                        <Button
-                            size="large"
-                            icon={<FileExcelOutlined />}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            Import
-                        </Button>,
-                        <Link href="users/create">
-                            <Button size="large" type="primary">
-                                New User
-                            </Button>
-                        </Link>,
-                    ]}
-                />
-                <FilterSection
-                    searchValue={filters.search}
-                    onSearch={handleSearch}
-                    selectedRows={selectedRowKeys}
-                    batchActionMenus={batchActionMenus}
-                    filters={[
-                        <Select
-                            placeholder="Gender"
-                            defaultValue={filters.gender}
-                            options={genderOptions}
-                            onChange={handleFilterGender}
-                            allowClear
-                            style={{ width: '90px' }}
-                        />,
-                        <DateRangePicker
-                            range={10}
-                            onChange={handleRange}
-                            defaultValue={[
-                                dayjs(filters.start_at),
-                                dayjs(filters.end_at),
-                            ]}
-                        />,
-                    ]}
-                />
-                <DataTable
-                    rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
-                    columns={columns}
-                    dataSource={props.data.map((item) => ({
-                        ...item,
-                        key: item.id,
-                    }))}
-                    meta={props.meta}
-                    onSort={handleSort}
-                    onPageChange={(page, pageSize) =>
-                        setQueryParams({ page: page, per_page: pageSize })
-                    }
-                    loading={isFetching}
-                />
-            </>
+            <PageHeader
+                title="User List"
+                topActions={[
+                    <Button
+                        size="large"
+                        icon={<FileExcelOutlined />}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        Import
+                    </Button>,
+                    <Link href="users/create">
+                        <Button size="large" type="primary">
+                            New User
+                        </Button>
+                    </Link>,
+                ]}
+            />
+            <FilterSection
+                searchValue={filters.search}
+                onSearch={handleSearch}
+                selectedRows={selectedRowKeys}
+                batchActionMenus={batchActionMenus}
+                filters={[
+                    <Select
+                        placeholder="Gender"
+                        defaultValue={filters.gender}
+                        options={genderOptions}
+                        onChange={handleFilterGender}
+                        allowClear
+                        style={{ width: '90px' }}
+                    />,
+                    <DateRangePicker
+                        range={10}
+                        onChange={handleRange}
+                        defaultValue={[
+                            dayjs(filters.start_at),
+                            dayjs(filters.end_at),
+                        ]}
+                    />,
+                ]}
+            />
+            <DataTable
+                rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                columns={columns}
+                dataSource={props.data.map((item) => ({
+                    ...item,
+                    key: item.id,
+                }))}
+                meta={props.meta}
+                onSort={handleSort}
+                onPageChange={(page, pageSize) =>
+                    setQueryParams({ page: page, per_page: pageSize })
+                }
+                loading={isFetching}
+            />
         </MainLayout>
     );
 };
