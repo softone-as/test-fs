@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { IndexRequest } from '../../src/common/request/index.request';
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
     const didMountRef = useRef(false);
