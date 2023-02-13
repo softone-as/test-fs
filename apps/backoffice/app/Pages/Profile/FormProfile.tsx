@@ -12,7 +12,6 @@ import { IProfileForm } from '../../Modules/Profile/Entities';
 import { editProfile } from '../../Modules/Profile/Action';
 import { IProfile } from '../../Modules/User/Entities';
 import { GenderEnum } from '../../../../../interface-models/iam/user.interface';
-import { BasicDatePicker } from '../../Components/molecules/Pickers/BasicDatePicker';
 import dayjs from 'dayjs';
 
 const schema: yup.SchemaOf<IProfileForm> = yup.object().shape({
@@ -93,7 +92,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     >
                         <Input placeholder="Input" />
                     </Form.Item>
-
                     <Form.Item
                         label="Email"
                         name="email"
@@ -102,7 +100,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     >
                         <Input type="email" placeholder="Input" />
                     </Form.Item>
-
                     <Form.Item
                         label="Phone Number"
                         name="phoneNumber"
@@ -111,7 +108,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     >
                         <Input placeholder="Input" />
                     </Form.Item>
-
                     <Form.Item
                         label="Identity Number"
                         name="identityNumber"
@@ -120,7 +116,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     >
                         <Input placeholder="Input" />
                     </Form.Item>
-
                     <Form.Item name="gender" label="Gender" required>
                         <Radio.Group>
                             <Radio.Button value={GenderEnum.LakiLaki}>
@@ -131,14 +126,15 @@ const FormProfilePage: React.FC = (props: IProps) => {
                             </Radio.Button>
                         </Radio.Group>
                     </Form.Item>
-
+                    {/* / TODO: Fix defaultValue dayjs for birthDate */}
+                    {/* 
                     <Form.Item
                         label="Birth Date"
                         name="birthDate"
                         rules={[yupSync]}
                     >
-                        <BasicDatePicker />
-                    </Form.Item>
+                        <DatePicker />
+                    </Form.Item> */}
                 </FormContainer>
             </Section>
         </Layout>
