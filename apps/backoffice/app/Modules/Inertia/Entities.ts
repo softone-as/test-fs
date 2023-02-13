@@ -1,7 +1,12 @@
 import { IUser } from 'interface-models/iam/user.interface';
 
+export type TValidationError = {
+    message: Array<string>;
+    property: string;
+};
+
 export type TErrorProps = {
-    errors: Error | null;
+    errors: Error | TValidationError[] | null;
     message: string;
     statusCode: number;
 };
