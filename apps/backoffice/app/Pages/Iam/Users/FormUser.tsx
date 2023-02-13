@@ -1,7 +1,7 @@
 import { Button, Form, Input, Select } from 'antd';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import * as yup from 'yup';
-import { createYupSync } from '../../../Utils/utils';
+import { createYupSync, setServerError } from '../../../Utils/utils';
 
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
@@ -14,7 +14,6 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { IRole } from 'interface-models/iam/role.interface';
 import { Section } from '../../../Components/molecules/Section';
 import { AppContext } from '../../../Contexts/App';
-import { useServerError } from 'apps/backoffice/app/Utils/hooks';
 
 const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
@@ -66,7 +65,9 @@ const FormUserPage: React.FC = (props: IProps) => {
         }
     };
 
-    useServerError(props.error, form.setFields);
+    useEffect(() => {
+        setServerError(props.error, form.setFields);
+    }, [props.error]);
 
     const onReset = () => {
         form.resetFields();

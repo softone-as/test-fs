@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { IndexRequest } from '../../src/common/request/index.request';
-import { setServerError } from './utils';
-import { TErrorProps } from '../Modules/Inertia/Entities';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
@@ -98,13 +96,4 @@ export const useTableFilter = <T>() => {
         filters: filters as TPropsTableFilter<T>,
         status,
     };
-};
-
-export const useServerError = (
-    error: TErrorProps,
-    setError: (fields: any[]) => void,
-) => {
-    useEffect(() => {
-        setServerError(error, setError);
-    }, [error]);
 };

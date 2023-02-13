@@ -1,7 +1,7 @@
 import { Button, DatePicker, Form, Input, Radio } from 'antd';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import * as yup from 'yup';
-import { createYupSync } from '../../Utils/utils';
+import { createYupSync, setServerError } from '../../Utils/utils';
 import { FormContainer } from '../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
@@ -12,7 +12,6 @@ import { IProfileForm } from '../../Modules/Profile/Entities';
 import { editProfile } from '../../Modules/Profile/Action';
 import { IUser } from '../../Modules/User/Entities';
 import { GenderEnum } from '../../../../../interface-models/iam/user.interface';
-import { useServerError } from '../../Utils/hooks';
 
 const schema: yup.SchemaOf<IProfileForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
@@ -47,7 +46,9 @@ const FormProfilePage: React.FC = (props: IProps) => {
         }
     };
 
-    useServerError(props.error, form.setFields);
+    useEffect(() => {
+        setServerError(props.error, form.setFields);
+    }, [props.error]);
 
     const onReset = () => {
         form.resetFields();
