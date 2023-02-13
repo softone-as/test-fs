@@ -8,8 +8,7 @@ import LogRocket from 'logrocket';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 
-if (process.env.LOGROCKET_APP_ID && process.env.SENTRY_DSN) {
-    LogRocket.init(process.env.LOGROCKET_APP_ID);
+if (process.env.SENTRY_DSN) {
     Sentry.init({
         dsn: process.env.SENTRY_DSN,
         integrations: [new BrowserTracing()],
@@ -18,6 +17,10 @@ if (process.env.LOGROCKET_APP_ID && process.env.SENTRY_DSN) {
         // for finer control
         tracesSampleRate: 1.0,
     });
+}
+
+if (process.env.LOGROCKET_APP_ID) {
+    LogRocket.init(process.env.LOGROCKET_APP_ID);
 
     LogRocket.identify('LOCAL_DEVELOPMENT', {
         host: process.env.HOST_BACKOFFICE,
