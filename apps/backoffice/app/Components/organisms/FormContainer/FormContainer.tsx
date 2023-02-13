@@ -2,7 +2,7 @@ import { Col, Form, FormProps, Grid, Row } from 'antd';
 import React from 'react';
 import ButtonFormAction from './ButtonFormAction';
 
-interface IFormProps extends FormProps {
+export interface IFormProps extends FormProps {
     isFieldCentered?: boolean; //centered by field as point (use case: for form basic with horizontal layout)
     centered?: boolean; //centered by form as point
     justifyButton?: 'start' | 'end';

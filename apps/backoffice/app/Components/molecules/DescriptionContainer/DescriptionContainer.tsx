@@ -3,7 +3,7 @@ import React from 'react';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function DescriptionContainer({ size = 'small', ...props }: DescriptionsProps) {
-    const { md } = Grid.useBreakpoint();
+    const { md } = Grid?.useBreakpoint();
     return (
         <Descriptions
             size={size}
