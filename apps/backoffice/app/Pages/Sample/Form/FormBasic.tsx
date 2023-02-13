@@ -78,7 +78,6 @@ const FormBasic: React.FC = () => {
                         aggreement: true,
                         checkboxItem: 'A',
                     }}
-                    isFieldCentered
                     centered
                     buttonAction={[
                         <Button>Cancel</Button>,

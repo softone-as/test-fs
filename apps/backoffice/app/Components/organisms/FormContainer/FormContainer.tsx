@@ -1,4 +1,5 @@
 import { Col, Form, FormProps, Grid, Row } from 'antd';
+import { isMobileScreen } from '../../../Utils/utils';
 import React from 'react';
 import ButtonFormAction from './ButtonFormAction';
 
@@ -19,6 +20,7 @@ const FormContainer = (props: IFormProps): JSX.Element => {
         ...rest
     } = props;
     const { lg } = Grid.useBreakpoint();
+    const isMobile = isMobileScreen();
 
     return (
         <Row justify={centered && !isFieldCentered ? 'center' : 'start'}>
@@ -28,7 +30,13 @@ const FormContainer = (props: IFormProps): JSX.Element => {
             >
                 <Form
                     {...rest}
-                    layout={isFieldCentered ? 'horizontal' : props.layout}
+                    layout={
+                        isFieldCentered
+                            ? 'horizontal'
+                            : isMobile
+                            ? 'vertical'
+                            : props.layout
+                    }
                     labelCol={
                         isFieldCentered && {
                             span: 8,
