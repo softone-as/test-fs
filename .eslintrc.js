@@ -8,7 +8,12 @@ module.exports = {
         '@typescript-eslint/eslint-plugin',
         'unused-imports', // remove unused import
     ],
-    extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
+
+    extends: [
+        'plugin:@typescript-eslint/recommended',
+        'prettier',
+        'plugin:storybook/recommended',
+    ],
     root: true,
     env: {
         node: true,
@@ -23,7 +28,14 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         'no-unused-vars': 'off',
-        '@typescript-eslint/no-unused-vars': ['error'],
+        '@typescript-eslint/no-unused-vars': [
+            'error', // or "warn"
+            {
+                argsIgnorePattern: '^_',
+                varsIgnorePattern: '^_',
+                caughtErrorsIgnorePattern: '^_',
+            },
+        ],
         'unused-imports/no-unused-imports': 'error',
         'unused-imports/no-unused-vars': [
             'warn',
@@ -39,6 +51,7 @@ module.exports = {
             {
                 selector: 'default',
                 format: ['camelCase'],
+                leadingUnderscore: 'allow',
             },
             {
                 selector: 'memberLike',

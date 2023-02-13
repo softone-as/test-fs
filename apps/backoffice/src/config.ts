@@ -135,8 +135,8 @@ export const config = {
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
         databaseTest: process.env.DB_DATABASE_TEST,
-        maxQueryExecutionTimeInSeconds:
-            process.env.DB_MAX_QUERY_EXECUTION_TIME_IN_SECONDS || 0.001,
+        maxQueryExecutionTimeInMs:
+            process.env.DB_MAX_QUERY_EXECUTION_TIME_IN_MS || 0.000001,
     },
 
     databaseTest: {
@@ -183,7 +183,7 @@ export const config = {
     },
 
     /**
-     * online error log service credentials
+     * Sentry configuration
      */
     sentry: {
         dsn: process.env.SENTRY_DSN,

@@ -1,5 +1,3 @@
-import { RowActionButtons } from './RowActionButtons'
+import { RowActionButtons } from './RowActionButtons';
 
-export {
-    RowActionButtons
-}
+export { RowActionButtons };

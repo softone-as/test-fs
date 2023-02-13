@@ -1,7 +1,13 @@
 import React from 'react';
-import { Space, Tooltip, Button } from 'antd';
-import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Space, Tooltip, Button, Dropdown, Card } from 'antd';
+import {
+    EyeOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    MoreOutlined,
+} from '@ant-design/icons';
 import { iconActionTableStyle } from '../../../Utils/theme';
+import { isMobileScreen } from '../../../Utils/utils';
 
 type ButtonType = 'view' | 'edit' | 'delete' | 'custom';
 
@@ -19,6 +25,8 @@ interface IRowActionProps {
 }
 
 export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
+    const isMobile = isMobileScreen();
+
     const renderButton = (action: IRowActionButtonsProps) => {
         const { type, href, onClick, title, disabled } = action;
         let { icon } = action;
@@ -53,7 +61,23 @@ export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
         );
     };
 
-    return (
+    return isMobile ? (
+        <Dropdown
+            trigger={['click']}
+            overlay={
+                <Card size="small">
+                    <Space wrap>
+                        {actions
+                            .slice(0, 3)
+                            .map((action) => renderButton(action))}
+                    </Space>
+                </Card>
+            }
+            placement="bottomLeft"
+        >
+            <Button type="text" icon={<MoreOutlined />} />
+        </Dropdown>
+    ) : (
         <Space direction="vertical">
             <Space wrap>{actions.map((action) => renderButton(action))}</Space>
         </Space>

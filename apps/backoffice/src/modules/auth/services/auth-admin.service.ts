@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'entities/iam/user.entity';
 import { IUser } from 'interface-models/iam/user.interface';
-import * as bcrypt from 'bcrypt';
+import { Utils } from 'apps/backoffice/src/common/utils/util';
 
 @Injectable()
 export class AdminAuthService {
@@ -37,7 +37,7 @@ export class AdminAuthService {
         email: string,
         password: string,
     ): Promise<void> {
-        const passwordHash = await bcrypt.hash(password, 10);
+        const passwordHash = await Utils.bcryptHash(password);
         await this.adminRepository.update(
             { email },
             {

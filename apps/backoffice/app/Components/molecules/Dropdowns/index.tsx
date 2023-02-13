@@ -1,7 +1,4 @@
+import { MultiFilterDropdown } from './MultiFilterDropdown';
+import { CheckboxDropdown } from './CheckboxDropdown';
 
-import { MultiFilterDropdown } from './MultiFilterDropdown'
-
-export {
-
-    MultiFilterDropdown
-}
+export { CheckboxDropdown, MultiFilterDropdown };

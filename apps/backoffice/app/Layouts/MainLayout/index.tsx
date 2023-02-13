@@ -1,5 +1,3 @@
-import { MainLayout, IProps as MainLayoutProps } from './MainLayout'
+import { MainLayout, IProps as MainLayoutProps } from './MainLayout';
 
-export {
-    MainLayout, MainLayoutProps
-}
+export { MainLayout, MainLayoutProps };

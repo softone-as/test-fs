@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { Expose } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { OrderDirectionEnum, OrderDirectionType } from '../enums/index.enum';
@@ -6,7 +6,6 @@ import { IPaginateRequest, ISortRequest } from '../interface/index.interface';
 
 @InputType()
 export class IndexRequest implements ISortRequest, IPaginateRequest {
-
     @Field({ nullable: true })
     @IsOptional()
     @IsString()
@@ -34,5 +33,4 @@ export class IndexRequest implements ISortRequest, IPaginateRequest {
     @IsString()
     @IsOptional()
     search?: string;
-
 }

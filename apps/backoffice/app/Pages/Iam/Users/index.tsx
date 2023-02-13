@@ -12,11 +12,11 @@ import { useModal } from '../../../Utils/modal';
 import {} from '../../../Utils/notification';
 import { FilterSection } from '../../../Components/organisms/FilterSection';
 import { Button, MenuProps, Select, Tag } from 'antd';
+import dayjs from 'dayjs';
 import {
     DateRangePicker,
     TRangeValue,
 } from '../../../Components/molecules/Pickers';
-import { PageHeader } from '../../../Components/molecules/Headers';
 import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
@@ -27,8 +27,7 @@ import { RowActionButtons } from '../../../Components/molecules/RowActionButtons
 
 import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-import dayjs from 'dayjs';
+import { isMobileScreen } from '../../../Utils/utils';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -47,31 +46,20 @@ const UsersPage: React.FC = (props: IProps) => {
         status: { isFetching },
     } = useTableFilter<TFilters>();
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const isMobile = isMobileScreen();
 
     const handleBatchDelete = () => {
         return Inertia.post(`/users/deletes`, {
             ids: selectedRowKeys,
         });
     };
-    //TODO Handle Modal Delete example
-    // const handleDeleteRow = (id) => {
-    //     return Inertia.get(`/users/delete/${id}`);
-    // };
-    // const deleteModal = (id) =>
-    //     useModal({
-    //         title: 'Are You Sure? ',
-    //         type: 'confirm',
-    //         onOk: () => handleDeleteRow(id),
-    //         onCancel: () => {
-    //             return;
-    //         },
-    //     });
 
     const columns: ColumnsType<IUser> = [
         {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
+            responsive: ['lg'],
         },
         {
             title: 'Name',
@@ -88,16 +76,22 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Gender',
             dataIndex: 'gender',
             key: 'gender',
+            render: (value) =>
+                (isMobile && (value === 'male' ? 'm' : 'f')) || value,
+            responsive: ['lg'],
         },
         {
             title: 'Phone Number',
             dataIndex: 'phoneNumber',
             key: 'phoneNumber',
+            render: (value) => (isMobile ? '+62xxx' : value),
+            responsive: ['lg'],
         },
         {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
+            responsive: ['md'],
         },
         {
             title: 'Roles',
@@ -107,7 +101,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>),
         },
         {
-            title: 'Action',
+            title: isMobile ? null : 'Action',
             key: 'action',
             width: '142px',
             render: () => (
@@ -183,28 +177,27 @@ const UsersPage: React.FC = (props: IProps) => {
     };
 
     return (
-        <MainLayout breadcrumbItems={Breadcrumbs.Users.INDEX}>
-            <PageHeader
-                title="User List"
-                topActions={[
-                    <Button
-                        size="large"
-                        icon={<FileExcelOutlined />}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        Import
-                    </Button>,
-                    <Link href="users/create">
-                        <Button size="large" type="primary">
-                            New User
-                        </Button>
-                    </Link>,
-                ]}
-            />
+        <MainLayout
+            title="User List"
+            topActions={[
+                <Button
+                    size="large"
+                    icon={<FileExcelOutlined />}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    Import
+                </Button>,
+                <Link href="users/create">
+                    <Button size="large" type="primary">
+                        New User
+                    </Button>
+                </Link>,
+            ]}
+        >
             <FilterSection
                 searchValue={filters.search}
                 onSearch={handleSearch}
@@ -223,8 +216,8 @@ const UsersPage: React.FC = (props: IProps) => {
                         range={10}
                         onChange={handleRange}
                         defaultValue={[
-                            dayjs(filters.start_at),
-                            dayjs(filters.end_at),
+                            filters.start_at && dayjs(filters.start_at),
+                            filters.end_at && dayjs(filters.end_at),
                         ]}
                     />,
                 ]}

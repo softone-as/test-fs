@@ -1,15 +1,15 @@
-import { Module } from "@nestjs/common";
-import { JwtModule } from "@nestjs/jwt";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { Permission } from "entities/iam/permission.entity";
-import { RolePermission } from "entities/iam/role-permission.entity";
-import { Role } from "entities/iam/role.entity";
-import { User } from "entities/iam/user.entity";
-import { config } from "../../config";
-import { CacheModule } from "../../infrastructure/cache/cache.module";
-import { AuthLoginApplication } from "./applications/auth-login.application";
-import { AuthLoginResolver } from "./resolvers/auth-login.resolver";
-import { AuthService } from "./services/auth.service";
+import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Permission } from 'entities/iam/permission.entity';
+import { RolePermission } from 'entities/iam/role-permission.entity';
+import { Role } from 'entities/iam/role.entity';
+import { User } from 'entities/iam/user.entity';
+import { config } from '../../config';
+import { CacheModule } from '../../infrastructure/cache/cache.module';
+import { AuthLoginApplication } from './applications/auth-login.application';
+import { AuthLoginResolver } from './resolvers/auth-login.resolver';
+import { AuthService } from './services/auth.service';
 
 @Module({
     imports: [
@@ -26,10 +26,6 @@ import { AuthService } from "./services/auth.service";
         }),
         CacheModule,
     ],
-    providers: [
-        AuthLoginApplication,
-        AuthService,
-        AuthLoginResolver,
-    ],
+    providers: [AuthLoginApplication, AuthService, AuthLoginResolver],
 })
-export class AuthModule { }
+export class AuthModule {}

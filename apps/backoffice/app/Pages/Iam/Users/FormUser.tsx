@@ -3,7 +3,6 @@ import React, { useContext, useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync } from '../../../Utils/utils';
 
-import { PageHeader } from '../../../Components/molecules/Headers';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
@@ -71,9 +70,7 @@ const FormUserPage: React.FC = (props: IProps) => {
     };
 
     return (
-        <Layout breadcrumbItems={Breadcrumbs.Users.CREATE}>
-            <PageHeader title="Add New User" />
-
+        <Layout title="Add New User" breadcrumbs={Breadcrumbs.Users.CREATE}>
             <Section>
                 <FormContainer
                     onFinish={onFinish}
