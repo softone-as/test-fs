@@ -12,13 +12,3 @@ export const useNotification = (data: TNotifData) => {
         duration: 1.5,
     });
 };
-
-export const getNotificationResponse = (
-    type: ArgsProps['type'],
-    message: string,
-) => {
-    return useNotification({
-        type,
-        message,
-    });
-};

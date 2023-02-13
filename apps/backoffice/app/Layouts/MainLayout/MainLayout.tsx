@@ -21,12 +21,12 @@ import {
     Tooltip,
     Typography,
 } from 'antd';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { PageHeader } from '../../Components/molecules/Headers';
 import { PageProgress } from '../../Components/molecules/Progress';
 import { AppContext } from '../../Contexts/App';
 import { Route } from '../../Enums/Route';
-import { getNotificationResponse } from '../../Utils/notification';
+import { useNotification } from '../../Utils/notification';
 import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { sidebarThemeConfig } from '../../Utils/theme';
@@ -168,16 +168,26 @@ export const MainLayout: React.FC<IProps> = ({
         [menuItems, activeMenuKey],
     );
 
-    // notification
-    const notification = useMemo(() => {
+    // success notification
+    useEffect(() => {
         if (pageProps.success) {
-            getNotificationResponse('success', pageProps.success.message);
+            useNotification({
+                type: 'success',
+                message: pageProps.success.message,
+            });
+            // setNotification(data)
         }
+    }, [pageProps.success]);
 
+    // error notification
+    useEffect(() => {
         if (pageProps.error) {
-            getNotificationResponse('error', pageProps.error.message);
+            useNotification({
+                type: 'error',
+                message: pageProps.error.message,
+            });
         }
-    }, [pageProps.success, pageProps.error]);
+    }, [pageProps.error]);
 
     return (
         // Fix height, so the scroll will be belongs to Content only
@@ -338,16 +348,13 @@ export const MainLayout: React.FC<IProps> = ({
                         marginTop: isMobile ? '25px' : 0,
                     }}
                 >
-                    <>
-                        {notification}
-                        <PageHeader
-                            title={title}
-                            topActions={topActions}
-                            breadcrumbs={breadcrumbs}
-                        />
+                    <PageHeader
+                        title={title}
+                        topActions={topActions}
+                        breadcrumbs={breadcrumbs}
+                    />
 
-                        {children}
-                    </>
+                    {children}
                 </Content>
             </Layout>
         </Layout>
