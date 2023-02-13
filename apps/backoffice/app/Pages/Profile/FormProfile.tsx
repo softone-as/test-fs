@@ -13,6 +13,7 @@ import { editProfile } from '../../Modules/Profile/Action';
 import { IProfile } from '../../Modules/User/Entities';
 import { GenderEnum } from '../../../../../interface-models/iam/user.interface';
 import dayjs from 'dayjs';
+import { BasicDatePicker } from '../../Components/molecules/Pickers/BasicDatePicker';
 
 const schema: yup.SchemaOf<IProfileForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
@@ -127,14 +128,14 @@ const FormProfilePage: React.FC = (props: IProps) => {
                         </Radio.Group>
                     </Form.Item>
                     {/* / TODO: Fix defaultValue dayjs for birthDate */}
-                    {/* 
+
                     <Form.Item
                         label="Birth Date"
                         name="birthDate"
                         rules={[yupSync]}
                     >
-                        <DatePicker />
-                    </Form.Item> */}
+                        <BasicDatePicker />
+                    </Form.Item>
                 </FormContainer>
             </Section>
         </Layout>
