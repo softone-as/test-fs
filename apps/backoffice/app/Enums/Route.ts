@@ -152,4 +152,6 @@ export const EndpointRoute = {
     UploadImage: '/commons/upload-file',
     UploadImages: '/commons/upload-files',
     Users: '/users',
+
+    NotificationMarkReadAll: '/notifications/mark-read-all',
 };

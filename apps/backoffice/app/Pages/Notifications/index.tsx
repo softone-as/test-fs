@@ -17,6 +17,7 @@ import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.inte
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { Route } from '../../Enums/Route';
+import { markReadAllNotification } from '../../Modules/Notification/Action';
 
 interface IProps extends TInertiaProps {
     data: IInAppNotification[];
@@ -24,14 +25,11 @@ interface IProps extends TInertiaProps {
 }
 
 const NotificationPage: React.FC = (props: IProps) => {
+    console.log(props.notifications.notificationUnread);
     const {
         setQueryParams,
         status: { isFetching },
     } = useTableFilter<Partial<IInAppNotification>>();
-
-    const handleMarkRead = (event) => {
-        console.log('Data menu: ', event.target);
-    };
 
     const columns: ColumnsType<IInAppNotification> = [
         {
@@ -47,7 +45,7 @@ const NotificationPage: React.FC = (props: IProps) => {
         {
             title: 'Action',
             key: 'action',
-            width: '180px',
+            width: '100px',
             render: (data: IInAppNotification) => {
                 return (
                     <>
@@ -60,10 +58,7 @@ const NotificationPage: React.FC = (props: IProps) => {
                                 },
                             ]}
                         />
-                        <Button onClick={handleMarkRead} type="ghost">
-                            Mark as read
-                            <Badge dot={!data.isRead}></Badge>
-                        </Button>
+                        <Badge dot={!data.isRead}></Badge>
                     </>
                 );
             },
@@ -92,12 +87,21 @@ const NotificationPage: React.FC = (props: IProps) => {
         console.log('FINSIH : ', values);
     };
 
+    const handleMarkRead = () => {
+        markReadAllNotification(
+            props.data.map((data) => {
+                return data.id;
+            }),
+        );
+    };
+
     return (
         <MainLayout
             title="Notification"
             breadcrumbs={Breadcrumbs.Notification.INDEX}
             topActions={
                 <Button
+                    onClick={handleMarkRead}
                     type="primary"
                     size="large"
                     style={{
