@@ -48,6 +48,8 @@ export const Route = {
 
     LogActivity: '/logs',
 
+    Notification: '/notifications',
+
     Home: '/dashboard/page',
     Dashboard: '/',
     Logout: '/auth/logout',

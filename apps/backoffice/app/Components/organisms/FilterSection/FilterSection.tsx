@@ -14,10 +14,10 @@ import { isMobileScreen } from '../../../Utils/utils';
 
 export interface IFilterSection {
     filters?: React.ReactNode[];
-    selectedRows: React.Key[];
+    selectedRows?: React.Key[];
     batchActionMenus: MenuProps['items'];
-    onSearch: (value: string) => void;
-    searchValue: string;
+    onSearch?: (value: string) => void;
+    searchValue?: string;
 }
 
 export const FilterSection = (props: IFilterSection) => {
@@ -27,7 +27,7 @@ export const FilterSection = (props: IFilterSection) => {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            props.onSearch(value);
+            props.onSearch && props.onSearch(value);
         }, 500);
 
         return () => {
@@ -38,7 +38,7 @@ export const FilterSection = (props: IFilterSection) => {
     return (
         <Row gutter={[8, 0]} align="middle">
             {/* Batch Action */}
-            {props.selectedRows.length > 0 && (
+            {props.selectedRows && props.selectedRows.length > 0 && (
                 <Col>
                     <Space style={{ paddingRight: '8px' }}>
                         <Dropdown.Button
@@ -69,16 +69,18 @@ export const FilterSection = (props: IFilterSection) => {
             })}
 
             {/* Search */}
-            <Col flex="auto">
-                <Input
-                    prefix={<SearchOutlined />}
-                    placeholder="Search"
-                    onChange={(e) => setValue(e.target.value)}
-                    value={value}
-                    allowClear
-                    style={{ margin: isMobile ? '5px 0' : '2px' }}
-                />
-            </Col>
+            {props.onSearch && (
+                <Col flex="auto">
+                    <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="Search"
+                        onChange={(e) => setValue(e.target.value)}
+                        value={value}
+                        allowClear
+                        style={{ margin: isMobile ? '5px 0' : '2px' }}
+                    />
+                </Col>
+            )}
         </Row>
     );
 };

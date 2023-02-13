@@ -115,6 +115,26 @@ const Users = {
     ],
 };
 
+const Notification = {
+    INDEX: [
+        {
+            label: 'Notification',
+            path: '/notifications',
+        },
+    ],
+
+    DETAIL: [
+        {
+            label: 'Notification',
+            path: '/notifications',
+        },
+        {
+            label: 'Notification Detail',
+            path: '/notifications/detail',
+        },
+    ],
+};
+
 export const Breadcrumbs = {
     Users,
     Profile,
@@ -122,4 +142,5 @@ export const Breadcrumbs = {
     Permissions,
     Roles,
     LogActivity,
+    Notification,
 };

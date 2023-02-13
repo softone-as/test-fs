@@ -25,7 +25,7 @@ export class InAppNotificationController {
         );
 
         return this.inertiaAdapter.render({
-            component: 'Dummy',
+            component: 'Notifications',
             props: {
                 title: 'Notifications',
                 ...response,
