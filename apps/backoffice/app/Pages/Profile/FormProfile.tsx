@@ -1,5 +1,5 @@
 import { Button, Form, Input, Radio } from 'antd';
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import * as yup from 'yup';
 import { createYupSync } from '../../Utils/utils';
 import { FormContainer } from '../../Components/organisms/FormContainer';
@@ -12,7 +12,6 @@ import { IProfileForm } from '../../Modules/Profile/Entities';
 import { editProfile } from '../../Modules/Profile/Action';
 import { IProfile } from '../../Modules/User/Entities';
 import { GenderEnum } from '../../../../../interface-models/iam/user.interface';
-import dayjs from 'dayjs';
 import { BasicDatePicker } from '../../Components/molecules/Pickers/BasicDatePicker';
 
 const schema: yup.SchemaOf<IProfileForm> = yup.object().shape({
@@ -52,14 +51,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
         form.resetFields();
     };
 
-    const data = useMemo(
-        () => ({
-            ...props.data,
-            birthdate: props.data.birthDate && dayjs(props.data.birthDate),
-        }),
-        [props.data],
-    );
-
     return (
         <Layout title="Edit Profile" breadcrumbs={Breadcrumbs.Profile.EDIT}>
             <Section>
@@ -68,7 +59,7 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     form={form}
                     layout="vertical"
                     centered
-                    initialValues={data}
+                    initialValues={props.data}
                     buttonAction={[
                         <Button onClick={onReset}>Discard</Button>,
                         <Button
@@ -127,7 +118,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
                             </Radio.Button>
                         </Radio.Group>
                     </Form.Item>
-                    {/* / TODO: Fix defaultValue dayjs for birthDate */}
 
                     <Form.Item
                         label="Birth Date"
