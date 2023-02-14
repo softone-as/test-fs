@@ -88,6 +88,7 @@ const FormUserPage: React.FC = (props: IProps) => {
                         </Button>,
                     ]}
                     disabled={isLoading}
+                    errors={props.error}
                 >
                     <Form.Item
                         label="Full Name"

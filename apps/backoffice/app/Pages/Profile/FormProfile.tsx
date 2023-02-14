@@ -60,6 +60,7 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     layout="vertical"
                     centered
                     initialValues={props.data}
+                    errors={props.error}
                     buttonAction={[
                         <Button onClick={onReset}>Discard</Button>,
                         <Button

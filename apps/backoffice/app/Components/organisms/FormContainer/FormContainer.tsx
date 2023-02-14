@@ -1,4 +1,3 @@
-import { usePage } from '@inertiajs/inertia-react';
 import { Col, Form, FormProps, Grid, Row } from 'antd';
 import { setServerError } from 'apps/backoffice/app/Utils/utils';
 import React, { useEffect } from 'react';
@@ -10,6 +9,7 @@ export interface IFormProps extends FormProps {
     centered?: boolean; //centered by form as point
     justifyButton?: 'start' | 'end';
     buttonAction?: React.ReactNode[];
+    errors: TErrorProps;
 }
 
 const FormContainer = (props: IFormProps): JSX.Element => {
@@ -19,15 +19,14 @@ const FormContainer = (props: IFormProps): JSX.Element => {
         justifyButton = 'end',
         buttonAction,
         children,
+        errors,
         ...rest
     } = props;
     const { lg } = Grid.useBreakpoint();
 
-    const error = usePage().props.error as TErrorProps;
-
     useEffect(() => {
-        setServerError(error, rest.form.setFields);
-    }, [error]);
+        setServerError(errors, rest.form.setFields);
+    }, [errors]);
 
     return (
         <Row justify={centered && !isFieldCentered ? 'center' : 'start'}>

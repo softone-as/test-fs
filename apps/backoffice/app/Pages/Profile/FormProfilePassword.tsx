@@ -9,8 +9,9 @@ import { Section } from '../../Components/molecules/Section';
 import { AppContext } from '../../Contexts/App';
 import { IProfileFormPassword } from '../../Modules/Profile/Entities';
 import { editProfilePassword } from '../../Modules/Profile/Action';
+import { TInertiaProps } from '../../Modules/Inertia/Entities';
 
-const FormProfilePage: React.FC = () => {
+const FormProfilePage: React.FC = (props: TInertiaProps) => {
     const [password, setPassword] = useState<string>();
 
     const schema: yup.SchemaOf<IProfileFormPassword> = yup.object().shape({
@@ -76,6 +77,7 @@ const FormProfilePage: React.FC = () => {
                 <FormContainer
                     onFinish={onFinish}
                     form={form}
+                    errors={props.error}
                     layout="vertical"
                     centered
                     buttonAction={[
