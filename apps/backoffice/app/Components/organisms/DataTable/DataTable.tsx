@@ -49,11 +49,15 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
     const handleTableSort = (sorter: TOnSort<T>) => {
         setState({
             ...state,
+            field: sorter.field,
+            column: sorter.column,
             sort: String(sorter.columnKey),
             order: sorter.order,
         });
         onChange({
             ...state,
+            field: sorter.field,
+            column: sorter.column,
             sort: String(sorter.columnKey),
             order: sorter.order,
         });
