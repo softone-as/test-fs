@@ -110,7 +110,7 @@ const Users = {
         },
         {
             label: 'Edit User',
-            path: '/users/edit/:id',
+            path: '#',
         },
     ],
 };

@@ -1,76 +1,18 @@
 import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
-import { Button, Descriptions, Space } from 'antd';
-import {
-    DeleteOutlined,
-    DownloadOutlined,
-    EditOutlined,
-    EyeOutlined,
-} from '@ant-design/icons';
+import { Descriptions, Modal, Space } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { IUser } from '../../../Modules/User/Entities';
-import { ColumnsType } from 'antd/es/table';
-import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
+import { defaultSizeSpace } from '../../../Utils/theme';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
-import { DataTable } from '../../../Components/organisms/DataTable';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { Buttons } from '../../../Components/atoms/Buttons';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
-import { Section, SectionHeader } from '../../../Components/molecules/Section';
-
-const columns: ColumnsType<IUser> = [
-    {
-        title: 'ID',
-        dataIndex: 'id',
-        key: 'id',
-    },
-    {
-        title: 'Name',
-        dataIndex: 'fullname',
-        key: 'fullname',
-    },
-    {
-        title: 'Identity Number',
-        dataIndex: 'identityNumber',
-        key: 'identityNumber',
-    },
-    {
-        title: 'Phone Number',
-        dataIndex: 'phoneNumber',
-        key: 'phoneNumber',
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        width: '142px',
-        render: () => (
-            <Space size="large">
-                <Link href="#">
-                    <EyeOutlined style={iconActionTableStyle} />
-                </Link>
-                <Link href="#">
-                    <EditOutlined style={iconActionTableStyle} />
-                </Link>
-                <Link href="#">
-                    <DeleteOutlined style={iconActionTableStyle} />
-                </Link>
-            </Space>
-        ),
-    },
-];
-
-const data: IUser[] = [
-    {
-        id: 1,
-        fullname: 'John Cena',
-        email: 'john@cena.com',
-        password: '4123',
-        identityNumber: '231',
-        phoneNumber: '0841231322',
-    },
-];
-
+import { Section } from '../../../Components/molecules/Section';
+import { Inertia } from '@inertiajs/inertia';
+import { EndpointRoute, Route } from 'apps/backoffice/app/Enums/Route';
 interface IProps extends TInertiaProps {
     data: IUser;
 }
@@ -79,16 +21,31 @@ const UserDetailPage: React.FC = (props: IProps) => {
     const { id, identityNumber, email, fullname, phoneNumber, gender } =
         props.data;
 
+    const handleDelete = () => {
+        Modal.confirm({
+            title: 'Delete User',
+            content: 'Are you sure to delete this user?',
+            okText: 'Yes',
+            cancelText: 'Cancel',
+            onOk: () =>
+                Inertia.post(EndpointRoute.DeleteUser, {
+                    ids: [id],
+                }),
+        });
+    };
+
     return (
         <MainLayout
             title="Detail User"
             breadcrumbs={Breadcrumbs.Users.DETAIL}
             topActions={
                 <>
-                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>,
-                    <Buttons icon={<EditOutlined />}>Edit</Buttons>,
-                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>,
-                    <Button type="primary">Action</Button>
+                    <Buttons icon={<DeleteOutlined />} onClick={handleDelete}>
+                        Delete
+                    </Buttons>
+                    <Link href={`${Route.EditUser}/${id}`}>
+                        <Buttons icon={<EditOutlined />}>Edit</Buttons>
+                    </Link>
                 </>
             }
         >
@@ -132,25 +89,6 @@ const UserDetailPage: React.FC = (props: IProps) => {
                             http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
                         </Descriptions.Item>
                     </DescriptionContainer>
-
-                    <SectionHeader
-                        title="Table Title"
-                        actions={<Button type="primary">Add Data</Button>}
-                    />
-
-                    <DataTable<IUser>
-                        columns={columns}
-                        dataSource={data}
-                        meta={{
-                            page: 1,
-                            perPage: 10,
-                            total: 23,
-                            totalPage: 3,
-                        }}
-                        onPageChange={() => {
-                            return;
-                        }}
-                    />
                 </Section>
             </Space>
         </MainLayout>

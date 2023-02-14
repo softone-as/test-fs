@@ -12,3 +12,14 @@ export const createUser = (userData: IUserForm): void => {
         },
     });
 };
+
+export const editUser = (id: number, userData: IUserForm): void => {
+    Inertia.post(`${EndpointRoute.EditUser}/${id}`, userData, {
+        onSuccess: (success) => {
+            console.log('Sukses: ', success);
+        },
+        onError: (error) => {
+            console.log('Error: ', error);
+        },
+    });
+};

@@ -11,13 +11,13 @@ import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
 import {} from '../../../Utils/notification';
 import { FilterSection } from '../../../Components/organisms/FilterSection';
-import { Button, MenuProps, Select, Tag } from 'antd';
+import { Button, MenuProps, Modal, Select, Tag } from 'antd';
 import dayjs from 'dayjs';
 import {
     DateRangePicker,
     TRangeValue,
 } from '../../../Components/molecules/Pickers';
-import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
@@ -28,6 +28,7 @@ import { RowActionButtons } from '../../../Components/molecules/RowActionButtons
 import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
+import { EndpointRoute, Route } from 'apps/backoffice/app/Enums/Route';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -49,8 +50,36 @@ const UsersPage: React.FC = (props: IProps) => {
     const isMobile = isMobileScreen();
 
     const handleBatchDelete = () => {
-        return Inertia.post(`/users/deletes`, {
-            ids: selectedRowKeys,
+        Modal.confirm({
+            title: 'Delete Users',
+            content: 'Are you sure to delete selected users?',
+            okText: 'Yes',
+            cancelText: 'Cancel',
+            onOk: () =>
+                Inertia.post(EndpointRoute.DeleteUser, {
+                    ids: selectedRowKeys,
+                }),
+        });
+    };
+
+    const handleDetail = (id: number) => {
+        return Inertia.get(`${Route.Users}/${id}`);
+    };
+
+    const handleEdit = (id: number) => {
+        return Inertia.get(`${Route.EditUser}/${id}`);
+    };
+
+    const handleDelete = (id: number) => {
+        Modal.confirm({
+            title: 'Delete User',
+            content: 'Are you sure to delete this user?',
+            okText: 'Yes',
+            cancelText: 'Cancel',
+            onOk: () =>
+                Inertia.post(EndpointRoute.DeleteUser, {
+                    ids: [id],
+                }),
         });
     };
 
@@ -104,29 +133,32 @@ const UsersPage: React.FC = (props: IProps) => {
             title: isMobile ? null : 'Action',
             key: 'action',
             width: '142px',
-            render: () => (
-                <RowActionButtons
-                    actions={[
-                        {
-                            type: 'view',
-                            href: `#`,
-                            title: 'view',
-                        },
-                        {
-                            type: 'edit',
-                            href: `#`,
-                            title: 'edit',
-                        },
-                        {
-                            type: 'delete',
-                            title: 'delete',
-                            onClick: () => {
-                                // TODO : handle delete function
+            render: (text, record) => {
+                const userId = record.id;
+                return (
+                    <RowActionButtons
+                        actions={[
+                            {
+                                type: 'view',
+                                href: `#`,
+                                title: 'view',
+                                onClick: () => handleDetail(userId),
                             },
-                        },
-                    ]}
-                />
-            ),
+                            {
+                                type: 'edit',
+                                href: `#`,
+                                title: 'edit',
+                                onClick: () => handleEdit(userId),
+                            },
+                            {
+                                type: 'delete',
+                                title: 'delete',
+                                onClick: () => handleDelete(userId),
+                            },
+                        ]}
+                    />
+                );
+            },
         },
     ];
 
@@ -179,24 +211,13 @@ const UsersPage: React.FC = (props: IProps) => {
     return (
         <MainLayout
             title="User List"
-            topActions={[
-                <Button
-                    size="large"
-                    icon={<FileExcelOutlined />}
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    Import
-                </Button>,
-                <Link href="users/create">
+            topActions={
+                <Link href={Route.CreateUser}>
                     <Button size="large" type="primary">
                         New User
                     </Button>
-                </Link>,
-            ]}
+                </Link>
+            }
         >
             <FilterSection
                 searchValue={filters.search}
