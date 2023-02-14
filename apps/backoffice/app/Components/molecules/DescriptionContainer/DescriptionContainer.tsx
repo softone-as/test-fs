@@ -1,38 +1,31 @@
 import { Descriptions, DescriptionsProps, Grid } from 'antd';
 import React from 'react';
 
-interface IDescriptionContainer extends DescriptionsProps {
-    withDefaultWidth?: boolean;
-}
-
 const DescriptionContainer = ({
     size = 'small',
     layout = 'horizontal',
     ...props
-}: IDescriptionContainer) => {
-    const { withDefaultWidth } = props;
-
+}: DescriptionsProps) => {
     const { md } = Grid.useBreakpoint();
+
     return (
         <Descriptions
             size={size}
             layout={layout}
-            labelStyle={
-                withDefaultWidth
-                    ? null
-                    : layout == 'horizontal' && {
-                          ...props.labelStyle,
-                          width: md && '15%',
-                      }
-            }
-            contentStyle={
-                withDefaultWidth
-                    ? null
-                    : layout == 'horizontal' && {
-                          ...props.contentStyle,
-                          width: md && '30%',
-                      }
-            }
+            labelStyle={{
+                ...props.labelStyle,
+                width:
+                    props.bordered && layout == 'horizontal'
+                        ? md && '15%'
+                        : null,
+            }}
+            contentStyle={{
+                ...props.labelStyle,
+                width:
+                    props.bordered && layout == 'horizontal'
+                        ? md && '15%'
+                        : null,
+            }}
             column={
                 props.column ? props.column : { lg: 2, md: 2, sm: 1, xs: 1 }
             }

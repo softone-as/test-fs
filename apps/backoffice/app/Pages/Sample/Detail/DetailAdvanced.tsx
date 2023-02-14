@@ -200,11 +200,7 @@ const DetailAdvancedPage: React.FC = () => {
                             </DescriptionContainer>
                         </Space>
 
-                        <DescriptionContainer
-                            column={1}
-                            size="small"
-                            withDefaultWidth
-                        >
+                        <DescriptionContainer column={1} size="small">
                             <Descriptions.Item label="Status">
                                 <Badge
                                     status="warning"
