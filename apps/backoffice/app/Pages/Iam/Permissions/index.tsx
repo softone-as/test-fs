@@ -2,19 +2,20 @@ import React from 'react';
 import { DataTable, sortOrder } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
-import { Button, Tag } from 'antd';
-import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { Tag } from 'antd';
+import { ShareAltOutlined } from '@ant-design/icons';
 import { useModal } from '../../../Utils/modal';
 
 import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
-import { Inertia } from '@inertiajs/inertia';
 import type { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../../../Utils/hooks';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { RowActionButtons } from 'apps/backoffice/app/Components/molecules/RowActionButtons';
 import { ItemType } from '../../../Components/organisms/DataTable/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
+import { Route } from 'apps/backoffice/app/Enums/Route';
+import { Inertia } from '@inertiajs/inertia';
 
 interface IProps extends TInertiaProps {
     data: PermissionResponse[];
@@ -27,20 +28,9 @@ const PermissionPage: React.FC = (props: IProps) => {
         status: { isFetching },
     } = useTableFilter();
 
-    //TODO Confirm Delete Modal Example
-    // const handleDeleteRow = (id) => {
-    //     return Inertia.get(`/permissions/delete/${id}`);
-    // };
-
-    // const deleteModal = (id) =>
-    //     useModal({
-    //         title: 'Are You Sure? ',
-    //         type: 'confirm',
-    //         onOk: () => handleDeleteRow(id),
-    //         onCancel: () => {
-    //             return;
-    //         },
-    //     });
+    const handleDetail = (id: number) => {
+        return Inertia.get(`${Route.Permissions}/${id}`);
+    };
 
     const columns: ColumnsType<PermissionResponse> = [
         {
@@ -82,29 +72,21 @@ const PermissionPage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: () => (
-                <RowActionButtons
-                    actions={[
-                        {
-                            type: 'view',
-                            href: `#`,
-                            title: 'view',
-                        },
-                        {
-                            type: 'edit',
-                            href: `#`,
-                            title: 'edit',
-                        },
-                        {
-                            type: 'delete',
-                            title: 'delete',
-                            onClick: () => {
-                                // TODO : handle delete function
+            render: (text, record) => {
+                const id = record.id;
+                return (
+                    <RowActionButtons
+                        actions={[
+                            {
+                                type: 'view',
+                                href: `#`,
+                                title: 'view',
+                                onClick: () => handleDetail(id),
                             },
-                        },
-                    ]}
-                />
-            ),
+                        ]}
+                    />
+                );
+            },
         },
     ];
 
@@ -138,24 +120,6 @@ const PermissionPage: React.FC = (props: IProps) => {
         <MainLayout
             breadcrumbs={Breadcrumbs.Permissions.INDEX}
             title="Permissions"
-            topActions={
-                <>
-                    <Button
-                        size="large"
-                        icon={<FileExcelOutlined />}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        Import
-                    </Button>
-                    <Button size="large" type="primary">
-                        New Permission
-                    </Button>
-                </>
-            }
         >
             <DataTable
                 batchActionMenus={batchActionMenus}
