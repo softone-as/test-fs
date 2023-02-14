@@ -18,9 +18,9 @@ test:storybook:
   cache:
     key: "$CI_JOB_NAME"
     paths:
-      - .yarn
+      - node_modules
   before_script:
-    - yarn install --frozen-lockfile --prefer-offline --cache-folder .yarn
+    - yarn install --frozen-lockfile --prefer-offline
   script:
     - yarn chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --zip
 
