@@ -86,16 +86,12 @@ const FormUserPage: React.FC = (props: IProps) => {
                         <Button
                             type="primary"
                             htmlType="submit"
-                            disabled={
-                                form
-                                    .getFieldsError()
-                                    .filter(({ errors }) => errors.length)
-                                    .length > 0 && isLoading
-                            }
+                            disabled={isLoading}
                         >
                             Submit
                         </Button>,
                     ]}
+                    disabled={isLoading}
                 >
                     <Form.Item
                         label="Full Name"

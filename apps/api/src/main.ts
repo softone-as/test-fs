@@ -18,6 +18,7 @@ async function bootstrap() {
         attachStacktrace: true,
         debug: config.nodeEnv !== 'local',
         environment: config.nodeEnv,
+        tracesSampleRate: config.sentry.tracesSampleRate,
     });
 
     initializeTransactionalContext();
