@@ -32,7 +32,7 @@ import { RowActionButtons } from '../../../Components/molecules/RowActionButtons
 import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
-import { Buttons } from '../../../Components/atoms/Buttons';
+import { Button } from '../../../Components/atoms/Button';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -185,17 +185,17 @@ const UsersPage: React.FC = (props: IProps) => {
         <MainLayout
             title="User List"
             topActions={[
-                <Buttons icon={<FileExcelOutlined />} responsive={true}>
+                <Button icon={<FileExcelOutlined />} responsive={true}>
                     Import
-                </Buttons>,
+                </Button>,
                 <Link href="users/create">
-                    <Buttons
+                    <Button
                         icon={<PlusCircleOutlined />}
                         type="primary"
                         responsive={true}
                     >
                         New User
-                    </Buttons>
+                    </Button>
                 </Link>,
             ]}
         >

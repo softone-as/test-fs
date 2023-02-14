@@ -34,7 +34,7 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 import { Link } from '@inertiajs/inertia-react';
-import { Buttons } from '../../../Components/atoms/Buttons';
+import { Button } from '../../../Components/atoms/Button';
 import { DescriptionContainer } from '../../../Components/molecules/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
 
@@ -145,10 +145,10 @@ const DetailAdvancedPage: React.FC = () => {
             breadcrumbs={Breadcrumbs.Users.DETAIL}
             topActions={
                 <>
-                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>
-                    <Buttons icon={<EditOutlined />}>Edit</Buttons>
-                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>
-                    <Buttons type="primary">Action</Buttons>
+                    <Button icon={<DeleteOutlined />}>Delete</Button>
+                    <Button icon={<EditOutlined />}>Edit</Button>
+                    <Button icon={<DownloadOutlined />}>Download</Button>
+                    <Button type="primary">Action</Button>
                 </>
             }
         >

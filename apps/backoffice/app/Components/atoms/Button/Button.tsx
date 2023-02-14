@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from 'antd';
+import { Button as AntdButton, ButtonProps } from 'antd';
 import React from 'react';
 import { isMobileScreen } from '../../../Utils/utils';
 
@@ -7,14 +7,14 @@ interface IProps extends ButtonProps {
     responsive?: boolean;
 }
 
-const Buttons: React.FC<IProps> = ({ icon, responsive, children, ...rest }) => {
+const Button: React.FC<IProps> = ({ icon, responsive, children, ...rest }) => {
     const isMobile = isMobileScreen();
     const showChildren = !isMobile || (isMobile && !icon && !responsive);
 
     const size = responsive ? (isMobile ? 'middle' : 'large') : 'large';
 
     return (
-        <Button
+        <AntdButton
             size={size}
             icon={icon}
             style={{
@@ -25,8 +25,8 @@ const Buttons: React.FC<IProps> = ({ icon, responsive, children, ...rest }) => {
             {...rest}
         >
             {showChildren && children}
-        </Button>
+        </AntdButton>
     );
 };
 
-export default Buttons;
+export default Button;
