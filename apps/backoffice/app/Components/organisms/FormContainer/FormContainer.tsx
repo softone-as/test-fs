@@ -21,32 +21,29 @@ const FormContainer = (props: IFormProps): JSX.Element => {
     } = props;
     const { lg } = Grid.useBreakpoint();
     const isMobile = isMobileScreen();
+    const checkIsFieldCentered = isMobile ? false : isFieldCentered;
 
     return (
-        <Row justify={centered && !isFieldCentered ? 'center' : 'start'}>
+        <Row justify={centered && !checkIsFieldCentered ? 'center' : 'start'}>
             <Col
-                span={centered ? (lg ? 10 : isFieldCentered ? 16 : 24) : 24}
-                offset={isFieldCentered ? (lg ? 8 : 6) : 0}
+                span={
+                    centered ? (lg ? 10 : checkIsFieldCentered ? 16 : 24) : 24
+                }
+                offset={checkIsFieldCentered ? (lg ? 8 : 6) : 0}
             >
                 <Form
                     {...rest}
-                    layout={
-                        isFieldCentered
-                            ? 'horizontal'
-                            : isMobile
-                            ? 'vertical'
-                            : props.layout
-                    }
+                    layout={isMobile ? 'vertical' : props.layout}
                     labelCol={
-                        isFieldCentered && {
+                        checkIsFieldCentered && {
                             span: 8,
-                            style: isFieldCentered && {
+                            style: checkIsFieldCentered && {
                                 position: 'absolute',
                                 transform: 'translateX(-100%)',
                             },
                         }
                     }
-                    wrapperCol={isFieldCentered && { span: 18 }}
+                    wrapperCol={checkIsFieldCentered && { span: 18 }}
                     style={{ ...props.style }}
                 >
                     <>
