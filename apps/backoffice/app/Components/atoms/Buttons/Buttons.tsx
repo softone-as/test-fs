@@ -9,7 +9,9 @@ interface IProps extends ButtonProps {
 
 const Buttons: React.FC<IProps> = ({ icon, responsive, children, ...rest }) => {
     const isMobile = isMobileScreen();
-    const size = isMobile ? (responsive ? 'middle' : 'large') : 'large';
+    const showChildren = !isMobile || (isMobile && !icon && !responsive);
+
+    const size = responsive ? (isMobile ? 'middle' : 'large') : 'large';
 
     return (
         <Button
@@ -22,7 +24,7 @@ const Buttons: React.FC<IProps> = ({ icon, responsive, children, ...rest }) => {
             }}
             {...rest}
         >
-            {!isMobile && children}
+            {showChildren && children}
         </Button>
     );
 };
