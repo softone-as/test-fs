@@ -15,7 +15,7 @@ interface IProps extends TInertiaProps {
 
 const DetailPermissionPage: React.FC = (props: IProps) => {
     const { key, name, roles, id } = props.data;
-    console.log(props.data);
+
     return (
         <MainLayout
             title="Detail Permisson"
@@ -27,11 +27,7 @@ const DetailPermissionPage: React.FC = (props: IProps) => {
                 style={{ width: '100%' }}
             >
                 <Section title="Permission Info">
-                    <DescriptionContainer
-                        size="small"
-                        bordered
-                        column={{ md: 2, xs: 1 }}
-                    >
+                    <DescriptionContainer size="small" bordered column={1}>
                         <Descriptions.Item label="ID">{id}</Descriptions.Item>
                         <Descriptions.Item label="Name">
                             {name}
