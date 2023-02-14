@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Table, Pagination, Space, PaginationProps } from 'antd';
 import { FilterValue, SorterResult } from 'antd/es/table/interface';
-import { IProps, TOnSort, FilterState } from './Entities';
+import { IDataTableProps, TOnSort, FilterState } from './Entities';
 import { FilterSection } from '../FilterSection';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 
@@ -15,7 +15,9 @@ const stylePaginantion: React.CSSProperties = {
 const tableLayout: React.CSSProperties = { width: '100%' };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
+function DataTable<T extends object = any>(
+    props: IDataTableProps<T>,
+): JSX.Element {
     const {
         pagination,
         defaultCurrent,

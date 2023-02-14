@@ -54,7 +54,7 @@ export type FilterState<T> = {
     per_page?: number;
 };
 
-export interface IProps<T> extends Omit<TableProps<T>, 'onChange'> {
+export interface IDataTableProps<T> extends Omit<TableProps<T>, 'onChange'> {
     defaultCurrent?: number;
     batchActionMenus?: ItemType[];
     filterComponents?: React.ReactNode[];
