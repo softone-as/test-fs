@@ -22,6 +22,7 @@ import { useTableFilter } from '../Utils/hooks';
 
 import { Breadcrumbs } from '../Enums/Breadcrumb';
 import { RowActionButtons } from '../Components/molecules/RowActionButtons';
+import { paginationTransform } from '../Components/organisms/DataTable/DataTable';
 
 type DataType = {
     birthDate: string;
@@ -226,11 +227,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 }))}
                 rowKey="id"
                 search={filters.search}
-                pagination={{
-                    current: props.meta?.page,
-                    total: props.meta?.total,
-                    pageSize: props.meta?.perPage,
-                }}
+                pagination={paginationTransform(props.meta)}
             />
         </MainLayout>
     );

@@ -20,6 +20,7 @@ import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { useTableFilter } from '../../../Utils/hooks';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
+import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 
 type DataType = {
     key: string;
@@ -339,11 +340,7 @@ const FormAdvanced = (props: TInertiaProps) => {
                         columns={mergedColumns}
                         dataSource={data}
                         rowKey="id"
-                        pagination={{
-                            current: props.meta?.page,
-                            total: props.meta?.total,
-                            pageSize: props.meta?.perPage,
-                        }}
+                        pagination={paginationTransform(props.meta)}
                     />
                 </FormContainer>
             </Section>

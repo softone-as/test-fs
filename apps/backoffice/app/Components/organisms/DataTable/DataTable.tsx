@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 
 import { Table, Pagination, Space, PaginationProps } from 'antd';
-import { FilterValue, SorterResult } from 'antd/es/table/interface';
+import {
+    FilterValue,
+    SorterResult,
+    TablePaginationConfig,
+} from 'antd/es/table/interface';
 import { IDataTableProps, TOnSort, FilterState } from './Entities';
 import { FilterSection } from '../FilterSection';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
+import { TMeta } from '../../../Modules/Inertia/Entities';
 
 const stylePaginantion: React.CSSProperties = {
     display: 'flex',
@@ -135,5 +140,13 @@ function DataTable<T extends object = any>(
         </>
     );
 }
+
+export const paginationTransform = (meta: TMeta): TablePaginationConfig => {
+    return {
+        current: meta?.page,
+        total: meta?.total,
+        pageSize: meta?.perPage,
+    };
+};
 
 export default DataTable;

@@ -14,6 +14,7 @@ import { useTableFilter } from '../../../Utils/hooks';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { RowActionButtons } from 'apps/backoffice/app/Components/molecules/RowActionButtons';
 import { ItemType } from '../../../Components/organisms/DataTable/Entities';
+import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 
 interface IProps extends TInertiaProps {
     data: PermissionResponse[];
@@ -158,11 +159,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                 search={filters.search}
                 dataSource={props?.data}
                 rowKey="id"
-                pagination={{
-                    current: props.meta?.page,
-                    total: props.meta?.total,
-                    pageSize: props.meta?.perPage,
-                }}
+                pagination={paginationTransform(props.meta)}
                 loading={isFetching}
             />
         </MainLayout>

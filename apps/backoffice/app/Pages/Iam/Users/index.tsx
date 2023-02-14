@@ -21,6 +21,7 @@ import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
 import { ItemType } from '../../../Components/organisms/DataTable/Entities';
+import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -206,11 +207,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 dataSource={props.data}
                 rowKey="id"
                 search={filters.search}
-                pagination={{
-                    current: props.meta?.page,
-                    total: props.meta?.total,
-                    pageSize: props.meta?.perPage,
-                }}
+                pagination={paginationTransform(props.meta)}
                 loading={isFetching}
             />
         </MainLayout>

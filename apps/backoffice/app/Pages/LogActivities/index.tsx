@@ -20,6 +20,7 @@ import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { Route } from '../../Enums/Route';
+import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
 
 interface IProps extends TInertiaProps {
     data: ILogActivity[];
@@ -154,11 +155,7 @@ const LogActivityPage: React.FC = (props: IProps) => {
                 dataSource={props.data}
                 rowKey="id"
                 search={filters.search}
-                pagination={{
-                    current: props.meta?.page,
-                    total: props.meta?.total,
-                    pageSize: props.meta?.perPage,
-                }}
+                pagination={paginationTransform(props.meta)}
                 loading={isFetching}
             />
         </MainLayout>
