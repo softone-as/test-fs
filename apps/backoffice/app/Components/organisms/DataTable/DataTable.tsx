@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Table, Pagination, Space, PaginationProps } from 'antd';
-import { SorterResult } from 'antd/es/table/interface';
+import { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { IProps, TOnSort, FilterState } from './Entities';
 import { FilterSection } from '../FilterSection';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
@@ -46,9 +46,18 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
         onChange({ ...state, page: 1, search: value });
     };
 
-    const handleTableSort = (sorter: TOnSort<T>) => {
+    const handleFiltersChange = (values: Record<string, any>) => {
+        setState({ ...state, ...values });
+        onChange({ ...state, ...values });
+    };
+
+    const handleTableChange = (
+        filters: Record<string, FilterValue>,
+        sorter: TOnSort<T>,
+    ) => {
         setState({
             ...state,
+            ...filters,
             field: sorter.field,
             column: sorter.column,
             sort: String(sorter.columnKey),
@@ -56,6 +65,7 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
         });
         onChange({
             ...state,
+            ...filters,
             field: sorter.field,
             column: sorter.column,
             sort: String(sorter.columnKey),
@@ -77,6 +87,7 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
                     },
                 }))}
                 filters={filterComponents}
+                onFiltersChange={handleFiltersChange}
             />
             <Space.Compact direction="vertical" style={tableLayout}>
                 <Table<T>
@@ -93,7 +104,7 @@ function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
                         filters,
                         sorter: SorterResult<T>,
                     ): void =>
-                        handleTableSort({
+                        handleTableChange(filters, {
                             ...sorter,
                             order:
                                 sorter.order !== undefined

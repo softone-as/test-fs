@@ -6,12 +6,9 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
 import {} from '../../../Utils/notification';
-import { Button, Select, Tag } from 'antd';
+import { Button, Form, Select, Tag } from 'antd';
 import dayjs from 'dayjs';
-import {
-    DateRangePicker,
-    TRangeValue,
-} from '../../../Components/molecules/Pickers';
+import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
@@ -47,6 +44,10 @@ const UsersPage: React.FC = (props: IProps) => {
         return Inertia.post(`/users/deletes`, {
             ids: selectedRowKeys,
         });
+    };
+
+    const handleCancel = () => {
+        console.log('cancel modal');
     };
 
     const columns: ColumnsType<IUser> = [
@@ -139,22 +140,12 @@ const UsersPage: React.FC = (props: IProps) => {
                     title: 'Are You Sure? ',
                     type: 'confirm',
                     onOk: () => handleBatchDelete(selectedRowKeys),
+                    onCancel: () => handleCancel(),
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },
         },
     ];
-
-    const handleRange = (val: TRangeValue) => {
-        return setQueryParams({
-            start_at: val?.[0].toISOString(),
-            end_at: val?.[1].toISOString(),
-        });
-    };
-
-    const handleFilterGender = (data) => {
-        return setQueryParams({ gender: data });
-    };
 
     return (
         <MainLayout
@@ -181,24 +172,36 @@ const UsersPage: React.FC = (props: IProps) => {
             <DataTable
                 batchActionMenus={batchActionMenus}
                 filterComponents={[
-                    <Select
-                        placeholder="Gender"
-                        defaultValue={filters.gender}
-                        options={genderOptions}
-                        onChange={handleFilterGender}
-                        allowClear
-                        style={{ width: '90px' }}
-                    />,
-                    <DateRangePicker
-                        range={10}
-                        onChange={handleRange}
-                        defaultValue={[
+                    <Form.Item
+                        name="gender"
+                        initialValue={filters.gender}
+                        noStyle
+                    >
+                        <Select
+                            placeholder="Gender"
+                            options={genderOptions}
+                            allowClear
+                            style={{ width: '90px' }}
+                        />
+                    </Form.Item>,
+                    <Form.Item
+                        name="rangeCreateAt"
+                        initialValue={[
                             filters.start_at && dayjs(filters.start_at),
                             filters.end_at && dayjs(filters.end_at),
                         ]}
-                    />,
+                        noStyle
+                    >
+                        <DateRangePicker range={10} />
+                    </Form.Item>,
                 ]}
-                onChange={setQueryParams}
+                onChange={({ rangeCreateAt, ...filtersState }) => {
+                    setQueryParams({
+                        ...filtersState,
+                        start_at: rangeCreateAt?.[0].toISOString(),
+                        end_at: rangeCreateAt?.[1].toISOString(),
+                    });
+                }}
                 columns={columns}
                 dataSource={props.data}
                 rowKey="id"

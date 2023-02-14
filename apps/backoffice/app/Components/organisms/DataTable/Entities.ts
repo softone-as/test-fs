@@ -43,6 +43,7 @@ export type ItemType =
     | null;
 
 export type FilterState<T> = {
+    [key: string]: any;
     search?: string;
     column?: ColumnType<T>;
     order?: 'DESC' | 'ASC' | null;
