@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import ButtonFormAction from './ButtonFormAction';
 import { TErrorProps } from '../../../Modules/Inertia/Entities';
 
-interface IFormProps extends FormProps {
+export interface IFormProps extends FormProps {
     isFieldCentered?: boolean; //centered by field as point (use case: for form basic with horizontal layout)
     centered?: boolean; //centered by form as point
     justifyButton?: 'start' | 'end';
