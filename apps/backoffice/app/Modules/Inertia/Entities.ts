@@ -11,6 +11,11 @@ export type TErrorProps = {
     statusCode: number;
 };
 
+export type TSuccessProps = {
+    message: string | null;
+    statusCode: number;
+};
+
 export type TMeta = {
     page: number;
     perPage: number;
@@ -26,7 +31,7 @@ export type TInertiaProps = {
     error: TErrorProps | null;
     meta: TMeta | null;
     playerId: string | null;
-    success: string | null;
+    success: TSuccessProps;
     userDetail: IUser | null;
     notifications: TNotificationProps | null;
 };
