@@ -1,7 +1,7 @@
 import { Button, Form, Input, Radio } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import * as yup from 'yup';
-import { createYupSync, setServerError } from '../../Utils/utils';
+import { createYupSync } from '../../Utils/utils';
 import { FormContainer } from '../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
@@ -46,10 +46,6 @@ const FormProfilePage: React.FC = (props: IProps) => {
             setIsLoading(false);
         }
     };
-
-    useEffect(() => {
-        setServerError(props.error, form.setFields);
-    }, [props.error]);
 
     const onReset = () => {
         form.resetFields();

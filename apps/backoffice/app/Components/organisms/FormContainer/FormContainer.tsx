@@ -1,6 +1,9 @@
+import { usePage } from '@inertiajs/inertia-react';
 import { Col, Form, FormProps, Grid, Row } from 'antd';
-import React from 'react';
+import { setServerError } from 'apps/backoffice/app/Utils/utils';
+import React, { useEffect } from 'react';
 import ButtonFormAction from './ButtonFormAction';
+import { TErrorProps } from '../../../Modules/Inertia/Entities';
 
 interface IFormProps extends FormProps {
     isFieldCentered?: boolean; //centered by field as point (use case: for form basic with horizontal layout)
@@ -19,6 +22,12 @@ const FormContainer = (props: IFormProps): JSX.Element => {
         ...rest
     } = props;
     const { lg } = Grid.useBreakpoint();
+
+    const error = usePage().props.error as TErrorProps;
+
+    useEffect(() => {
+        setServerError(error, rest.form.setFields);
+    }, [error]);
 
     return (
         <Row justify={centered && !isFieldCentered ? 'center' : 'start'}>
