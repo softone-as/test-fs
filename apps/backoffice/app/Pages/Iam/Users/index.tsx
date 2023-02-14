@@ -11,13 +11,17 @@ import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
 import {} from '../../../Utils/notification';
 import { FilterSection } from '../../../Components/organisms/FilterSection';
-import { Button, MenuProps, Select, Tag } from 'antd';
+import { MenuProps, Select, Tag } from 'antd';
 import dayjs from 'dayjs';
 import {
     DateRangePicker,
     TRangeValue,
 } from '../../../Components/molecules/Pickers';
-import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
+import {
+    FileExcelOutlined,
+    PlusCircleOutlined,
+    ShareAltOutlined,
+} from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
@@ -28,6 +32,7 @@ import { RowActionButtons } from '../../../Components/molecules/RowActionButtons
 import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
+import { Buttons } from '../../../Components/atoms/Buttons';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -180,21 +185,17 @@ const UsersPage: React.FC = (props: IProps) => {
         <MainLayout
             title="User List"
             topActions={[
-                <Button
-                    size="large"
-                    icon={<FileExcelOutlined />}
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
+                <Buttons icon={<FileExcelOutlined />} responsive={true}>
                     Import
-                </Button>,
+                </Buttons>,
                 <Link href="users/create">
-                    <Button size="large" type="primary">
+                    <Buttons
+                        icon={<PlusCircleOutlined />}
+                        type="primary"
+                        responsive={true}
+                    >
                         New User
-                    </Button>
+                    </Buttons>
                 </Link>,
             ]}
         >

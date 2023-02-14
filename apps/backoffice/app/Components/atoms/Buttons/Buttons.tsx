@@ -1,23 +1,30 @@
 import { Button, ButtonProps } from 'antd';
 import React from 'react';
+import { isMobileScreen } from '../../../Utils/utils';
 
-const Buttons = (props: ButtonProps) => {
-    if (props.icon) {
-        return (
-            <Button
-                {...props}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                {props.children}
-            </Button>
-        );
-    }
+interface IProps extends ButtonProps {
+    icon?: React.ReactNode;
+    responsive?: boolean;
+}
 
-    return <Button {...props}>{props.children}</Button>;
+const Buttons: React.FC<IProps> = ({ icon, responsive, children, ...rest }) => {
+    const isMobile = isMobileScreen();
+    const size = isMobile ? (responsive ? 'middle' : 'large') : 'large';
+
+    return (
+        <Button
+            size={size}
+            icon={icon}
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+            {...rest}
+        >
+            {!isMobile && children}
+        </Button>
+    );
 };
 
 export default Buttons;
