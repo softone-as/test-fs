@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
   - preview
   - deploy
 
@@ -9,6 +10,19 @@ variables:
 
 include:
   - /deploy/.preview.gitlab-ci.yml
+
+test:storybook:
+  stage: test
+  image: node:16.15.1
+  tags: [dot]
+  cache:
+    key: "$CI_JOB_NAME"
+    paths:
+      - node_modules
+  before_script:
+    - yarn install --frozen-lockfile --prefer-offline
+  script:
+    - yarn chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --zip
 
 build_develop:docker_image:
   stage: build
