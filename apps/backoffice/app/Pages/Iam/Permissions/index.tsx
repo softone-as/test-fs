@@ -114,6 +114,10 @@ const PermissionPage: React.FC = (props: IProps) => {
         });
     };
 
+    const handleCancel = () => {
+        console.log('cancel');
+    };
+
     const batchActionMenus: ItemType[] = [
         {
             key: '1',
@@ -123,6 +127,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                     title: 'Are You Sure? ',
                     type: 'confirm',
                     onOk: () => handleBatchDelete(selectedRowKeys),
+                    onCancel: handleCancel,
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },
