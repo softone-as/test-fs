@@ -143,9 +143,11 @@ const DetailBasicPage: React.FC = (props: TInertiaProps) => {
                     <DataTable<IUser>
                         columns={columns}
                         dataSource={data}
-                        meta={props.meta}
-                        onPageChange={() => {
-                            return;
+                        rowKey="id"
+                        pagination={{
+                            current: props.meta?.page,
+                            total: props.meta?.total,
+                            pageSize: props.meta?.perPage,
                         }}
                     />
                 </Section>

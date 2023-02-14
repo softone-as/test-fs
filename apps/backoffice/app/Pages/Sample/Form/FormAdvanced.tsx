@@ -106,11 +106,6 @@ const FormAdvanced = (props: TInertiaProps) => {
     const [form] = Form.useForm();
 
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
 
     const [data, setData] = useState(dataResource);
     const [editingKey, setEditingKey] = useState('');
@@ -335,21 +330,20 @@ const FormAdvanced = (props: TInertiaProps) => {
                     <SectionHeader title="Section Table List" top divider />
 
                     <DataTable
-                        rowSelection={{
-                            selectedRowKeys,
-                            onChange: onSelectChange,
-                        }}
                         components={{
                             body: {
                                 cell: EditableCell,
                             },
                         }}
+                        onChange={setQueryParams}
                         columns={mergedColumns}
                         dataSource={data}
-                        meta={props.meta}
-                        onPageChange={(page, pageSize) =>
-                            setQueryParams({ page: page, per_page: pageSize })
-                        }
+                        rowKey="id"
+                        pagination={{
+                            current: props.meta?.page,
+                            total: props.meta?.total,
+                            pageSize: props.meta?.perPage,
+                        }}
                     />
                 </FormContainer>
             </Section>

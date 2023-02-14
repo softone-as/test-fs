@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Table, Pagination, Space } from 'antd';
-import type { PaginationProps } from 'antd/es/pagination';
+import { Table, Pagination, Space, PaginationProps } from 'antd';
 import { SorterResult } from 'antd/es/table/interface';
-import { IProps } from './Entities';
+import { IProps, TOnSort, FilterState } from './Entities';
+import { FilterSection } from '../FilterSection';
+import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 
 const stylePaginantion: React.CSSProperties = {
     display: 'flex',
@@ -15,49 +16,106 @@ const tableLayout: React.CSSProperties = { width: '100%' };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function DataTable<T extends object = any>(props: IProps<T>): JSX.Element {
-    const handlePageChange: PaginationProps['onChange'] = (page, pageSize) => {
-        props.onPageChange(page, pageSize);
-    };
-    return (
-        <Space.Compact direction="vertical" style={tableLayout}>
-            <Table<T>
-                {...props}
-                style={tableLayout}
-                size="small"
-                pagination={false}
-                onChange={(
-                    pagination,
-                    filters,
-                    sorter: SorterResult<T>,
-                ): void =>
-                    props.onSort({
-                        ...sorter,
-                        order:
-                            sorter.order !== undefined
-                                ? sorter.order === 'ascend'
-                                    ? 'ASC'
-                                    : 'DESC'
-                                : undefined,
-                    })
-                }
-            />
+    const {
+        pagination,
+        defaultCurrent,
+        rowSelection,
+        batchActionMenus,
+        filterComponents,
+        onChange,
+        search,
+        ...rest
+    } = props;
 
-            <div style={stylePaginantion}>
-                {props?.meta?.total && (
-                    <Pagination
-                        total={props?.meta?.total}
-                        showTotal={(total, range) =>
-                            `${range[0]}-${range[1]} of ${total} items`
-                        }
-                        defaultCurrent={props?.defaultCurrent || 1}
-                        current={props?.meta?.page}
-                        pageSize={props?.meta?.perPage}
-                        showSizeChanger
-                        onChange={handlePageChange}
-                    />
-                )}
-            </div>
-        </Space.Compact>
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const [state, setState] = useState<FilterState<T>>({
+        search,
+    });
+
+    const handleSelectRow = (newSelectedRowKeys: React.Key[]) => {
+        setSelectedRowKeys(newSelectedRowKeys);
+    };
+
+    const handlePageChange: PaginationProps['onChange'] = (page, pageSize) => {
+        setState({ ...state, page, per_page: pageSize });
+        onChange({ ...state, page, per_page: pageSize });
+    };
+
+    const handleSearch = (value) => {
+        setState({ ...state, page: 1, search: value });
+        onChange({ ...state, page: 1, search: value });
+    };
+
+    const handleTableSort = (sorter: TOnSort<T>) => {
+        setState({
+            ...state,
+            sort: String(sorter.columnKey),
+            order: sorter.order,
+        });
+        onChange({
+            ...state,
+            sort: String(sorter.columnKey),
+            order: sorter.order,
+        });
+    };
+
+    return (
+        <>
+            <FilterSection
+                searchValue={state.search}
+                onSearch={handleSearch}
+                selectedRows={selectedRowKeys}
+                batchActionMenus={batchActionMenus?.map((menu) => ({
+                    ...menu,
+                    onClick: (info) => {
+                        menu = menu as MenuItemType;
+                        menu.onClick(info, selectedRowKeys);
+                    },
+                }))}
+                filters={filterComponents}
+            />
+            <Space.Compact direction="vertical" style={tableLayout}>
+                <Table<T>
+                    rowSelection={{
+                        onChange: handleSelectRow,
+                        ...rowSelection,
+                    }}
+                    {...rest}
+                    style={tableLayout}
+                    size="small"
+                    pagination={false}
+                    onChange={(
+                        pagination,
+                        filters,
+                        sorter: SorterResult<T>,
+                    ): void =>
+                        handleTableSort({
+                            ...sorter,
+                            order:
+                                sorter.order !== undefined
+                                    ? sorter.order === 'ascend'
+                                        ? 'ASC'
+                                        : 'DESC'
+                                    : undefined,
+                        })
+                    }
+                />
+
+                <div style={stylePaginantion}>
+                    {pagination && !!pagination?.total && (
+                        <Pagination
+                            showTotal={(total, range) =>
+                                `${range[0]}-${range[1]} of ${total} items`
+                            }
+                            defaultCurrent={defaultCurrent || 1}
+                            showSizeChanger
+                            {...pagination}
+                            onChange={handlePageChange}
+                        />
+                    )}
+                </div>
+            </Space.Compact>
+        </>
     );
 }
 

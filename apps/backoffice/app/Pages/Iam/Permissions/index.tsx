@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
-import {
-    DataTable,
-    sortOrder,
-    TOnSort,
-} from '../../../Components/organisms/DataTable';
+import React from 'react';
+import { DataTable, sortOrder } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
-import { FilterSection } from '../../../Components/organisms/FilterSection';
-import { Button, MenuProps, Tag } from 'antd';
+import { Button, Tag } from 'antd';
 import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { useModal } from '../../../Utils/modal';
 
@@ -18,13 +13,13 @@ import type { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../../../Utils/hooks';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { RowActionButtons } from 'apps/backoffice/app/Components/molecules/RowActionButtons';
+import { ItemType } from '../../../Components/organisms/DataTable/Entities';
 
 interface IProps extends TInertiaProps {
     data: PermissionResponse[];
 }
 
 const PermissionPage: React.FC = (props: IProps) => {
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const {
         setQueryParams,
         filters,
@@ -112,41 +107,26 @@ const PermissionPage: React.FC = (props: IProps) => {
         },
     ];
 
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
-    const handleBatchDelete = () => {
+    const handleBatchDelete = (selectedRowKeys) => {
         Inertia.post(`/permissions/deletes`, {
             ids: selectedRowKeys,
         });
     };
 
-    const handleSort = (sorter: TOnSort<PermissionResponse>) => {
-        return setQueryParams({
-            sort: sorter.columnKey as string,
-            order: sorter.order,
-        });
-    };
-
-    const batchActionMenus: MenuProps['items'] = [
+    const batchActionMenus: ItemType[] = [
         {
             key: '1',
             label: 'Delete',
-            onClick: () =>
+            onClick: (_, selectedRowKeys) =>
                 useModal({
                     title: 'Are You Sure? ',
                     type: 'confirm',
-                    onOk: () => handleBatchDelete(),
+                    onOk: () => handleBatchDelete(selectedRowKeys),
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },
         },
     ];
-
-    const handleSearch = (value) => {
-        setQueryParams({ search: value });
-    };
 
     return (
         <MainLayout
@@ -171,21 +151,18 @@ const PermissionPage: React.FC = (props: IProps) => {
                 </>
             }
         >
-            <FilterSection
-                searchValue={filters.search}
-                onSearch={handleSearch}
-                selectedRows={selectedRowKeys}
-                batchActionMenus={batchActionMenus}
-            />
             <DataTable
-                rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                batchActionMenus={batchActionMenus}
+                onChange={setQueryParams}
                 columns={columns}
+                search={filters.search}
                 dataSource={props?.data}
-                meta={props?.meta}
-                onSort={handleSort}
-                onPageChange={(page, pageSize) =>
-                    setQueryParams({ page: page, per_page: pageSize })
-                }
+                rowKey="id"
+                pagination={{
+                    current: props.meta?.page,
+                    total: props.meta?.total,
+                    pageSize: props.meta?.perPage,
+                }}
                 loading={isFetching}
             />
         </MainLayout>

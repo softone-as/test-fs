@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
-import {
-    DataTable,
-    TOnSort,
-    sortOrder,
-} from '../../../Components/organisms/DataTable';
+import React from 'react';
+import { DataTable, sortOrder } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
 import {} from '../../../Utils/notification';
-import { FilterSection } from '../../../Components/organisms/FilterSection';
-import { Button, MenuProps, Select, Tag } from 'antd';
+import { Button, Select, Tag } from 'antd';
 import dayjs from 'dayjs';
 import {
     DateRangePicker,
@@ -28,6 +23,7 @@ import { RowActionButtons } from '../../../Components/molecules/RowActionButtons
 import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
+import { ItemType } from '../../../Components/organisms/DataTable/Entities';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -45,10 +41,9 @@ const UsersPage: React.FC = (props: IProps) => {
         filters,
         status: { isFetching },
     } = useTableFilter<TFilters>();
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const isMobile = isMobileScreen();
 
-    const handleBatchDelete = () => {
+    const handleBatchDelete = (selectedRowKeys) => {
         return Inertia.post(`/users/deletes`, {
             ids: selectedRowKeys,
         });
@@ -135,19 +130,15 @@ const UsersPage: React.FC = (props: IProps) => {
         { label: 'Wanita', value: GenderEnum.Perempuan },
     ];
 
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
-    const batchActionMenus: MenuProps['items'] = [
+    const batchActionMenus: ItemType[] = [
         {
             key: '1',
             label: 'Delete',
-            onClick: () =>
+            onClick: (_, selectedRowKeys) =>
                 useModal({
                     title: 'Are You Sure? ',
                     type: 'confirm',
-                    onOk: handleBatchDelete,
+                    onOk: () => handleBatchDelete(selectedRowKeys),
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },
@@ -163,17 +154,6 @@ const UsersPage: React.FC = (props: IProps) => {
 
     const handleFilterGender = (data) => {
         return setQueryParams({ gender: data });
-    };
-
-    const handleSort = (sorter: TOnSort<UserResponse>) => {
-        return setQueryParams({
-            sort: sorter.columnKey as string,
-            order: sorter.order,
-        });
-    };
-
-    const handleSearch = (value) => {
-        setQueryParams({ search: value });
     };
 
     return (
@@ -198,12 +178,9 @@ const UsersPage: React.FC = (props: IProps) => {
                 </Link>,
             ]}
         >
-            <FilterSection
-                searchValue={filters.search}
-                onSearch={handleSearch}
-                selectedRows={selectedRowKeys}
+            <DataTable
                 batchActionMenus={batchActionMenus}
-                filters={[
+                filterComponents={[
                     <Select
                         placeholder="Gender"
                         defaultValue={filters.gender}
@@ -221,19 +198,16 @@ const UsersPage: React.FC = (props: IProps) => {
                         ]}
                     />,
                 ]}
-            />
-            <DataTable
-                rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                onChange={setQueryParams}
                 columns={columns}
-                dataSource={props.data.map((item) => ({
-                    ...item,
-                    key: item.id,
-                }))}
-                meta={props.meta}
-                onSort={handleSort}
-                onPageChange={(page, pageSize) =>
-                    setQueryParams({ page: page, per_page: pageSize })
-                }
+                dataSource={props.data}
+                rowKey="id"
+                search={filters.search}
+                pagination={{
+                    current: props.meta?.page,
+                    total: props.meta?.total,
+                    pageSize: props.meta?.perPage,
+                }}
                 loading={isFetching}
             />
         </MainLayout>

@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { DataTable, TOnSort } from '../Components/organisms/DataTable';
+import React from 'react';
+import { DataTable } from '../Components/organisms/DataTable';
 import { MainLayout } from '../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
 import { useModal } from '../Utils/modal';
-import { FilterSection } from '../Components/organisms/FilterSection';
 import { Button, MenuProps, Select } from 'antd';
 import {
     DateRangePicker,
@@ -43,7 +42,6 @@ interface IProps extends TInertiaProps {
 }
 
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const { setQueryParams, filters } = useTableFilter();
 
     const columns: ColumnsType<DataType> = [
@@ -97,10 +95,6 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         },
     ];
 
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
     const batchActionMenus: MenuProps['items'] = [
         {
             key: '1',
@@ -130,16 +124,6 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         console.log('FINSIH : ', values);
     };
 
-    const handleSort = (sorter: TOnSort<DataType>) => {
-        return setQueryParams({
-            sort: sorter.columnKey as string,
-            order: sorter.order,
-        });
-    };
-    const handleSearch = (value) => {
-        setQueryParams({ search: value });
-    };
-
     return (
         <MainLayout
             title="Dashboard"
@@ -163,12 +147,9 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 </>
             }
         >
-            <FilterSection
-                searchValue={filters.search}
-                onSearch={handleSearch}
-                selectedRows={selectedRowKeys}
+            <DataTable
                 batchActionMenus={batchActionMenus}
-                filters={[
+                filterComponents={[
                     <MultiFilterDropdown
                         form={form}
                         title="Filter"
@@ -237,19 +218,19 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                     <DateRangePicker range={10} onChange={handleRange} />,
                     <DatePicker onChange={handleDate} />,
                 ]}
-            />
-            <DataTable
-                rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                onChange={setQueryParams}
                 columns={columns}
                 dataSource={props?.data?.map((item) => ({
                     ...item,
                     key: item.id,
                 }))}
-                meta={props?.meta}
-                onSort={handleSort}
-                onPageChange={(page, pageSize) =>
-                    setQueryParams({ page: page, per_page: pageSize })
-                }
+                rowKey="id"
+                search={filters.search}
+                pagination={{
+                    current: props.meta?.page,
+                    total: props.meta?.total,
+                    pageSize: props.meta?.perPage,
+                }}
             />
         </MainLayout>
     );

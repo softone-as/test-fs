@@ -15,7 +15,7 @@ import { isMobileScreen } from '../../../Utils/utils';
 export interface IFilterSection {
     filters?: React.ReactNode[];
     selectedRows: React.Key[];
-    batchActionMenus: MenuProps['items'];
+    batchActionMenus?: MenuProps['items'];
     onSearch: (value: string) => void;
     searchValue: string;
 }
@@ -42,7 +42,7 @@ export const FilterSection = (props: IFilterSection) => {
                 <Col>
                     <Space style={{ paddingRight: '8px' }}>
                         <Dropdown.Button
-                            menu={{ items: props.batchActionMenus }}
+                            menu={{ items: props.batchActionMenus || [] }}
                             placement="bottom"
                         >
                             Action
