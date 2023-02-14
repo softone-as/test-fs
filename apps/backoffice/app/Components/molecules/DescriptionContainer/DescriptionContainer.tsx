@@ -6,7 +6,7 @@ const DescriptionContainer = ({
     layout = 'horizontal',
     ...props
 }: DescriptionsProps) => {
-    const { md } = Grid.useBreakpoint();
+    const { md } = Grid?.useBreakpoint();
 
     return (
         <Descriptions
