@@ -65,6 +65,11 @@
 -   Run `cp -r apps/api/src/infrastructure/mail dist/apps/api/src/infrastructure`
 -   Run `yarn start:prod:api` or `yarn start:dev api` (local)
 
+# Setup Sentry and Logrocket
+
+-   set `SENTRY_DSN` and `TRACES_SAMPLE_RATE` in `.env` for sentry DSN & traces sample rate.
+-   set `LOGROCKET_APP_ID` in `.env` for logrocket APP_ID
+
 # Database Commands:
 
 | Command                                  | Description                                              |

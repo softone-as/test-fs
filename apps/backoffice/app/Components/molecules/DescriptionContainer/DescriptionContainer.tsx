@@ -1,24 +1,31 @@
 import { Descriptions, DescriptionsProps, Grid } from 'antd';
 import React from 'react';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-function DescriptionContainer({ size = 'small', ...props }: DescriptionsProps) {
+const DescriptionContainer = ({
+    size = 'small',
+    layout = 'horizontal',
+    ...props
+}: DescriptionsProps) => {
     const { md } = Grid?.useBreakpoint();
+
     return (
         <Descriptions
             size={size}
-            labelStyle={
-                props.layout == 'horizontal' && {
-                    ...props.labelStyle,
-                    width: md && '15%',
-                }
-            }
-            contentStyle={
-                props.layout == 'horizontal' && {
-                    ...props.contentStyle,
-                    width: md && '30%',
-                }
-            }
+            layout={layout}
+            labelStyle={{
+                ...props.labelStyle,
+                width:
+                    props.bordered && layout == 'horizontal'
+                        ? md && '15%'
+                        : null,
+            }}
+            contentStyle={{
+                ...props.labelStyle,
+                width:
+                    props.bordered && layout == 'horizontal'
+                        ? md && '15%'
+                        : null,
+            }}
             column={
                 props.column ? props.column : { lg: 2, md: 2, sm: 1, xs: 1 }
             }
@@ -27,6 +34,6 @@ function DescriptionContainer({ size = 'small', ...props }: DescriptionsProps) {
             {props.children}
         </Descriptions>
     );
-}
+};
 
 export default DescriptionContainer;
