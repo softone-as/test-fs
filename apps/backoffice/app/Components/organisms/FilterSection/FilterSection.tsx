@@ -15,7 +15,10 @@ import { SearchOutlined } from '@ant-design/icons';
 import { isMobileScreen } from '../../../Utils/utils';
 
 export interface IFilterSection {
-    filters?: React.ReactNode[];
+    filters?: {
+        name: string;
+        component: React.ReactNode;
+    }[];
     onFiltersChange?: (values: Record<string, any>) => void;
     selectedRows?: React.Key[];
     batchActionMenus?: MenuProps['items'];
@@ -87,7 +90,9 @@ export const FilterSection = (props: IFilterSection) => {
                                 key={index}
                                 style={{ margin: isMobile ? '5px 0' : '2px' }}
                             >
-                                {item}
+                                <Form.Item name={item.name} noStyle>
+                                    {item.component}
+                                </Form.Item>
                             </Col>
                         );
                     })}

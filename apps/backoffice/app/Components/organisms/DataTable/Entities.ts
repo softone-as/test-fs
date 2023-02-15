@@ -57,7 +57,10 @@ export type FilterState<T> = {
 export interface IDataTableProps<T> extends Omit<TableProps<T>, 'onChange'> {
     defaultCurrent?: number;
     batchActionMenus?: ItemType[];
-    filterComponents?: React.ReactNode[];
+    filterComponents?: {
+        name: string;
+        component: React.ReactNode;
+    }[];
     search?: string;
     onChange?: (filters: FilterState<T>) => void;
 }

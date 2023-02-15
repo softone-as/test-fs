@@ -62,22 +62,16 @@ function DataTable<T extends object = any>(
         filters: Record<string, FilterValue>,
         sorter: TOnSort<T>,
     ) => {
-        setState({
+        const newState = {
             ...state,
             ...filters,
             field: sorter.field,
             column: sorter.column,
             sort: String(sorter.columnKey),
             order: sorter.order,
-        });
-        onChange({
-            ...state,
-            ...filters,
-            field: sorter.field,
-            column: sorter.column,
-            sort: String(sorter.columnKey),
-            order: sorter.order,
-        });
+        };
+        setState(newState);
+        onChange(newState);
     };
 
     return (

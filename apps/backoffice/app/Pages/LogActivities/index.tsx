@@ -5,10 +5,9 @@ import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
 import { useModal } from '../../Utils/modal';
-import { Button, MenuProps, Select } from 'antd';
+import { Button, DatePicker, MenuProps, Select } from 'antd';
 import {
     DateRangePicker,
-    DatePicker,
     TRangeValue,
 } from '../../Components/molecules/Pickers';
 import type { Dayjs } from 'dayjs';
@@ -123,32 +122,50 @@ const LogActivityPage: React.FC = (props: IProps) => {
             <DataTable
                 batchActionMenus={batchActionMenus}
                 filterComponents={[
-                    <MultiFilterDropdown
-                        form={form}
-                        title="Filter"
-                        initialValues={{ status: '' }}
-                        onFinish={handleFinish}
-                        onReset={() => console.log('Hello')}
-                        fieldsForm={[
-                            <Form.Item label="Menu" name="menu">
-                                <Select
-                                    options={[
-                                        { label: 'ROLE', value: 'ROLE' },
-                                        {
-                                            label: 'PERMISSION',
-                                            value: 'PERMISSION',
-                                        },
-                                    ]}
-                                    onChange={handleMenu}
-                                    allowClear
-                                    style={{ width: '100%' }}
-                                />
-                            </Form.Item>,
-                        ]}
-                    />,
-
-                    <DateRangePicker range={10} onChange={handleRange} />,
-                    <DatePicker onChange={handleDate} />,
+                    {
+                        name: 'status',
+                        component: (
+                            <MultiFilterDropdown
+                                form={form}
+                                title="Filter"
+                                initialValues={{ status: '' }}
+                                onFinish={handleFinish}
+                                onReset={() => console.log('Hello')}
+                                fieldsForm={[
+                                    <Form.Item label="Menu" name="menu">
+                                        <Select
+                                            options={[
+                                                {
+                                                    label: 'ROLE',
+                                                    value: 'ROLE',
+                                                },
+                                                {
+                                                    label: 'PERMISSION',
+                                                    value: 'PERMISSION',
+                                                },
+                                            ]}
+                                            onChange={handleMenu}
+                                            allowClear
+                                            style={{ width: '100%' }}
+                                        />
+                                    </Form.Item>,
+                                ]}
+                            />
+                        ),
+                    },
+                    {
+                        name: 'rangeCreateAt',
+                        component: (
+                            <DateRangePicker
+                                range={10}
+                                onChange={handleRange}
+                            />
+                        ),
+                    },
+                    {
+                        name: 'date',
+                        component: <DatePicker onChange={handleDate} />,
+                    },
                 ]}
                 onChange={setQueryParams}
                 columns={columns}
