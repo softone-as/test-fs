@@ -47,3 +47,11 @@
       images: true
       images_filters:
         dangling: false
+
+  - name: wait deployment ready
+    ansible.builtin.uri:
+      url: https://boilerplate-nestjs-inertia-dev.dot.co.id/auth/login
+    register: result
+    until: "result.status == 200"
+    retries: 60
+    delay: 5

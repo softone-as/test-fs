@@ -29,11 +29,11 @@
     - { key: DB_PASSWORD, value: "{{ dest_db_password }}" }
     - { key: DB_DATABASE, value: "{{ preview_name }}" }
     - { key: REDIS_HOST, value: redis7 }
-    - { key: HOST_BACKOFFICE, value: "http://{{ preview_name }}.prv.dot.co.id:8080" }
+    - { key: HOST_BACKOFFICE, value: "https://{{ preview_name }}.prv.dot.co.id:8081" }
     container_labels:
     - { 'key': 'traefik.enable', 'value': 'true' }
     - { 'key': 'traefik.http.routers.{{ preview_name }}.rule', 'value': 'Host(`{{ preview_name }}.prv.dot.co.id`)' }
-    - { 'key': 'traefik.http.routers.{{ preview_name }}.entrypoints', 'value': 'preview' }
+    - { 'key': 'traefik.http.routers.{{ preview_name }}.entrypoints', 'value': 'sslpreview' }
     - { 'key': 'traefik.http.services.{{ preview_name }}.loadbalancer.server.port', 'value': '3001' }
     container_image: "registry.gitlab.dot.co.id/playground/boilerplates/nestjs-inertia:preview_{{ version }}"
     gitlab_user: "{{ lookup('env', 'GITLAB_USER_LOGIN') | default('ajengkumalasari', true) }}"
@@ -136,9 +136,17 @@
       recreate: yes
     when: "{{ inventory_hostname == 'dot_preview' }}"
 
+  - name: wait preview ready
+    ansible.builtin.uri:
+      url: "https://{{ preview_name }}.prv.dot.co.id:8081/auth/login"
+    register: result
+    until: "result.status == 200"
+    retries: 45
+    delay: 5
+
   - name: output
     ansible.builtin.debug:
-      msg: "The deployment URL is http://{{ preview_name }}.prv.dot.co.id:8080"
+      msg: "The deployment URL is https://{{ preview_name }}.prv.dot.co.id:8081"
     when: "{{ inventory_hostname == 'dot_preview' }}"
 
   - name: send notification
@@ -148,7 +156,7 @@
       body_format: json
       body: |
         {
-          "body": "### Hello @{{ gitlab_user }}, preview sudah siap :tada: :tada: :tada:.\n#### Silahkan akses melalui tautan: http://{{ preview_name }}.prv.dot.co.id:8080 :100:\n\n_Jangan lupa jalankan clean pipeline setelah selesai yaaa._"
+          "body": "### Hello @{{ gitlab_user }}, preview sudah siap :tada: :tada: :tada:.\n#### Silahkan akses melalui tautan: https://{{ preview_name }}.prv.dot.co.id:8081 :100:\n\n_Jangan lupa jalankan clean pipeline setelah selesai yaaa._"
         }
       headers:
         PRIVATE-TOKEN: "{{ gitlab_token }}"
