@@ -48,7 +48,7 @@ export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
             }
         }
 
-        return (
+        return href ? (
             <Tooltip title={title} key={title}>
                 <Link href={href}>
                     <Button
@@ -59,6 +59,16 @@ export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
                         disabled={disabled}
                     />
                 </Link>
+            </Tooltip>
+        ) : (
+            <Tooltip title={title} key={title}>
+                <Button
+                    type="text"
+                    shape="circle"
+                    onClick={onClick}
+                    icon={icon}
+                    disabled={disabled}
+                />
             </Tooltip>
         );
     };
