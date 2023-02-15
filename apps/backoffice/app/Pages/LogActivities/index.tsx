@@ -4,14 +4,12 @@ import { MainLayout } from '../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
-import { useModal } from '../../Utils/modal';
 import { FilterSection } from '../../Components/organisms/FilterSection';
-import { MenuProps, Select } from 'antd';
+import { Select } from 'antd';
 import {
     DateRangePicker,
     TRangeValue,
 } from '../../Components/molecules/Pickers';
-import { ShareAltOutlined } from '@ant-design/icons';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
@@ -50,9 +48,14 @@ const LogActivityPage: React.FC = (props: IProps) => {
             key: 'activity',
         },
         {
-            title: 'Path',
-            dataIndex: 'path',
-            key: 'path',
+            title: 'By User ID',
+            key: 'user',
+            render: (data: ILogActivity) => <>{data.user?.id || '-'}</>,
+        },
+        {
+            title: 'Created At',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
         },
         {
             title: 'Action',
@@ -79,21 +82,6 @@ const LogActivityPage: React.FC = (props: IProps) => {
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
-
-    const batchActionMenus: MenuProps['items'] = [
-        {
-            key: '1',
-            label: 'Delete',
-            onClick: () =>
-                useModal({
-                    title: 'Are You Sure? ',
-                    type: 'warning',
-                    onOk: () => alert('Ok Delete'),
-                }),
-            icon: <ShareAltOutlined />,
-            style: { width: '151px' },
-        },
-    ];
 
     const handleRange = (val: TRangeValue) =>
         console.log(val.map((item) => item.toDate()));
@@ -124,7 +112,7 @@ const LogActivityPage: React.FC = (props: IProps) => {
                 searchValue={filters.search}
                 onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
-                batchActionMenus={batchActionMenus}
+                batchActionMenus={[]}
                 filters={[
                     <Select
                         placeholder="Menu"

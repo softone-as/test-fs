@@ -8,13 +8,15 @@ import DescriptionContainer from '../../Components/molecules/DescriptionContaine
 import { Section } from '../../Components/molecules/Section';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
+import ReactJson from 'react-json-view';
 
 interface IProps extends TInertiaProps {
     data: ILogActivity;
 }
 
 const DetailBasicPage: React.FC = (props: IProps) => {
-    const { id, user, source, metaData, activity, menu, path } = props.data;
+    const { id, user, source, metaData, activity, menu, path, createdAt } =
+        props.data;
 
     return (
         <MainLayout
@@ -29,9 +31,6 @@ const DetailBasicPage: React.FC = (props: IProps) => {
                 <Section title="Detail Log">
                     <DescriptionContainer size="small" bordered>
                         <Descriptions.Item label="ID">{id}</Descriptions.Item>
-                        <Descriptions.Item label="Full Name">
-                            {user?.fullname || '-'}
-                        </Descriptions.Item>
                         <Descriptions.Item label="Source">
                             {source}
                         </Descriptions.Item>
@@ -44,8 +43,14 @@ const DetailBasicPage: React.FC = (props: IProps) => {
                         <Descriptions.Item label="Path">
                             {path}
                         </Descriptions.Item>
+                        <Descriptions.Item label="Created At">
+                            {createdAt.toString()}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="By User">
+                            <ReactJson src={user} />
+                        </Descriptions.Item>
                         <Descriptions.Item label="Meta Data">
-                            {JSON.stringify(metaData)}
+                            <ReactJson src={metaData} />
                         </Descriptions.Item>
                     </DescriptionContainer>
                 </Section>
