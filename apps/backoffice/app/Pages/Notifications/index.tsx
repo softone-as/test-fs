@@ -6,12 +6,6 @@ import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
 import { FilterSection } from '../../Components/organisms/FilterSection';
 import { Badge, Button, MenuProps, Select } from 'antd';
-import {
-    DateRangePicker,
-    TRangeValue,
-} from '../../Components/molecules/Pickers';
-import { MultiFilterDropdown } from '../../Components/molecules/Dropdowns';
-import { Form } from 'antd';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
@@ -28,6 +22,7 @@ const NotificationPage: React.FC = (props: IProps) => {
     console.log(props.notifications.notificationUnread);
     const {
         setQueryParams,
+        filters,
         status: { isFetching },
     } = useTableFilter<Partial<IInAppNotification>>();
 
@@ -43,9 +38,16 @@ const NotificationPage: React.FC = (props: IProps) => {
             key: 'message',
         },
         {
+            title: 'Is Read',
+            key: 'isRead',
+            render: (data: IInAppNotification) => (
+                <Badge dot={!data.isRead}></Badge>
+            ),
+        },
+        {
             title: 'Action',
             key: 'action',
-            width: '100px',
+            width: '1px',
             render: (data: IInAppNotification) => {
                 return (
                     <>
@@ -54,22 +56,17 @@ const NotificationPage: React.FC = (props: IProps) => {
                                 {
                                     type: 'view',
                                     href: `${Route.Notification}/${data.id}`,
-                                    title: 'view',
                                 },
                             ]}
                         />
-                        <Badge dot={!data.isRead}></Badge>
                     </>
                 );
             },
         },
     ];
 
-    const handleRange = (val: TRangeValue) =>
-        console.log(val.map((item) => item.toDate()));
-
-    const handleMenu = (data) => {
-        console.log('Data menu: ', data);
+    const handleFilterRead = (data: boolean) => {
+        return setQueryParams({ isRead: data });
     };
 
     const handleSort = (sorter: TOnSort<IInAppNotification>) => {
@@ -81,19 +78,14 @@ const NotificationPage: React.FC = (props: IProps) => {
 
     const batchActionMenus: MenuProps['items'] = [];
 
-    const [form] = Form.useForm<{ status: string }>();
-
-    const handleFinish = (values) => {
-        console.log('FINSIH : ', values);
-    };
-
     const handleMarkRead = () => {
-        markReadAllNotification(
-            props.data.map((data) => {
-                return data.id;
-            }),
-        );
+        markReadAllNotification();
     };
+
+    const readOptions = [
+        { label: 'Read', value: true },
+        { label: 'Unread', value: false },
+    ];
 
     return (
         <MainLayout
@@ -117,28 +109,14 @@ const NotificationPage: React.FC = (props: IProps) => {
             <FilterSection
                 batchActionMenus={batchActionMenus}
                 filters={[
-                    <MultiFilterDropdown
-                        form={form}
-                        title="Filter"
-                        initialValues={{ status: '' }}
-                        onFinish={handleFinish}
-                        onReset={() => console.log('Hello')}
-                        fieldsForm={[
-                            <Form.Item label="Menu" name="menu">
-                                <Select
-                                    options={[
-                                        { label: 'Read', value: 'Read' },
-                                        { label: 'Unread', value: 'Unread' },
-                                    ]}
-                                    onChange={handleMenu}
-                                    allowClear
-                                    style={{ width: '100%' }}
-                                />
-                            </Form.Item>,
-                        ]}
+                    <Select
+                        placeholder="Read"
+                        defaultValue={filters.isRead}
+                        options={readOptions}
+                        onChange={handleFilterRead}
+                        allowClear
+                        style={{ width: '90px' }}
                     />,
-
-                    <DateRangePicker range={10} onChange={handleRange} />,
                 ]}
             />
             <DataTable

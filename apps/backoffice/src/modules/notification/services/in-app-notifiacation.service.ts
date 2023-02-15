@@ -15,6 +15,11 @@ export class InAppNotificationService {
     ) {}
 
     @CacheClear(config.cache.name.notification.list)
+    async find(): Promise<IInAppNotification[]> {
+        return await this.notificationRepository.find();
+    }
+
+    @CacheClear(config.cache.name.notification.list)
     async create(data: IInAppNotification): Promise<IInAppNotification> {
         const newAdmin = this.notificationRepository.create(data);
         return await this.notificationRepository.save(newAdmin);

@@ -1,5 +1,4 @@
 import {
-    Body,
     Controller,
     Get,
     Param,
@@ -61,14 +60,12 @@ export class InAppNotificationController {
     }
 
     @Patch('mark-read-all')
-    async markReadAll(
-        @Body() request: InAppNotificationMarkReadRequest,
-    ): Promise<void> {
-        await this.inAppNotificationApplication.markReadMany(request);
+    async markReadAll(): Promise<void> {
+        await this.inAppNotificationApplication.markReadAll();
         this.inertiaAdapter.share('success');
         return this.inertiaAdapter.successResponse(
             '/notifications',
-            'Sukses edit',
+            'Sukses mark all',
         );
     }
 }

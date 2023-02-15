@@ -13,6 +13,13 @@ export class InAppNotificationApplication {
         return await this.notificationService.findOneById(id);
     }
 
+    async markReadAll(): Promise<void> {
+        const notifications = await this.notificationService.find();
+        notifications.forEach(async (data) => {
+            await this.notificationService.markRead(data.id);
+        });
+    }
+
     async markReadMany(
         request: InAppNotificationMarkReadRequest,
     ): Promise<void> {
