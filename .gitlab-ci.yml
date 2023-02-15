@@ -1,15 +1,9 @@
-stages:
-  - build
-  - test
-  - preview
-  - deploy
+include:
+  - /deploy/.preview.gitlab-ci.yml
 
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_BUILDKIT: 1
-
-include:
-  - /deploy/.preview.gitlab-ci.yml
 
 test:storybook:
   stage: test
