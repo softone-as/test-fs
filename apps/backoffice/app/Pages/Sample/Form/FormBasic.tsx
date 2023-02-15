@@ -23,6 +23,7 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Section } from '../../../Components/molecules/Section';
 import { CheckboxDropdown } from 'apps/backoffice/app/Components/molecules/Dropdowns/CheckboxDropdown';
 import { Uploader } from 'apps/backoffice/app/Components/molecules/Form';
+import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
 
 const { Option } = Select;
 
@@ -51,7 +52,7 @@ const suffixSelector = (
     </Form.Item>
 );
 
-const FormBasic: React.FC = () => {
+const FormBasic: React.FC = (props: TInertiaProps) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -69,6 +70,7 @@ const FormBasic: React.FC = () => {
                 <FormContainer
                     form={form}
                     onFinish={onFinish}
+                    errors={props.error}
                     initialValues={{
                         prefix: '62',
                         quantity: 3,

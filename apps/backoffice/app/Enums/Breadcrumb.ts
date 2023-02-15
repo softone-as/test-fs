@@ -1,3 +1,5 @@
+import { Route } from './Route';
+
 const Dashboard = {
     INDEX: [
         {
@@ -42,7 +44,17 @@ const Permissions = {
     INDEX: [
         {
             label: 'Permission Lists',
-            path: '/permissions',
+            path: Route.Permissions,
+        },
+    ],
+    DETAIL: [
+        {
+            label: 'Permission Lists',
+            path: Route.Permissions,
+        },
+        {
+            label: 'Permission Detail',
+            path: '#',
         },
     ],
 };

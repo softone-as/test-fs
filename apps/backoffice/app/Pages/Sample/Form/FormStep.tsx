@@ -17,6 +17,7 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Section } from '../../../Components/molecules/Section';
+import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
 
 const { Option } = Select;
 
@@ -37,7 +38,7 @@ const prefixSelector = (
     </Form.Item>
 );
 
-const FormStep: React.FC = () => {
+const FormStep: React.FC = (props: TInertiaProps) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [current, setCurrent] = useState(0);
@@ -93,6 +94,7 @@ const FormStep: React.FC = () => {
                             division: ['Industry'],
                             suffix: 'USD',
                         }}
+                        errors={props.error}
                         onFinish={onFinish}
                         form={form}
                         layout="vertical"

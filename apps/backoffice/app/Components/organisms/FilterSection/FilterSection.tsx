@@ -8,20 +8,46 @@ import {
     Space,
     Dropdown,
     Divider,
+    Form,
+    FormInstance,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { isMobileScreen } from '../../../Utils/utils';
 
 export interface IFilterSection {
-    filters?: React.ReactNode[];
-    selectedRows: React.Key[];
-    batchActionMenus: MenuProps['items'];
+    filters?: {
+        name: string;
+        component: React.ReactNode;
+    }[];
+    onFiltersChange?: (values: Record<string, any>) => void;
+    selectedRows?: React.Key[];
+    batchActionMenus?: MenuProps['items'];
     onSearch: (value: string) => void;
     searchValue: string;
 }
 
+export type InternalHooks = {
+    registerWatch: (FC: (store: Record<string, any>) => void) => void;
+};
+export interface IFilterFormInstance<T = any> extends FormInstance<T> {
+    getInternalHooks: (mark: string) => InternalHooks;
+}
+export const HOOK_MARK = 'RC_FORM_INTERNAL_HOOKS';
+
 export const FilterSection = (props: IFilterSection) => {
     const [value, setValue] = useState(props.searchValue);
+    const [form] = Form.useForm();
+
+    useEffect(() => {
+        const { registerWatch } = (
+            form as IFilterFormInstance
+        ).getInternalHooks(HOOK_MARK);
+
+        const cancelRegister = registerWatch((store) =>
+            props?.onFiltersChange(store),
+        );
+        return cancelRegister;
+    }, []);
 
     const isMobile = isMobileScreen();
 
@@ -40,11 +66,11 @@ export const FilterSection = (props: IFilterSection) => {
     return (
         <Row gutter={[8, 0]} align="middle">
             {/* Batch Action */}
-            {props.selectedRows.length > 0 && (
+            {props.selectedRows?.length > 0 && props.batchActionMenus && (
                 <Col>
                     <Space style={{ paddingRight: '8px' }}>
                         <Dropdown.Button
-                            menu={{ items: props.batchActionMenus }}
+                            menu={{ items: props.batchActionMenus || [] }}
                             placement="bottom"
                         >
                             Action
@@ -58,17 +84,22 @@ export const FilterSection = (props: IFilterSection) => {
             )}
 
             {/* Filters */}
-            {props.filters?.map((item, index) => {
-                return (
-                    <Col
-                        key={index}
-                        style={{ margin: isMobile ? '5px 0' : '2px' }}
-                    >
-                        {item}
-                    </Col>
-                );
-                return <Col key={index}>{item}</Col>;
-            })}
+            <Form form={form}>
+                <Row gutter={[8, 0]} align="middle">
+                    {props.filters?.map((item, index) => {
+                        return (
+                            <Col
+                                key={index}
+                                style={{ margin: isMobile ? '5px 0' : '2px' }}
+                            >
+                                <Form.Item name={item.name} noStyle>
+                                    {item.component}
+                                </Form.Item>
+                            </Col>
+                        );
+                    })}
+                </Row>
+            </Form>
 
             {/* Search */}
             <Col flex="auto">

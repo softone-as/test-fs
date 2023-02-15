@@ -46,6 +46,7 @@ const ForgotPassword = (props: TInertiaProps) => {
     const onSubmit = (loginData: TForgotPassword) => {
         sendEmailForgotPassword(loginData);
     };
+
     return (
         <LoginLayout title="Forgot Password">
             <Space
