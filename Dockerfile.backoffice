@@ -22,6 +22,6 @@ RUN yarn install --frozen-lockfile --prefer-offline \
     && rm -rf apps/backoffice/src/infrastructure/mail \
     && mkdir dist/temp
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["yarn", "start:prod:backoffice"]
 EXPOSE 3001
