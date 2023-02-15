@@ -6,7 +6,6 @@ import { InAppNotification } from 'entities/notification/in-app-notification.ent
 import { In, QueryFailedError, Repository } from 'typeorm';
 import { IUser } from 'interface-models/iam/user.interface';
 import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
-import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
 
 @Injectable()
 export class InAppNotificationService {
@@ -15,7 +14,6 @@ export class InAppNotificationService {
         private readonly notificationRepository: Repository<InAppNotification>,
     ) {}
 
-    @CacheGetSet(config.cache.name.notification.list)
     async find(): Promise<IInAppNotification[]> {
         return await this.notificationRepository.find();
     }
