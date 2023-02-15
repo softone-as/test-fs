@@ -97,6 +97,7 @@ const PermissionPage: React.FC = (props: IProps) => {
     };
 
     const handleCancel = () => {
+        // TODO: Replace with actual cancel logic
         console.log('cancel');
     };
 
