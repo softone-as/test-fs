@@ -6,6 +6,7 @@ import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { Section } from '../../Components/molecules/Section';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
+import { formatDate } from '../../Utils/utils';
 
 interface IProps extends TInertiaProps {
     data: IInAppNotification;
@@ -22,7 +23,12 @@ const DetailNotification: React.FC = (props: IProps) => {
                 size={defaultSizeSpace}
                 style={{ width: '100%' }}
             >
-                <Section title={props.data.title}>{props.data.message}</Section>
+                <Section
+                    title={props.data.title}
+                    extra={formatDate(props.data.createdAt)}
+                >
+                    {props.data.message}
+                </Section>
             </Space>
         </MainLayout>
     );
