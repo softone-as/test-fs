@@ -1,5 +1,5 @@
 import { Col, Form, FormProps, Grid, Row } from 'antd';
-import { setServerError } from 'apps/backoffice/app/Utils/utils';
+import { setServerError } from '../../../Utils/utils';
 import React, { useEffect } from 'react';
 import ButtonFormAction from './ButtonFormAction';
 import { TErrorProps } from '../../../Modules/Inertia/Entities';
