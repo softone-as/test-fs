@@ -65,6 +65,11 @@
 -   Run `cp -r apps/api/src/infrastructure/mail dist/apps/api/src/infrastructure`
 -   Run `yarn start:prod:api` or `yarn start:dev api` (local)
 
+# Setup Sentry and Logrocket
+
+-   set `SENTRY_DSN` and `TRACES_SAMPLE_RATE` in `.env` for sentry DSN & traces sample rate.
+-   set `LOGROCKET_APP_ID` in `.env` for logrocket APP_ID
+
 # Database Commands:
 
 | Command                                  | Description                                              |
@@ -175,3 +180,12 @@ yarn schema:drop && yarn migrate && yarn seed:run
 
 -   [Prettier - Code Formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 -   [Eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+
+# Storybook
+
+-   Join to Project with this [Invitation](https://www.chromatic.com/start?inviteToken=bef9eace42194e5b946ce262cfcdc114&appId=63e99a087b83cb54af1a7d25)
+-   Storybook link. [Learn more](https://www.chromatic.com/docs/permalinks)
+
+```
+https://<branch>--63e99a087b83cb54af1a7d25.chromatic.com
+```

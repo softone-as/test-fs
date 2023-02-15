@@ -38,7 +38,7 @@ export const FilterSection = (props: IFilterSection) => {
     return (
         <Row gutter={[8, 0]} align="middle">
             {/* Batch Action */}
-            {props.selectedRows && props.selectedRows.length > 0 && (
+            {props.selectedRows?.length > 0 && props.batchActionMenus && (
                 <Col>
                     <Space style={{ paddingRight: '8px' }}>
                         <Dropdown.Button
@@ -65,7 +65,6 @@ export const FilterSection = (props: IFilterSection) => {
                         {item}
                     </Col>
                 );
-                return <Col key={index}>{item}</Col>;
             })}
 
             {/* Search */}
