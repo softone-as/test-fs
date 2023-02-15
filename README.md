@@ -183,8 +183,8 @@ yarn schema:drop && yarn migrate && yarn seed:run
 
 # Storybook
 
-- Join to Project with this [Invitation](https://www.chromatic.com/start?inviteToken=bef9eace42194e5b946ce262cfcdc114&appId=63e99a087b83cb54af1a7d25)
-- Storybook link. [Learn more](https://www.chromatic.com/docs/permalinks)
+-   Join to Project with this [Invitation](https://www.chromatic.com/start?inviteToken=bef9eace42194e5b946ce262cfcdc114&appId=63e99a087b83cb54af1a7d25)
+-   Storybook link. [Learn more](https://www.chromatic.com/docs/permalinks)
 
 ```
 https://<branch>--63e99a087b83cb54af1a7d25.chromatic.com
