@@ -47,16 +47,12 @@ const DetailBasicPage: React.FC = (props: IProps) => {
                         <Descriptions.Item label="Created At">
                             {formatDate(createdAt)}
                         </Descriptions.Item>
-                        {user && (
-                            <Descriptions.Item label="User">
-                                <ReactJson src={user} />
-                            </Descriptions.Item>
-                        )}
-                        {metaData && (
-                            <Descriptions.Item label="Meta Data">
-                                <ReactJson src={metaData} />
-                            </Descriptions.Item>
-                        )}
+                        <Descriptions.Item label="User">
+                            {user ? <ReactJson src={user} /> : '-'}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Meta Data">
+                            {metaData ? <ReactJson src={metaData} /> : '-'}
+                        </Descriptions.Item>
                     </DescriptionContainer>
                 </Section>
             </Space>
