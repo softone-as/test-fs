@@ -20,6 +20,7 @@ import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { useTableFilter } from '../../../Utils/hooks';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
+import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 
 type DataType = {
     key: string;
@@ -106,11 +107,6 @@ const FormAdvanced = (props: TInertiaProps) => {
     const [form] = Form.useForm();
 
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
 
     const [data, setData] = useState(dataResource);
     const [editingKey, setEditingKey] = useState('');
@@ -336,21 +332,16 @@ const FormAdvanced = (props: TInertiaProps) => {
                     <SectionHeader title="Section Table List" top divider />
 
                     <DataTable
-                        rowSelection={{
-                            selectedRowKeys,
-                            onChange: onSelectChange,
-                        }}
                         components={{
                             body: {
                                 cell: EditableCell,
                             },
                         }}
+                        onChange={setQueryParams}
                         columns={mergedColumns}
                         dataSource={data}
-                        meta={props.meta}
-                        onPageChange={(page, pageSize) =>
-                            setQueryParams({ page: page, per_page: pageSize })
-                        }
+                        rowKey="id"
+                        pagination={paginationTransform(props.meta)}
                     />
                 </FormContainer>
             </Section>
