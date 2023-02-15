@@ -99,7 +99,7 @@ const NotificationPage: React.FC = (props: IProps) => {
                         name: 'isRead',
                         component: (
                             <Select
-                                placeholder="Read"
+                                placeholder="Status"
                                 options={isReadOptions}
                                 defaultValue={filters.isRead}
                                 allowClear
