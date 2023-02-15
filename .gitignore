@@ -39,4 +39,8 @@ lerna-debug.log*
 # yarn cache
 /.yarn
 
+# storybook
+/storybook-static
+
 load-env-example.sh
+
