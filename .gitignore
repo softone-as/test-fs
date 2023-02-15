@@ -38,3 +38,5 @@ lerna-debug.log*
 
 # yarn cache
 /.yarn
+
+load-env-example.sh
