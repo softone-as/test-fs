@@ -5,4 +5,8 @@ export class LogActivityIndexRequest extends IndexRequest {
     @IsString()
     @IsOptional()
     search?: string;
+
+    @IsString()
+    @IsOptional()
+    menu?: string;
 }

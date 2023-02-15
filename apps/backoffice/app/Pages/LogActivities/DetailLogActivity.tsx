@@ -45,7 +45,6 @@ const DetailBasicPage: React.FC = (props: IProps) => {
                             {path}
                         </Descriptions.Item>
                         <Descriptions.Item label="Meta Data">
-                            {/* TODO: Interface metaData belum ditentukan */}
                             {JSON.stringify(metaData)}
                         </Descriptions.Item>
                     </DescriptionContainer>

@@ -25,12 +25,18 @@ export class LogActivityIndexApplication extends IndexApplication {
             .leftJoinAndSelect('logActivity.user', 'user');
 
         if (request.search) {
-            query.where(
+            query.andWhere(
                 `concat(logActivity.id, ' ', logActivity.meta_data, ' ', logActivity.source, ' ', logActivity.activity, ' ', logActivity.menu, ' ', logActivity.path) like :search`,
                 {
                     search: `%${request.search}%`,
                 },
             );
+        }
+
+        if (request.menu) {
+            query.andWhere(`logActivity.menu = :menu`, {
+                menu: request.menu,
+            });
         }
 
         if (request.sort == 'latest') {

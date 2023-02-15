@@ -161,7 +161,7 @@ const UsersPage: React.FC = (props: IProps) => {
         });
     };
 
-    const handleFilterGender = (data) => {
+    const handleFilterGender = (data: string) => {
         return setQueryParams({ gender: data });
     };
 
@@ -172,7 +172,7 @@ const UsersPage: React.FC = (props: IProps) => {
         });
     };
 
-    const handleSearch = (value) => {
+    const handleSearch = (value: string) => {
         setQueryParams({ search: value });
     };
 
