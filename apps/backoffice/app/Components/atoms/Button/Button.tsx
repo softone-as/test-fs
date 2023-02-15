@@ -21,7 +21,6 @@ const Button: React.FC<IProps> = ({ icon, responsive, children, ...rest }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginTop: isMobile ? '20px' : 0,
             }}
             {...rest}
         >

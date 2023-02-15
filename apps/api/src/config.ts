@@ -229,6 +229,7 @@ export const config = {
      */
     sentry: {
         dsn: process.env.SENTRY_DSN,
+        tracesSampleRate: +process.env.TRACES_SAMPLE_RATE || 1.0,
     },
 
     /**

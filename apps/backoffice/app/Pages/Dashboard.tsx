@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { DataTable, TOnSort } from '../Components/organisms/DataTable';
+import React from 'react';
+import { DataTable } from '../Components/organisms/DataTable';
 import { MainLayout } from '../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
 import { useModal } from '../Utils/modal';
-import { FilterSection } from '../Components/organisms/FilterSection';
 import { Button, MenuProps, Select } from 'antd';
 import {
     DateRangePicker,
@@ -23,6 +22,7 @@ import { useTableFilter } from '../Utils/hooks';
 
 import { Breadcrumbs } from '../Enums/Breadcrumb';
 import { RowActionButtons } from '../Components/molecules/RowActionButtons';
+import { paginationTransform } from '../Components/organisms/DataTable/DataTable';
 
 type DataType = {
     birthDate: string;
@@ -43,7 +43,6 @@ interface IProps extends TInertiaProps {
 }
 
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const { setQueryParams, filters } = useTableFilter();
 
     const columns: ColumnsType<DataType> = [
@@ -97,10 +96,6 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         },
     ];
 
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
     const batchActionMenus: MenuProps['items'] = [
         {
             key: '1',
@@ -130,16 +125,6 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         console.log('FINSIH : ', values);
     };
 
-    const handleSort = (sorter: TOnSort<DataType>) => {
-        return setQueryParams({
-            sort: sorter.columnKey as string,
-            order: sorter.order,
-        });
-    };
-    const handleSearch = (value) => {
-        setQueryParams({ search: value });
-    };
-
     return (
         <MainLayout
             title="Dashboard"
@@ -163,93 +148,116 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 </>
             }
         >
-            <FilterSection
-                searchValue={filters.search}
-                onSearch={handleSearch}
-                selectedRows={selectedRowKeys}
-                batchActionMenus={batchActionMenus}
-                filters={[
-                    <MultiFilterDropdown
-                        form={form}
-                        title="Filter"
-                        initialValues={{ status: '' }}
-                        onFinish={handleFinish}
-                        onReset={() => console.log('Hello')}
-                        fieldsForm={[
-                            <Form.Item
-                                label={
-                                    <Space size="small">
-                                        <Typography.Text>
-                                            Status
-                                        </Typography.Text>{' '}
-                                        <QuestionCircleOutlined
-                                            style={{
-                                                color: 'rgba(0, 0, 0, 0.45)',
-                                            }}
-                                        />
-                                        <Typography.Text
-                                            style={{
-                                                color: 'rgba(0, 0, 0, 0.45)',
-                                            }}
-                                        >
-                                            (optional)
-                                        </Typography.Text>
-                                    </Space>
-                                }
-                                name="status"
-                                rules={[{ required: true }]}
-                            >
-                                <Select
-                                    options={[
-                                        { label: 'Done', value: 'done' },
-                                        { label: 'Pending', value: 'pending' },
-                                    ]}
-                                    onChange={handleStatus}
-                                    allowClear
-                                    style={{ width: '100%' }}
-                                />
-                            </Form.Item>,
-                            <Form.Item label="Status" name="status">
-                                <Select
-                                    options={[
-                                        { label: 'Done', value: 'done' },
-                                        { label: 'Pending', value: 'pending' },
-                                    ]}
-                                    onChange={handleStatus}
-                                    allowClear
-                                    style={{ width: '100%' }}
-                                />
-                            </Form.Item>,
-                            <Form.Item label="Status" name="status">
-                                <Select
-                                    options={[
-                                        { label: 'Done', value: 'done' },
-                                        { label: 'Pending', value: 'pending' },
-                                    ]}
-                                    onChange={handleStatus}
-                                    allowClear
-                                    style={{ width: '100%' }}
-                                />
-                            </Form.Item>,
-                        ]}
-                    />,
-
-                    <DateRangePicker range={10} onChange={handleRange} />,
-                    <DatePicker onChange={handleDate} />,
-                ]}
-            />
             <DataTable
-                rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                batchActionMenus={batchActionMenus}
+                filterComponents={[
+                    {
+                        name: 'status',
+                        component: (
+                            <MultiFilterDropdown
+                                form={form}
+                                title="Filter"
+                                initialValues={{ status: '' }}
+                                onFinish={handleFinish}
+                                onReset={() => console.log('Hello')}
+                                fieldsForm={[
+                                    <Form.Item
+                                        label={
+                                            <Space size="small">
+                                                <Typography.Text>
+                                                    Status
+                                                </Typography.Text>{' '}
+                                                <QuestionCircleOutlined
+                                                    style={{
+                                                        color: 'rgba(0, 0, 0, 0.45)',
+                                                    }}
+                                                />
+                                                <Typography.Text
+                                                    style={{
+                                                        color: 'rgba(0, 0, 0, 0.45)',
+                                                    }}
+                                                >
+                                                    (optional)
+                                                </Typography.Text>
+                                            </Space>
+                                        }
+                                        name="status"
+                                        rules={[{ required: true }]}
+                                    >
+                                        <Select
+                                            options={[
+                                                {
+                                                    label: 'Done',
+                                                    value: 'done',
+                                                },
+                                                {
+                                                    label: 'Pending',
+                                                    value: 'pending',
+                                                },
+                                            ]}
+                                            onChange={handleStatus}
+                                            allowClear
+                                            style={{ width: '100%' }}
+                                        />
+                                    </Form.Item>,
+                                    <Form.Item label="Status" name="status">
+                                        <Select
+                                            options={[
+                                                {
+                                                    label: 'Done',
+                                                    value: 'done',
+                                                },
+                                                {
+                                                    label: 'Pending',
+                                                    value: 'pending',
+                                                },
+                                            ]}
+                                            onChange={handleStatus}
+                                            allowClear
+                                            style={{ width: '100%' }}
+                                        />
+                                    </Form.Item>,
+                                    <Form.Item label="Status" name="status">
+                                        <Select
+                                            options={[
+                                                {
+                                                    label: 'Done',
+                                                    value: 'done',
+                                                },
+                                                {
+                                                    label: 'Pending',
+                                                    value: 'pending',
+                                                },
+                                            ]}
+                                            onChange={handleStatus}
+                                            allowClear
+                                            style={{ width: '100%' }}
+                                        />
+                                    </Form.Item>,
+                                ]}
+                            />
+                        ),
+                    },
+                    {
+                        name: 'rangeCreateAt',
+                        component: (
+                            <DateRangePicker
+                                range={10}
+                                onChange={handleRange}
+                            />
+                        ),
+                    },
+                    {
+                        name: 'date',
+                        component: <DatePicker onChange={handleDate} />,
+                    },
+                ]}
+                onChange={setQueryParams}
                 columns={columns}
-                dataSource={props?.data?.map((item) => ({
-                    ...item,
-                    key: item.id,
-                }))}
-                meta={props?.meta}
-                onSort={handleSort}
-                onPageChange={(page, pageSize) =>
-                    setQueryParams({ page: page, per_page: pageSize })
-                }
+                dataSource={props?.data}
+                rowKey="id"
+                search={filters.search}
+                pagination={paginationTransform(props.meta)}
             />
         </MainLayout>
     );
