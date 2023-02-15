@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Button,
     Checkbox,
@@ -55,8 +55,18 @@ const CheckboxDropdownRender: React.FC<IPropsCheckboxDropdownRender> = (
 
 export const CheckboxDropdown: React.FC<IPropsCheckboxDropdown> = (props) => {
     const { label, options, value, onChange } = props;
+
+    const { token } = useToken();
+    const [open, setOpen] = useState(false);
+
+    const labelStyle: React.CSSProperties = {
+        color: value?.length ? token.colorText : token.colorTextPlaceholder,
+    };
+
     return (
         <Dropdown
+            open={open}
+            onOpenChange={setOpen}
             dropdownRender={() => (
                 <CheckboxDropdownRender
                     options={options}
@@ -66,7 +76,7 @@ export const CheckboxDropdown: React.FC<IPropsCheckboxDropdown> = (props) => {
             )}
         >
             <Button>
-                <Space>
+                <Space style={labelStyle}>
                     {label}
                     <DownOutlined />
                 </Space>
