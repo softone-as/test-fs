@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Space } from 'antd';
+import { Space } from 'antd';
 import { defaultSizeSpace } from '../../Utils/theme';
 import { MainLayout } from '../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
@@ -22,9 +22,7 @@ const DetailNotification: React.FC = (props: IProps) => {
                 size={defaultSizeSpace}
                 style={{ width: '100%' }}
             >
-                <Section title="Detail Notification">
-                    <Card title={props.data.title}>{props.data.message}</Card>
-                </Section>
+                <Section title={props.data.title}>{props.data.message}</Section>
             </Space>
         </MainLayout>
     );

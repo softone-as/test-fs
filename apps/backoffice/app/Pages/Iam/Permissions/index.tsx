@@ -110,6 +110,7 @@ const PermissionPage: React.FC = (props: IProps) => {
             <FilterSection
                 searchValue={filters.search}
                 onSearch={handleSearch}
+                batchActionMenus={[]}
             />
             <DataTable
                 columns={columns}
