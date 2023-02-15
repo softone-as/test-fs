@@ -1,22 +1,14 @@
-import React, { useState } from 'react';
-import {
-    DataTable,
-    TOnSort,
-    sortOrder,
-} from '../../../Components/organisms/DataTable';
+import React from 'react';
+import { DataTable, sortOrder } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
 import {} from '../../../Utils/notification';
-import { FilterSection } from '../../../Components/organisms/FilterSection';
-import { Button, MenuProps, Select, Tag } from 'antd';
+import { Button, Select, Tag } from 'antd';
 import dayjs from 'dayjs';
-import {
-    DateRangePicker,
-    TRangeValue,
-} from '../../../Components/molecules/Pickers';
+import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
@@ -28,6 +20,8 @@ import { RowActionButtons } from '../../../Components/molecules/RowActionButtons
 import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
+import { ItemType } from '../../../Components/organisms/DataTable/Entities';
+import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -45,13 +39,17 @@ const UsersPage: React.FC = (props: IProps) => {
         filters,
         status: { isFetching },
     } = useTableFilter<TFilters>();
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const isMobile = isMobileScreen();
 
-    const handleBatchDelete = () => {
+    const handleBatchDelete = (selectedRowKeys) => {
         return Inertia.post(`/users/deletes`, {
             ids: selectedRowKeys,
         });
+    };
+
+    const handleCancel = () => {
+        // TODO: Replace with actual cancel logic
+        console.log('cancel modal');
     };
 
     const columns: ColumnsType<IUser> = [
@@ -135,46 +133,21 @@ const UsersPage: React.FC = (props: IProps) => {
         { label: 'Wanita', value: GenderEnum.Perempuan },
     ];
 
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
-    const batchActionMenus: MenuProps['items'] = [
+    const batchActionMenus: ItemType[] = [
         {
             key: '1',
             label: 'Delete',
-            onClick: () =>
+            onClick: (_, selectedRowKeys) =>
                 useModal({
                     title: 'Are You Sure? ',
                     type: 'confirm',
-                    onOk: handleBatchDelete,
+                    onOk: () => handleBatchDelete(selectedRowKeys),
+                    onCancel: () => handleCancel(),
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },
         },
     ];
-
-    const handleRange = (val: TRangeValue) => {
-        return setQueryParams({
-            start_at: val?.[0].toISOString(),
-            end_at: val?.[1].toISOString(),
-        });
-    };
-
-    const handleFilterGender = (data) => {
-        return setQueryParams({ gender: data });
-    };
-
-    const handleSort = (sorter: TOnSort<UserResponse>) => {
-        return setQueryParams({
-            sort: sorter.columnKey as string,
-            order: sorter.order,
-        });
-    };
-
-    const handleSearch = (value) => {
-        setQueryParams({ search: value });
-    };
 
     return (
         <MainLayout
@@ -198,42 +171,46 @@ const UsersPage: React.FC = (props: IProps) => {
                 </Link>,
             ]}
         >
-            <FilterSection
-                searchValue={filters.search}
-                onSearch={handleSearch}
-                selectedRows={selectedRowKeys}
-                batchActionMenus={batchActionMenus}
-                filters={[
-                    <Select
-                        placeholder="Gender"
-                        defaultValue={filters.gender}
-                        options={genderOptions}
-                        onChange={handleFilterGender}
-                        allowClear
-                        style={{ width: '90px' }}
-                    />,
-                    <DateRangePicker
-                        range={10}
-                        onChange={handleRange}
-                        defaultValue={[
-                            filters.start_at && dayjs(filters.start_at),
-                            filters.end_at && dayjs(filters.end_at),
-                        ]}
-                    />,
-                ]}
-            />
             <DataTable
-                rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                batchActionMenus={batchActionMenus}
+                filterComponents={[
+                    {
+                        name: 'gender',
+                        component: (
+                            <Select
+                                placeholder="Gender"
+                                options={genderOptions}
+                                defaultValue={filters.gender}
+                                allowClear
+                                style={{ width: '90px' }}
+                            />
+                        ),
+                    },
+                    {
+                        name: 'rangeCreateAt',
+                        component: (
+                            <DateRangePicker
+                                defaultValue={[
+                                    filters.start_at && dayjs(filters.start_at),
+                                    filters.end_at && dayjs(filters.end_at),
+                                ]}
+                                range={10}
+                            />
+                        ),
+                    },
+                ]}
+                onChange={({ rangeCreateAt, ...filtersState }) => {
+                    setQueryParams({
+                        ...filtersState,
+                        start_at: rangeCreateAt?.[0]?.toISOString(),
+                        end_at: rangeCreateAt?.[1]?.toISOString(),
+                    });
+                }}
                 columns={columns}
-                dataSource={props.data.map((item) => ({
-                    ...item,
-                    key: item.id,
-                }))}
-                meta={props.meta}
-                onSort={handleSort}
-                onPageChange={(page, pageSize) =>
-                    setQueryParams({ page: page, per_page: pageSize })
-                }
+                dataSource={props.data}
+                rowKey="id"
+                search={filters.search}
+                pagination={paginationTransform(props.meta)}
                 loading={isFetching}
             />
         </MainLayout>

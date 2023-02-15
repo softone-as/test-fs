@@ -1,13 +1,10 @@
 import React from 'react';
-import {
-    DataTable,
-    sortOrder,
-    TOnSort,
-} from '../../../Components/organisms/DataTable';
+import { DataTable, sortOrder } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
-import { FilterSection } from '../../../Components/organisms/FilterSection';
 import { Tag } from 'antd';
+import { ShareAltOutlined } from '@ant-design/icons';
+import { useModal } from '../../../Utils/modal';
 
 import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
@@ -15,6 +12,8 @@ import type { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../../../Utils/hooks';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { RowActionButtons } from 'apps/backoffice/app/Components/molecules/RowActionButtons';
+import { ItemType } from '../../../Components/organisms/DataTable/Entities';
+import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 import { Route } from 'apps/backoffice/app/Enums/Route';
 import { Inertia } from '@inertiajs/inertia';
 
@@ -91,34 +90,46 @@ const PermissionPage: React.FC = (props: IProps) => {
         },
     ];
 
-    const handleSort = (sorter: TOnSort<PermissionResponse>) => {
-        return setQueryParams({
-            sort: sorter.columnKey as string,
-            order: sorter.order,
+    const handleBatchDelete = (selectedRowKeys) => {
+        Inertia.post(`/permissions/deletes`, {
+            ids: selectedRowKeys,
         });
     };
 
-    const handleSearch = (value) => {
-        setQueryParams({ search: value });
+    const handleCancel = () => {
+        // TODO: Replace with actual cancel logic
+        console.log('cancel');
     };
+
+    const batchActionMenus: ItemType[] = [
+        {
+            key: '1',
+            label: 'Delete',
+            onClick: (_, selectedRowKeys) =>
+                useModal({
+                    title: 'Are You Sure? ',
+                    type: 'confirm',
+                    onOk: () => handleBatchDelete(selectedRowKeys),
+                    onCancel: handleCancel,
+                }),
+            icon: <ShareAltOutlined />,
+            style: { width: '151px' },
+        },
+    ];
 
     return (
         <MainLayout
             breadcrumbs={Breadcrumbs.Permissions.INDEX}
             title="Permissions"
         >
-            <FilterSection
-                searchValue={filters.search}
-                onSearch={handleSearch}
-            />
             <DataTable
+                batchActionMenus={batchActionMenus}
+                onChange={setQueryParams}
                 columns={columns}
+                search={filters.search}
                 dataSource={props?.data}
-                meta={props?.meta}
-                onSort={handleSort}
-                onPageChange={(page, pageSize) =>
-                    setQueryParams({ page: page, per_page: pageSize })
-                }
+                rowKey="id"
+                pagination={paginationTransform(props.meta)}
                 loading={isFetching}
             />
         </MainLayout>
