@@ -17,6 +17,29 @@ build:storybook:
     - yarn install --frozen-lockfile --prefer-offline
   script:
     - yarn chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --zip
+  allow_failure: true
+
+build_develop:base_docker_image:
+  stage: build
+  image:
+    name: asia.gcr.io/dot-gitlab-runner/aws-cli:docker
+    entrypoint: [""]
+  tags: [dot]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
+      changes:
+        - Dockerfile.base
+        - package.json
+        - yarn.lock
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - docker build
+        --progress plain
+        --tag ${CI_REGISTRY_IMAGE}:development_base
+        --file Dockerfile.base
+        .
+    - docker push ${CI_REGISTRY_IMAGE}:development_base
 
 build_develop:docker_image:
   stage: build
@@ -36,6 +59,7 @@ build_develop:docker_image:
         --file Dockerfile.backoffice
         .
     - docker push ${CI_REGISTRY_IMAGE}:development_${CI_COMMIT_SHORT_SHA}
+  allow_failure: false
 
 deploy_develop:
   stage: deploy
