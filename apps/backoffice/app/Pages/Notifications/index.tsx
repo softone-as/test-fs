@@ -5,28 +5,28 @@ import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
 import { FilterSection } from '../../Components/organisms/FilterSection';
-import { Badge, Button, MenuProps, Select } from 'antd';
+import { Badge, Button, Select } from 'antd';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
-import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { Route } from '../../Enums/Route';
 import { markReadAllNotification } from '../../Modules/Notification/Action';
+import { NotifciationType } from '../../Modules/Notification/Entities';
 
 interface IProps extends TInertiaProps {
-    data: IInAppNotification[];
+    data: NotifciationType[];
     meta: IPaginationMeta;
 }
 
 const NotificationPage: React.FC = (props: IProps) => {
-    console.log(props.notifications.notificationUnread);
     const {
         setQueryParams,
         filters,
         status: { isFetching },
-    } = useTableFilter<Partial<IInAppNotification>>();
+    } = useTableFilter<Partial<NotifciationType>>();
+    console.log(filters.isRead);
 
-    const columns: ColumnsType<IInAppNotification> = [
+    const columns: ColumnsType<NotifciationType> = [
         {
             title: 'Title',
             dataIndex: 'title',
@@ -40,7 +40,7 @@ const NotificationPage: React.FC = (props: IProps) => {
         {
             title: 'Is Read',
             key: 'isRead',
-            render: (data: IInAppNotification) => (
+            render: (data: NotifciationType) => (
                 <Badge dot={!data.isRead}></Badge>
             ),
         },
@@ -48,7 +48,7 @@ const NotificationPage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '1px',
-            render: (data: IInAppNotification) => {
+            render: (data: NotifciationType) => {
                 return (
                     <>
                         <RowActionButtons
@@ -65,26 +65,24 @@ const NotificationPage: React.FC = (props: IProps) => {
         },
     ];
 
-    const handleFilterRead = (data: boolean) => {
+    const handleFilterRead = (data: string) => {
         return setQueryParams({ isRead: data });
     };
 
-    const handleSort = (sorter: TOnSort<IInAppNotification>) => {
+    const handleSort = (sorter: TOnSort<NotifciationType>) => {
         return setQueryParams({
             sort: sorter.columnKey as string,
             order: sorter.order,
         });
     };
 
-    const batchActionMenus: MenuProps['items'] = [];
-
     const handleMarkRead = () => {
         markReadAllNotification();
     };
 
     const readOptions = [
-        { label: 'Read', value: true },
-        { label: 'Unread', value: false },
+        { label: 'Read', value: 'Read' },
+        { label: 'Unread', value: 'Unread' },
     ];
 
     return (
@@ -107,7 +105,7 @@ const NotificationPage: React.FC = (props: IProps) => {
             }
         >
             <FilterSection
-                batchActionMenus={batchActionMenus}
+                batchActionMenus={[]}
                 filters={[
                     <Select
                         placeholder="Read"

@@ -40,6 +40,12 @@ export class InAppNotificationIndexApplication extends IndexApplication {
             );
         }
 
+        if (request.isRead) {
+            query.andWhere('notification.isRead = :isRead', {
+                isRead: request.isRead == 'Read' ? true : false,
+            });
+        }
+
         if (request.sort == 'latest') {
             query.orderBy('notification.createdAt', 'DESC');
         } else if (request.sort == 'oldest') {
