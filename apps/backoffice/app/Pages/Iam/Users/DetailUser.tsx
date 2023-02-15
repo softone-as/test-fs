@@ -141,14 +141,11 @@ const UserDetailPage: React.FC = (props: IProps) => {
                     <DataTable<IUser>
                         columns={columns}
                         dataSource={data}
-                        meta={{
-                            page: 1,
-                            perPage: 10,
+                        rowKey="id"
+                        pagination={{
+                            current: 1,
+                            pageSize: 10,
                             total: 23,
-                            totalPage: 3,
-                        }}
-                        onPageChange={() => {
-                            return;
                         }}
                     />
                 </Section>

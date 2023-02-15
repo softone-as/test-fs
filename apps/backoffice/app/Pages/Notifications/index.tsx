@@ -1,10 +1,9 @@
 import React from 'react';
-import { DataTable, TOnSort } from '../../Components/organisms/DataTable';
+import { DataTable } from '../../Components/organisms/DataTable';
 import { MainLayout } from '../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
-import { FilterSection } from '../../Components/organisms/FilterSection';
 import { Badge, Button, Select } from 'antd';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
@@ -12,6 +11,7 @@ import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { Route } from '../../Enums/Route';
 import { markReadAllNotification } from '../../Modules/Notification/Action';
 import { NotifciationType } from '../../Modules/Notification/Entities';
+import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
 
 interface IProps extends TInertiaProps {
     data: NotifciationType[];
@@ -24,7 +24,6 @@ const NotificationPage: React.FC = (props: IProps) => {
         filters,
         status: { isFetching },
     } = useTableFilter<Partial<NotifciationType>>();
-    console.log(filters.isRead);
 
     const columns: ColumnsType<NotifciationType> = [
         {
@@ -65,22 +64,11 @@ const NotificationPage: React.FC = (props: IProps) => {
         },
     ];
 
-    const handleFilterRead = (data: string) => {
-        return setQueryParams({ isRead: data });
-    };
-
-    const handleSort = (sorter: TOnSort<NotifciationType>) => {
-        return setQueryParams({
-            sort: sorter.columnKey as string,
-            order: sorter.order,
-        });
-    };
-
     const handleMarkRead = () => {
         markReadAllNotification();
     };
 
-    const readOptions = [
+    const isReadOptions = [
         { label: 'Read', value: 'Read' },
         { label: 'Unread', value: 'Unread' },
     ];
@@ -104,30 +92,31 @@ const NotificationPage: React.FC = (props: IProps) => {
                 </Button>
             }
         >
-            <FilterSection
-                batchActionMenus={[]}
-                filters={[
-                    <Select
-                        placeholder="Read"
-                        defaultValue={filters.isRead}
-                        options={readOptions}
-                        onChange={handleFilterRead}
-                        allowClear
-                        style={{ width: '90px' }}
-                    />,
-                ]}
-            />
             <DataTable
+                batchActionMenus={[]}
+                filterComponents={[
+                    {
+                        name: 'isRead',
+                        component: (
+                            <Select
+                                placeholder="Read"
+                                options={isReadOptions}
+                                defaultValue={filters.isRead}
+                                allowClear
+                                style={{ width: '90px' }}
+                            />
+                        ),
+                    },
+                ]}
+                onChange={({ ...filtersState }) => {
+                    setQueryParams({
+                        ...filtersState,
+                    });
+                }}
                 columns={columns}
-                dataSource={props.data.map((item) => ({
-                    ...item,
-                    key: item.id,
-                }))}
-                meta={props.meta}
-                onSort={handleSort}
-                onPageChange={(page, pageSize) =>
-                    setQueryParams({ page: page, per_page: pageSize })
-                }
+                dataSource={props.data}
+                search={filters.search}
+                pagination={paginationTransform(props.meta)}
                 loading={isFetching}
             />
         </MainLayout>

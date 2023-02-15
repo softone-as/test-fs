@@ -21,6 +21,7 @@ import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
+import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 
 const columns: ColumnsType<IUser> = [
     {
@@ -143,10 +144,8 @@ const DetailBasicPage: React.FC = (props: TInertiaProps) => {
                     <DataTable<IUser>
                         columns={columns}
                         dataSource={data}
-                        meta={props.meta}
-                        onPageChange={() => {
-                            return;
-                        }}
+                        rowKey="id"
+                        pagination={paginationTransform(props.meta)}
                     />
                 </Section>
             </Space>

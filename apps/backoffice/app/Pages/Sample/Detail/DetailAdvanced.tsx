@@ -114,14 +114,11 @@ const tabItems: TabsProps['items'] = [
             <DataTable<IUser>
                 columns={columns}
                 dataSource={data}
-                meta={{
-                    page: 1,
-                    perPage: 10,
-                    totalPage: 3,
-                    total: 30,
-                }}
-                onPageChange={() => {
-                    return;
+                rowKey="id"
+                pagination={{
+                    current: 1,
+                    pageSize: 10,
+                    total: 3,
                 }}
             />
         ),
