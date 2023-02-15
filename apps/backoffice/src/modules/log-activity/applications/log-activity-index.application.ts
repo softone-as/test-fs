@@ -33,6 +33,16 @@ export class LogActivityIndexApplication extends IndexApplication {
             );
         }
 
+        if (request.start_at && request.end_at) {
+            query
+                .andWhere(`user.createdAt >= :startAt`, {
+                    startAt: request.start_at,
+                })
+                .andWhere(`user.createdAt <= :endAt`, {
+                    endAt: request.end_at,
+                });
+        }
+
         if (request.menu) {
             query.andWhere(`logActivity.menu = :menu`, {
                 menu: request.menu,

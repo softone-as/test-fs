@@ -13,18 +13,26 @@ import { Route } from '../../Enums/Route';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
 import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
 import { formatDate } from '../../Utils/utils';
+import { DateRangePicker } from '../../Components/molecules/Pickers';
+import dayjs from 'dayjs';
 
 interface IProps extends TInertiaProps {
     data: ILogActivity[];
     meta: IPaginationMeta;
 }
 
+type TFilters = {
+    menu?: LogActivityMenuEnum;
+    start_at?: string;
+    end_at?: string;
+};
+
 const LogActivityPage: React.FC = (props: IProps) => {
     const {
         setQueryParams,
         filters,
         status: { isFetching },
-    } = useTableFilter<Partial<ILogActivity>>();
+    } = useTableFilter<TFilters>();
 
     const columns: ColumnsType<ILogActivity> = [
         {
@@ -96,10 +104,24 @@ const LogActivityPage: React.FC = (props: IProps) => {
                             />
                         ),
                     },
+                    {
+                        name: 'rangeCreateAt',
+                        component: (
+                            <DateRangePicker
+                                defaultValue={[
+                                    filters.start_at && dayjs(filters.start_at),
+                                    filters.end_at && dayjs(filters.end_at),
+                                ]}
+                                range={10}
+                            />
+                        ),
+                    },
                 ]}
-                onChange={({ ...filtersState }) => {
+                onChange={({ rangeCreateAt, ...filtersState }) => {
                     setQueryParams({
                         ...filtersState,
+                        start_at: rangeCreateAt?.[0]?.toISOString(),
+                        end_at: rangeCreateAt?.[1]?.toISOString(),
                     });
                 }}
                 columns={columns}

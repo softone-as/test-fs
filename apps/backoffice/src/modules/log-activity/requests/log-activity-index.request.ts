@@ -8,5 +8,13 @@ export class LogActivityIndexRequest extends IndexRequest {
 
     @IsString()
     @IsOptional()
+    start_at?: string;
+
+    @IsString()
+    @IsOptional()
+    end_at?: string;
+
+    @IsString()
+    @IsOptional()
     menu?: string;
 }
