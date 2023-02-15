@@ -1,6 +1,8 @@
 import { FormInstance, RuleObject, RuleRender } from 'antd/es/form';
 import { AnyObject } from 'yup/lib/types';
 import { useMediaQuery } from 'react-responsive';
+import { TErrorProps, TValidationError } from '../Modules/Inertia/Entities';
+import { notification } from 'antd';
 
 /* 
     How to Use
@@ -37,4 +39,26 @@ export const createYupSync = (schema: AnyObject): RuleObject | RuleRender => {
 
 export const isMobileScreen = () => {
     return useMediaQuery({ query: '(max-width: 767px)' });
+};
+
+export const setServerError = (
+    error: TErrorProps,
+    setFields: (fields: any[]) => void,
+): void => {
+    const fieldErrors = error?.errors as TValidationError[];
+    if (error?.statusCode === 422 && fieldErrors?.length > 0) {
+        // set server error validation
+        fieldErrors?.map((err) => {
+            setFields([
+                {
+                    name: err.property,
+                    errors: err.message,
+                },
+            ]);
+        });
+    } else if (error?.message) {
+        notification.error({
+            message: error.message,
+        });
+    }
 };

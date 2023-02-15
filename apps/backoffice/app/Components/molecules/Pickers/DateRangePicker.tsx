@@ -14,7 +14,7 @@ export type TDateRangePicker = Omit<RangePickerProps, 'presets'> & {
     // if props not set / undefined = use default preset
     // if props array = use preset from props
     presets?: RangePickerProps['presets'] | false;
-    defaultValue?: TRangeValue;
+    defaultValue?: TRangeValue | null;
 };
 
 const defaultPresets: RangePickerProps['presets'] = [
@@ -32,7 +32,7 @@ export const DateRangePicker = ({
     disabledDate,
     ...rest
 }: TDateRangePicker) => {
-    const [dates, setDates] = useState<TRangeValue>(null);
+    const [dates, setDates] = useState<TRangeValue>(defaultValue);
     const [value, setValue] = useState<TRangeValue>(defaultValue);
 
     const defaultDisabledDate = (current: Dayjs) => {

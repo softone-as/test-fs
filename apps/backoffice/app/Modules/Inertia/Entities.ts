@@ -1,8 +1,18 @@
 import { IUser } from 'interface-models/iam/user.interface';
 
+export type TValidationError = {
+    message: Array<string>;
+    property: string;
+};
+
 export type TErrorProps = {
-    errors: Error | null;
+    errors: Error | TValidationError[] | null;
     message: string;
+    statusCode: number;
+};
+
+export type TSuccessProps = {
+    message: string | null;
     statusCode: number;
 };
 
@@ -21,7 +31,7 @@ export type TInertiaProps = {
     error: TErrorProps | null;
     meta: TMeta | null;
     playerId: string | null;
-    success: string | null;
+    success: TSuccessProps;
     userDetail: IUser | null;
     notifications: TNotificationProps | null;
 };
