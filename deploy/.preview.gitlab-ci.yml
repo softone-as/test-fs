@@ -1,5 +1,5 @@
 .mr:base:
-  image: dotlabs/ansible:2.10
+  image: asia.gcr.io/dot-gitlab-runner/ansible:2.10
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^dev$|^develop$|^development$|^staging$|^master$|^main$/i'
   tags: [dot]
@@ -12,8 +12,9 @@ build_mr:docker_image_preview:
   extends: .mr:base
   stage: build
   image:
-    name: us.gcr.io/dot-gitlab-runner/aws-cli:docker
+    name: asia.gcr.io/dot-gitlab-runner/aws-cli:docker
     entrypoint: [""]
+  when: manual
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
@@ -29,7 +30,6 @@ test_mr:preview:
   extends: .mr:base
   stage: test
   needs: ["build_mr:docker_image_preview"]
-  when: manual
   script:
     - ./deploy/run-preview.sh preview
 
