@@ -9,6 +9,7 @@ import { Section } from '../../Components/molecules/Section';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import ReactJson from 'react-json-view';
+import { formatDate } from '../../Utils/utils';
 
 interface IProps extends TInertiaProps {
     data: ILogActivity;
@@ -28,7 +29,7 @@ const DetailBasicPage: React.FC = (props: IProps) => {
                 size={defaultSizeSpace}
                 style={{ width: '100%' }}
             >
-                <Section title="Detail Log">
+                <Section>
                     <DescriptionContainer size="small" bordered>
                         <Descriptions.Item label="ID">{id}</Descriptions.Item>
                         <Descriptions.Item label="Source">
@@ -44,7 +45,7 @@ const DetailBasicPage: React.FC = (props: IProps) => {
                             {path}
                         </Descriptions.Item>
                         <Descriptions.Item label="Created At">
-                            {createdAt.toString()}
+                            {formatDate(createdAt)}
                         </Descriptions.Item>
                         <Descriptions.Item label="By User">
                             <ReactJson src={user} />

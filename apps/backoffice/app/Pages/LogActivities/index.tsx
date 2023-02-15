@@ -12,6 +12,7 @@ import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.inte
 import { Route } from '../../Enums/Route';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
 import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
+import { formatDate } from '../../Utils/utils';
 
 interface IProps extends TInertiaProps {
     data: ILogActivity[];
@@ -42,14 +43,14 @@ const LogActivityPage: React.FC = (props: IProps) => {
             key: 'activity',
         },
         {
-            title: 'By User ID',
+            title: 'User ID',
             key: 'user',
             render: (data: ILogActivity) => <>{data.user?.id || '-'}</>,
         },
         {
             title: 'Created At',
-            dataIndex: 'createdAt',
             key: 'createdAt',
+            render: (data: ILogActivity) => <>{formatDate(data.createdAt)}</>,
         },
         {
             title: 'Action',
