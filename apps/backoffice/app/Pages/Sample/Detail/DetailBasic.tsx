@@ -7,14 +7,14 @@ import {
     EyeOutlined,
 } from '@ant-design/icons';
 import { Link } from '@inertiajs/inertia-react';
-import { Button, Descriptions, Space } from 'antd';
+import { Descriptions, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
 import { IUser } from '../../../Modules/User/Entities';
 
 import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
 
-import { Buttons } from '../../../Components/atoms/Buttons';
+import { Button } from '../../../Components/atoms/Button';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
@@ -98,10 +98,10 @@ const DetailBasicPage: React.FC = (props: TInertiaProps) => {
             breadcrumbs={Breadcrumbs.Users.DETAIL}
             topActions={
                 <>
-                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>
-                    <Buttons icon={<EditOutlined />}>Edit</Buttons>
-                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>
-                    <Buttons type="primary">Action</Buttons>
+                    <Button icon={<DeleteOutlined />}>Delete</Button>
+                    <Button icon={<EditOutlined />}>Edit</Button>
+                    <Button icon={<DownloadOutlined />}>Download</Button>
+                    <Button type="primary">Action</Button>
                 </>
             }
         >

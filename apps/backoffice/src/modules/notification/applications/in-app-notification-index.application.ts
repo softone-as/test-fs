@@ -16,7 +16,7 @@ const ALLOW_TO_SORT = ['latest', 'oldest', 'title'];
 export class InAppNotificationIndexApplication extends IndexApplication {
     constructor(
         @InjectRepository(InAppNotification)
-        private readonly NotificationRepository: Repository<InAppNotification>,
+        private readonly notificationRepository: Repository<InAppNotification>,
     ) {
         super();
     }
@@ -26,9 +26,8 @@ export class InAppNotificationIndexApplication extends IndexApplication {
         request: InAppNotificationIndexRequest,
         user: IUser,
     ): Promise<IPaginateResponse<IInAppNotification>> {
-        const query = this.NotificationRepository.createQueryBuilder(
-            'notification',
-        )
+        const query = this.notificationRepository
+            .createQueryBuilder('notification')
             .leftJoinAndSelect('notification.targetUser', 'targetUser')
             .andWhere('targetUser.id = :userId', { userId: user.id });
 
@@ -39,6 +38,12 @@ export class InAppNotificationIndexApplication extends IndexApplication {
                     search: `%${request.search}%`,
                 },
             );
+        }
+
+        if (request.isRead) {
+            query.andWhere('notification.isRead = :isRead', {
+                isRead: request.isRead == 'Read' ? true : false,
+            });
         }
 
         if (request.sort == 'latest') {
