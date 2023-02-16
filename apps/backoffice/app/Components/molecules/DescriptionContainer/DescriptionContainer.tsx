@@ -10,27 +10,29 @@ const DescriptionContainer = ({
 }: DescriptionsProps) => {
     const { sm, md, lg, xl, xs, xxl } = Grid?.useBreakpoint();
 
-    const isColumnOne = (): string => {
-        if (xxl && (column as Record<Breakpoint, number>).xxl == 1) {
+    const getWidthLabelOnOneColumn = (
+        columns: Record<Breakpoint, number>,
+    ): string => {
+        if (xxl && columns.xxl == 1) {
             return '4%';
         }
-        if (xl && (column as Record<Breakpoint, number>).xl == 1) {
-            return '4%';
-        }
-
-        if (lg && (column as Record<Breakpoint, number>).lg == 1) {
-            return '4%';
-        }
-
-        if (md && (column as Record<Breakpoint, number>).md == 1) {
+        if (xl && columns.xl == 1) {
             return '4%';
         }
 
-        if (sm && (column as Record<Breakpoint, number>).sm == 1) {
+        if (lg && columns.lg == 1) {
+            return '4%';
+        }
+
+        if (md && columns.md == 1) {
+            return '4%';
+        }
+
+        if (sm && columns.sm == 1) {
             return '25%';
         }
 
-        if (xs && (column as Record<Breakpoint, number>).xs == 1) {
+        if (xs && columns.xs == 1) {
             return '35%';
         }
     };
@@ -45,7 +47,9 @@ const DescriptionContainer = ({
                     props.bordered && layout == 'horizontal'
                         ? md && (column as Record<Breakpoint, number>).md != 1
                             ? '15%'
-                            : isColumnOne()
+                            : getWidthLabelOnOneColumn(
+                                  column as Record<Breakpoint, number>,
+                              )
                         : null,
             }}
             contentStyle={{
