@@ -100,7 +100,7 @@ function DataTable<T extends object = any>(
                     size="small"
                     pagination={false}
                     onChange={(
-                        pagination,
+                        _pagination,
                         filters,
                         sorter: SorterResult<T>,
                     ): void =>

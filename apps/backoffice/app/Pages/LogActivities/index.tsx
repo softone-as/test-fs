@@ -4,7 +4,6 @@ import { MainLayout } from '../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
-import { Select } from 'antd';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
@@ -13,7 +12,6 @@ import { Route } from '../../Enums/Route';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
 import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
 import { formatDate } from '../../Utils/utils';
-import { DateRangePicker } from '../../Components/molecules/Pickers';
 import dayjs from 'dayjs';
 
 interface IProps extends TInertiaProps {
@@ -94,27 +92,18 @@ const LogActivityPage: React.FC = (props: IProps) => {
                 filterComponents={[
                     {
                         name: 'menu',
-                        component: (
-                            <Select
-                                placeholder="Menu"
-                                options={menuOptions}
-                                defaultValue={filters.menu}
-                                allowClear
-                                style={{ width: '90px' }}
-                            />
-                        ),
+                        filterType: 'Select',
+                        options: menuOptions,
+                        defaultValue: filters.menu,
                     },
                     {
                         name: 'rangeCreateAt',
-                        component: (
-                            <DateRangePicker
-                                defaultValue={[
-                                    filters.start_at && dayjs(filters.start_at),
-                                    filters.end_at && dayjs(filters.end_at),
-                                ]}
-                                range={10}
-                            />
-                        ),
+                        filterType: 'DateRangePicker',
+                        range: 10,
+                        defaultValue: [
+                            filters.start_at && dayjs(filters.start_at),
+                            filters.end_at && dayjs(filters.end_at),
+                        ],
                     },
                 ]}
                 onChange={({ rangeCreateAt, ...filtersState }) => {
