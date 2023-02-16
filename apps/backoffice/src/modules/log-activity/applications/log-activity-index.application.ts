@@ -38,7 +38,7 @@ export class LogActivityIndexApplication extends IndexApplication {
             const endAt = request.end_at;
 
             query.andWhere(
-                `logActivity.createdAt BETWEEN CAST(:startAt AS DATE) AND CAST(:endAt AS DATE)`,
+                `CAST(logActivity.createdAt as DATE) BETWEEN CAST(:startAt AS DATE) AND CAST(:endAt AS DATE)`,
                 {
                     startAt,
                     endAt,
