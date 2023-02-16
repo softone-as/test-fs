@@ -512,3 +512,20 @@ a.sidebar__link:hover .sidebar__icon .icon {
 .ant-descriptions-item-content {
     opacity: 45%;
 }
+
+.btn-modal:focus-visible {
+    outline: 4px solid #006D75 !important;
+    outline-offset: 1px !important;
+    transition: outline-offset 0s, outline 0s !important;
+}
+
+.btn-modal__cancel:hover, 
+.btn-modal__cancel:active {
+    color: #006D75 !important;
+    border-color: #006D75 !important;
+}
+
+button:focus {
+    outline: 1px solid #006D75 !important;
+    outline-offset: 1px !important;
+}

@@ -13,6 +13,10 @@ export const useModal = (props: TPropsModal) => {
                 backgroundColor: themeColors.primary,
                 borderColor: themeColors.primary,
             },
+            className: 'btn-modal',
+        },
+        cancelButtonProps: {
+            className: 'btn-modal btn-modal__cancel',
         },
     });
 };
