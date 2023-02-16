@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Col,
     Row,
@@ -8,11 +8,10 @@ import {
     Space,
     Dropdown,
     Divider,
-    Form,
-    FormInstance,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { isMobileScreen } from '../../../Utils/utils';
+import { useDidUpdateEffect } from '../../../Utils/hooks';
 import Filter, { TFilterItem } from './Filter';
 
 export interface IFilterSection {
@@ -24,32 +23,12 @@ export interface IFilterSection {
     searchValue: string;
 }
 
-export type InternalHooks = {
-    registerWatch: (FC: (store: Record<string, any>) => void) => void;
-};
-export interface IFilterFormInstance<T = any> extends FormInstance<T> {
-    getInternalHooks: (mark: string) => InternalHooks;
-}
-export const HOOK_MARK = 'RC_FORM_INTERNAL_HOOKS';
-
 export const FilterSection = (props: IFilterSection) => {
     const [value, setValue] = useState(props.searchValue);
-    const [form] = Form.useForm();
-
-    useEffect(() => {
-        const { registerWatch } = (
-            form as IFilterFormInstance
-        ).getInternalHooks(HOOK_MARK);
-
-        const cancelRegister = registerWatch((store) =>
-            props?.onFiltersChange(store),
-        );
-        return cancelRegister;
-    }, []);
 
     const isMobile = isMobileScreen();
 
-    useEffect(() => {
+    useDidUpdateEffect(() => {
         const timeout = setTimeout(() => {
             props.onSearch(value);
         }, 500);
