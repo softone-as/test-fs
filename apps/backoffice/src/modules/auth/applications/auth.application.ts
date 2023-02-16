@@ -1,3 +1,4 @@
+import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
 import { Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { EmailNotificationService } from 'apps/backoffice/src/infrastructure/notification/services/email-notification.service';
@@ -5,6 +6,7 @@ import { OneSignalPushNotificationService } from '../../../infrastructure/notifi
 import { AdminAuthService } from '../services/auth-admin.service';
 import { Request } from 'express';
 import { LogActivityService } from '../../log-activity/services/log-activity.service';
+import { IUser } from 'interface-models/iam/user.interface';
 
 @Injectable()
 export class AuthApplication {
@@ -49,11 +51,14 @@ export class AuthApplication {
         this.logActivityService.create({
             activity:
                 'user with email ' + this.request.user['email'] + ' login',
-            meta_data: {
+            metaData: {
                 username: this.request.user['email'],
                 password: this.request.user['password'],
             },
-            user: this.request.user,
+            user: this.request.user as IUser,
+            source: id.toString(),
+            menu: LogActivityMenuEnum.AUTH,
+            path: __filename,
         });
     }
 
@@ -61,7 +66,14 @@ export class AuthApplication {
         this.logActivityService.create({
             activity:
                 'user with email ' + this.request.user['email'] + ' logout',
-            user: this.request.user,
+            metaData: {
+                username: this.request.user['email'],
+                password: this.request.user['password'],
+            },
+            user: this.request.user as IUser,
+            source: this.request.user['id'].toString(),
+            menu: LogActivityMenuEnum.AUTH,
+            path: __filename,
         });
 
         const id = this.request.user['id'];

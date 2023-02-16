@@ -14,4 +14,6 @@ export interface ILogActivity {
     menu: string;
 
     path: string;
+
+    createdAt?: Date;
 }
