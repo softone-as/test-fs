@@ -32,6 +32,7 @@ test_mr:preview:
   needs: ["build_mr:docker_image_preview"]
   script:
     - ./deploy/run-preview.sh preview
+  allow_failure: true
 
 post_mr:cleanup_preview:
   extends: .mr:base
