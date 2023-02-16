@@ -11,7 +11,14 @@ interface IProps {
 
 export const PageHeader: React.FC<IProps> = (props: IProps) => {
     return (
-        <Row style={{ marginBottom: '24px' }}>
+        <Row
+            style={{
+                marginBottom: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}
+        >
             <Col flex="auto">
                 {props?.breadcrumbs?.length > 0 && (
                     <Breadcrumbs breadcrumbs={props.breadcrumbs} />
@@ -21,11 +28,7 @@ export const PageHeader: React.FC<IProps> = (props: IProps) => {
                     {props.title}
                 </Title>
             </Col>
-            <Col
-                style={{
-                    marginTop: props?.breadcrumbs?.length > 0 ? '8px' : 0,
-                }}
-            >
+            <Col>
                 <Space>{props?.topActions && props.topActions}</Space>
             </Col>
         </Row>

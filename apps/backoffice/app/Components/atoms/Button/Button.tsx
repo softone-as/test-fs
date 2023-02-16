@@ -7,15 +7,17 @@ interface IProps extends ButtonProps {
     responsive?: boolean;
 }
 
-const Button: React.FC<IProps> = ({ icon, responsive, children, ...rest }) => {
+const Button: React.FC<IProps> = ({
+    icon,
+    responsive = true,
+    children,
+    ...rest
+}) => {
     const isMobile = isMobileScreen();
-    const showChildren = !isMobile || (isMobile && !icon && !responsive);
-
-    const size = responsive ? (isMobile ? 'middle' : 'large') : 'large';
+    const showChildren = isMobile ? responsive && !icon : true;
 
     return (
         <AntdButton
-            size={size}
             icon={icon}
             style={{
                 display: 'flex',
