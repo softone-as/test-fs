@@ -30,7 +30,11 @@ const DetailLogActivity: React.FC = (props: IProps) => {
                 style={{ width: '100%' }}
             >
                 <Section>
-                    <DescriptionContainer size="small" bordered>
+                    <DescriptionContainer
+                        size="small"
+                        bordered
+                        column={{ md: 1, xs: 1 }}
+                    >
                         <Descriptions.Item label="ID">{id}</Descriptions.Item>
                         <Descriptions.Item label="Source">
                             {source}
