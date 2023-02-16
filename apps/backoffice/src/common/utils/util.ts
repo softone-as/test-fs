@@ -229,4 +229,13 @@ export class Utils {
     ): number {
         return (pricePercentage / price) * 100;
     }
+
+    static addDaysInDate = function (
+        date: Date | string,
+        days: number,
+    ): Date | string {
+        const result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result.toISOString();
+    };
 }

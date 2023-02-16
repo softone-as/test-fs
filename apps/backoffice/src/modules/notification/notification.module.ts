@@ -6,6 +6,7 @@ import { InAppNotificationIndexApplication } from './applications/in-app-notific
 import { InAppNotificationController } from './controllers/in-app-notification.controller';
 import { InAppNotificationService } from './services/in-app-notifiacation.service';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
+import { InAppNotificationApplication } from './applications/in-app-notification.application';
 
 @Module({
     imports: [TypeOrmModule.forFeature([InAppNotification]), CacheModule],
@@ -14,6 +15,7 @@ import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.ada
         InertiaAdapter,
         InAppNotificationService,
         InAppNotificationIndexApplication,
+        InAppNotificationApplication,
     ],
     exports: [InAppNotificationIndexApplication, InAppNotificationService],
 })

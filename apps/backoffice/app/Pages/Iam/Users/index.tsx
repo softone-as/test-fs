@@ -6,14 +6,13 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
 import {} from '../../../Utils/notification';
-import { Select, Tag } from 'antd';
 import dayjs from 'dayjs';
-import { DateRangePicker } from '../../../Components/molecules/Pickers';
 import {
     FileExcelOutlined,
     PlusCircleOutlined,
     ShareAltOutlined,
 } from '@ant-design/icons';
+import { Input, Tag } from 'antd';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
@@ -176,28 +175,25 @@ const UsersPage: React.FC = (props: IProps) => {
                 batchActionMenus={batchActionMenus}
                 filterComponents={[
                     {
+                        render: Input,
+                        name: 'email',
+                        placeholder: 'Search email',
+                    },
+                    {
                         name: 'gender',
-                        component: (
-                            <Select
-                                placeholder="Gender"
-                                options={genderOptions}
-                                defaultValue={filters.gender}
-                                allowClear
-                                style={{ width: '90px' }}
-                            />
-                        ),
+                        filterType: 'Select',
+                        placeholder: 'Gender',
+                        options: genderOptions,
+                        defaultValue: filters.gender,
                     },
                     {
                         name: 'rangeCreateAt',
-                        component: (
-                            <DateRangePicker
-                                defaultValue={[
-                                    filters.start_at && dayjs(filters.start_at),
-                                    filters.end_at && dayjs(filters.end_at),
-                                ]}
-                                range={10}
-                            />
-                        ),
+                        filterType: 'DateRangePicker',
+                        range: 10,
+                        defaultValue: [
+                            filters.start_at && dayjs(filters.start_at),
+                            filters.end_at && dayjs(filters.end_at),
+                        ],
                     },
                 ]}
                 onChange={({ rangeCreateAt, ...filtersState }) => {

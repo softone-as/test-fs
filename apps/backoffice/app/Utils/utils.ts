@@ -3,6 +3,7 @@ import { AnyObject } from 'yup/lib/types';
 import { useMediaQuery } from 'react-responsive';
 import { TErrorProps, TValidationError } from '../Modules/Inertia/Entities';
 import { notification } from 'antd';
+import { format } from 'date-fns';
 
 /* 
     How to Use
@@ -61,4 +62,11 @@ export const setServerError = (
             message: error.message,
         });
     }
+};
+
+export const formatDate = (
+    date: string | Date,
+    pattern = 'yyyy-MM-dd H:i:s',
+): string => {
+    return format(new Date(date), pattern);
 };

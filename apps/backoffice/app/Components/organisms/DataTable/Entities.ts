@@ -8,6 +8,7 @@ import {
     MenuItemType,
     SubMenuType,
 } from 'antd/es/menu/hooks/useItems';
+import { TFilterItem } from '../FilterSection/Filter';
 
 export type TOrder = {
     order: 'ASC' | 'DESC' | undefined;
@@ -57,10 +58,7 @@ export type FilterState<T> = {
 export interface IDataTableProps<T> extends Omit<TableProps<T>, 'onChange'> {
     defaultCurrent?: number;
     batchActionMenus?: ItemType[];
-    filterComponents?: {
-        name: string;
-        component: React.ReactNode;
-    }[];
+    filterComponents?: TFilterItem[];
     search?: string;
     onChange?: (filters: FilterState<T>) => void;
 }
