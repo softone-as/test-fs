@@ -51,6 +51,7 @@
   - name: wait deployment ready
     ansible.builtin.uri:
       url: https://boilerplate-nestjs-inertia-dev.dot.co.id/auth/login
+      validate_certs: no
     register: result
     until: "result.status == 200"
     retries: 60

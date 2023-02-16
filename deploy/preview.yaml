@@ -115,6 +115,7 @@
       regexp: "^{{ item.key }}="
       line: "{{ item.key }}={{ item.value }}"
     with_items: "{{ custom_env }}"
+    no_log: true
     when: "{{ inventory_hostname == 'dot_preview' }}"
 
   - name: create container labels
@@ -139,6 +140,7 @@
   - name: wait preview ready
     ansible.builtin.uri:
       url: "https://{{ preview_name }}.prv.dot.co.id:8081/auth/login"
+      validate_certs: no
     register: result
     until: "result.status == 200"
     retries: 45
