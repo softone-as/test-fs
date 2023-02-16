@@ -4,7 +4,7 @@ import { MainLayout } from '../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
-import { Badge, Button, Select } from 'antd';
+import { Badge, Button } from 'antd';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
@@ -97,15 +97,10 @@ const NotificationPage: React.FC = (props: IProps) => {
                 filterComponents={[
                     {
                         name: 'isRead',
-                        component: (
-                            <Select
-                                placeholder="Status"
-                                options={isReadOptions}
-                                defaultValue={filters.isRead}
-                                allowClear
-                                style={{ width: '90px' }}
-                            />
-                        ),
+                        filterType: 'Select',
+                        options: isReadOptions,
+                        placeholder: 'Status',
+                        defaultValue: filters.isRead,
                     },
                 ]}
                 onChange={({ ...filtersState }) => {
