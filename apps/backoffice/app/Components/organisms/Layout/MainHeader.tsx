@@ -1,19 +1,26 @@
-import { BellOutlined, MenuOutlined, UserOutlined } from '@ant-design/icons';
+import { MenuOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
-import Avatar from 'antd/es/avatar/avatar';
 import { Header } from 'antd/es/layout/layout';
+import { TNotificationProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
+import { IUser } from 'apps/backoffice/app/Modules/Profile/Entities';
 import { themeColors } from 'apps/backoffice/app/Utils/theme';
 import React from 'react';
+import { UserAvatar } from '../../atoms/Avatars';
+import NotificationIcon from '../../atoms/Icons/NotificationIcon';
 import { CompanyLogo } from '../../atoms/Logos';
 
 interface IMainHeaderProps {
     setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
     collapsed: boolean;
+    userDetail: IUser;
+    notifications: TNotificationProps;
 }
 
 const MainHeader: React.FC<IMainHeaderProps> = ({
     setCollapsed,
     collapsed,
+    userDetail,
+    notifications,
 }) => {
     return (
         <Header
@@ -38,15 +45,8 @@ const MainHeader: React.FC<IMainHeaderProps> = ({
             </Space>
 
             <Space size={10}>
-                <Avatar size="default" icon={<UserOutlined />} />
-
-                <BellOutlined
-                    style={{
-                        display: 'block',
-                        color: 'white',
-                        fontSize: '20px',
-                    }}
-                />
+                <UserAvatar userDetail={userDetail} />
+                <NotificationIcon notifications={notifications} />
             </Space>
         </Header>
     );
