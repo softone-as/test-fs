@@ -1,157 +1,153 @@
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import React from 'react';
-// import { Inertia } from '@inertiajs/inertia';
-// import { CellProps, Column } from 'react-table';
-
+import { DataTable, sortOrder } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
+import { TInertiaProps } from '../../../Modules/Inertia/Entities';
+import { Button } from 'antd';
+import { ShareAltOutlined } from '@ant-design/icons';
+import { useModal } from '../../../Utils/modal';
 
-// import { useDidUpdateEffect } from '../../../Utils/hooks';
-// import { confirmDelete, notifyError, notifySuccess } from '../../../Utils/utils';
+import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
+import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
+import type { ColumnsType } from 'antd/es/table';
+import { useTableFilter } from '../../../Utils/hooks';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { RowActionButtons } from 'apps/backoffice/app/Components/molecules/RowActionButtons';
+import { ItemType } from '../../../Components/organisms/DataTable/Entities';
+import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
+import { Route } from 'apps/backoffice/app/Enums/Route';
+import { Inertia } from '@inertiajs/inertia';
+import { Link } from '@inertiajs/inertia-react';
+import { deleteRole } from 'apps/backoffice/app/Modules/Role/Action';
 
-// import { EndpointRoute, Route } from '../../../Enums/Route';
+interface IProps extends TInertiaProps {
+    data: RoleResponse[];
+}
 
-// import { ErrorType, SuccessType } from '../../../modules/Common/Entity/Common';
-// import {
-//     PERMISSION_BACKOFFICE_DELETE_ROLE, PERMISSION_BACKOFFICE_DETAIL_ROLE,
-//     PERMISSION_BACKOFFICE_UPDATE_ROLE
-// } from '../../../../../../constants/permission.constant';
+const PermissionPage: React.FC = (props: IProps) => {
+    const {
+        setQueryParams,
+        filters,
+        status: { isFetching },
+    } = useTableFilter();
 
-// import { FilterSelectOption } from '../../../Components/molecules/Inputs/FilterSelect.molecule';
-// import ActionButtons from '../../../Components/molecules/DataTable/ActionButtons.molecule';
+    const handleDetail = (id: number) => {
+        return Inertia.get(`${Route.Roles}/${id}`);
+    };
 
-// import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
-// import { usePage } from '@inertiajs/inertia-react';
-// import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
+    const handleEdit = (id: number) => {
+        return Inertia.get(`${Route.EditRole}/${id}`);
+    };
 
-// type RolesPageProps = {
-//     data: RoleResponse[];
-//     meta: IPaginationMeta;
-// };
+    const columns: ColumnsType<PermissionResponse> = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: 'Role Name',
+            dataIndex: 'name',
+            key: 'name',
+            sorter: true,
+            sortOrder: sortOrder({
+                columnKey: 'name',
+                order: filters.order,
+                sort: filters.sort,
+            }),
+        },
+        {
+            title: 'Key',
+            dataIndex: 'key',
+            key: 'key',
+            sorter: true,
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            width: '142px',
+            render: (text, record) => {
+                const id = record.id;
+                return (
+                    <RowActionButtons
+                        actions={[
+                            {
+                                type: 'view',
+                                href: `#`,
+                                title: 'view',
+                                onClick: () => handleDetail(id),
+                            },
+                            {
+                                type: 'edit',
+                                href: `#`,
+                                title: 'edit',
+                                onClick: () => handleEdit(id),
+                            },
+                            {
+                                type: 'delete',
+                                title: 'delete',
+                                onClick: () => {
+                                    deleteRole(id);
+                                    // TODO : handle delete function
+                                },
+                            },
+                        ]}
+                    />
+                );
+            },
+        },
+    ];
 
-// const title = 'Daftar Role';
+    const handleBatchDelete = (selectedRowKeys) => {
+        Inertia.post(`/permissions/deletes`, {
+            ids: selectedRowKeys,
+        });
+    };
 
-// const filterOptions = [
-//     {
-//         label: 'Latest',
-//         value: 'latest DESC',
-//     },
-//     {
-//         label: 'Oldest',
-//         value: 'oldest ASC',
-//     },
-//     {
-//         label: 'Alphabet A-Z',
-//         value: 'name ASC',
-//     },
-//     {
-//         label: 'Alphabet Z-A',
-//         value: 'name DESC',
-//     },
-// ];
+    const handleCancel = () => {
+        // TODO: Replace with actual cancel logic
+        console.log('cancel');
+    };
 
-const RolesPage: React.FC = () => {
-    // const queryParams = new URLSearchParams(window.location.search);
-    // const [isDisableTable, setDisableTable] = useState(false);
-    // const { userDetail } = usePage().props
-    // const permissionList = userDetail['role'].permissions.map(permission => permission.key)
-
-    // const [filters, setFilters] = useState({
-    //     search: queryParams.get('search'),
-    //     sort: queryParams.get('sort'),
-    //     order: queryParams.get('order') || 'ASC',
-    //     page: queryParams.get('page') || '1',
-    // });
-
-    // useDidUpdateEffect(() => {
-    //     setDisableTable(true)
-
-    //     Inertia.visit(window.location.pathname, {
-    //         data: filters,
-    //         preserveState: true,
-    //         preserveScroll: true,
-    //         replace: true,
-    //         onFinish: () => {
-    //             setDisableTable(false)
-    //         },
-    //         onSuccess: () => {
-    //             setDisableTable(false)
-    //         }
-    //     });
-    // }, [filters]);
-
-    // const handleDeleteRole = (id: string) => {
-    //     if (confirmDelete()) {
-    //         Inertia.get(`${EndpointRoute.DeleteRole}/${id}`, {}, {
-    //             onSuccess: (res) => {
-    //                 const error = res.props['error'] || null
-    //                 const success = res.props['success'] || null
-
-    //                 if (success) {
-    //                     const message = (res.props.success as SuccessType)
-    //                         .message;
-    //                     notifySuccess(message);
-    //                 } else if (error) {
-    //                     const message = (res.props.error as ErrorType)
-    //                         .message;
-    //                     notifyError(message);
-    //                 }
-    //             },
-    //         });
-    //     }
-    // };
-
-    // const handleSort = (opt: FilterSelectOption) => {
-    //     const [sort, order] = opt.value.split(' ');
-    //     return setFilters({ ...filters, sort, order });
-    // };
-
-    // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     return setFilters({
-    //         sort: filters.sort,
-    //         order: filters.order,
-    //         page: '1', search: e.target.value
-    //     });
-    // };
-
-    // const handleClearSearch = () => {
-    //     return setFilters({ ...filters, search: '' });
-    // };
-
-    // const columns = React.useMemo<Column<RoleResponse>[]>(
-    //     () => [
-    //         {
-    //             Header: 'Nama',
-    //             accessor: 'name',
-    //         },
-    //         {
-    //             Header: 'Key',
-    //             accessor: 'key',
-    //         },
-    //         {
-    //             Header: 'Aksi',
-    //             Cell: ({ cell }: CellProps<RoleResponse>) => {
-    //                 const id = cell.row.original.id;
-    //                 return (
-    //                     <ActionButtons
-    //                         detailLink={`${Route.Roles}/${id}`}
-    //                         updateLink={`${Route.EditRole}/${id}`}
-    //                         onDelete={() => handleDeleteRole(id.toString())}
-    //                         hideDelete={!permissionList.includes(PERMISSION_BACKOFFICE_DELETE_ROLE)}
-    //                         isShowDetail={permissionList.includes(PERMISSION_BACKOFFICE_DETAIL_ROLE)}
-    //                         hideUpdate={!permissionList.includes(PERMISSION_BACKOFFICE_UPDATE_ROLE)}
-    //                     />
-    //                 );
-    //             },
-    //         },
-    //     ],
-    //     [],
-    // );
+    const batchActionMenus: ItemType[] = [
+        {
+            key: '1',
+            label: 'Delete',
+            onClick: (_, selectedRowKeys) =>
+                useModal({
+                    title: 'Are You Sure? ',
+                    type: 'confirm',
+                    onOk: () => handleBatchDelete(selectedRowKeys),
+                    onCancel: handleCancel,
+                }),
+            icon: <ShareAltOutlined />,
+            style: { width: '151px' },
+        },
+    ];
 
     return (
-        <MainLayout title="Roles" breadcrumbs={Breadcrumbs.Roles.INDEX}>
-            <h1>Hello</h1>
+        <MainLayout
+            topActions={[
+                <Link href="roles/create">
+                    <Button size="large" type="primary">
+                        New Role
+                    </Button>
+                </Link>,
+            ]}
+            breadcrumbs={Breadcrumbs.Roles.INDEX}
+            title="Roles"
+        >
+            <DataTable
+                batchActionMenus={batchActionMenus}
+                onChange={setQueryParams}
+                columns={columns}
+                search={filters.search}
+                dataSource={props?.data}
+                rowKey="id"
+                pagination={paginationTransform(props.meta)}
+                loading={isFetching}
+            />
         </MainLayout>
     );
 };
 
-export default RolesPage;
+export default PermissionPage;

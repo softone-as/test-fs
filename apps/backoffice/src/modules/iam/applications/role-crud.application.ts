@@ -46,6 +46,12 @@ export class RoleCrudApplication {
             throw new UnprocessableEntityException(
                 `Role ${roleRequest.key} is not exists`,
             );
+        } else {
+            if (roleRequest.name == roleExists.name) {
+                throw new UnprocessableEntityException(
+                    `Role with name ${roleRequest.name} is exists`,
+                );
+            }
         }
 
         const updateRole = await this.roleService.update(

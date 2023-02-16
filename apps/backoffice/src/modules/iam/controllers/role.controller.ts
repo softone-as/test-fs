@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     Param,
     Post,
@@ -47,7 +48,9 @@ export class RoleController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_ROLE))
     @Get('create')
     async createPage(): Promise<void> {
-        return this.inertiaAdapter.render({ component: 'Iam/Roles/FormRole' });
+        return this.inertiaAdapter.render({
+            component: 'Iam/Roles/CreateRole',
+        });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_ROLE))
@@ -65,11 +68,9 @@ export class RoleController {
     async editPage(@Param('id') id: number): Promise<void> {
         const data = await this.roleCrudApplication.findById(id);
         return this.inertiaAdapter.render({
-            component: 'Iam/Roles/FormRole',
+            component: 'Iam/Roles/EditRole',
             props: {
-                id,
                 data,
-                isUpdate: true,
             },
         });
     }
@@ -92,7 +93,7 @@ export class RoleController {
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_ROLE))
-    @Get('delete/:id')
+    @Delete('delete/:id')
     async delete(@Param('id') id: number): Promise<void> {
         await this.roleCrudApplication.delete(id);
         return this.inertiaAdapter.successResponse('roles', 'Success delete');
