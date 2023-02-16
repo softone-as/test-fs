@@ -21,7 +21,7 @@ import {
     Tooltip,
     Typography,
 } from 'antd';
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { PageHeader } from '../../Components/molecules/Headers';
 import { PageProgress } from '../../Components/molecules/Progress';
 import { AppContext } from '../../Contexts/App';
@@ -31,6 +31,8 @@ import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { isMobileScreen } from '../../Utils/utils';
+import CompanyLogo from '../../Components/atoms/Logos/CompanyLogo';
+import MainHeader from '../../Components/organisms/Layout/MainHeader';
 
 export type IProps = {
     children: React.ReactNode;
@@ -146,6 +148,7 @@ export const MainLayout: React.FC<IProps> = ({
 }: IProps) => {
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
+    const [collapsed, setCollapsed] = useState(false);
     const isMobile = isMobileScreen();
 
     // active menu item key
@@ -195,13 +198,21 @@ export const MainLayout: React.FC<IProps> = ({
             <Head title={title} />
 
             {appState.isNavigating && <PageProgress />}
-
             <Sider
+                trigger={null}
+                collapsible
+                collapsed={isMobile ? collapsed : false}
                 theme="light"
                 style={{
                     backgroundColor: '#006D75',
                     height: '100vh',
                     marginTop: isMobile ? '-60px' : 0,
+                    overflow: isMobile && 'auto',
+                    position: isMobile ? 'fixed' : 'relative',
+                    left: isMobile && 0,
+                    top: isMobile && 0,
+                    bottom: isMobile && 0,
+                    zIndex: isMobile && 10,
                 }}
                 width="222px"
                 breakpoint="lg"
@@ -214,23 +225,25 @@ export const MainLayout: React.FC<IProps> = ({
                         height: '100%',
                     }}
                 >
-                    <div
-                        style={{
-                            width: '100%',
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            height: '64px',
-                            borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
-                            padding: '0rem 1rem',
-                        }}
-                    >
-                        {/* Apps Logo or Title */}
-                        <img src="/img/company-logo.svg" width="80px" />
-                    </div>
+                    {!isMobile && (
+                        <div
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                height: '64px',
+                                borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+                                padding: '0rem 1rem',
+                            }}
+                        >
+                            {/* Apps Logo or Title */}
+                            <CompanyLogo />
+                        </div>
+                    )}
 
-                    {pageProps.userDetail && (
+                    {!isMobile && pageProps.userDetail && (
                         <div
                             style={{
                                 width: '100%',
@@ -308,6 +321,7 @@ export const MainLayout: React.FC<IProps> = ({
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'space-between',
+                                marginTop: isMobile && '80px',
                             }}
                         >
                             <Menu
@@ -341,7 +355,18 @@ export const MainLayout: React.FC<IProps> = ({
                 </div>
             </Sider>
             <Layout>
+                {isMobile && (
+                    <MainHeader
+                        collapsed={collapsed}
+                        setCollapsed={setCollapsed}
+                    />
+                )}
+
                 <Content
+                    onClick={() => {
+                        // close sidebar
+                        return isMobile && !collapsed && setCollapsed(true);
+                    }}
                     style={{
                         padding: '28px 24px',
                         overflow: 'auto',
