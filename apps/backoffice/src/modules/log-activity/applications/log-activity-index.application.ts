@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { Utils } from 'apps/backoffice/src/common/utils/util';
 import { IndexApplication } from 'apps/backoffice/src/infrastructure/applications/index.application';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { Repository } from 'typeorm';
@@ -35,13 +34,16 @@ export class LogActivityIndexApplication extends IndexApplication {
         }
 
         if (request.start_at && request.end_at) {
-            query
-                .andWhere(`logActivity.createdAt >= :startAt`, {
-                    startAt: request.start_at,
-                })
-                .andWhere(`logActivity.createdAt <= :endAt`, {
-                    endAt: Utils.addDaysInDate(request.end_at, 1),
-                });
+            const startAt = request.start_at;
+            const endAt = request.end_at;
+
+            query.andWhere(
+                `logActivity.createdAt BETWEEN CAST(:startAt AS DATE) AND CAST(:endAt AS DATE)`,
+                {
+                    startAt,
+                    endAt,
+                },
+            );
         }
 
         if (request.menu) {
