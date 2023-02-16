@@ -34,14 +34,11 @@ export class LogActivityIndexApplication extends IndexApplication {
         }
 
         if (request.start_at && request.end_at) {
-            const startAt = request.start_at;
-            const endAt = request.end_at;
-
             query.andWhere(
                 `CAST(logActivity.createdAt as DATE) BETWEEN CAST(:startAt AS DATE) AND CAST(:endAt AS DATE)`,
                 {
-                    startAt,
-                    endAt,
+                    startAt: request.start_at,
+                    endAt: request.end_at,
                 },
             );
         }
