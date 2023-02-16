@@ -23,7 +23,7 @@ export const PageHeader: React.FC<IProps> = (props: IProps) => {
             </Col>
             <Col
                 style={{
-                    marginTop: props?.breadcrumbs?.length > 0 ? '28px' : 0,
+                    marginTop: props?.breadcrumbs?.length > 0 ? '8px' : 0,
                 }}
             >
                 <Space>{props?.topActions && props.topActions}</Space>

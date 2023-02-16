@@ -85,21 +85,10 @@ const UserDetailPage: React.FC = (props: IProps) => {
             breadcrumbs={Breadcrumbs.Users.DETAIL}
             topActions={
                 <>
-                    <Button icon={<DeleteOutlined />} responsive={true}>
-                        Delete
-                    </Button>
-                    ,
-                    <Button icon={<EditOutlined />} responsive={true}>
-                        Edit
-                    </Button>
-                    ,
-                    <Button icon={<DownloadOutlined />} responsive={true}>
-                        Download
-                    </Button>
-                    ,
-                    <Button type="primary" responsive={true}>
-                        Action
-                    </Button>
+                    <Button icon={<DeleteOutlined />}>Delete</Button>
+                    <Button icon={<EditOutlined />}>Edit</Button>
+                    <Button icon={<DownloadOutlined />}>Download</Button>
+                    <Button type="primary">Action</Button>
                 </>
             }
         >
