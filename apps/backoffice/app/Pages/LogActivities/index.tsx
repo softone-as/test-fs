@@ -5,12 +5,8 @@ import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
 import { useModal } from '../../Utils/modal';
-import { Button, DatePicker, MenuProps, Select } from 'antd';
-import {
-    DateRangePicker,
-    TRangeValue,
-} from '../../Components/molecules/Pickers';
-import type { Dayjs } from 'dayjs';
+import { Button, MenuProps, Select } from 'antd';
+import { DatePicker } from '../../Components/molecules/Pickers';
 import { MultiFilterDropdown } from '../../Components/molecules/Dropdowns';
 import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Form } from 'antd';
@@ -87,10 +83,6 @@ const LogActivityPage: React.FC = (props: IProps) => {
         },
     ];
 
-    const handleRange = (val: TRangeValue) =>
-        console.log(val.map((item) => item.toDate()));
-    const handleDate = (val: Dayjs) => console.log(val.toDate());
-
     const handleMenu = (data) => {
         console.log('Data menu: ', data);
     };
@@ -124,7 +116,7 @@ const LogActivityPage: React.FC = (props: IProps) => {
                 filterComponents={[
                     {
                         name: 'status',
-                        component: (
+                        render: () => (
                             <MultiFilterDropdown
                                 form={form}
                                 title="Filter"
@@ -155,16 +147,12 @@ const LogActivityPage: React.FC = (props: IProps) => {
                     },
                     {
                         name: 'rangeCreateAt',
-                        component: (
-                            <DateRangePicker
-                                range={10}
-                                onChange={handleRange}
-                            />
-                        ),
+                        filterType: 'DateRangePicker',
+                        range: 10,
                     },
                     {
                         name: 'date',
-                        component: <DatePicker onChange={handleDate} />,
+                        render: DatePicker,
                     },
                 ]}
                 onChange={setQueryParams}

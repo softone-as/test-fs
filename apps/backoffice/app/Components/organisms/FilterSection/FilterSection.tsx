@@ -13,12 +13,10 @@ import {
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { isMobileScreen } from '../../../Utils/utils';
+import Filter, { TFilterItem } from './Filter';
 
 export interface IFilterSection {
-    filters?: {
-        name: string;
-        component: React.ReactNode;
-    }[];
+    filters?: TFilterItem[];
     onFiltersChange?: (values: Record<string, any>) => void;
     selectedRows?: React.Key[];
     batchActionMenus?: MenuProps['items'];
@@ -82,22 +80,11 @@ export const FilterSection = (props: IFilterSection) => {
             )}
 
             {/* Filters */}
-            <Form form={form}>
-                <Row gutter={[8, 0]} align="middle">
-                    {props.filters?.map((item, index) => {
-                        return (
-                            <Col
-                                key={index}
-                                style={{ margin: isMobile ? '5px 0' : '2px' }}
-                            >
-                                <Form.Item name={item.name} noStyle>
-                                    {item.component}
-                                </Form.Item>
-                            </Col>
-                        );
-                    })}
-                </Row>
-            </Form>
+            <Filter onChange={props?.onFiltersChange}>
+                {props?.filters.map((filter) => (
+                    <Filter.Item key={filter.name} {...filter} />
+                ))}
+            </Filter>
 
             {/* Search */}
             <Col flex="auto">
