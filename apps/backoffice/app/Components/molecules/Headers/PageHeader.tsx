@@ -37,7 +37,7 @@ export const PageHeader: React.FC<IProps> = (props: IProps) => {
                     </Title>
                 </Col>
                 <Col>
-                    <Space>{props?.topActions && props.topActions}</Space>
+                    <Space wrap>{props?.topActions && props.topActions}</Space>
                 </Col>
             </Row>
         </>
