@@ -43,7 +43,8 @@
         "build-storybook": "build-storybook",
         "prettier-fix": "prettier --write \"**/*.{ts,tsx,js,jsx}\"",
         "eslint-fix": "eslint --fix \"**/*.{ts,tsx,js,jsx}\"",
-        "lint-fix": "yarn prettier-fix && yarn eslint-fix"
+        "lint-fix": "yarn prettier-fix && yarn eslint-fix",
+        "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --zip"
     },
     "dependencies": {
         "@ant-design/icons": "^4.8.0",
@@ -218,6 +219,7 @@
         "@typescript-eslint/eslint-plugin": "^5.27.0",
         "@typescript-eslint/parser": "^5.27.0",
         "babel-loader": "^8.0.2",
+        "chromatic": "^6.17.0",
         "css-loader": "^6.7.1",
         "eslint": "^8.17.0",
         "eslint-config-prettier": "^8.1.0",

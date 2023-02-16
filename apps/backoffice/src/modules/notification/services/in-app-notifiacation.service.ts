@@ -1,9 +1,11 @@
+import { config } from 'apps/backoffice/src/config';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
 import { In, QueryFailedError, Repository } from 'typeorm';
 import { IUser } from 'interface-models/iam/user.interface';
+import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 
 @Injectable()
 export class InAppNotificationService {
@@ -12,11 +14,17 @@ export class InAppNotificationService {
         private readonly notificationRepository: Repository<InAppNotification>,
     ) {}
 
+    async find(): Promise<IInAppNotification[]> {
+        return await this.notificationRepository.find();
+    }
+
+    @CacheClear(config.cache.name.notification.list)
     async create(data: IInAppNotification): Promise<IInAppNotification> {
         const newAdmin = this.notificationRepository.create(data);
         return await this.notificationRepository.save(newAdmin);
     }
 
+    @CacheClear(config.cache.name.notification.list)
     async bulkCreateByUserIds(
         userIds: number[],
         data: IInAppNotification,
@@ -36,6 +44,7 @@ export class InAppNotificationService {
             .execute();
     }
 
+    @CacheClear(config.cache.name.notification.list)
     async update(
         id: number,
         data: IInAppNotification,
@@ -51,6 +60,7 @@ export class InAppNotificationService {
         return data;
     }
 
+    @CacheClear(config.cache.name.notification.list)
     async updateByUser(
         userId: number,
         data: IInAppNotification,
@@ -66,6 +76,7 @@ export class InAppNotificationService {
         return data;
     }
 
+    @CacheClear(config.cache.name.notification.list)
     async updateByUserAndIds(
         userId: number,
         ids: number[],
@@ -82,6 +93,7 @@ export class InAppNotificationService {
         return data;
     }
 
+    @CacheClear(config.cache.name.notification.list)
     async delete(id: number): Promise<void> {
         const status = await this.notificationRepository.delete({ id });
         if (status.affected < 1) {
@@ -115,6 +127,12 @@ export class InAppNotificationService {
             .createQueryBuilder('notification')
             .leftJoinAndSelect('notification.targetUser', 'targetUser')
             .andWhere('targetUser.id = :userId', { userId: user.id })
+            .andWhere('notification.isRead = :isRead', { isRead: false })
             .getCount();
+    }
+
+    @CacheClear(config.cache.name.notification.list)
+    async markRead(id: number): Promise<void> {
+        await this.notificationRepository.update({ id }, { isRead: true });
     }
 }

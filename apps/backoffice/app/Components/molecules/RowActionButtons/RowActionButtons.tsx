@@ -11,7 +11,7 @@ import { isMobileScreen } from '../../../Utils/utils';
 
 type ButtonType = 'view' | 'edit' | 'delete' | 'custom';
 
-interface IRowActionButtonsProps {
+export interface IRowActionButtonsProps {
     type?: ButtonType;
     href?: string;
     onClick?: () => void;
@@ -20,7 +20,7 @@ interface IRowActionButtonsProps {
     disabled?: boolean;
 }
 
-interface IRowActionProps {
+export interface IRowActionProps {
     actions: IRowActionButtonsProps[];
 }
 

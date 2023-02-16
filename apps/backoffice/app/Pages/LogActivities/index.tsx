@@ -1,33 +1,36 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { DataTable } from '../../Components/organisms/DataTable';
 import { MainLayout } from '../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
-import { useModal } from '../../Utils/modal';
-import { Button, MenuProps, Select } from 'antd';
-import { DatePicker } from '../../Components/molecules/Pickers';
-import { MultiFilterDropdown } from '../../Components/molecules/Dropdowns';
-import { FileExcelOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { Form } from 'antd';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { Route } from '../../Enums/Route';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
+import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
+import { formatDate } from '../../Utils/utils';
+import dayjs from 'dayjs';
 
 interface IProps extends TInertiaProps {
     data: ILogActivity[];
     meta: IPaginationMeta;
 }
 
+type TFilters = {
+    menu?: LogActivityMenuEnum;
+    start_at?: string;
+    end_at?: string;
+};
+
 const LogActivityPage: React.FC = (props: IProps) => {
     const {
         setQueryParams,
         filters,
         status: { isFetching },
-    } = useTableFilter<Partial<ILogActivity>>();
+    } = useTableFilter<TFilters>();
 
     const columns: ColumnsType<ILogActivity> = [
         {
@@ -46,20 +49,25 @@ const LogActivityPage: React.FC = (props: IProps) => {
             key: 'activity',
         },
         {
-            title: 'Path',
-            dataIndex: 'path',
-            key: 'path',
+            title: 'User ID',
+            key: 'user',
+            render: (data: ILogActivity) => <>{data.user?.id || '-'}</>,
+        },
+        {
+            title: 'Created At',
+            key: 'createdAt',
+            render: (data: ILogActivity) => <>{formatDate(data.createdAt)}</>,
         },
         {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: () => (
+            render: (data: ILogActivity) => (
                 <RowActionButtons
                     actions={[
                         {
                             type: 'view',
-                            href: `${Route.LogActivity}/1`, // TODO: endpoint dinamis by id
+                            href: `${Route.LogActivity}/${data.id}`,
                             title: 'view',
                         },
                     ]}
@@ -68,97 +76,45 @@ const LogActivityPage: React.FC = (props: IProps) => {
         },
     ];
 
-    const batchActionMenus: MenuProps['items'] = [
-        {
-            key: '1',
-            label: 'Delete',
-            onClick: () =>
-                useModal({
-                    title: 'Are You Sure? ',
-                    type: 'warning',
-                    onOk: () => alert('Ok Delete'),
-                }),
-            icon: <ShareAltOutlined />,
-            style: { width: '151px' },
-        },
-    ];
+    const menuOptions = useMemo(() => {
+        return Object.keys(LogActivityMenuEnum).map((key) => {
+            return {
+                label: key,
+                value: key,
+            };
+        });
+    }, []);
 
-    const handleMenu = (data) => {
-        console.log('Data menu: ', data);
-    };
-
-    const [form] = Form.useForm<{ status: string }>();
-
-    const handleFinish = (values) => {
-        console.log('FINSIH : ', values);
-    };
     return (
-        <MainLayout
-            title="Logs"
-            breadcrumbs={Breadcrumbs.LogActivity.INDEX}
-            topActions={
-                <Button
-                    type="primary"
-                    size="large"
-                    icon={<FileExcelOutlined />}
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    Export
-                </Button>
-            }
-        >
+        <MainLayout title="Logs" breadcrumbs={Breadcrumbs.LogActivity.INDEX}>
             <DataTable
-                batchActionMenus={batchActionMenus}
+                batchActionMenus={[]}
                 filterComponents={[
                     {
-                        name: 'status',
-                        render: () => (
-                            <MultiFilterDropdown
-                                form={form}
-                                title="Filter"
-                                initialValues={{ status: '' }}
-                                onFinish={handleFinish}
-                                onReset={() => console.log('Hello')}
-                                fieldsForm={[
-                                    <Form.Item label="Menu" name="menu">
-                                        <Select
-                                            options={[
-                                                {
-                                                    label: 'ROLE',
-                                                    value: 'ROLE',
-                                                },
-                                                {
-                                                    label: 'PERMISSION',
-                                                    value: 'PERMISSION',
-                                                },
-                                            ]}
-                                            onChange={handleMenu}
-                                            allowClear
-                                            style={{ width: '100%' }}
-                                        />
-                                    </Form.Item>,
-                                ]}
-                            />
-                        ),
+                        name: 'menu',
+                        filterType: 'Select',
+                        options: menuOptions,
+                        defaultValue: filters.menu,
                     },
                     {
                         name: 'rangeCreateAt',
                         filterType: 'DateRangePicker',
                         range: 10,
-                    },
-                    {
-                        name: 'date',
-                        render: DatePicker,
+                        defaultValue: [
+                            filters.start_at && dayjs(filters.start_at),
+                            filters.end_at && dayjs(filters.end_at),
+                        ],
                     },
                 ]}
-                onChange={setQueryParams}
+                onChange={({ rangeCreateAt, ...filtersState }) => {
+                    setQueryParams({
+                        ...filtersState,
+                        start_at: rangeCreateAt?.[0]?.toISOString(),
+                        end_at: rangeCreateAt?.[1]?.toISOString(),
+                    });
+                }}
                 columns={columns}
                 dataSource={props.data}
-                rowKey="id"
                 search={filters.search}
                 pagination={paginationTransform(props.meta)}
                 loading={isFetching}

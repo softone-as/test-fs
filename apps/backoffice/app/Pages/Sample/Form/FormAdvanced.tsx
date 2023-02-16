@@ -240,6 +240,7 @@ const FormAdvanced = (props: TInertiaProps) => {
                     onFinish={onFinish}
                     initialValues={{ prefix: '62' }}
                     form={form}
+                    errors={props.error}
                     layout="vertical"
                     requiredMark="optional"
                     buttonAction={[

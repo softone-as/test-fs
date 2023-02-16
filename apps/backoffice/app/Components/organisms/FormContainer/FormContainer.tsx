@@ -1,12 +1,16 @@
 import { Col, Form, FormProps, Grid, Row } from 'antd';
-import React from 'react';
+import { isMobileScreen } from '../../../Utils/utils';
+import { setServerError } from 'apps/backoffice/app/Utils/utils';
+import React, { useEffect } from 'react';
 import ButtonFormAction from './ButtonFormAction';
+import { TErrorProps } from '../../../Modules/Inertia/Entities';
 
-interface IFormProps extends FormProps {
+export interface IFormProps extends FormProps {
     isFieldCentered?: boolean; //centered by field as point (use case: for form basic with horizontal layout)
     centered?: boolean; //centered by form as point
     justifyButton?: 'start' | 'end';
     buttonAction?: React.ReactNode[];
+    errors: TErrorProps;
 }
 
 const FormContainer = (props: IFormProps): JSX.Element => {
@@ -16,29 +20,38 @@ const FormContainer = (props: IFormProps): JSX.Element => {
         justifyButton = 'end',
         buttonAction,
         children,
+        errors,
         ...rest
     } = props;
     const { lg } = Grid.useBreakpoint();
+    const isMobile = isMobileScreen();
+    const checkIsFieldCentered = isMobile ? false : isFieldCentered;
+
+    useEffect(() => {
+        setServerError(errors, rest.form.setFields);
+    }, [errors]);
 
     return (
-        <Row justify={centered && !isFieldCentered ? 'center' : 'start'}>
+        <Row justify={centered && !checkIsFieldCentered ? 'center' : 'start'}>
             <Col
-                span={centered ? (lg ? 10 : isFieldCentered ? 16 : 24) : 24}
-                offset={isFieldCentered ? (lg ? 8 : 6) : 0}
+                span={
+                    centered ? (lg ? 10 : checkIsFieldCentered ? 16 : 24) : 24
+                }
+                offset={checkIsFieldCentered ? (lg ? 8 : 6) : 0}
             >
                 <Form
                     {...rest}
-                    layout={isFieldCentered ? 'horizontal' : props.layout}
+                    layout={checkIsFieldCentered ? 'horizontal' : props.layout}
                     labelCol={
-                        isFieldCentered && {
+                        checkIsFieldCentered && {
                             span: 8,
-                            style: isFieldCentered && {
+                            style: checkIsFieldCentered && {
                                 position: 'absolute',
                                 transform: 'translateX(-100%)',
                             },
                         }
                     }
-                    wrapperCol={isFieldCentered && { span: 18 }}
+                    wrapperCol={checkIsFieldCentered && { span: 18 }}
                     style={{ ...props.style }}
                 >
                     <>
