@@ -11,7 +11,8 @@ WORKDIR /app
 
 COPY --chown=node:node . /app/
 
-RUN yarn install --frozen-lockfile --prefer-offline \
+RUN apk add bash --no-cache \
+    && yarn install --frozen-lockfile --prefer-offline \
     && yarn run webpack:backoffice:prod \
     && yarn run build \
     && cp -r apps/backoffice/public dist/apps/backoffice \
@@ -23,5 +24,5 @@ RUN yarn install --frozen-lockfile --prefer-offline \
     && mkdir dist/temp
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
-CMD ["yarn", "start:prod:backoffice"]
+CMD ["yarn", "run", "start:prod:backoffice"]
 EXPOSE 3001
