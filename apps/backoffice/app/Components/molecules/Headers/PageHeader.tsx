@@ -26,7 +26,13 @@ export const PageHeader: React.FC<IProps> = (props: IProps) => {
                 }}
             >
                 <Col flex="auto">
-                    <Title style={{ fontSize: '24px', lineHeight: '32px' }}>
+                    <Title
+                        style={{
+                            fontSize: '24px',
+                            lineHeight: '32px',
+                            marginBottom: 0,
+                        }}
+                    >
                         {props.title}
                     </Title>
                 </Col>
