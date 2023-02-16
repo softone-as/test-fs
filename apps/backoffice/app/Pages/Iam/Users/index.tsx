@@ -183,13 +183,13 @@ const UsersPage: React.FC = (props: IProps) => {
                         filterType: 'Select',
                         placeholder: 'Gender',
                         options: genderOptions,
-                        initialValue: filters.gender,
+                        defaultValue: filters.gender,
                     },
                     {
                         name: 'rangeCreateAt',
                         filterType: 'DateRangePicker',
                         range: 10,
-                        initialValue: [
+                        defaultValue: [
                             filters.start_at && dayjs(filters.start_at),
                             filters.end_at && dayjs(filters.end_at),
                         ],

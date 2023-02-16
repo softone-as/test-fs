@@ -18,7 +18,6 @@ type RegisterFilterItem<
 > = P & {
     name: string;
     filterType?: N;
-    initialValue?: any;
 };
 
 type CustomFilterProps = {
@@ -70,7 +69,7 @@ const Filter = ({ children, onChange }: IFilterProps) => {
 const FilterInputNotFound = () => <div></div>;
 
 const FilterItem = (props: TFilterItem) => {
-    const { name, initialValue, filterType, ...rest } = props;
+    const { name, filterType, ...rest } = props;
     const { isMobile } = useContext(FilterContext);
 
     const customFilterProps = props as CustomFilterProps;
@@ -82,7 +81,7 @@ const FilterItem = (props: TFilterItem) => {
 
     return (
         <Col style={{ margin: isMobile ? '5px 0' : '2px' }}>
-            <Form.Item name={name} initialValue={initialValue} noStyle>
+            <Form.Item name={name} noStyle>
                 <Component {...(rest as any)} />
             </Form.Item>
         </Col>
