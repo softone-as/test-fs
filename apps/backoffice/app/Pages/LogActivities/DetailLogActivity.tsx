@@ -15,7 +15,7 @@ interface IProps extends TInertiaProps {
     data: ILogActivity;
 }
 
-const DetailBasicPage: React.FC = (props: IProps) => {
+const DetailLogActivity: React.FC = (props: IProps) => {
     const { id, user, source, metaData, activity, menu, path, createdAt } =
         props.data;
 
@@ -60,4 +60,4 @@ const DetailBasicPage: React.FC = (props: IProps) => {
     );
 };
 
-export default DetailBasicPage;
+export default DetailLogActivity;

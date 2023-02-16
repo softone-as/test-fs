@@ -21,9 +21,9 @@ export interface IFilterSection {
     }[];
     onFiltersChange?: (values: Record<string, any>) => void;
     selectedRows?: React.Key[];
-    batchActionMenus?: MenuProps['items'];
-    onSearch: (value: string) => void;
-    searchValue: string;
+    batchActionMenus: MenuProps['items'];
+    onSearch?: (value: string) => void;
+    searchValue?: string;
 }
 
 export type InternalHooks = {
@@ -53,7 +53,7 @@ export const FilterSection = (props: IFilterSection) => {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            props.onSearch(value);
+            props.onSearch && props.onSearch(value);
         }, 500);
 
         return () => {
@@ -100,16 +100,18 @@ export const FilterSection = (props: IFilterSection) => {
             </Form>
 
             {/* Search */}
-            <Col flex="auto">
-                <Input
-                    prefix={<SearchOutlined />}
-                    placeholder="Search"
-                    onChange={(e) => setValue(e.target.value)}
-                    value={value}
-                    allowClear
-                    style={{ margin: isMobile ? '5px 0' : '2px' }}
-                />
-            </Col>
+            {props.onSearch && (
+                <Col flex="auto">
+                    <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="Search"
+                        onChange={(e) => setValue(e.target.value)}
+                        value={value}
+                        allowClear
+                        style={{ margin: isMobile ? '5px 0' : '2px' }}
+                    />
+                </Col>
+            )}
         </Row>
     );
 };
