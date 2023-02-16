@@ -1,18 +1,12 @@
-stages:
-  - build
-  - test
-  - preview
-  - deploy
+include:
+  - /deploy/.preview.gitlab-ci.yml
 
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_BUILDKIT: 1
 
-include:
-  - /deploy/.preview.gitlab-ci.yml
-
-test:storybook:
-  stage: test
+build:storybook:
+  stage: build
   image: node:16.15.1
   tags: [dot]
   cache:
@@ -23,11 +17,34 @@ test:storybook:
     - yarn install --frozen-lockfile --prefer-offline
   script:
     - yarn chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --zip
+  allow_failure: true
+
+build_develop:base_docker_image:
+  stage: build
+  image:
+    name: asia.gcr.io/dot-gitlab-runner/aws-cli:docker
+    entrypoint: [""]
+  tags: [dot]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
+      changes:
+        - Dockerfile.base
+        - package.json
+        - yarn.lock
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - docker build
+        --progress plain
+        --tag ${CI_REGISTRY_IMAGE}:development_base
+        --file Dockerfile.base
+        .
+    - docker push ${CI_REGISTRY_IMAGE}:development_base
 
 build_develop:docker_image:
   stage: build
   image:
-    name: us.gcr.io/dot-gitlab-runner/aws-cli:docker
+    name: asia.gcr.io/dot-gitlab-runner/aws-cli:docker
     entrypoint: [""]
   tags: [dot]
   only: [development]
@@ -37,14 +54,16 @@ build_develop:docker_image:
   script:
     - docker build
         --progress plain
+        --build-arg NESTJS_INERTIA_BASE=${CI_REGISTRY_IMAGE}:development_base
         --tag ${CI_REGISTRY_IMAGE}:development_${CI_COMMIT_SHORT_SHA}
         --file Dockerfile.backoffice
         .
     - docker push ${CI_REGISTRY_IMAGE}:development_${CI_COMMIT_SHORT_SHA}
+  allow_failure: false
 
 deploy_develop:
   stage: deploy
-  image: quay.io/kudaliar032/ansible:2.9.21
+  image: asia.gcr.io/dot-gitlab-runner/ansible:2.9.21
   tags: [dot]
   only: [development]
   needs:
