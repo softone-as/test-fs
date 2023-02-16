@@ -1,6 +1,6 @@
 import { Descriptions, DescriptionsProps, Grid } from 'antd';
 import { Breakpoint } from 'antd/es/_util/responsiveObserver';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 const DescriptionContainer = ({
     size = 'small',
@@ -37,6 +37,10 @@ const DescriptionContainer = ({
         }
     };
 
+    const widthOneColumn = useMemo(() => {
+        return getWidthLabelOnOneColumn(column as Record<Breakpoint, number>);
+    }, [column, xs, sm, md, lg, xl, xxl]);
+
     return (
         <Descriptions
             size={size}
@@ -47,9 +51,7 @@ const DescriptionContainer = ({
                     props.bordered && layout == 'horizontal'
                         ? md && (column as Record<Breakpoint, number>).md != 1
                             ? '15%'
-                            : getWidthLabelOnOneColumn(
-                                  column as Record<Breakpoint, number>,
-                              )
+                            : widthOneColumn
                         : null,
             }}
             contentStyle={{
