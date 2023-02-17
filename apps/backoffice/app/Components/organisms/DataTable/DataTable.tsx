@@ -3,6 +3,7 @@ import { Table, Pagination, Space, PaginationProps } from 'antd';
 import {
     FilterValue,
     SorterResult,
+    TableCurrentDataSource,
     TablePaginationConfig,
 } from 'antd/es/table/interface';
 import { IDataTableProps, TOnSort, FilterState } from './Entities';
@@ -35,7 +36,9 @@ function DataTable<T extends object = any>(
 
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [state, setState] = useState<FilterState<T>>({
-        search,
+        custom: {
+            search,
+        },
     });
 
     const handleSelectRow = (newSelectedRowKeys: React.Key[]) => {
@@ -43,40 +46,91 @@ function DataTable<T extends object = any>(
     };
 
     const handlePageChange: PaginationProps['onChange'] = (page, pageSize) => {
-        setState({ ...state, page, per_page: pageSize });
-        onChange({ ...state, page, per_page: pageSize });
+        const newState: FilterState<T> = {
+            ...state,
+            pagination: { ...state.pagination, page, per_page: pageSize },
+        };
+        setState(newState);
+        onChange(
+            newState.custom,
+            newState.sorter,
+            newState.filters,
+            newState.pagination,
+            newState.extra,
+        );
     };
 
-    const handleSearch = (value) => {
-        setState({ ...state, page: 1, search: value });
-        onChange({ ...state, page: 1, search: value });
+    const handleSearch = (search: string) => {
+        const newState: FilterState<T> = {
+            ...state,
+            pagination: { ...state.pagination, page: 1 },
+            custom: {
+                search,
+            },
+        };
+
+        setState(newState);
+        onChange(
+            newState.custom,
+            newState.sorter,
+            newState.filters,
+            newState.pagination,
+            newState.extra,
+        );
     };
 
-    const handleFiltersChange = (values: Record<string, any>) => {
-        setState({ ...state, ...values });
-        onChange({ ...state, ...values });
+    const handleFiltersChange = (customFilters: Record<string, any>) => {
+        const newState: FilterState<T> = {
+            ...state,
+            custom: { ...state.custom, ...customFilters },
+        };
+        setState(newState);
+        onChange(
+            newState.custom,
+            newState.sorter,
+            newState.filters,
+            newState.pagination,
+            newState.extra,
+        );
     };
 
     const handleTableChange = (
         filters: Record<string, FilterValue>,
         sorter: TOnSort<T>,
+        extra: TableCurrentDataSource<T>,
     ) => {
-        const newState = {
+        const newState: FilterState<T> = {
             ...state,
-            ...filters,
-            field: sorter.field,
-            column: sorter.column,
-            sort: String(sorter.columnKey),
-            order: sorter.order,
+            filters: {
+                ...state.filters,
+                ...filters,
+            },
+            sorter: {
+                ...state.sorter,
+                field: sorter.field,
+                column: sorter.column,
+                sort: String(sorter.columnKey),
+                order: sorter.order,
+            },
+            extra: {
+                ...state.extra,
+                ...extra,
+            },
         };
         setState(newState);
-        onChange(newState);
+        onChange(
+            newState.custom,
+            newState.sorter,
+            newState.filters,
+            newState.pagination,
+            newState.extra,
+        );
     };
 
     return (
         <>
             <FilterSection
-                searchValue={state.search}
+                searchValue={state.custom.search}
                 onSearch={handleSearch}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus?.map((menu) => ({
@@ -100,11 +154,12 @@ function DataTable<T extends object = any>(
                     size="small"
                     pagination={false}
                     onChange={(
-                        pagination,
+                        _pagination,
                         filters,
                         sorter: SorterResult<T>,
-                    ): void =>
-                        handleTableChange(filters, {
+                        extra,
+                    ): void => {
+                        const newSorter: TOnSort<T> = {
                             ...sorter,
                             order:
                                 sorter.order !== undefined
@@ -112,8 +167,10 @@ function DataTable<T extends object = any>(
                                         ? 'ASC'
                                         : 'DESC'
                                     : undefined,
-                        })
-                    }
+                        };
+
+                        handleTableChange(filters, newSorter, extra);
+                    }}
                 />
 
                 <div style={stylePaginantion}>

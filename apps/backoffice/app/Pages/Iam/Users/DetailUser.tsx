@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
-import { Button, Descriptions, Space } from 'antd';
+import { Descriptions, Space } from 'antd';
 import {
     DeleteOutlined,
     DownloadOutlined,
@@ -15,7 +15,7 @@ import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-import { Buttons } from '../../../Components/atoms/Buttons';
+import { Button } from '../../../Components/atoms/Button';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
 
@@ -85,9 +85,9 @@ const UserDetailPage: React.FC = (props: IProps) => {
             breadcrumbs={Breadcrumbs.Users.DETAIL}
             topActions={
                 <>
-                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>,
-                    <Buttons icon={<EditOutlined />}>Edit</Buttons>,
-                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>,
+                    <Button icon={<DeleteOutlined />}>Delete</Button>
+                    <Button icon={<EditOutlined />}>Edit</Button>
+                    <Button icon={<DownloadOutlined />}>Download</Button>
                     <Button type="primary">Action</Button>
                 </>
             }

@@ -5,12 +5,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
 import { useModal } from '../Utils/modal';
 import { Button, MenuProps, Select } from 'antd';
-import {
-    DateRangePicker,
-    DatePicker,
-    TRangeValue,
-} from '../Components/molecules/Pickers';
-import type { Dayjs } from 'dayjs';
+import { DatePicker } from '../Components/molecules/Pickers';
 import { MultiFilterDropdown } from '../Components/molecules/Dropdowns';
 import {
     FileExcelOutlined,
@@ -43,7 +38,7 @@ interface IProps extends TInertiaProps {
 }
 
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
-    const { setQueryParams, filters } = useTableFilter();
+    const { implementTableFilter, filters } = useTableFilter();
 
     const columns: ColumnsType<DataType> = [
         {
@@ -111,10 +106,6 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         },
     ];
 
-    const handleRange = (val: TRangeValue) =>
-        console.log(val.map((item) => item.toDate()));
-    const handleDate = (val: Dayjs) => console.log(val.toDate());
-
     const handleStatus = (data) => {
         console.log('DATa Status: ', data);
     };
@@ -153,7 +144,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 filterComponents={[
                     {
                         name: 'status',
-                        component: (
+                        render: () => (
                             <MultiFilterDropdown
                                 form={form}
                                 title="Filter"
@@ -240,19 +231,15 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                     },
                     {
                         name: 'rangeCreateAt',
-                        component: (
-                            <DateRangePicker
-                                range={10}
-                                onChange={handleRange}
-                            />
-                        ),
+                        filterType: 'DateRangePicker',
+                        range: 10,
                     },
                     {
                         name: 'date',
-                        component: <DatePicker onChange={handleDate} />,
+                        render: DatePicker,
                     },
                 ]}
-                onChange={setQueryParams}
+                onChange={implementTableFilter}
                 columns={columns}
                 dataSource={props?.data}
                 rowKey="id"

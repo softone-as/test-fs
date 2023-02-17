@@ -102,7 +102,7 @@ const prefixSelector = (
 );
 
 const FormAdvanced = (props: TInertiaProps) => {
-    const { setQueryParams } = useTableFilter();
+    const { implementTableFilter } = useTableFilter();
 
     const [form] = Form.useForm();
 
@@ -337,7 +337,7 @@ const FormAdvanced = (props: TInertiaProps) => {
                                 cell: EditableCell,
                             },
                         }}
-                        onChange={setQueryParams}
+                        onChange={implementTableFilter}
                         columns={mergedColumns}
                         dataSource={data}
                         rowKey="id"

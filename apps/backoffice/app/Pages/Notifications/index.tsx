@@ -4,7 +4,7 @@ import { MainLayout } from '../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
-import { Badge, Button, Select } from 'antd';
+import { Badge, Button } from 'antd';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
@@ -20,7 +20,7 @@ interface IProps extends TInertiaProps {
 
 const NotificationPage: React.FC = (props: IProps) => {
     const {
-        setQueryParams,
+        implementTableFilter,
         filters,
         status: { isFetching },
     } = useTableFilter<Partial<NotifciationType>>();
@@ -97,22 +97,13 @@ const NotificationPage: React.FC = (props: IProps) => {
                 filterComponents={[
                     {
                         name: 'isRead',
-                        component: (
-                            <Select
-                                placeholder="Status"
-                                options={isReadOptions}
-                                defaultValue={filters.isRead}
-                                allowClear
-                                style={{ width: '90px' }}
-                            />
-                        ),
+                        filterType: 'Select',
+                        options: isReadOptions,
+                        placeholder: 'Status',
+                        defaultValue: filters.isRead,
                     },
                 ]}
-                onChange={({ ...filtersState }) => {
-                    setQueryParams({
-                        ...filtersState,
-                    });
-                }}
+                onChange={implementTableFilter}
                 columns={columns}
                 dataSource={props.data}
                 search={filters.search}
