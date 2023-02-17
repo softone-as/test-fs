@@ -3,6 +3,7 @@ import { Col, Form, FormInstance, Row } from 'antd';
 import { isMobileScreen } from 'apps/backoffice/app/Utils/utils';
 import InputCollection, { StrictSelectProps } from './InputCollection';
 import { StrictDateRangePickerProps } from './InputCollection/DateRangePicker';
+import { Store } from 'antd/es/form/interface';
 
 export type InternalHooks = {
     registerWatch: (FC: (store: Record<string, any>) => void) => void;
@@ -18,6 +19,7 @@ type RegisterFilterItem<
 > = P & {
     name: string;
     filterType?: N;
+    normalize?: (value: any, prevValue: any, allValues: Store) => any;
 };
 
 type CustomFilterProps = {
@@ -69,7 +71,7 @@ const Filter = ({ children, onChange }: IFilterProps) => {
 const FilterInputNotFound = () => <div></div>;
 
 const FilterItem = (props: TFilterItem) => {
-    const { name, filterType, ...rest } = props;
+    const { name, normalize, filterType, ...rest } = props;
     const { isMobile } = useContext(FilterContext);
 
     const customFilterProps = props as CustomFilterProps;
@@ -81,7 +83,7 @@ const FilterItem = (props: TFilterItem) => {
 
     return (
         <Col style={{ margin: isMobile ? '5px 0' : '2px' }}>
-            <Form.Item name={name} noStyle>
+            <Form.Item name={name} normalize={normalize} noStyle>
                 <Component {...(rest as any)} />
             </Form.Item>
         </Col>

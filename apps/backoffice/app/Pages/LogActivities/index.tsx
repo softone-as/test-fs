@@ -27,7 +27,7 @@ type TFilters = {
 
 const LogActivityPage: React.FC = (props: IProps) => {
     const {
-        setQueryParams,
+        implementTableFilter,
         filters,
         status: { isFetching },
     } = useTableFilter<TFilters>();
@@ -106,13 +106,7 @@ const LogActivityPage: React.FC = (props: IProps) => {
                         ],
                     },
                 ]}
-                onChange={({ rangeCreateAt, ...filtersState }) => {
-                    setQueryParams({
-                        ...filtersState,
-                        start_at: rangeCreateAt?.[0]?.toISOString(),
-                        end_at: rangeCreateAt?.[1]?.toISOString(),
-                    });
-                }}
+                onChange={implementTableFilter}
                 columns={columns}
                 dataSource={props.data}
                 search={filters.search}

@@ -23,7 +23,7 @@ interface IProps extends TInertiaProps {
 
 const PermissionPage: React.FC = (props: IProps) => {
     const {
-        setQueryParams,
+        implementTableFilter,
         filters,
         status: { isFetching },
     } = useTableFilter();
@@ -124,7 +124,7 @@ const PermissionPage: React.FC = (props: IProps) => {
         >
             <DataTable
                 batchActionMenus={batchActionMenus}
-                onChange={setQueryParams}
+                onChange={implementTableFilter}
                 columns={columns}
                 search={filters.search}
                 dataSource={props?.data}
