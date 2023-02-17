@@ -1,5 +1,10 @@
 import type { TableProps } from 'antd/es/table';
-import { ColumnType, SorterResult } from 'antd/es/table/interface';
+import {
+    ColumnType,
+    FilterValue,
+    SorterResult,
+    TableCurrentDataSource,
+} from 'antd/es/table/interface';
 
 import React from 'react';
 import {
@@ -43,22 +48,42 @@ export type ItemType =
     | MenuDividerType
     | null;
 
-export type FilterState<T> = {
-    [key: string]: any;
-    search?: string;
+export type DataTableSorter<T extends Record<string, any>> = {
     column?: ColumnType<T>;
     order?: 'DESC' | 'ASC' | null;
     field?: React.Key | readonly React.Key[];
     sort?: string;
+};
+
+export type DataTablePagination = {
     total?: number;
     page?: number;
     per_page?: number;
 };
 
-export interface IDataTableProps<T> extends Omit<TableProps<T>, 'onChange'> {
+export type CustomFilter<X extends Record<string, any>> = X & {
+    search?: string;
+};
+
+export type FilterState<T, X = Record<string, any>> = {
+    custom?: CustomFilter<X>;
+    sorter?: DataTableSorter<T>;
+    filters?: Record<string, FilterValue>;
+    pagination?: DataTablePagination;
+    extra?: TableCurrentDataSource<T>;
+};
+
+export interface IDataTableProps<T, X = Record<string, any>>
+    extends Omit<TableProps<T>, 'onChange'> {
     defaultCurrent?: number;
     batchActionMenus?: ItemType[];
     filterComponents?: TFilterItem[];
     search?: string;
-    onChange?: (filters: FilterState<T>) => void;
+    onChange?: (
+        customFilter: CustomFilter<X>,
+        sorter: DataTableSorter<T>,
+        filters?: Record<string, FilterValue>,
+        pagination?: DataTablePagination,
+        extra?: TableCurrentDataSource<T>,
+    ) => void;
 }

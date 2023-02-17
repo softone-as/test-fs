@@ -34,7 +34,7 @@ type TFilters = {
 
 const UsersPage: React.FC = (props: IProps) => {
     const {
-        setQueryParams,
+        implementTableFilter,
         filters,
         status: { isFetching },
     } = useTableFilter<TFilters>();
@@ -193,15 +193,15 @@ const UsersPage: React.FC = (props: IProps) => {
                             filters.start_at && dayjs(filters.start_at),
                             filters.end_at && dayjs(filters.end_at),
                         ],
+                        normalize: (value) => {
+                            return {
+                                start_at: value?.[0]?.toISOString(),
+                                end_at: value?.[1]?.toISOString(),
+                            };
+                        },
                     },
                 ]}
-                onChange={({ rangeCreateAt, ...filtersState }) => {
-                    setQueryParams({
-                        ...filtersState,
-                        start_at: rangeCreateAt?.[0]?.toISOString(),
-                        end_at: rangeCreateAt?.[1]?.toISOString(),
-                    });
-                }}
+                onChange={implementTableFilter}
                 columns={columns}
                 dataSource={props.data}
                 rowKey="id"

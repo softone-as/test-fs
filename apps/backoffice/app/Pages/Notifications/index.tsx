@@ -20,7 +20,7 @@ interface IProps extends TInertiaProps {
 
 const NotificationPage: React.FC = (props: IProps) => {
     const {
-        setQueryParams,
+        implementTableFilter,
         filters,
         status: { isFetching },
     } = useTableFilter<Partial<NotifciationType>>();
@@ -103,11 +103,7 @@ const NotificationPage: React.FC = (props: IProps) => {
                         defaultValue: filters.isRead,
                     },
                 ]}
-                onChange={({ ...filtersState }) => {
-                    setQueryParams({
-                        ...filtersState,
-                    });
-                }}
+                onChange={implementTableFilter}
                 columns={columns}
                 dataSource={props.data}
                 search={filters.search}

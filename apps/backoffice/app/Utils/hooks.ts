@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { IndexRequest } from '../../src/common/request/index.request';
+import {
+    DataTablePagination,
+    DataTableSorter,
+} from '../Components/organisms/DataTable/Entities';
+import { FilterValue } from 'antd/es/table/interface';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
@@ -46,53 +51,84 @@ export const useTableFilter = <T>() => {
         [filters],
     ) as TPropsTableFilter<T>;
 
-    return {
-        setQueryParams: (propsParams: TPropsTableFilter<T>) => {
-            const data = {
-                ...existingParams,
-                ...propsParams,
-            } as TPropsTableFilter<T>;
+    const setQueryParams = (propsParams: TPropsTableFilter<T>) => {
+        const data = {
+            ...existingParams,
+            ...propsParams,
+        } as TPropsTableFilter<T>;
 
-            if (data.order === undefined) {
-                delete data.sort;
-            }
+        if (data.order === undefined) {
+            delete data.sort;
+        }
 
-            const listPropsParams = Object.keys(propsParams) as string[];
+        const listPropsParams = Object.keys(propsParams) as string[];
 
+        if (
+            !(
+                listPropsParams.includes('page') &&
+                listPropsParams.includes('per_page')
+            )
+        ) {
             if (
                 !(
-                    listPropsParams.includes('page') &&
-                    listPropsParams.includes('per_page')
+                    listPropsParams.includes('sort') &&
+                    listPropsParams.includes('order')
                 )
             ) {
-                if (
-                    !(
-                        listPropsParams.includes('sort') &&
-                        listPropsParams.includes('order')
-                    )
-                ) {
-                    data.page = 1;
-                }
+                data.page = 1;
             }
+        }
 
-            setFilters(data);
-            Inertia.visit(window.location.pathname, {
-                data: data,
-                preserveState: true,
-                preserveScroll: true,
-                replace: true,
-                onBefore: () => {
-                    setStatus({
-                        isFetching: true,
-                    });
-                },
-                onFinish: () => {
-                    setStatus({
-                        isFetching: false,
-                    });
-                },
-            });
-        },
+        setFilters(data);
+        Inertia.visit(window.location.pathname, {
+            data: data,
+            preserveState: true,
+            preserveScroll: true,
+            replace: true,
+            onBefore: () => {
+                setStatus({
+                    isFetching: true,
+                });
+            },
+            onFinish: () => {
+                setStatus({
+                    isFetching: false,
+                });
+            },
+        });
+    };
+
+    const implementTableFilter = (
+        customFilter: T,
+        sorter: Omit<DataTableSorter<any>, 'column'>,
+        filters?: Record<string, FilterValue>,
+        pagination?: DataTablePagination,
+    ) => {
+        const flatCustomFilter = Object.keys(customFilter).reduce(
+            (all, key) => {
+                if (
+                    typeof customFilter[key] === 'object' &&
+                    !Array.isArray(customFilter[key])
+                ) {
+                    return { ...all, ...customFilter[key] };
+                }
+
+                return { ...all, [key]: customFilter[key] };
+            },
+            {},
+        );
+
+        setQueryParams({
+            ...flatCustomFilter,
+            ...sorter,
+            ...filters,
+            ...pagination,
+        });
+    };
+
+    return {
+        implementTableFilter,
+        setQueryParams,
         filters: filters as TPropsTableFilter<T>,
         status,
     };

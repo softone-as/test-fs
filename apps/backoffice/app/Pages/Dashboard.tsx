@@ -38,7 +38,7 @@ interface IProps extends TInertiaProps {
 }
 
 const DashboardPage: React.FC<IProps> = (props: IProps) => {
-    const { setQueryParams, filters } = useTableFilter();
+    const { implementTableFilter, filters } = useTableFilter();
 
     const columns: ColumnsType<DataType> = [
         {
@@ -239,7 +239,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                         render: DatePicker,
                     },
                 ]}
-                onChange={setQueryParams}
+                onChange={implementTableFilter}
                 columns={columns}
                 dataSource={props?.data}
                 rowKey="id"
