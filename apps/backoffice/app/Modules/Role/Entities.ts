@@ -4,7 +4,7 @@ import { UserResponse } from 'apps/backoffice/src/modules/iam/responses/user.res
 
 type IUser = UserResponse;
 
-type IRoleForm = Omit<RoleCreateRequest, 'roles'>;
+type IRoleForm = Omit<RoleCreateRequest, ''>;
 
 type IRole = RoleResponse;
 

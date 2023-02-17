@@ -6,6 +6,8 @@ import { RoleService } from '../services/role.service';
 import { RoleEditRequest } from '../requests/role-edit.request';
 import { config } from 'apps/backoffice/src/config';
 import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
+import { getManager } from 'typeorm';
+import { Permission } from 'entities/iam/permission.entity';
 
 @Injectable()
 export class RoleCrudApplication {
@@ -25,6 +27,12 @@ export class RoleCrudApplication {
         const newRole = new Role();
         Object.assign(newRole, roleRequest);
 
+        const permissions = await getManager()
+            .getRepository(Permission)
+            .findByIds(roleRequest.permissions);
+
+        newRole.permissions = permissions;
+
         const createRole = await this.roleService.create(newRole);
 
         return {
@@ -33,6 +41,7 @@ export class RoleCrudApplication {
             key: createRole.key,
             createdAt: createRole.createdAt,
             updatedAt: createRole.updatedAt,
+            permissions: createRole.permissions,
         };
     }
 
@@ -54,12 +63,17 @@ export class RoleCrudApplication {
             }
         }
 
+        const permissions = await getManager()
+            .getRepository(Permission)
+            .findByIds(roleRequest.permissions);
+
         const updateRole = await this.roleService.update(
             id,
             {
                 id: id,
                 name: roleRequest.name,
                 key: roleRequest.key,
+                permissions: permissions,
             },
             roleExists,
         );
@@ -68,6 +82,7 @@ export class RoleCrudApplication {
             id: updateRole.id,
             name: updateRole.name,
             key: updateRole.key,
+            permissions: updateRole.permissions,
         };
     }
 

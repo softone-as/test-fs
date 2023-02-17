@@ -2,7 +2,8 @@ import { Inertia } from '@inertiajs/inertia';
 import { EndpointRoute } from '../../Enums/Route';
 import { IRoleForm } from './Entities';
 
-export const createRole = (roleData: IRoleForm): void => {
+export const createRole = (roleData: IRoleForm, permission: any[]): void => {
+    roleData.permissions = permission;
     Inertia.post(EndpointRoute.CreateRole, roleData, {
         onSuccess: (success) => {
             console.log('Sukses: ', success);
@@ -13,7 +14,12 @@ export const createRole = (roleData: IRoleForm): void => {
     });
 };
 
-export const editRole = (roleData: IRoleForm, id: number): void => {
+export const editRole = (
+    roleData: IRoleForm,
+    id: number,
+    permission: any[],
+): void => {
+    roleData.permissions = permission;
     Inertia.put(EndpointRoute.EditRole + '/' + id, roleData, {
         onSuccess: (success) => {
             console.log('Sukses: ', success);

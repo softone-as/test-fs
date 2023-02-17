@@ -23,7 +23,7 @@ interface IProps extends TInertiaProps {
     data: RoleResponse[];
 }
 
-const PermissionPage: React.FC = (props: IProps) => {
+const RolePage: React.FC = (props: IProps) => {
     const {
         setQueryParams,
         filters,
@@ -62,6 +62,12 @@ const PermissionPage: React.FC = (props: IProps) => {
             sorter: true,
         },
         {
+            title: 'created at',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            sorter: true,
+        },
+        {
             title: 'Action',
             key: 'action',
             width: '142px',
@@ -85,10 +91,13 @@ const PermissionPage: React.FC = (props: IProps) => {
                             {
                                 type: 'delete',
                                 title: 'delete',
-                                onClick: () => {
-                                    deleteRole(id);
-                                    // TODO : handle delete function
-                                },
+                                onClick: () =>
+                                    useModal({
+                                        title: 'Are You Sure? ',
+                                        type: 'confirm',
+                                        onOk: () => deleteRole(id),
+                                        onCancel: handleCancel,
+                                    }),
                             },
                         ]}
                     />
@@ -150,4 +159,4 @@ const PermissionPage: React.FC = (props: IProps) => {
     );
 };
 
-export default PermissionPage;
+export default RolePage;

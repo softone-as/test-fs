@@ -13,18 +13,56 @@ import { Section } from '../../../Components/molecules/Section';
 import { AppContext } from '../../../Contexts/App';
 import { IRoleForm } from 'apps/backoffice/app/Modules/Role/Entities';
 import { editRole } from 'apps/backoffice/app/Modules/Role/Action';
+import { DataTable } from 'apps/backoffice/app/Components/organisms/DataTable';
+import { IPermission } from 'interface-models/iam/permission.interface';
+import { ColumnsType } from 'antd/es/table';
 
 const schema: yup.SchemaOf<IRoleForm> = yup.object().shape({
     name: yup.string().required('Field role name is required'),
     key: yup.string().required('Field key is required'),
+    permissions: yup
+        .array()
+        .of(yup.number().required('Field roles is required')),
 });
 
 interface IProps extends TInertiaProps {
     data: IRole;
+    permissions: IPermission[];
 }
 
-const FormUserPage: React.FC = (props: IProps) => {
+const columns: ColumnsType<IPermission> = [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+    },
+    {
+        title: 'Permission Name',
+        dataIndex: 'name',
+        key: 'name',
+    },
+    {
+        title: 'key',
+        dataIndex: 'key',
+        key: 'key',
+    },
+];
+
+const FormRolePage: React.FC = (props: IProps) => {
     const { id, key, name } = props.data;
+    const dataPermission = props.permissions;
+
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+        setSelectedRowKeys(newSelectedRowKeys);
+    };
+
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
+
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +75,7 @@ const FormUserPage: React.FC = (props: IProps) => {
         try {
             await form.validateFields();
             // TODO: do post API
-            editRole(data, id);
+            editRole(data, id, selectedRowKeys);
             notifyNavigating();
             setIsLoading(false);
         } catch (error) {
@@ -91,8 +129,22 @@ const FormUserPage: React.FC = (props: IProps) => {
                     </Form.Item>
                 </FormContainer>
             </Section>
+
+            <Section title="Permissions">
+                <span style={{ marginLeft: 8 }}>
+                    {hasSelected
+                        ? `Selected ${selectedRowKeys.length} items`
+                        : ''}
+                </span>
+                <DataTable<IPermission>
+                    columns={columns}
+                    dataSource={dataPermission}
+                    rowSelection={rowSelection}
+                    rowKey={'id'}
+                />
+            </Section>
         </Layout>
     );
 };
 
-export default FormUserPage;
+export default FormRolePage;

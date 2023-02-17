@@ -12,7 +12,8 @@ export class RoleService {
     ) {}
 
     async create(data: IRole): Promise<IRole> {
-        return await this.roleRepository.save(data);
+        const newRole = this.roleRepository.create(data);
+        return await this.roleRepository.save(newRole);
     }
 
     async update(id: number, data: IRole, existing: IRole): Promise<IRole> {
