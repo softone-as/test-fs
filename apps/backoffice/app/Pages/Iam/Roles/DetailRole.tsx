@@ -55,7 +55,7 @@ const UserColumn: ColumnsType<IUser> = [
     },
 ];
 
-const DetailPermissionPage: React.FC = (props: IProps) => {
+const DetailRolePage: React.FC = (props: IProps) => {
     const { key, name, id, permissions } = props.data;
     const users = props.users;
 
@@ -107,4 +107,4 @@ const DetailPermissionPage: React.FC = (props: IProps) => {
     );
 };
 
-export default DetailPermissionPage;
+export default DetailRolePage;

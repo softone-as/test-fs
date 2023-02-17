@@ -48,7 +48,7 @@ const columns: ColumnsType<IPermission> = [
     },
 ];
 
-const FormRolePage: React.FC = (props: IProps) => {
+const EditRolePage: React.FC = (props: IProps) => {
     const { id, key, name } = props.data;
     const dataPermission = props.permissions;
 
@@ -74,7 +74,6 @@ const FormRolePage: React.FC = (props: IProps) => {
 
         try {
             await form.validateFields();
-            // TODO: do post API
             editRole(data, id, selectedRowKeys);
             notifyNavigating();
             setIsLoading(false);
@@ -147,4 +146,4 @@ const FormRolePage: React.FC = (props: IProps) => {
     );
 };
 
-export default FormRolePage;
+export default EditRolePage;

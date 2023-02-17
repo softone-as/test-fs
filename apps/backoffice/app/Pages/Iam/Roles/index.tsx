@@ -30,14 +30,6 @@ const RolePage: React.FC = (props: IProps) => {
         status: { isFetching },
     } = useTableFilter();
 
-    const handleDetail = (id: number) => {
-        return Inertia.get(`${Route.Roles}/${id}`);
-    };
-
-    const handleEdit = (id: number) => {
-        return Inertia.get(`${Route.EditRole}/${id}`);
-    };
-
     const columns: ColumnsType<PermissionResponse> = [
         {
             title: 'ID',
@@ -78,15 +70,13 @@ const RolePage: React.FC = (props: IProps) => {
                         actions={[
                             {
                                 type: 'view',
-                                href: `#`,
+                                href: `${Route.Roles}/${id}`,
                                 title: 'view',
-                                onClick: () => handleDetail(id),
                             },
                             {
                                 type: 'edit',
-                                href: `#`,
+                                href: `${Route.EditRole}/${id}`,
                                 title: 'edit',
-                                onClick: () => handleEdit(id),
                             },
                             {
                                 type: 'delete',
@@ -96,7 +86,6 @@ const RolePage: React.FC = (props: IProps) => {
                                         title: 'Are You Sure? ',
                                         type: 'confirm',
                                         onOk: () => deleteRole(id),
-                                        onCancel: handleCancel,
                                     }),
                             },
                         ]}
@@ -112,11 +101,6 @@ const RolePage: React.FC = (props: IProps) => {
         });
     };
 
-    const handleCancel = () => {
-        // TODO: Replace with actual cancel logic
-        console.log('cancel');
-    };
-
     const batchActionMenus: ItemType[] = [
         {
             key: '1',
@@ -126,7 +110,6 @@ const RolePage: React.FC = (props: IProps) => {
                     title: 'Are You Sure? ',
                     type: 'confirm',
                     onOk: () => handleBatchDelete(selectedRowKeys),
-                    onCancel: handleCancel,
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },

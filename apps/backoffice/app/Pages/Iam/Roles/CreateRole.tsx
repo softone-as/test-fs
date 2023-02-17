@@ -8,7 +8,6 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
-import { IRole } from 'interface-models/iam/role.interface';
 import { Section } from '../../../Components/molecules/Section';
 import { AppContext } from '../../../Contexts/App';
 import { IRoleForm } from 'apps/backoffice/app/Modules/Role/Entities';
@@ -22,11 +21,10 @@ const schema: yup.SchemaOf<IRoleForm> = yup.object().shape({
     key: yup.string().required('Field key is required'),
     permissions: yup
         .array()
-        .of(yup.number().required('Field roles is required')),
+        .of(yup.number().required('Field permissions is required')),
 });
 
 interface IProps extends TInertiaProps {
-    roles: IRole[];
     permissions: IPermission[];
 }
 
@@ -48,11 +46,10 @@ const columns: ColumnsType<IPermission> = [
     },
 ];
 
-const FormRolePage: React.FC = (props: IProps) => {
+const CreateRolePage: React.FC = (props: IProps) => {
     const dataPermission = props.permissions;
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log(newSelectedRowKeys);
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
@@ -72,7 +69,6 @@ const FormRolePage: React.FC = (props: IProps) => {
 
         try {
             await form.validateFields();
-            // TODO: do post API
             createRole(data, selectedRowKeys);
             notifyNavigating();
             setIsLoading(false);
@@ -142,4 +138,4 @@ const FormRolePage: React.FC = (props: IProps) => {
     );
 };
 
-export default FormRolePage;
+export default CreateRolePage;
