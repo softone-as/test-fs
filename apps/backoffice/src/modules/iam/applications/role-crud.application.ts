@@ -24,12 +24,12 @@ export class RoleCrudApplication {
             );
         }
 
-        const newRole = new Role();
-        Object.assign(newRole, roleRequest);
-
         const permissions = await getManager()
             .getRepository(Permission)
             .findByIds(roleRequest.permissions);
+
+        const newRole = new Role();
+        Object.assign(newRole, roleRequest);
 
         newRole.permissions = permissions;
 

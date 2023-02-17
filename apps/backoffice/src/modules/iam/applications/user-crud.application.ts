@@ -9,6 +9,8 @@ import { config } from 'apps/backoffice/src/config';
 import { RoleService } from '../services/role.service';
 import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { Utils } from 'apps/backoffice/src/common/utils/util';
+import { Role } from 'entities/iam/role.entity';
+import { getManager } from 'typeorm';
 
 @Injectable()
 export class UserCrudApplication {
@@ -28,9 +30,15 @@ export class UserCrudApplication {
             );
         }
 
+        const roles = await getManager()
+            .getRepository(Role)
+            .findByIds(adminRequest.roles);
+
         const newAdmin = new User();
-        newAdmin.identityNumber = adminRequest.phoneNumber;
         Object.assign(newAdmin, adminRequest);
+
+        newAdmin.identityNumber = adminRequest.phoneNumber;
+        newAdmin.roles = roles;
 
         return await this.adminService.create(newAdmin);
     }
