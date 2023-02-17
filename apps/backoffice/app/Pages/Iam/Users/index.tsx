@@ -141,6 +141,7 @@ const UsersPage: React.FC = (props: IProps) => {
                 useModal({
                     title: 'Are You Sure? ',
                     type: 'confirm',
+                    variant: 'danger',
                     onOk: () => handleBatchDelete(selectedRowKeys),
                     onCancel: () => handleCancel(),
                 }),

@@ -7,7 +7,7 @@ export const themeColors = {
     secondary: '',
     success: '',
     warning: '',
-    error: '',
+    error: '#FF4D4F',
     info: '',
 };
 
