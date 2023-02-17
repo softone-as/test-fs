@@ -9,6 +9,7 @@ import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { LogActivityCrudApplication } from '../applications/log-activity-crud.application';
 import { LogActivityIndexApplication } from '../applications/log-activity-index.application';
 import { LogActivityIndexRequest } from '../requests/log-activity-index.request';
+import { LogActivityResponse } from '../responses/log-activity.response';
 
 @Controller('logs')
 export class LogActivityController {
@@ -23,10 +24,15 @@ export class LogActivityController {
     async indexPage(
         @Query() indexRequest: LogActivityIndexRequest,
     ): Promise<void> {
-        const data = await this.logActivityIndexApplication.fetch(indexRequest);
+        const response = await this.logActivityIndexApplication.fetch(
+            indexRequest,
+        );
         return this.inertiaAdapter.render({
             component: 'LogActivities',
-            props: data,
+            props: {
+                data: LogActivityResponse.fromEntities(response.data),
+                meta: response.meta,
+            },
         });
     }
 
@@ -37,7 +43,7 @@ export class LogActivityController {
         return this.inertiaAdapter.render({
             component: 'LogActivities/DetailLogActivity',
             props: {
-                data,
+                data: LogActivityResponse.fromEntity(data),
             },
         });
     }

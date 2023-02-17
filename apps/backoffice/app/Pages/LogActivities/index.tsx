@@ -92,6 +92,7 @@ const LogActivityPage: React.FC = (props: IProps) => {
                 filterComponents={[
                     {
                         name: 'menu',
+                        placeholder: 'Menu',
                         filterType: 'Select',
                         options: menuOptions,
                         defaultValue: filters.menu,
