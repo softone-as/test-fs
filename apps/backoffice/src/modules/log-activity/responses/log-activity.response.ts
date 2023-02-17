@@ -11,13 +11,13 @@ export class LogActivityResponse extends OmitType(LogActivity, ['user']) {
         const response = new LogActivityResponse();
 
         response.id = entity.id;
-        response.user = UserMapper.fromEntity(entity.user);
-        response.metaData = entity.metaData;
-        response.source = entity.source;
-        response.activity = entity.activity;
-        response.menu = entity.menu;
-        response.path = entity.path;
-        response.createdAt = entity.createdAt;
+        response.user = entity.user && UserMapper.fromEntity(entity.user);
+        response.metaData = entity?.metaData;
+        response.source = entity?.source;
+        response.activity = entity?.activity;
+        response.menu = entity?.menu;
+        response.path = entity?.path;
+        response.createdAt = entity?.createdAt;
 
         return response;
     }
