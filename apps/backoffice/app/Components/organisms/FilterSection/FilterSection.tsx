@@ -62,7 +62,7 @@ export const FilterSection = (props: IFilterSection) => {
 
             {/* Filters */}
             <Filter onChange={props?.onFiltersChange}>
-                {props?.filters.map((filter) => (
+                {props.filters?.map((filter) => (
                     <Filter.Item key={filter.name} {...filter} />
                 ))}
             </Filter>
