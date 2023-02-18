@@ -65,7 +65,6 @@ const data: IUser[] = [
         id: 1,
         fullname: 'John Cena',
         email: 'john@cena.com',
-        password: '4123',
         identityNumber: '231',
         phoneNumber: '0841231322',
     },

@@ -52,8 +52,7 @@ export class AuthApplication {
             activity:
                 'user with email ' + this.request.user['email'] + ' login',
             metaData: {
-                username: this.request.user['email'],
-                password: this.request.user['password'],
+                email: this.request.user['email'],
             },
             user: this.request.user as IUser,
             source: id.toString(),
