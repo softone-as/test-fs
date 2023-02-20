@@ -1,12 +1,14 @@
-import React, { useContext, useEffect } from 'react';
-import { Col, Form, FormInstance, Row } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Col, Drawer, Form, FormInstance, Row, Typography } from 'antd';
 import { isMobileScreen } from 'apps/backoffice/app/Utils/utils';
 import InputCollection, { StrictSelectProps } from './InputCollection';
 import { StrictDateRangePickerProps } from './InputCollection/DateRangePicker';
-import { Store } from 'antd/es/form/interface';
+import { FilterOutlined } from '@ant-design/icons';
 
 export type InternalHooks = {
-    registerWatch: (FC: (store: Record<string, any>) => void) => void;
+    registerWatch: (
+        FC: (store: Record<string, any>, name: string) => void,
+    ) => void;
 };
 export interface IFilterFormInstance<T = any> extends FormInstance<T> {
     getInternalHooks: (mark: string) => InternalHooks;
@@ -17,9 +19,9 @@ type RegisterFilterItem<
     P extends Record<string, any>,
     N extends string | undefined,
 > = P & {
+    label: string;
     name: string;
     filterType?: N;
-    normalize?: (value: any, prevValue: any, allValues: Store) => any;
 };
 
 type CustomFilterProps = {
@@ -32,36 +34,85 @@ export type TFilterItem =
     | RegisterFilterItem<CustomFilterProps, undefined>;
 
 export interface IFilterProps {
-    children: React.ReactNode;
-    onChange: (store: Record<string, any>) => void;
+    filters: TFilterItem[];
+    onChange: (store: Record<string, any>, context: TFilterItem[]) => void;
 }
 
 interface IFilterContextValues {
     isMobile?: boolean;
 }
 
-const FilterContext = React.createContext<IFilterContextValues>({
+export const FilterContext = React.createContext<IFilterContextValues>({
     isMobile: undefined,
 });
 
-const Filter = ({ children, onChange }: IFilterProps) => {
+const Filter = ({ filters, onChange }: IFilterProps) => {
     const [form] = Form.useForm();
     const isMobile = isMobileScreen();
+    const [open, setOpen] = useState(false);
+    const [localStore, setLocalStore] = useState<Record<string, any>>({});
+
+    const storeKeys = Object.keys(localStore);
+    const isFilterUsed =
+        storeKeys.length &&
+        storeKeys.some(
+            (key) =>
+                localStore[key] !== null &&
+                localStore[key] !== undefined &&
+                localStore[key] !== '',
+        );
 
     useEffect(() => {
         const { registerWatch } = (
             form as IFilterFormInstance
         ).getInternalHooks(HOOK_MARK);
 
-        const cancelRegister = registerWatch(onChange);
+        const cancelRegister = registerWatch((store) => {
+            onChange(store, filters);
+            setLocalStore(store);
+        });
         return cancelRegister;
     }, []);
+
+    useEffect(() => {
+        if (!isMobile) setOpen(false);
+    }, [isMobile]);
 
     return (
         <FilterContext.Provider value={{ isMobile }}>
             <Form form={form}>
-                <Row gutter={[8, 0]} align="middle">
-                    {children}
+                <Row>
+                    <Col xs={0} md={24}>
+                        <Row gutter={[8, 0]} align="middle">
+                            {filters?.map((filter) => (
+                                <FilterItem key={filter.name} {...filter} />
+                            ))}
+                        </Row>
+                    </Col>
+                    <Col xs={24} md={0}>
+                        <Button
+                            type={isFilterUsed ? 'primary' : undefined}
+                            onClick={() => setOpen(true)}
+                            icon={
+                                <FilterOutlined
+                                    style={{ display: 'inline-flex' }}
+                                />
+                            }
+                        />
+                        <Drawer
+                            title="Filters"
+                            placement="right"
+                            closable
+                            onClose={() => setOpen(false)}
+                            open={open}
+                        >
+                            <Row gutter={[8, 0]} align="middle">
+                                {filters?.map((filter) => (
+                                    <FilterItem key={filter.name} {...filter} />
+                                ))}
+                            </Row>
+                        </Drawer>
+                    </Col>
                 </Row>
             </Form>
         </FilterContext.Provider>
@@ -71,7 +122,7 @@ const Filter = ({ children, onChange }: IFilterProps) => {
 const FilterInputNotFound = () => <div></div>;
 
 const FilterItem = (props: TFilterItem) => {
-    const { name, normalize, filterType, ...rest } = props;
+    const { name, filterType, label, ...rest } = props;
     const { isMobile } = useContext(FilterContext);
 
     const customFilterProps = props as CustomFilterProps;
@@ -82,14 +133,20 @@ const FilterItem = (props: TFilterItem) => {
         FilterInputNotFound;
 
     return (
-        <Col style={{ margin: isMobile ? '5px 0' : '2px' }}>
-            <Form.Item name={name} normalize={normalize} noStyle>
+        <Col
+            style={{
+                margin: isMobile ? '5px 0' : '2px',
+                width: isMobile ? '100%' : 'initial',
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
+            {isMobile && <Typography.Text>{label}</Typography.Text>}
+            <Form.Item name={name} noStyle>
                 <Component {...(rest as any)} />
             </Form.Item>
         </Col>
     );
 };
-
-Filter.Item = FilterItem;
 
 export default Filter;

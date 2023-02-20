@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Table, Pagination, Space, PaginationProps } from 'antd';
 import {
     FilterValue,
@@ -10,6 +10,7 @@ import { IDataTableProps, TOnSort, FilterState } from './Entities';
 import { FilterSection } from '../FilterSection';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import { TMeta } from '../../../Modules/Inertia/Entities';
+import { TFilterItem } from '../FilterSection/Filter';
 
 const stylePaginantion: React.CSSProperties = {
     display: 'flex',
@@ -40,6 +41,12 @@ function DataTable<T extends object = any>(
             search,
         },
     });
+    const stateRef = useRef<FilterState<T>>(state);
+
+    const handleSetState = (value: FilterState<T>) => {
+        setState(value);
+        stateRef.current = value;
+    };
 
     const handleSelectRow = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
@@ -47,10 +54,17 @@ function DataTable<T extends object = any>(
 
     const handlePageChange: PaginationProps['onChange'] = (page, pageSize) => {
         const newState: FilterState<T> = {
-            ...state,
-            pagination: { ...state.pagination, page, per_page: pageSize },
+            ...stateRef.current,
+            pagination: {
+                ...(stateRef.current.pagination || {}),
+                page,
+                per_page: pageSize,
+            },
+            extra: {
+                action: 'paginate',
+            },
         };
-        setState(newState);
+        handleSetState(newState);
         onChange(
             newState.custom,
             newState.sorter,
@@ -62,14 +76,18 @@ function DataTable<T extends object = any>(
 
     const handleSearch = (search: string) => {
         const newState: FilterState<T> = {
-            ...state,
-            pagination: { ...state.pagination, page: 1 },
+            ...stateRef.current,
+            pagination: { ...(stateRef.current.pagination || {}), page: 1 },
             custom: {
+                ...(stateRef.current.custom || {}),
                 search,
+            },
+            extra: {
+                action: 'custom',
             },
         };
 
-        setState(newState);
+        handleSetState(newState);
         onChange(
             newState.custom,
             newState.sorter,
@@ -79,18 +97,24 @@ function DataTable<T extends object = any>(
         );
     };
 
-    const handleFiltersChange = (customFilters: Record<string, any>) => {
+    const handleFiltersChange = (
+        customFilters: Record<string, any>,
+        context: TFilterItem[],
+    ) => {
         const newState: FilterState<T> = {
-            ...state,
-            custom: { ...state.custom, ...customFilters },
+            ...stateRef.current,
+            custom: { ...(stateRef.current.custom || {}), ...customFilters },
         };
-        setState(newState);
+        handleSetState(newState);
         onChange(
             newState.custom,
             newState.sorter,
             newState.filters,
             newState.pagination,
-            newState.extra,
+            {
+                action: 'custom',
+                customContext: context,
+            },
         );
     };
 
@@ -100,24 +124,21 @@ function DataTable<T extends object = any>(
         extra: TableCurrentDataSource<T>,
     ) => {
         const newState: FilterState<T> = {
-            ...state,
+            ...stateRef.current,
             filters: {
-                ...state.filters,
+                ...(stateRef.current.filters || {}),
                 ...filters,
             },
             sorter: {
-                ...state.sorter,
+                ...(stateRef.current.sorter || {}),
                 field: sorter.field,
                 column: sorter.column,
                 sort: String(sorter.columnKey),
                 order: sorter.order,
             },
-            extra: {
-                ...state.extra,
-                ...extra,
-            },
+            extra,
         };
-        setState(newState);
+        handleSetState(newState);
         onChange(
             newState.custom,
             newState.sorter,

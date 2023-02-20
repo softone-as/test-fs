@@ -96,6 +96,7 @@ const NotificationPage: React.FC = (props: IProps) => {
                 batchActionMenus={[]}
                 filterComponents={[
                     {
+                        label: 'Status',
                         name: 'isRead',
                         filterType: 'Select',
                         options: isReadOptions,

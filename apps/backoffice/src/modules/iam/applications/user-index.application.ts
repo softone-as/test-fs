@@ -35,13 +35,14 @@ export class UserIndexApplication extends IndexApplication {
             );
         }
 
-        if (request.start_at && request.end_at) {
+        if (request.created_at) {
+            const [startAt, endAt] = request.created_at.split(',');
             query
                 .where(`user.createdAt >= :startAt`, {
-                    startAt: request.start_at,
+                    startAt,
                 })
                 .andWhere(`user.createdAt <= :endAt`, {
-                    endAt: request.end_at,
+                    endAt,
                 });
         }
 
