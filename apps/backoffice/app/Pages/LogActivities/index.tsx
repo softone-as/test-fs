@@ -98,7 +98,7 @@ const LogActivityPage: React.FC = (props: IProps) => {
                         defaultValue: filters.menu,
                     },
                     {
-                        label: 'Create At',
+                        label: 'Created At',
                         name: 'rangeCreateAt',
                         filterType: 'DateRangePicker',
                         range: 10,

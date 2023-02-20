@@ -188,15 +188,14 @@ const UsersPage: React.FC = (props: IProps) => {
                         defaultValue: filters.gender,
                     },
                     {
-                        label: 'Create At',
-                        name: 'rangeCreateAt',
+                        label: 'Created At',
+                        name: 'created_at',
                         filterType: 'DateRangePicker',
                         range: 10,
                         defaultValue: [
                             filters.start_at && dayjs(filters.start_at),
                             filters.end_at && dayjs(filters.end_at),
                         ],
-                        valueProps: ['start_at', 'end_at'],
                     },
                 ]}
                 onChange={implementTableFilter}

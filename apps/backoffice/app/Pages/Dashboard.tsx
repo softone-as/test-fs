@@ -231,7 +231,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                         ),
                     },
                     {
-                        label: 'Create At',
+                        label: 'Created At',
                         name: 'rangeCreateAt',
                         filterType: 'DateRangePicker',
                         range: 10,

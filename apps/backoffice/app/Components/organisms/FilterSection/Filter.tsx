@@ -6,7 +6,9 @@ import { StrictDateRangePickerProps } from './InputCollection/DateRangePicker';
 import { FilterOutlined } from '@ant-design/icons';
 
 export type InternalHooks = {
-    registerWatch: (FC: (store: Record<string, any>) => void) => void;
+    registerWatch: (
+        FC: (store: Record<string, any>, name: string) => void,
+    ) => void;
 };
 export interface IFilterFormInstance<T = any> extends FormInstance<T> {
     getInternalHooks: (mark: string) => InternalHooks;
@@ -32,8 +34,8 @@ export type TFilterItem =
     | RegisterFilterItem<CustomFilterProps, undefined>;
 
 export interface IFilterProps {
-    children: React.ReactNode;
-    onChange: (store: Record<string, any>) => void;
+    filters: TFilterItem[];
+    onChange: (store: Record<string, any>, context: TFilterItem[]) => void;
 }
 
 interface IFilterContextValues {
@@ -44,7 +46,7 @@ export const FilterContext = React.createContext<IFilterContextValues>({
     isMobile: undefined,
 });
 
-const Filter = ({ children, onChange }: IFilterProps) => {
+const Filter = ({ filters, onChange }: IFilterProps) => {
     const [form] = Form.useForm();
     const isMobile = isMobileScreen();
     const [open, setOpen] = useState(false);
@@ -66,7 +68,7 @@ const Filter = ({ children, onChange }: IFilterProps) => {
         ).getInternalHooks(HOOK_MARK);
 
         const cancelRegister = registerWatch((store) => {
-            onChange(store);
+            onChange(store, filters);
             setLocalStore(store);
         });
         return cancelRegister;
@@ -82,7 +84,9 @@ const Filter = ({ children, onChange }: IFilterProps) => {
                 <Row>
                     <Col xs={0} md={24}>
                         <Row gutter={[8, 0]} align="middle">
-                            {children}
+                            {filters?.map((filter) => (
+                                <FilterItem key={filter.name} {...filter} />
+                            ))}
                         </Row>
                     </Col>
                     <Col xs={24} md={0}>
@@ -103,7 +107,9 @@ const Filter = ({ children, onChange }: IFilterProps) => {
                             open={open}
                         >
                             <Row gutter={[8, 0]} align="middle">
-                                {children}
+                                {filters?.map((filter) => (
+                                    <FilterItem key={filter.name} {...filter} />
+                                ))}
                             </Row>
                         </Drawer>
                     </Col>
@@ -142,7 +148,5 @@ const FilterItem = (props: TFilterItem) => {
         </Col>
     );
 };
-
-Filter.Item = FilterItem;
 
 export default Filter;

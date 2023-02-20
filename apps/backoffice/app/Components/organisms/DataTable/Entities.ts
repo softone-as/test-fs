@@ -3,7 +3,7 @@ import {
     ColumnType,
     FilterValue,
     SorterResult,
-    TableCurrentDataSource,
+    TableAction,
 } from 'antd/es/table/interface';
 
 import React from 'react';
@@ -65,12 +65,18 @@ export type CustomFilter<X extends Record<string, any>> = X & {
     search?: string;
 };
 
+export interface ITableCurrentDataSource<RecordType> {
+    action: TableAction | 'custom';
+    currentDataSource?: RecordType[];
+    customContext?: TFilterItem[];
+}
+
 export type FilterState<T, X = Record<string, any>> = {
     custom?: CustomFilter<X>;
     sorter?: DataTableSorter<T>;
     filters?: Record<string, FilterValue>;
     pagination?: DataTablePagination;
-    extra?: TableCurrentDataSource<T>;
+    extra?: ITableCurrentDataSource<T>;
 };
 
 export interface IDataTableProps<T, X = Record<string, any>>
@@ -84,6 +90,6 @@ export interface IDataTableProps<T, X = Record<string, any>>
         sorter: DataTableSorter<T>,
         filters?: Record<string, FilterValue>,
         pagination?: DataTablePagination,
-        extra?: TableCurrentDataSource<T>,
+        extra?: ITableCurrentDataSource<T>,
     ) => void;
 }
