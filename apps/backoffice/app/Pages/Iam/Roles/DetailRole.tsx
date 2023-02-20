@@ -61,6 +61,24 @@ const DetailRolePage: React.FC = (props: IProps) => {
     const [dataPermission, setDataPermission] = useState(permissions);
     const [dataUser, setDataUser] = useState(users);
 
+    const filterDataPermission = (value: string) => {
+        const filteredData = dataPermission.filter(
+            (entry) =>
+                entry.name.toLowerCase().includes(value.toLowerCase()) ||
+                entry.key.toLowerCase().includes(value.toLowerCase()),
+        );
+        setDataPermission(filteredData);
+    };
+
+    const filterDataUser = (value: string) => {
+        const filteredData = dataUser.filter(
+            (entry) =>
+                entry.fullname.toLowerCase().includes(value.toLowerCase()) ||
+                entry.email.toLowerCase().includes(value.toLowerCase()),
+        );
+        setDataUser(filteredData);
+    };
+
     return (
         <MainLayout title="Detail Role" breadcrumbs={Breadcrumbs.Roles.DETAIL}>
             <Space
@@ -84,21 +102,7 @@ const DetailRolePage: React.FC = (props: IProps) => {
                         dataSource={dataPermission}
                         rowKey="id"
                         onChange={(e) => {
-                            const currValue = e.search;
-                            if (currValue) {
-                                const filteredData = dataPermission.filter(
-                                    (entry) =>
-                                        entry.name
-                                            .toLowerCase()
-                                            .includes(
-                                                currValue.toLowerCase(),
-                                            ) ||
-                                        entry.key
-                                            .toLowerCase()
-                                            .includes(currValue.toLowerCase()),
-                                );
-                                setDataPermission(filteredData);
-                            }
+                            filterDataPermission(e.search);
                         }}
                     />
                 </Section>
@@ -109,21 +113,7 @@ const DetailRolePage: React.FC = (props: IProps) => {
                         dataSource={dataUser}
                         rowKey="id"
                         onChange={(e) => {
-                            const currValue = e.search;
-                            if (currValue) {
-                                const filteredData = dataUser.filter(
-                                    (entry) =>
-                                        entry.fullname
-                                            .toLowerCase()
-                                            .includes(
-                                                currValue.toLowerCase(),
-                                            ) ||
-                                        entry.email
-                                            .toLowerCase()
-                                            .includes(currValue.toLowerCase()),
-                                );
-                                setDataUser(filteredData);
-                            }
+                            filterDataUser(e.search);
                         }}
                     />
                 </Section>

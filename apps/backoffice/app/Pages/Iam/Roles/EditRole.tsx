@@ -86,6 +86,17 @@ const EditRolePage: React.FC = (props: IProps) => {
         }
     };
 
+    const filterData = (value: string) => {
+        if (value) {
+            const filteredData = dataPermission.filter(
+                (entry) =>
+                    entry.name.toLowerCase().includes(value.toLowerCase()) ||
+                    entry.key.toLowerCase().includes(value.toLowerCase()),
+            );
+            setDataSource(filteredData);
+        }
+    };
+
     const onReset = () => {
         form.resetFields();
     };
@@ -147,23 +158,7 @@ const EditRolePage: React.FC = (props: IProps) => {
                             rowSelection={rowSelection}
                             rowKey={'id'}
                             onChange={(e) => {
-                                const currValue = e.search;
-                                if (currValue) {
-                                    const filteredData = dataPermission.filter(
-                                        (entry) =>
-                                            entry.name
-                                                .toLowerCase()
-                                                .includes(
-                                                    currValue.toLowerCase(),
-                                                ) ||
-                                            entry.key
-                                                .toLowerCase()
-                                                .includes(
-                                                    currValue.toLowerCase(),
-                                                ),
-                                    );
-                                    setDataSource(filteredData);
-                                }
+                                filterData(e.search);
                             }}
                         />
                     </Section>
