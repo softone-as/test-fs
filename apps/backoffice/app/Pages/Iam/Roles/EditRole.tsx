@@ -54,6 +54,8 @@ const EditRolePage: React.FC = (props: IProps) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
+    const [dataSource, setDataSource] = useState(dataPermission);
+
     useEffect(() => {
         setSelectedRowKeys(props.data.permissions.map((item) => item.id));
     }, []);
@@ -72,10 +74,11 @@ const EditRolePage: React.FC = (props: IProps) => {
     const onFinish = async () => {
         setIsLoading(true);
         const data = form.getFieldsValue();
+        data.permissions = selectedRowKeys as number[];
 
         try {
             await form.validateFields();
-            editRole(data, id, selectedRowKeys);
+            editRole(data, id);
             notifyNavigating();
             setIsLoading(false);
         } catch (error) {
@@ -140,9 +143,28 @@ const EditRolePage: React.FC = (props: IProps) => {
                         </span>
                         <DataTable
                             columns={columns}
-                            dataSource={dataPermission}
+                            dataSource={dataSource}
                             rowSelection={rowSelection}
                             rowKey={'id'}
+                            onChange={(e) => {
+                                const currValue = e.search;
+                                if (currValue) {
+                                    const filteredData = dataPermission.filter(
+                                        (entry) =>
+                                            entry.name
+                                                .toLowerCase()
+                                                .includes(
+                                                    currValue.toLowerCase(),
+                                                ) ||
+                                            entry.key
+                                                .toLowerCase()
+                                                .includes(
+                                                    currValue.toLowerCase(),
+                                                ),
+                                    );
+                                    setDataSource(filteredData);
+                                }
+                            }}
                         />
                     </Section>
                 </FormContainer>

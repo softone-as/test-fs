@@ -1,11 +1,10 @@
 import { Descriptions, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { DataTable } from 'apps/backoffice/app/Components/organisms/DataTable';
-import { useTableFilter } from 'apps/backoffice/app/Utils/hooks';
 import { IPermission } from 'interface-models/iam/permission.interface';
 import { IRole } from 'interface-models/iam/role.interface';
 import { IUser } from 'interface-models/iam/user.interface';
-import React from 'react';
+import React, { useState } from 'react';
 
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
@@ -59,11 +58,9 @@ const DetailRolePage: React.FC = (props: IProps) => {
     const { key, name, id, permissions } = props.data;
     const users = props.users;
 
-    const {
-        setQueryParams,
-        filters,
-        status: { isFetching },
-    } = useTableFilter();
+    const [dataPermission, setDataPermission] = useState(permissions);
+    const [dataUser, setDataUser] = useState(users);
+
     return (
         <MainLayout title="Detail Role" breadcrumbs={Breadcrumbs.Roles.DETAIL}>
             <Space
@@ -84,22 +81,50 @@ const DetailRolePage: React.FC = (props: IProps) => {
                 <Section title="Permissions">
                     <DataTable<IPermission>
                         columns={PermissionColumns}
-                        dataSource={permissions}
-                        onChange={setQueryParams}
-                        search={filters.search}
-                        loading={isFetching}
+                        dataSource={dataPermission}
                         rowKey="id"
+                        onChange={(e) => {
+                            const currValue = e.search;
+                            if (currValue) {
+                                const filteredData = dataPermission.filter(
+                                    (entry) =>
+                                        entry.name
+                                            .toLowerCase()
+                                            .includes(
+                                                currValue.toLowerCase(),
+                                            ) ||
+                                        entry.key
+                                            .toLowerCase()
+                                            .includes(currValue.toLowerCase()),
+                                );
+                                setDataPermission(filteredData);
+                            }
+                        }}
                     />
                 </Section>
 
                 <Section title="Users">
                     <DataTable<IUser>
                         columns={UserColumn}
-                        dataSource={users}
-                        onChange={setQueryParams}
-                        search={filters.search}
-                        loading={isFetching}
+                        dataSource={dataUser}
                         rowKey="id"
+                        onChange={(e) => {
+                            const currValue = e.search;
+                            if (currValue) {
+                                const filteredData = dataUser.filter(
+                                    (entry) =>
+                                        entry.fullname
+                                            .toLowerCase()
+                                            .includes(
+                                                currValue.toLowerCase(),
+                                            ) ||
+                                        entry.email
+                                            .toLowerCase()
+                                            .includes(currValue.toLowerCase()),
+                                );
+                                setDataUser(filteredData);
+                            }
+                        }}
                     />
                 </Section>
             </Space>
