@@ -508,7 +508,3 @@ a.sidebar__link:hover .sidebar__icon .icon {
     background-color: rgba(0, 0, 0, 0.1);
     padding: 20px;
 }
-
-.ant-descriptions-item-content {
-    opacity: 45%;
-}
