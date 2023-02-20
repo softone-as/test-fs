@@ -1,20 +1,18 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Col, Form, Input, Row } from 'antd';
 import React, { useContext, useState } from 'react';
-import * as yup from 'yup';
-import { createYupSync } from '../../../Utils/utils';
-
-import { FormContainer } from '../../../Components/organisms/FormContainer';
-import { MainLayout as Layout } from '../../../Layouts/MainLayout';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { Section } from '../../../Components/molecules/Section';
-import { AppContext } from '../../../Contexts/App';
-import { IRoleForm } from 'apps/backoffice/app/Modules/Role/Entities';
-import { createRole } from 'apps/backoffice/app/Modules/Role/Action';
-import { DataTable } from 'apps/backoffice/app/Components/organisms/DataTable';
-import { IPermission } from 'interface-models/iam/permission.interface';
+import { DataTable } from '../../../Components/organisms/DataTable';
+import { FormContainer } from '../../../Components/organisms/FormContainer';
+import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { MainLayout as Layout } from '../../../Layouts/MainLayout';
+import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { ColumnsType } from 'antd/es/table';
+import { IPermission } from 'interface-models/iam/permission.interface';
+import { AppContext } from '../../../Contexts/App';
+import { createRole } from 'apps/backoffice/app/Modules/Role/Action';
+import { createYupSync } from 'apps/backoffice/app/Utils/utils';
+import { IRoleForm } from 'apps/backoffice/app/Modules/Role/Entities';
+import * as yup from 'yup';
 
 const schema: yup.SchemaOf<IRoleForm> = yup.object().shape({
     name: yup.string().required('Field role name is required'),
@@ -58,6 +56,7 @@ const CreateRolePage: React.FC = (props: IProps) => {
         onChange: onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
+
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
@@ -87,10 +86,10 @@ const CreateRolePage: React.FC = (props: IProps) => {
                 <FormContainer
                     onFinish={onFinish}
                     form={form}
+                    errors={props.error}
                     layout="vertical"
-                    centered
                     buttonAction={[
-                        <Button onClick={onReset}>Discard</Button>,
+                        <Button onClick={onReset}>Cancel</Button>,
                         <Button
                             type="primary"
                             htmlType="submit"
@@ -99,40 +98,45 @@ const CreateRolePage: React.FC = (props: IProps) => {
                             Submit
                         </Button>,
                     ]}
-                    disabled={isLoading}
-                    errors={props.error}
                 >
-                    <Form.Item
-                        label="Role Name"
-                        name="name"
-                        rules={[yupSync]}
-                        required
-                    >
-                        <Input placeholder="Input" />
-                    </Form.Item>
+                    <Row gutter={32}>
+                        {/* Row 1 */}
+                        <Col sm={24} md={12} lg={8}>
+                            <Form.Item
+                                rules={[yupSync]}
+                                required
+                                label="Role Name"
+                                name="name"
+                            >
+                                <Input placeholder="Input" />
+                            </Form.Item>
+                        </Col>
+                        <Col sm={24} md={12} lg={8}>
+                            <Form.Item
+                                rules={[yupSync]}
+                                required
+                                label="Key"
+                                name="key"
+                            >
+                                <Input placeholder="Input" />
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-                    <Form.Item
-                        label="key"
-                        name="key"
-                        rules={[yupSync]}
-                        required
-                    >
-                        <Input placeholder="Input" />
-                    </Form.Item>
+                    <Section title="Permissions">
+                        <span style={{ marginLeft: 8 }}>
+                            {hasSelected
+                                ? `Selected ${selectedRowKeys.length} items`
+                                : ''}
+                        </span>
+                        <DataTable
+                            columns={columns}
+                            dataSource={dataPermission}
+                            rowSelection={rowSelection}
+                            rowKey={'id'}
+                        />
+                    </Section>
                 </FormContainer>
-            </Section>
-            <Section title="Permissions">
-                <span style={{ marginLeft: 8 }}>
-                    {hasSelected
-                        ? `Selected ${selectedRowKeys.length} items`
-                        : ''}
-                </span>
-                <DataTable<IPermission>
-                    columns={columns}
-                    dataSource={dataPermission}
-                    rowSelection={rowSelection}
-                    rowKey={'id'}
-                />
             </Section>
         </Layout>
     );
