@@ -2,7 +2,7 @@ import { Inertia } from '@inertiajs/inertia';
 import { Route } from '../../../Enums/Route';
 
 export const doLogin = (loginData): void => {
-    Inertia.post(Route.AdminLogin + `?one_signal_player_id=`, loginData, {
+    Inertia.post(Route.AuthLogin + `?one_signal_player_id=`, loginData, {
         onSuccess: (success) => {
             console.log('Sukses: ', success);
         },

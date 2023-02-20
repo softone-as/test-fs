@@ -3,7 +3,7 @@ import { Route } from '../../Enums/Route';
 import { IProfileForm } from './Entities';
 
 export const editProfile = (profileData: IProfileForm): void => {
-    Inertia.put(Route.EditProfile, profileData, {
+    Inertia.put(Route.ProfileEdit, profileData, {
         onSuccess: (success) => {
             console.log('Sukses: ', success);
         },
@@ -14,7 +14,7 @@ export const editProfile = (profileData: IProfileForm): void => {
 };
 
 export const editProfilePassword = (profileData: IProfileForm): void => {
-    Inertia.put(Route.EditProfilePassword, profileData, {
+    Inertia.put(Route.ProfileEditPassword, profileData, {
         onSuccess: (success) => {
             console.log('Sukses: ', success);
         },

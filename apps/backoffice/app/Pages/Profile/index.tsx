@@ -27,13 +27,13 @@ const UserDetailPage: React.FC = (props: IProps) => {
                 <>
                     <Button
                         type="primary"
-                        href={Route.EditProfile}
+                        href={Route.ProfileEdit}
                         icon={<EditOutlined />}
                     >
                         Edit
                     </Button>
                     <Button
-                        href={Route.EditProfilePassword}
+                        href={Route.ProfileEditPassword}
                         icon={<EditOutlined />}
                     >
                         Edit Password

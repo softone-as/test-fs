@@ -21,35 +21,36 @@ export type RouteListType = RouteType & {
 
 export const Route = {
     Profile: '/profile',
-    EditProfile: '/profile/edit',
-    EditProfilePassword: '/profile/edit/password',
+    ProfileEdit: '/profile/edit',
+    ProfileEditPassword: '/profile/edit/password',
 
-    AdminLogin: '/auth/login',
-    ForgotPassword: '/auth/forgot-password',
-    ConfirmForgotPassword: '/auth/confirm-forgot-password',
+    AuthLogin: '/auth/login',
+    AuthLogout: '/auth/logout',
+    AuthForgotPassword: '/auth/forgot-password',
+    AuthConfirmForgotPassword: '/auth/confirm-forgot-password',
 
-    OneSignalPlayerId: '/auth/one-signal-player-id',
+    AuthOneSignalPlayerId: '/auth/one-signal-player-id',
 
     Configs: '/configs',
-    EditConfig: '/configs/edit',
+    ConfigEdit: '/configs/edit',
 
     Roles: '/roles',
-    CreateRole: '/roles/create',
-    EditRole: '/roles/edit',
-    DeleteRole: '/roles/delete',
+    RoleCreate: '/roles/create',
+    RoleEdit: '/roles/edit',
+    RoleDelete: '/roles/delete',
 
     RolePermissions: '/role-permissions',
-    CreateRolePermission: '/role-permissions/create',
-    EditRolePermission: '/role-permissions/edit',
-    DeleteRolePermission: '/role-permissions/delete',
+    RolePermissionCreate: '/role-permissions/create',
+    RolePermissionEdit: '/role-permissions/edit',
+    RolePermissionDelete: '/role-permissions/delete',
 
     Permissions: '/permissions',
-    EditPermission: '/permissions/edit',
+    PermissionEdit: '/permissions/edit',
 
-    User: '/users',
-    CreateUser: '/users/create',
-    EditUser: '/users/edit',
-    DeleteUser: '/users/delete',
+    Users: '/users',
+    UserCreate: '/users/create',
+    UserEdit: '/users/edit',
+    UserDelete: '/users/delete',
 
     LogActivity: '/logs',
 
@@ -58,11 +59,9 @@ export const Route = {
 
     Home: '/dashboard/page',
     Dashboard: '/',
-    Logout: '/auth/logout',
 
-    UploadImage: '/commons/upload-file',
-    UploadImages: '/commons/upload-files',
-    Users: '/users',
+    CommonUploadFile: '/commons/upload-file',
+    CommonUploadFiles: '/commons/upload-files',
 
     SampleDetailBasic: '/sample/detail/basic',
     SampleDetailAdvanced: '/sample/detail/advanced',
