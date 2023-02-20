@@ -512,3 +512,15 @@ a.sidebar__link:hover .sidebar__icon .icon {
 .ant-descriptions-item-content {
     opacity: 45%;
 }
+
+/* Login form: reference from antd */
+.login-form-forgot {
+    float: right;
+}
+.ant-col-rtl .login-form-forgot {
+    float: left;
+}
+
+.login-form-button {
+    width: 100%;
+}
