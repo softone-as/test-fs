@@ -1,12 +1,5 @@
 import { FaUserAlt } from 'react-icons/fa';
 import { RiShieldUserLine } from 'react-icons/ri';
-
-export type RouteType = {
-    permissions: string[];
-    name: string;
-    href: string;
-    icon?: any;
-};
 import {
     PERMISSION_BACKOFFICE_SHOW_DASHBOARD,
     PERMISSION_BACKOFFICE_SHOW_USER,
@@ -14,6 +7,13 @@ import {
     PERMISSION_BACKOFFICE_SHOW_ROLE_PERMISSION,
     PERMISSION_BACKOFFICE_SHOW_PERMISSION,
 } from '../../../../constants/permission.constant';
+
+export type RouteType = {
+    permissions: string[];
+    name: string;
+    href: string;
+    icon?: any;
+};
 
 export type RouteListType = RouteType & {
     children?: RouteType[];
@@ -24,9 +24,11 @@ export const Route = {
     EditProfile: '/profile/edit',
     EditProfilePassword: '/profile/edit/password',
 
-    Products: '/products',
-    CreateProduct: '/products/create',
-    EditProduct: '/products/edit',
+    AdminLogin: '/auth/login',
+    ForgotPassword: '/auth/forgot-password',
+    ConfirmForgotPassword: '/auth/confirm-forgot-password',
+
+    OneSignalPlayerId: '/auth/one-signal-player-id',
 
     Configs: '/configs',
     EditConfig: '/configs/edit',
@@ -34,25 +36,33 @@ export const Route = {
     Roles: '/roles',
     CreateRole: '/roles/create',
     EditRole: '/roles/edit',
+    DeleteRole: '/roles/delete',
 
     RolePermissions: '/role-permissions',
     CreateRolePermission: '/role-permissions/create',
     EditRolePermission: '/role-permissions/edit',
+    DeleteRolePermission: '/role-permissions/delete',
 
     Permissions: '/permissions',
     EditPermission: '/permissions/edit',
 
-    Users: '/users',
+    User: '/users',
     CreateUser: '/users/create',
     EditUser: '/users/edit',
+    DeleteUser: '/users/delete',
 
     LogActivity: '/logs',
 
     Notification: '/notifications',
+    NotificationMarkReadAll: '/notifications/mark-read-all',
 
     Home: '/dashboard/page',
     Dashboard: '/',
     Logout: '/auth/logout',
+
+    UploadImage: '/commons/upload-file',
+    UploadImages: '/commons/upload-files',
+    Users: '/users',
 
     SampleDetailBasic: '/sample/detail/basic',
     SampleDetailAdvanced: '/sample/detail/advanced',
@@ -106,52 +116,3 @@ export const RouteList: RouteListType[] = [
         ],
     },
 ];
-
-export const EndpointRoute = {
-    Profile: '/profile',
-    EditProfile: '/profile/edit',
-    EditProfilePassword: '/profile/edit/password',
-
-    AdminLogin: '/auth/login',
-    ForgotPassword: '/auth/forgot-password',
-    ConfirmForgotPassword: '/auth/confirm-forgot-password',
-
-    OneSignalPlayerId: '/auth/one-signal-player-id',
-
-    Product: '/products',
-    CreateProduct: '/products/create',
-    DeleteProduct: '/products/delete',
-    EditProduct: '/products/edit',
-
-    Config: '/configs',
-    EditConfig: '/configs/edit',
-
-    ProductCategory: '/product-categories',
-    CreateProductCategory: '/product-categories/create',
-    DeleteProductCategory: '/product-categories/delete',
-    EditProductCategory: '/product-categories/edit',
-
-    User: '/users',
-    CreateUser: '/users/create',
-    DeleteUser: '/users/delete',
-    EditUser: '/users/edit',
-
-    Permission: '/permissions',
-    EditPermission: '/permissions/edit',
-
-    Role: '/roles',
-    CreateRole: '/roles/create',
-    DeleteRole: '/roles/delete',
-    EditRole: '/roles/edit',
-
-    RolePermission: '/role-permissions',
-    CreateRolePermission: '/role-permissions/create',
-    DeleteRolePermission: '/role-permissions/delete',
-    EditRolePermission: '/role-permissions/edit',
-
-    UploadImage: '/commons/upload-file',
-    UploadImages: '/commons/upload-files',
-    Users: '/users',
-
-    NotificationMarkReadAll: '/notifications/mark-read-all',
-};

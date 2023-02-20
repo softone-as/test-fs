@@ -1,6 +1,6 @@
 import { Inertia } from '@inertiajs/inertia';
-import { EndpointRoute } from '../../../Enums/Route';
+import { Route } from '../../../Enums/Route';
 
 export const sendEmailForgotPassword = (loginData): void => {
-    Inertia.post(EndpointRoute.ForgotPassword, loginData);
+    Inertia.post(Route.ForgotPassword, loginData);
 };

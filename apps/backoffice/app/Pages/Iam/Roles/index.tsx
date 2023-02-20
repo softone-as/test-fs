@@ -8,7 +8,7 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 // import { useDidUpdateEffect } from '../../../Utils/hooks';
 // import { confirmDelete, notifyError, notifySuccess } from '../../../Utils/utils';
 
-// import { EndpointRoute, Route } from '../../../Enums/Route';
+// import { Route } from '../../../Enums/Route';
 
 // import { ErrorType, SuccessType } from '../../../modules/Common/Entity/Common';
 // import {
@@ -81,7 +81,7 @@ const RolesPage: React.FC = () => {
 
     // const handleDeleteRole = (id: string) => {
     //     if (confirmDelete()) {
-    //         Inertia.get(`${EndpointRoute.DeleteRole}/${id}`, {}, {
+    //         Inertia.get(`${Route.DeleteRole}/${id}`, {}, {
     //             onSuccess: (res) => {
     //                 const error = res.props['error'] || null
     //                 const success = res.props['success'] || null
