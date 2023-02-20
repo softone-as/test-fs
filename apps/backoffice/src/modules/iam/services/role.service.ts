@@ -12,11 +12,12 @@ export class RoleService {
     ) {}
 
     async create(data: IRole): Promise<IRole> {
-        return await this.roleRepository.save(data);
+        const newRole = this.roleRepository.create(data);
+        return await this.roleRepository.save(newRole);
     }
 
-    async update(id: number, data: IRole, existing: IRole): Promise<IRole> {
-        await this.roleRepository.update(id, Object.assign(existing, data));
+    async update(id: number, data: IRole): Promise<IRole> {
+        await this.roleRepository.update(id, data);
         return data;
     }
 
@@ -50,6 +51,7 @@ export class RoleService {
                 key,
                 id,
             },
+            relations: ['permissions'],
         });
 
         return role;

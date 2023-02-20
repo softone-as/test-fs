@@ -16,6 +16,20 @@ export class RolePermissionService {
         return await this.rolePermissionRepository.save(newRole);
     }
 
+    async createAll(data: IRolePermission[]): Promise<IRolePermission[]> {
+        const rolePermissions = this.rolePermissionRepository.create(data);
+        return await this.rolePermissionRepository.save(rolePermissions);
+    }
+
+    async deleteByRoleId(roleId: number): Promise<void> {
+        const status = await this.rolePermissionRepository.delete({
+            role: { id: roleId },
+        });
+        if (status.affected < 1) {
+            throw new QueryFailedError('Error, Data not changed', null, null);
+        }
+    }
+
     async update(id: number, data: IRolePermission): Promise<IRolePermission> {
         const status = await this.rolePermissionRepository.update(
             { id },

@@ -5,6 +5,7 @@ import { Config } from 'entities/config/config.entity';
 import { Permission } from 'entities/iam/permission.entity';
 import { RolePermission } from 'entities/iam/role-permission.entity';
 import { Role } from 'entities/iam/role.entity';
+import { UserRole } from 'entities/iam/user-role.entity';
 import { User } from 'entities/iam/user.entity';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
@@ -28,6 +29,7 @@ export const connectionOption: ConnectionOptions = {
         Otp,
         Config,
         LogActivity,
+        UserRole,
     ],
     synchronize: false,
     logging: config.nodeEnv === 'local',
