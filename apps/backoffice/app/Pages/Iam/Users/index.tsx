@@ -176,11 +176,13 @@ const UsersPage: React.FC = (props: IProps) => {
                 batchActionMenus={batchActionMenus}
                 filterComponents={[
                     {
+                        label: 'Email',
                         render: Input,
                         name: 'email',
                         placeholder: 'Search email',
                     },
                     {
+                        label: 'Gender',
                         name: 'gender',
                         filterType: 'Select',
                         placeholder: 'Gender',
@@ -188,19 +190,14 @@ const UsersPage: React.FC = (props: IProps) => {
                         defaultValue: filters.gender,
                     },
                     {
-                        name: 'rangeCreateAt',
+                        label: 'Created At',
+                        name: 'created_at',
                         filterType: 'DateRangePicker',
                         range: 10,
                         defaultValue: [
                             filters.start_at && dayjs(filters.start_at),
                             filters.end_at && dayjs(filters.end_at),
                         ],
-                        normalize: (value) => {
-                            return {
-                                start_at: value?.[0]?.toISOString(),
-                                end_at: value?.[1]?.toISOString(),
-                            };
-                        },
                     },
                 ]}
                 onChange={implementTableFilter}
