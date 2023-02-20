@@ -19,57 +19,57 @@ export type RouteListType = RouteType & {
     children?: RouteType[];
 };
 
-export const Route = {
-    Profile: '/profile',
-    ProfileEdit: '/profile/edit',
-    ProfileEditPassword: '/profile/edit/password',
+export enum Route {
+    Profile = '/profile',
+    ProfileEdit = '/profile/edit',
+    ProfileEditPassword = '/profile/edit/password',
 
-    AuthLogin: '/auth/login',
-    AuthLogout: '/auth/logout',
-    AuthForgotPassword: '/auth/forgot-password',
-    AuthConfirmForgotPassword: '/auth/confirm-forgot-password',
+    AuthLogin = '/auth/login',
+    AuthLogout = '/auth/logout',
+    AuthForgotPassword = '/auth/forgot-password',
+    AuthConfirmForgotPassword = '/auth/confirm-forgot-password',
 
-    AuthOneSignalPlayerId: '/auth/one-signal-player-id',
+    AuthOneSignalPlayerId = '/auth/one-signal-player-id',
 
-    Configs: '/configs',
-    ConfigEdit: '/configs/edit',
+    Configs = '/configs',
+    ConfigEdit = '/configs/edit',
 
-    Roles: '/roles',
-    RoleCreate: '/roles/create',
-    RoleEdit: '/roles/edit',
-    RoleDelete: '/roles/delete',
+    Roles = '/roles',
+    RoleCreate = '/roles/create',
+    RoleEdit = '/roles/edit',
+    RoleDelete = '/roles/delete',
 
-    RolePermissions: '/role-permissions',
-    RolePermissionCreate: '/role-permissions/create',
-    RolePermissionEdit: '/role-permissions/edit',
-    RolePermissionDelete: '/role-permissions/delete',
+    RolePermissions = '/role-permissions',
+    RolePermissionCreate = '/role-permissions/create',
+    RolePermissionEdit = '/role-permissions/edit',
+    RolePermissionDelete = '/role-permissions/delete',
 
-    Permissions: '/permissions',
-    PermissionEdit: '/permissions/edit',
+    Permissions = '/permissions',
+    PermissionEdit = '/permissions/edit',
 
-    Users: '/users',
-    UserCreate: '/users/create',
-    UserEdit: '/users/edit',
-    UserDelete: '/users/delete',
+    Users = '/users',
+    UserCreate = '/users/create',
+    UserEdit = '/users/edit',
+    UserDelete = '/users/delete',
 
-    LogActivity: '/logs',
+    LogActivity = '/logs',
 
-    Notification: '/notifications',
-    NotificationMarkReadAll: '/notifications/mark-read-all',
+    Notification = '/notifications',
+    NotificationMarkReadAll = '/notifications/mark-read-all',
 
-    Home: '/dashboard/page',
-    Dashboard: '/',
+    Home = '/dashboard/page',
+    Dashboard = '/',
 
-    CommonUploadFile: '/commons/upload-file',
-    CommonUploadFiles: '/commons/upload-files',
+    CommonUploadFile = '/commons/upload-file',
+    CommonUploadFiles = '/commons/upload-files',
 
-    SampleDetailBasic: '/sample/detail/basic',
-    SampleDetailAdvanced: '/sample/detail/advanced',
+    SampleDetailBasic = '/sample/detail/basic',
+    SampleDetailAdvanced = '/sample/detail/advanced',
 
-    SampleFormBasic: '/sample/form/basic',
-    SampleFormStep: '/sample/form/step',
-    SampleFormAdvanced: '/sample/form/advanced',
-};
+    SampleFormBasic = '/sample/form/basic',
+    SampleFormStep = '/sample/form/step',
+    SampleFormAdvanced = '/sample/form/advanced',
+}
 
 export const RouteList: RouteListType[] = [
     {
