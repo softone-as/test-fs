@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Select, SelectProps } from 'antd';
+import { FilterContext } from '../Filter';
 
 export type StrictSelectProps = Pick<
     SelectProps,
@@ -7,6 +8,7 @@ export type StrictSelectProps = Pick<
 >;
 
 const FilterSelect = (props: StrictSelectProps) => {
+    const { isMobile } = useContext(FilterContext);
     const { value, onChange, options, defaultValue, placeholder } = props;
     return (
         <Select
@@ -16,7 +18,7 @@ const FilterSelect = (props: StrictSelectProps) => {
             defaultValue={defaultValue}
             placeholder={placeholder}
             allowClear
-            style={{ width: '90px' }}
+            style={{ width: isMobile ? '100%' : '90px' }}
         />
     );
 };
