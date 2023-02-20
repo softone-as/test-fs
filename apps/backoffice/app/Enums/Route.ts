@@ -1,13 +1,3 @@
-import { FaUserAlt } from 'react-icons/fa';
-import { RiShieldUserLine } from 'react-icons/ri';
-import {
-    PERMISSION_BACKOFFICE_SHOW_DASHBOARD,
-    PERMISSION_BACKOFFICE_SHOW_USER,
-    PERMISSION_BACKOFFICE_SHOW_ROLE,
-    PERMISSION_BACKOFFICE_SHOW_ROLE_PERMISSION,
-    PERMISSION_BACKOFFICE_SHOW_PERMISSION,
-} from '../../../../constants/permission.constant';
-
 export type RouteType = {
     permissions: string[];
     name: string;
@@ -20,6 +10,8 @@ export type RouteListType = RouteType & {
 };
 
 export enum Route {
+    Dashboard = '/',
+
     Profile = '/profile',
     ProfileEdit = '/profile/edit',
     ProfileEditPassword = '/profile/edit/password',
@@ -29,36 +21,36 @@ export enum Route {
     AuthForgotPassword = '/auth/forgot-password',
     AuthConfirmForgotPassword = '/auth/confirm-forgot-password',
 
-    AuthOneSignalPlayerId = '/auth/one-signal-player-id',
-
     Configs = '/configs',
-    ConfigEdit = '/configs/edit',
+    ConfigEdit = '/configs/edit/:id',
 
     Roles = '/roles',
+    RoleDetail = '/roles/:id',
     RoleCreate = '/roles/create',
-    RoleEdit = '/roles/edit',
-    RoleDelete = '/roles/delete',
+    RoleEdit = '/roles/edit/:id',
+    RoleDelete = '/roles/delete/:id',
 
     RolePermissions = '/role-permissions',
+    RolePermissionDetail = '/role-permissions/:id',
     RolePermissionCreate = '/role-permissions/create',
-    RolePermissionEdit = '/role-permissions/edit',
-    RolePermissionDelete = '/role-permissions/delete',
+    RolePermissionEdit = '/role-permissions/edit/:id',
+    RolePermissionDelete = '/role-permissions/delete/:id',
 
     Permissions = '/permissions',
-    PermissionEdit = '/permissions/edit',
+    PermissionDetail = '/permissions/:id',
 
     Users = '/users',
+    UserDetail = '/users/:id',
     UserCreate = '/users/create',
-    UserEdit = '/users/edit',
-    UserDelete = '/users/delete',
+    UserEdit = '/users/edit/:id',
+    UserDelete = '/users/delete/:id',
 
     LogActivity = '/logs',
+    LogActivityDetail = '/logs/:id',
 
     Notification = '/notifications',
+    NotificationDetail = '/notifications/:id',
     NotificationMarkReadAll = '/notifications/mark-read-all',
-
-    Home = '/dashboard/page',
-    Dashboard = '/',
 
     CommonUploadFile = '/commons/upload-file',
     CommonUploadFiles = '/commons/upload-files',
@@ -70,48 +62,3 @@ export enum Route {
     SampleFormStep = '/sample/form/step',
     SampleFormAdvanced = '/sample/form/advanced',
 }
-
-export const RouteList: RouteListType[] = [
-    {
-        permissions: [PERMISSION_BACKOFFICE_SHOW_DASHBOARD],
-        name: 'Beranda',
-        href: Route.Home,
-    },
-    {
-        permissions: [
-            PERMISSION_BACKOFFICE_SHOW_USER,
-            PERMISSION_BACKOFFICE_SHOW_ROLE,
-            PERMISSION_BACKOFFICE_SHOW_ROLE_PERMISSION,
-            PERMISSION_BACKOFFICE_SHOW_PERMISSION,
-        ],
-        name: 'IAM',
-        href: '#',
-        icon: FaUserAlt,
-        children: [
-            {
-                permissions: [PERMISSION_BACKOFFICE_SHOW_USER],
-                name: 'User',
-                href: Route.Users,
-                icon: RiShieldUserLine,
-            },
-            {
-                permissions: [PERMISSION_BACKOFFICE_SHOW_ROLE],
-                name: 'Role',
-                href: Route.Roles,
-                icon: RiShieldUserLine,
-            },
-            {
-                permissions: [PERMISSION_BACKOFFICE_SHOW_PERMISSION],
-                name: 'Permission',
-                href: Route.Permissions,
-                icon: RiShieldUserLine,
-            },
-            {
-                permissions: [PERMISSION_BACKOFFICE_SHOW_ROLE_PERMISSION],
-                name: 'Role Permission',
-                href: Route.RolePermissions,
-                icon: RiShieldUserLine,
-            },
-        ],
-    },
-];
