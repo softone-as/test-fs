@@ -5,7 +5,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
-import { Input, Modal, Tag } from 'antd';
+import { Input, Tag } from 'antd';
 import dayjs from 'dayjs';
 
 import { ShareAltOutlined } from '@ant-design/icons';
@@ -41,22 +41,6 @@ const UsersPage: React.FC = (props: IProps) => {
         status: { isFetching },
     } = useTableFilter<TFilters>();
     const isMobile = isMobileScreen();
-
-    const handleBatchDelete = (selectedRowKeys) => {
-        Modal.confirm({
-            title: 'Delete Users',
-            content: 'Are you sure to delete selected users?',
-            okText: 'Yes',
-            cancelText: 'Cancel',
-            onOk: () =>
-                Inertia.post(EndpointRoute.DeleteBatchUser, {
-                    ids: selectedRowKeys,
-                }),
-        });
-    };
-
-    const handleDelete = (id: number) =>
-        Inertia.post(`${EndpointRoute.DeleteUser}/${id}`);
 
     const columns: ColumnsType<IUser> = [
         {
@@ -131,7 +115,10 @@ const UsersPage: React.FC = (props: IProps) => {
                                         title: 'Are You Sure? ',
                                         type: 'confirm',
                                         variant: 'danger',
-                                        onOk: () => handleDelete(userId),
+                                        onOk: () =>
+                                            Inertia.post(
+                                                `${EndpointRoute.DeleteUser}/${userId}`,
+                                            ),
                                     });
                                 },
                             },
@@ -153,10 +140,13 @@ const UsersPage: React.FC = (props: IProps) => {
             label: 'Delete',
             onClick: (_, selectedRowKeys) =>
                 useModal({
-                    title: 'Are You Sure? ',
+                    title: 'Are You Sure?',
                     type: 'confirm',
                     variant: 'danger',
-                    onOk: () => handleBatchDelete(selectedRowKeys),
+                    onOk: () =>
+                        Inertia.post(EndpointRoute.DeleteBatchUser, {
+                            ids: selectedRowKeys,
+                        }),
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },

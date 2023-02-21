@@ -56,7 +56,7 @@ const FormUserPage: React.FC = (props: IProps) => {
     const onFinish = async () => {
         setIsLoading(true);
         const data = form.getFieldsValue();
-        console.log(data);
+
         try {
             await form.validateFields();
             props.isUpdate ? editUser(props.data.id, data) : createUser(data);
