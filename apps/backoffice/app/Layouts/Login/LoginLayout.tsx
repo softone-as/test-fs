@@ -1,6 +1,5 @@
+import { Col, Layout, Row } from 'antd';
 import React from 'react';
-import { Layout, Row, Col } from 'antd';
-import { themeColors } from '../../Utils/theme';
 import { isMobileScreen } from '../../Utils/utils';
 
 type TLoginLayout = {
@@ -32,7 +31,7 @@ export const LoginLayout: React.FC<TLoginLayout> = ({ children }) => {
                                     alignItems: 'center',
                                     height: '64px',
                                     margin: '2rem',
-                                    backgroundColor: themeColors.primary,
+                                    backgroundColor: 'rgb(40,171,0)',
                                 }}
                             >
                                 {/* Apps Logo or Title */}

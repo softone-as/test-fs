@@ -32,6 +32,10 @@ const schema: yup.SchemaOf<TLogin> = yup.object().shape({
     password: yup.string().required('Field Password wajib diisi'),
 });
 
+const formItemSpacingStyle = {
+    marginBottom: '16px',
+};
+
 const Login = (props: TInertiaProps) => {
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm<TLogin>();
@@ -94,23 +98,31 @@ const Login = (props: TInertiaProps) => {
                         initialValues={{ remember: true }}
                         autoComplete="off"
                         errors={props.error}
-                        style={{ paddingTop: '4rem' }}
+                        style={{ paddingTop: '2.5rem' }}
                         onFinish={onSubmit}
                         className="login-form"
                     >
-                        <Form.Item name="email" rules={[yupSync]}>
+                        <Form.Item
+                            name="email"
+                            rules={[yupSync]}
+                            style={formItemSpacingStyle}
+                        >
                             <Input
                                 placeholder="Username"
                                 prefix={<UserOutlined />}
                             />
                         </Form.Item>
-                        <Form.Item name="password" rules={[yupSync]}>
+                        <Form.Item
+                            name="password"
+                            rules={[yupSync]}
+                            style={formItemSpacingStyle}
+                        >
                             <Input.Password
                                 placeholder="Password"
                                 prefix={<LockOutlined />}
                             />
                         </Form.Item>
-                        <Form.Item>
+                        <Form.Item style={formItemSpacingStyle}>
                             <Form.Item
                                 name="remember"
                                 valuePropName="checked"
@@ -126,7 +138,7 @@ const Login = (props: TInertiaProps) => {
                                 Forgot Password?
                             </Link>
                         </Form.Item>
-                        <Form.Item>
+                        <Form.Item style={formItemSpacingStyle}>
                             <Button
                                 type="primary"
                                 htmlType="submit"
@@ -134,6 +146,13 @@ const Login = (props: TInertiaProps) => {
                             >
                                 Login
                             </Button>
+                        </Form.Item>
+                        <Form.Item
+                            style={{
+                                textAlign: 'center',
+                                ...formItemSpacingStyle,
+                            }}
+                        >
                             Or{' '}
                             <Link
                                 href="/auth/forgot-password"
