@@ -112,11 +112,17 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
 
                 switch (filter.filterType) {
                     case 'DateRangePicker': {
-                        customFilter[filter.name] = `${customFilter[
+                        customFilter[filter.name] = customFilter[
+                            filter.name
+                        ].join(',')`${customFilter[
                             filter.name
                         ][0]?.toISOString()},${customFilter[
                             filter.name
                         ][1]?.toISOString()}`;
+                    }
+                    case 'CheckboxDropdown': {
+                        customFilter[filter.name] =
+                            customFilter[filter.name].join(',');
                     }
                 }
             });

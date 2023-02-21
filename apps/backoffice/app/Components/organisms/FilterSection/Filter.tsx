@@ -4,6 +4,7 @@ import { isMobileScreen } from 'apps/backoffice/app/Utils/utils';
 import InputCollection, { StrictSelectProps } from './InputCollection';
 import { StrictDateRangePickerProps } from './InputCollection/DateRangePicker';
 import { FilterOutlined } from '@ant-design/icons';
+import { StrictCheckboxDropdown } from './InputCollection/CheckboxDropdown';
 
 export type InternalHooks = {
     registerWatch: (
@@ -19,9 +20,9 @@ type RegisterFilterItem<
     P extends Record<string, any>,
     N extends string | undefined,
 > = P & {
-    label: string;
-    name: string;
+    filterLabel: string;
     filterType?: N;
+    name: string;
 };
 
 type CustomFilterProps = {
@@ -31,6 +32,7 @@ type CustomFilterProps = {
 export type TFilterItem =
     | RegisterFilterItem<StrictSelectProps, 'Select'>
     | RegisterFilterItem<StrictDateRangePickerProps, 'DateRangePicker'>
+    | RegisterFilterItem<StrictCheckboxDropdown, 'CheckboxDropdown'>
     | RegisterFilterItem<CustomFilterProps, undefined>;
 
 export interface IFilterProps {
@@ -122,7 +124,7 @@ const Filter = ({ filters, onChange }: IFilterProps) => {
 const FilterInputNotFound = () => <div></div>;
 
 const FilterItem = (props: TFilterItem) => {
-    const { name, filterType, label, ...rest } = props;
+    const { name, filterType, filterLabel, ...rest } = props;
     const { isMobile } = useContext(FilterContext);
 
     const customFilterProps = props as CustomFilterProps;
@@ -141,7 +143,7 @@ const FilterItem = (props: TFilterItem) => {
                 flexDirection: 'column',
             }}
         >
-            {isMobile && <Typography.Text>{label}</Typography.Text>}
+            {isMobile && <Typography.Text>{filterLabel}</Typography.Text>}
             <Form.Item name={name} noStyle>
                 <Component {...(rest as any)} />
             </Form.Item>

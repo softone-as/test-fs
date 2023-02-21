@@ -176,23 +176,30 @@ const UsersPage: React.FC = (props: IProps) => {
                 batchActionMenus={batchActionMenus}
                 filterComponents={[
                     {
-                        label: 'Email',
+                        filterLabel: 'Checkbox',
+                        filterType: 'CheckboxDropdown',
+                        name: 'checkbox',
+                        label: 'Checkbox Dropdown',
+                        options: [{ label: 'Checkbox 1', value: 'checkbox 1' }],
+                    },
+                    {
+                        filterLabel: 'Email',
                         render: Input,
                         name: 'email',
                         placeholder: 'Search email',
                     },
                     {
-                        label: 'Gender',
-                        name: 'gender',
+                        filterLabel: 'Gender',
                         filterType: 'Select',
+                        name: 'gender',
                         placeholder: 'Gender',
                         options: genderOptions,
                         defaultValue: filters.gender,
                     },
                     {
-                        label: 'Created At',
-                        name: 'created_at',
+                        filterLabel: 'Created At',
                         filterType: 'DateRangePicker',
+                        name: 'created_at',
                         range: 10,
                         defaultValue: [
                             filters.start_at && dayjs(filters.start_at),

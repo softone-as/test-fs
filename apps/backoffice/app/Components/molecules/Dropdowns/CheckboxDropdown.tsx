@@ -54,7 +54,7 @@ const CheckboxDropdownRender: React.FC<IPropsCheckboxDropdownRender> = (
 };
 
 export const CheckboxDropdown: React.FC<IPropsCheckboxDropdown> = (props) => {
-    const { label, options, value, onChange } = props;
+    const { label, options, value, onChange, ...rest } = props;
 
     const { token } = useToken();
     const [open, setOpen] = useState(false);
@@ -65,6 +65,7 @@ export const CheckboxDropdown: React.FC<IPropsCheckboxDropdown> = (props) => {
 
     return (
         <Dropdown
+            {...rest}
             open={open}
             onOpenChange={setOpen}
             dropdownRender={() => (
