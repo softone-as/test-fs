@@ -16,7 +16,6 @@ import { Inertia } from '@inertiajs/inertia';
 
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
-import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
 import { EndpointRoute, Route } from 'apps/backoffice/app/Enums/Route';
@@ -157,11 +156,9 @@ const UsersPage: React.FC = (props: IProps) => {
         <MainLayout
             title="User List"
             topActions={
-                <Link href={Route.CreateUser}>
-                    <Button size="large" type="primary">
-                        New User
-                    </Button>
-                </Link>
+                <Button href={Route.CreateUser} size="large" type="primary">
+                    New User
+                </Button>
             }
         >
             <DataTable
