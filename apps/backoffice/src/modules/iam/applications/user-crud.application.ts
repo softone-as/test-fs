@@ -35,7 +35,7 @@ export class UserCrudApplication {
             email: userRequest.email,
             phoneNumber: userRequest.phoneNumber,
             identityNumber: userRequest.phoneNumber,
-            password: userRequest.password,
+            password: await Utils.bcryptHash(userRequest.password),
         };
 
         const createdUser = await this.adminService.create(newUser);
