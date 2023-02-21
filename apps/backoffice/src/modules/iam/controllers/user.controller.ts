@@ -23,6 +23,7 @@ import {
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { UserUpdateRequest } from '../requests/user-update.request';
 import { UserMapper } from '../mappers/user.mapper';
+import { UserBulkDeleteRequest } from '../requests/user-bulk-delete.request';
 
 @Controller('users')
 export class UserController {
@@ -105,14 +106,13 @@ export class UserController {
     @Post('delete/:id')
     async delete(@Param('id') id: number): Promise<void> {
         await this.userCrudApplication.delete(id);
-        this.inertiaAdapter.successResponse('users', 'Success update');
+        this.inertiaAdapter.successResponse('users', 'Success delete');
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_USER))
     @Post('deletes')
-    async batchDelete(@Body() ids: number[]): Promise<void> {
-        //TODO Batch Delete Users
-        console.log(ids);
-        this.inertiaAdapter.successResponse('users', 'Success update');
+    async batchDelete(@Body() request: UserBulkDeleteRequest): Promise<void> {
+        await this.userCrudApplication.bulkDelete(request.ids);
+        this.inertiaAdapter.successResponse('users', 'Success delete');
     }
 }

@@ -110,6 +110,10 @@ export class UserService {
         await this.userRepository.delete({ id });
     }
 
+    async bulkDelete(ids: number[]): Promise<void> {
+        await this.userRepository.delete(ids);
+    }
+
     async update(id: number, data: IUser): Promise<IUser> {
         await this.userRepository.update(id, data);
         return data;

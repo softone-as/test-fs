@@ -77,6 +77,10 @@ export class UserCrudApplication {
         return results;
     }
 
+    async bulkDelete(ids: number[]): Promise<void> {
+        await this.adminService.bulkDelete(ids);
+    }
+
     @CacheClear(config.cache.name.users.detail)
     async delete(id: number): Promise<void> {
         await this.adminService.delete(id);
