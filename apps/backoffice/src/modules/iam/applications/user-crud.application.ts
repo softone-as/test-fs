@@ -88,6 +88,7 @@ export class UserCrudApplication {
             request.email,
             id,
         );
+
         if (!userExists) {
             throw new UnprocessableEntityException(
                 `Email ${request.email} is not exists`,
@@ -104,7 +105,6 @@ export class UserCrudApplication {
         if (request.password) {
             updateUser.password = await Utils.bcryptHash(request.password);
         }
-
         // save to user_role table
         const updatedUser = await this.adminService.update(id, {
             ...updateUser,
@@ -114,8 +114,9 @@ export class UserCrudApplication {
             await this.userRoleService.deleteByUserId(id);
         }
 
-        const roleIds = request.roles.map((item) => item.id);
-        const roles = await getManager().getRepository(Role).findByIds(roleIds);
+        const roles = await getManager()
+            .getRepository(Role)
+            .findByIds(request.roles);
 
         const userRoles: UserRole[] = [];
         roles.forEach((role) => {

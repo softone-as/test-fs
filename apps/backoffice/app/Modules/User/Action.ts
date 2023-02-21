@@ -14,7 +14,7 @@ export const createUser = (userData: IUserForm): void => {
 };
 
 export const editUser = (id: number, userData: IUserForm): void => {
-    Inertia.post(`${EndpointRoute.EditUser}/${id}`, userData, {
+    Inertia.put(`${EndpointRoute.EditUser}/${id}`, userData, {
         onSuccess: (success) => {
             console.log('Sukses: ', success);
         },

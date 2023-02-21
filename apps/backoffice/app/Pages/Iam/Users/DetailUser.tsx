@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
-import { Descriptions, Modal, Space } from 'antd';
+import { Descriptions, Space } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 import { MainLayout } from '../../../Layouts/MainLayout';
@@ -13,6 +13,7 @@ import DescriptionContainer from '../../../Components/molecules/DescriptionConta
 import { Section } from '../../../Components/molecules/Section';
 import { Inertia } from '@inertiajs/inertia';
 import { EndpointRoute, Route } from 'apps/backoffice/app/Enums/Route';
+import { useModal } from 'apps/backoffice/app/Utils/modal';
 interface IProps extends TInertiaProps {
     data: IUser;
 }
@@ -22,15 +23,11 @@ const UserDetailPage: React.FC = (props: IProps) => {
         props.data;
 
     const handleDelete = () => {
-        Modal.confirm({
-            title: 'Delete User',
-            content: 'Are you sure to delete this user?',
-            okText: 'Yes',
-            cancelText: 'Cancel',
-            onOk: () =>
-                Inertia.post(EndpointRoute.DeleteUser, {
-                    ids: [id],
-                }),
+        useModal({
+            title: 'Are You Sure? ',
+            type: 'confirm',
+            variant: 'danger',
+            onOk: () => Inertia.post(`${EndpointRoute.DeleteUser}/${id}`),
         });
     };
 
