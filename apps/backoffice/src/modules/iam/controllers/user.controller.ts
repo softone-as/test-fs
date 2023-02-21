@@ -4,6 +4,7 @@ import {
     Get,
     Param,
     Post,
+    Put,
     Query,
     UseGuards,
 } from '@nestjs/common';
@@ -91,7 +92,7 @@ export class UserController {
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_USER))
-    @Post('edit/:id')
+    @Put('edit/:id')
     async update(
         @Param('id') id: number,
         @Body() userUpdateRequest: UserUpdateRequest,

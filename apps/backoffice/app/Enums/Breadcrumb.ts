@@ -66,6 +66,36 @@ const Roles = {
             path: '/roles',
         },
     ],
+    DETAIL: [
+        {
+            label: 'Roles List',
+            path: Route.Roles,
+        },
+        {
+            label: 'Role Detail',
+            path: '#',
+        },
+    ],
+    CREATE: [
+        {
+            label: 'Roles Lists',
+            path: Route.Roles,
+        },
+        {
+            label: 'New Role',
+            path: '/roles/create',
+        },
+    ],
+    EDIT: [
+        {
+            label: 'Roles Lists',
+            path: Route.Roles,
+        },
+        {
+            label: 'Edit Role',
+            path: '/roles/edit/:id',
+        },
+    ],
 };
 
 const LogActivity = {

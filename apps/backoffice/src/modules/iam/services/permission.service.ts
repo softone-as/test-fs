@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPermission } from 'interface-models/iam/permission.interface';
 import { Permission } from 'entities/iam/permission.entity';
-import { QueryFailedError, Repository } from 'typeorm';
+import { In, QueryFailedError, Repository } from 'typeorm';
 
 @Injectable()
 export class PermissionService {
@@ -47,5 +47,13 @@ export class PermissionService {
 
     async findAll(): Promise<IPermission[]> {
         return await this.permissionRepository.find();
+    }
+
+    async findAllById(ids: number[]): Promise<IPermission[]> {
+        return await this.permissionRepository.find({
+            where: {
+                id: In(ids),
+            },
+        });
     }
 }

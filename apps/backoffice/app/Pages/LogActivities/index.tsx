@@ -91,12 +91,15 @@ const LogActivityPage: React.FC = (props: IProps) => {
                 batchActionMenus={[]}
                 filterComponents={[
                     {
+                        label: 'Menu',
                         name: 'menu',
+                        placeholder: 'Menu',
                         filterType: 'Select',
                         options: menuOptions,
                         defaultValue: filters.menu,
                     },
                     {
+                        label: 'Created At',
                         name: 'rangeCreateAt',
                         filterType: 'DateRangePicker',
                         range: 10,
