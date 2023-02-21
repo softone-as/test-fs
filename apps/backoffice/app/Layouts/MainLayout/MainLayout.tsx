@@ -1,27 +1,16 @@
 import {
     BarsOutlined,
-    BellOutlined,
     DashboardOutlined,
     HistoryOutlined,
     LogoutOutlined,
     ProfileOutlined,
     SettingOutlined,
-    UserOutlined,
 } from '@ant-design/icons';
 import { Inertia, Page } from '@inertiajs/inertia';
 import { Head, Link, usePage } from '@inertiajs/inertia-react';
 import type { MenuProps } from 'antd';
-import {
-    Avatar,
-    Badge,
-    ConfigProvider,
-    Layout,
-    Menu,
-    Space,
-    Tooltip,
-    Typography,
-} from 'antd';
-import React, { useContext, useEffect, useMemo } from 'react';
+import { ConfigProvider, Layout, Menu } from 'antd';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { PageHeader } from '../../Components/molecules/Headers';
 import { PageProgress } from '../../Components/molecules/Progress';
 import { AppContext } from '../../Contexts/App';
@@ -31,6 +20,11 @@ import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { isMobileScreen } from '../../Utils/utils';
+import CompanyLogo from '../../Components/atoms/Logos/CompanyLogo';
+import MainHeader from '../../Components/organisms/Layout/MainHeader';
+import { UserAvatar } from '../../Components/atoms/Avatars';
+import NotificationIcon from '../../Components/atoms/Icons/NotificationIcon';
+import { Overlay } from '../../Components/atoms/Overlays';
 
 export type IProps = {
     children: React.ReactNode;
@@ -136,7 +130,6 @@ const menuItems: MenuItem[] = [
 ];
 
 const { Sider, Content } = Layout;
-const { Text } = Typography;
 
 export const MainLayout: React.FC<IProps> = ({
     children,
@@ -146,6 +139,7 @@ export const MainLayout: React.FC<IProps> = ({
 }: IProps) => {
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
+    const [collapsed, setCollapsed] = useState(true);
     const isMobile = isMobileScreen();
 
     // active menu item key
@@ -195,13 +189,24 @@ export const MainLayout: React.FC<IProps> = ({
             <Head title={title} />
 
             {appState.isNavigating && <PageProgress />}
-
             <Sider
+                trigger={null}
+                collapsible
+                collapsed={isMobile ? collapsed : false}
                 theme="light"
                 style={{
                     backgroundColor: '#006D75',
-                    height: '100vh',
+                    minHeight: '100vh',
                     marginTop: isMobile ? '-60px' : 0,
+                    overflow: isMobile && 'auto',
+                    position: isMobile ? 'fixed' : 'relative',
+                    left: isMobile && 0,
+                    top: isMobile && 0,
+                    bottom: isMobile && 0,
+                    zIndex: isMobile && 10,
+                    filter:
+                        isMobile &&
+                        'drop-shadow(16px 4px 52px rgba(0, 0, 0, 0.25))',
                 }}
                 width="222px"
                 breakpoint="lg"
@@ -214,23 +219,25 @@ export const MainLayout: React.FC<IProps> = ({
                         height: '100%',
                     }}
                 >
-                    <div
-                        style={{
-                            width: '100%',
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            height: '64px',
-                            borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
-                            padding: '0rem 1rem',
-                        }}
-                    >
-                        {/* Apps Logo or Title */}
-                        <img src="/img/company-logo.svg" width="80px" />
-                    </div>
+                    {!isMobile && (
+                        <div
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                height: '64px',
+                                borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+                                padding: '0rem 1rem',
+                            }}
+                        >
+                            {/* Apps Logo or Title */}
+                            <CompanyLogo />
+                        </div>
+                    )}
 
-                    {pageProps.userDetail && (
+                    {!isMobile && pageProps.userDetail && (
                         <div
                             style={{
                                 width: '100%',
@@ -243,61 +250,12 @@ export const MainLayout: React.FC<IProps> = ({
                             }}
                         >
                             {/* User Icon */}
-                            <Link href={Route.Profile}>
-                                <Space size="small">
-                                    <Avatar
-                                        size="default"
-                                        icon={<UserOutlined />}
-                                    />
-
-                                    <Space.Compact
-                                        direction="vertical"
-                                        size="small"
-                                    >
-                                        {/* Username */}
-                                        <Text
-                                            style={{
-                                                fontWeight: '500',
-                                                fontSize: '14px',
-                                                color: '#ffffff',
-                                            }}
-                                        >
-                                            {pageProps.userDetail?.fullname}
-                                        </Text>
-
-                                        {/* User Roles */}
-                                        <Text
-                                            style={{
-                                                fontSize: '12px',
-                                                color: '#B5F5EC',
-                                            }}
-                                        >
-                                            {pageProps.userDetail.roles
-                                                ?.map((r) => r.name)
-                                                .join(', ')}
-                                        </Text>
-                                    </Space.Compact>
-                                </Space>
-                            </Link>
+                            <UserAvatar userDetail={pageProps.userDetail} />
 
                             {/* Notification Icon */}
-                            <Tooltip title="Notifications" placement="right">
-                                <Link href="/notifications">
-                                    <Badge
-                                        dot={
-                                            pageProps.notifications
-                                                ?.notificationUnread > 0
-                                        }
-                                    >
-                                        <BellOutlined
-                                            style={{
-                                                color: 'white',
-                                                fontSize: '24px',
-                                            }}
-                                        />
-                                    </Badge>
-                                </Link>
-                            </Tooltip>
+                            <NotificationIcon
+                                notifications={pageProps.notifications}
+                            />
                         </div>
                     )}
 
@@ -308,6 +266,7 @@ export const MainLayout: React.FC<IProps> = ({
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'space-between',
+                                marginTop: isMobile && '80px',
                             }}
                         >
                             <Menu
@@ -341,11 +300,23 @@ export const MainLayout: React.FC<IProps> = ({
                 </div>
             </Sider>
             <Layout>
+                {isMobile && (
+                    <MainHeader
+                        collapsed={collapsed}
+                        setCollapsed={setCollapsed}
+                        userDetail={pageProps.userDetail}
+                        notifications={pageProps.notifications}
+                    />
+                )}
+
+                {isMobile && !collapsed && (
+                    <Overlay onClick={() => setCollapsed(true)} />
+                )}
+
                 <Content
                     style={{
-                        padding: '28px 24px',
+                        padding: isMobile ? '18px 16px' : '28px 24px',
                         overflow: 'auto',
-                        marginTop: isMobile ? '25px' : 0,
                     }}
                 >
                     <PageHeader
