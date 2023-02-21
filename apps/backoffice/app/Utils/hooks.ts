@@ -38,7 +38,7 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
         const queryParams = new URLSearchParams(window.location.search);
         const filtersObj = {};
         for (const [key, value] of queryParams.entries()) {
-            if (value) filtersObj[key] = value;
+            if (value !== '') filtersObj[key] = value;
         }
         return filtersObj;
     });
@@ -54,7 +54,8 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
 
     const setQueryParams = (propsParams: TPropsTableFilter<T>) => {
         const data = Object.keys(propsParams).reduce((all, key) => {
-            if (propsParams[key]) return { ...all, [key]: propsParams[key] };
+            if (propsParams[key] !== '')
+                return { ...all, [key]: propsParams[key] };
             return all;
         }, existingParams) as TPropsTableFilter<T>;
 
