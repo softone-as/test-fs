@@ -6,18 +6,19 @@ import {
 
 export type StrictCheckboxDropdown = Pick<
     IPropsCheckboxDropdown,
-    'value' | 'onChange' | 'options' | 'label'
+    'value' | 'onChange' | 'options' | 'placeholder' | 'defaultValue'
 >;
 
 const FilterCheckboxDropdown = (props: StrictCheckboxDropdown) => {
-    const { value, onChange, options, label } = props;
+    const { value, onChange, options, placeholder, defaultValue } = props;
 
     return (
         <CheckboxDropdown
             value={value}
             onChange={onChange}
             options={options}
-            label={label}
+            placeholder={placeholder}
+            defaultValue={defaultValue}
         />
     );
 };

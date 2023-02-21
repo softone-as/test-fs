@@ -8,8 +8,8 @@ import { StrictCheckboxDropdown } from './InputCollection/CheckboxDropdown';
 
 export type InternalHooks = {
     registerWatch: (
-        FC: (store: Record<string, any>, name: string) => void,
-    ) => void;
+        FC: (store: Record<string, any>, name: string[][]) => void,
+    ) => () => void;
 };
 export interface IFilterFormInstance<T = any> extends FormInstance<T> {
     getInternalHooks: (mark: string) => InternalHooks;
@@ -20,8 +20,8 @@ type RegisterFilterItem<
     P extends Record<string, any>,
     N extends string | undefined,
 > = P & {
-    filterLabel: string;
-    filterType?: N;
+    label: string;
+    type?: N;
     name: string;
 };
 
@@ -69,7 +69,12 @@ const Filter = ({ filters, onChange }: IFilterProps) => {
             form as IFilterFormInstance
         ).getInternalHooks(HOOK_MARK);
 
-        const cancelRegister = registerWatch((store) => {
+        const cancelRegister = registerWatch((store, name) => {
+            // when navigating page,
+            // registerWatch is assumed being triggered when unmounting component form item,
+            // fortunatelly property unmounting form item does not exist in the store object,
+            // and this condition is needed to prevent change parent state while navigating.
+            if (!(name[0][0] in store)) return;
             onChange(store, filters);
             setLocalStore(store);
         });
@@ -124,13 +129,13 @@ const Filter = ({ filters, onChange }: IFilterProps) => {
 const FilterInputNotFound = () => <div></div>;
 
 const FilterItem = (props: TFilterItem) => {
-    const { name, filterType, filterLabel, ...rest } = props;
+    const { name, type, label, ...rest } = props;
     const { isMobile } = useContext(FilterContext);
 
     const customFilterProps = props as CustomFilterProps;
 
     const Component =
-        InputCollection[filterType] ||
+        InputCollection[type] ||
         customFilterProps.render ||
         FilterInputNotFound;
 
@@ -143,7 +148,7 @@ const FilterItem = (props: TFilterItem) => {
                 flexDirection: 'column',
             }}
         >
-            {isMobile && <Typography.Text>{filterLabel}</Typography.Text>}
+            {isMobile && <Typography.Text>{label}</Typography.Text>}
             <Form.Item name={name} noStyle>
                 <Component {...(rest as any)} />
             </Form.Item>

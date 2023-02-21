@@ -13,7 +13,8 @@ import { CheckboxValueType } from 'antd/es/checkbox/Group';
 const { useToken } = theme;
 
 export interface IPropsCheckboxDropdown {
-    label?: React.ReactNode;
+    defaultValue?: CheckboxValueType[];
+    placeholder?: React.ReactNode;
     options?: CheckboxOptionType[];
     value?: CheckboxValueType[];
     onChange?: (checkedValue: CheckboxValueType[]) => void;
@@ -54,31 +55,38 @@ const CheckboxDropdownRender: React.FC<IPropsCheckboxDropdownRender> = (
 };
 
 export const CheckboxDropdown: React.FC<IPropsCheckboxDropdown> = (props) => {
-    const { label, options, value, onChange, ...rest } = props;
+    const { placeholder, options, value, onChange, defaultValue } = props;
+
+    const [state, setState] = useState<CheckboxValueType[]>(
+        value || defaultValue || [],
+    );
+    const handleOnChange = (value: CheckboxValueType[]) => {
+        setState(value);
+        onChange(value);
+    };
 
     const { token } = useToken();
     const [open, setOpen] = useState(false);
 
     const labelStyle: React.CSSProperties = {
-        color: value?.length ? token.colorText : token.colorTextPlaceholder,
+        color: state?.length ? token.colorText : token.colorTextPlaceholder,
     };
 
     return (
         <Dropdown
-            {...rest}
             open={open}
             onOpenChange={setOpen}
             dropdownRender={() => (
                 <CheckboxDropdownRender
                     options={options}
-                    value={value}
-                    onChange={onChange}
+                    value={state}
+                    onChange={handleOnChange}
                 />
             )}
         >
             <Button>
                 <Space style={labelStyle}>
-                    {label}
+                    {placeholder}
                     <DownOutlined />
                 </Space>
             </Button>

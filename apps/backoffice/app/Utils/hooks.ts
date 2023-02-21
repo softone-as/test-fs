@@ -38,7 +38,7 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
         const queryParams = new URLSearchParams(window.location.search);
         const filtersObj = {};
         for (const [key, value] of queryParams.entries()) {
-            filtersObj[key] = value;
+            if (value) filtersObj[key] = value;
         }
         return filtersObj;
     });
@@ -53,10 +53,10 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
     ) as TPropsTableFilter<T>;
 
     const setQueryParams = (propsParams: TPropsTableFilter<T>) => {
-        const data = {
-            ...existingParams,
-            ...propsParams,
-        } as TPropsTableFilter<T>;
+        const data = Object.keys(propsParams).reduce((all, key) => {
+            if (propsParams[key]) return { ...all, [key]: propsParams[key] };
+            return all;
+        }, existingParams) as TPropsTableFilter<T>;
 
         if (data.order === undefined) {
             delete data.sort;
@@ -106,23 +106,23 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
         pagination?: DataTablePagination,
         extra?: ITableCurrentDataSource<any>,
     ) => {
+        const newCustomFilter: T = { ...customFilter };
         if (extra.action === 'custom') {
             extra.customContext?.forEach((filter) => {
-                if (!customFilter[filter.name]) return;
-
-                switch (filter.filterType) {
+                if (!newCustomFilter[filter.name]) return;
+                switch (filter.type) {
                     case 'DateRangePicker': {
-                        customFilter[filter.name] = customFilter[
+                        newCustomFilter[filter.name] = `${newCustomFilter[
                             filter.name
-                        ].join(',')`${customFilter[
-                            filter.name
-                        ][0]?.toISOString()},${customFilter[
+                        ][0]?.toISOString()},${newCustomFilter[
                             filter.name
                         ][1]?.toISOString()}`;
+                        break;
                     }
                     case 'CheckboxDropdown': {
-                        customFilter[filter.name] =
-                            customFilter[filter.name].join(',');
+                        newCustomFilter[filter.name] =
+                            newCustomFilter[filter.name]?.join(',');
+                        break;
                     }
                 }
             });
@@ -134,7 +134,7 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
         };
 
         setQueryParams({
-            ...customFilter,
+            ...newCustomFilter,
             ...strictSorter,
             ...filters,
             ...pagination,
