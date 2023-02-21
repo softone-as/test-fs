@@ -6,7 +6,6 @@ export class UserMapper {
         id: user.id,
         fullname: user.fullname,
         email: user.email,
-        password: user.password,
         identityNumber: user.identityNumber,
         phoneNumber: user.phoneNumber,
         oneSignalPlayerIds: user.oneSignalPlayerIds,

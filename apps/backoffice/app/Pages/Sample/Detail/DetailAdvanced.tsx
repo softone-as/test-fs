@@ -34,7 +34,7 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
 import { Link } from '@inertiajs/inertia-react';
-import { Buttons } from '../../../Components/atoms/Buttons';
+import { Button } from '../../../Components/atoms/Button';
 import { DescriptionContainer } from '../../../Components/molecules/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
 
@@ -84,7 +84,6 @@ const data: IUser[] = [
         id: 1,
         fullname: 'John Cena',
         email: 'john@cena.com',
-        password: '4123',
         phoneNumber: '0841231322',
         identityNumber: '231',
     },
@@ -92,7 +91,6 @@ const data: IUser[] = [
         id: 2,
         fullname: 'John Wick',
         email: 'john@wick.com',
-        password: '4123',
         identityNumber: '231',
         phoneNumber: '0841231322',
     },
@@ -100,7 +98,6 @@ const data: IUser[] = [
         id: 3,
         fullname: 'John LBF',
         email: 'john@lbf.com',
-        password: '4123',
         identityNumber: '231',
         phoneNumber: '0841231322',
     },
@@ -114,14 +111,11 @@ const tabItems: TabsProps['items'] = [
             <DataTable<IUser>
                 columns={columns}
                 dataSource={data}
-                meta={{
-                    page: 1,
-                    perPage: 10,
-                    totalPage: 3,
-                    total: 30,
-                }}
-                onPageChange={() => {
-                    return;
+                rowKey="id"
+                pagination={{
+                    current: 1,
+                    pageSize: 10,
+                    total: 3,
                 }}
             />
         ),
@@ -145,10 +139,10 @@ const DetailAdvancedPage: React.FC = () => {
             breadcrumbs={Breadcrumbs.Users.DETAIL}
             topActions={
                 <>
-                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>
-                    <Buttons icon={<EditOutlined />}>Edit</Buttons>
-                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>
-                    <Buttons type="primary">Action</Buttons>
+                    <Button icon={<DeleteOutlined />}>Delete</Button>
+                    <Button icon={<EditOutlined />}>Edit</Button>
+                    <Button icon={<DownloadOutlined />}>Download</Button>
+                    <Button type="primary">Action</Button>
                 </>
             }
         >

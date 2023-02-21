@@ -22,10 +22,12 @@ import { Role } from 'entities/iam/role.entity';
 import { RoleService } from '../iam/services/role.service';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { LogActivityService } from '../log-activity/services/log-activity.service';
+import { UserRole } from 'entities/iam/user-role.entity';
+import { UserRoleService } from '../iam/services/user-role.service';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User, Role, Otp, LogActivity]),
+        TypeOrmModule.forFeature([User, Role, Otp, LogActivity, UserRole]),
         PassportModule.register({
             session: true,
             defaultStrategy: 'local',
@@ -48,6 +50,7 @@ import { LogActivityService } from '../log-activity/services/log-activity.servic
         UserCrudApplication,
         LogActivityService,
         LdapService,
+        UserRoleService,
     ],
     exports: [],
 })

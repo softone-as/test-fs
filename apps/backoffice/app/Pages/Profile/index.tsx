@@ -6,7 +6,7 @@ import { IUser } from '../../Modules/User/Entities';
 import { defaultSizeSpace } from '../../Utils/theme';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
-import { Buttons } from '../../Components/atoms/Buttons';
+import { Button } from '../../Components/atoms/Button';
 import DescriptionContainer from '../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../Components/molecules/Section';
 import { Route } from '../../Enums/Route';
@@ -25,19 +25,19 @@ const UserDetailPage: React.FC = (props: IProps) => {
             breadcrumbs={Breadcrumbs.Profile.INDEX}
             topActions={
                 <>
-                    <Buttons
+                    <Button
                         type="primary"
                         href={Route.EditProfile}
                         icon={<EditOutlined />}
                     >
                         Edit
-                    </Buttons>
-                    <Buttons
+                    </Button>
+                    <Button
                         href={Route.EditProfilePassword}
                         icon={<EditOutlined />}
                     >
                         Edit Password
-                    </Buttons>
+                    </Button>
                 </>
             }
         >

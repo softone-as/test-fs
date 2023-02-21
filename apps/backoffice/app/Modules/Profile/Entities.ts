@@ -5,6 +5,9 @@ type IUser = UserResponse;
 
 type IProfileForm = Omit<UserCreateRequest, 'roles' | 'password'>;
 
-type IProfileFormPassword = Pick<UserCreateRequest, 'password'>;
+type IProfileFormPassword = {
+    password: string;
+    passwordConfirm: string;
+};
 
 export { IUser, IProfileForm, IProfileFormPassword };

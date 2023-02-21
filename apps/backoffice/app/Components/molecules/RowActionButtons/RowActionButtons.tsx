@@ -8,10 +8,11 @@ import {
 } from '@ant-design/icons';
 import { iconActionTableStyle } from '../../../Utils/theme';
 import { isMobileScreen } from '../../../Utils/utils';
+import { Link } from '@inertiajs/inertia-react';
 
 type ButtonType = 'view' | 'edit' | 'delete' | 'custom';
 
-interface IRowActionButtonsProps {
+export interface IRowActionButtonsProps {
     type?: ButtonType;
     href?: string;
     onClick?: () => void;
@@ -20,7 +21,7 @@ interface IRowActionButtonsProps {
     disabled?: boolean;
 }
 
-interface IRowActionProps {
+export interface IRowActionProps {
     actions: IRowActionButtonsProps[];
 }
 
@@ -49,14 +50,25 @@ export const RowActionButtons: React.FC<IRowActionProps> = ({ actions }) => {
 
         return (
             <Tooltip title={title} key={title}>
-                <Button
-                    type="text"
-                    shape="circle"
-                    href={href}
-                    onClick={onClick}
-                    icon={icon}
-                    disabled={disabled}
-                />
+                {href ? (
+                    <Link href={href}>
+                        <Button
+                            type="text"
+                            shape="circle"
+                            onClick={onClick}
+                            icon={icon}
+                            disabled={disabled}
+                        />
+                    </Link>
+                ) : (
+                    <Button
+                        type="text"
+                        shape="circle"
+                        onClick={onClick}
+                        icon={icon}
+                        disabled={disabled}
+                    />
+                )}
             </Tooltip>
         );
     };

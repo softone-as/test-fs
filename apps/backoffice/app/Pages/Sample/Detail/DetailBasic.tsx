@@ -7,20 +7,21 @@ import {
     EyeOutlined,
 } from '@ant-design/icons';
 import { Link } from '@inertiajs/inertia-react';
-import { Button, Descriptions, Space } from 'antd';
+import { Descriptions, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 
 import { IUser } from '../../../Modules/User/Entities';
 
 import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
 
-import { Buttons } from '../../../Components/atoms/Buttons';
+import { Button } from '../../../Components/atoms/Button';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
+import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 
 const columns: ColumnsType<IUser> = [
     {
@@ -68,7 +69,6 @@ const data: IUser[] = [
         id: 1,
         fullname: 'John Cena',
         email: 'john@cena.com',
-        password: '4123',
         phoneNumber: '0841231322',
         identityNumber: '231',
     },
@@ -76,7 +76,6 @@ const data: IUser[] = [
         id: 2,
         fullname: 'John Wick',
         email: 'john@wick.com',
-        password: '4123',
         identityNumber: '231',
         phoneNumber: '0841231322',
     },
@@ -84,7 +83,6 @@ const data: IUser[] = [
         id: 3,
         fullname: 'John LBF',
         email: 'john@lbf.com',
-        password: '4123',
         identityNumber: '231',
         phoneNumber: '0841231322',
     },
@@ -97,10 +95,10 @@ const DetailBasicPage: React.FC = (props: TInertiaProps) => {
             breadcrumbs={Breadcrumbs.Users.DETAIL}
             topActions={
                 <>
-                    <Buttons icon={<DeleteOutlined />}>Delete</Buttons>
-                    <Buttons icon={<EditOutlined />}>Edit</Buttons>
-                    <Buttons icon={<DownloadOutlined />}>Download</Buttons>
-                    <Buttons type="primary">Action</Buttons>
+                    <Button icon={<DeleteOutlined />}>Delete</Button>
+                    <Button icon={<EditOutlined />}>Edit</Button>
+                    <Button icon={<DownloadOutlined />}>Download</Button>
+                    <Button type="primary">Action</Button>
                 </>
             }
         >
@@ -143,10 +141,8 @@ const DetailBasicPage: React.FC = (props: TInertiaProps) => {
                     <DataTable<IUser>
                         columns={columns}
                         dataSource={data}
-                        meta={props.meta}
-                        onPageChange={() => {
-                            return;
-                        }}
+                        rowKey="id"
+                        pagination={paginationTransform(props.meta)}
                     />
                 </Section>
             </Space>

@@ -7,7 +7,7 @@ export const themeColors = {
     secondary: '',
     success: '',
     warning: '',
-    error: '',
+    error: '#FF4D4F',
     info: '',
 };
 
@@ -35,36 +35,13 @@ export const defaultGutter: RowProps['gutter'] = [16, 16];
 export const defaultSizeSpace: SpaceProps['size'] = 'middle';
 
 export const globalThemeConfig: ThemeConfig = {
+    token: {
+        colorPrimary: themeColors.primary,
+    },
     components: {
-        Button: {
-            colorPrimary: themeColors.primary,
-            colorPrimaryHover: themeColors.primary,
-        },
-        Checkbox: {
-            colorPrimary: themeColors.primary,
-            colorPrimaryHover: themeColors.primary,
-        },
         Table: {
             controlItemBgActive: '#E6FFFB',
             controlItemBgActiveHover: '#E6FFFB',
-        },
-        Steps: {
-            colorPrimary: themeColors.primary,
-        },
-        Tabs: {
-            colorPrimary: themeColors.primary,
-        },
-        Upload: {
-            colorPrimary: themeColors.primary,
-        },
-        Radio: {
-            colorPrimary: themeColors.primary,
-        },
-        Switch: {
-            colorPrimary: themeColors.primary,
-        },
-        Timeline: {
-            colorPrimary: themeColors.primary,
         },
     },
 };

@@ -1,3 +1,5 @@
+import { Route } from './Route';
+
 const Dashboard = {
     INDEX: [
         {
@@ -42,7 +44,17 @@ const Permissions = {
     INDEX: [
         {
             label: 'Permission Lists',
-            path: '/permissions',
+            path: Route.Permissions,
+        },
+    ],
+    DETAIL: [
+        {
+            label: 'Permission Lists',
+            path: Route.Permissions,
+        },
+        {
+            label: 'Permission Detail',
+            path: '#',
         },
     ],
 };
@@ -52,6 +64,36 @@ const Roles = {
         {
             label: 'Roles Lists',
             path: '/roles',
+        },
+    ],
+    DETAIL: [
+        {
+            label: 'Roles List',
+            path: Route.Roles,
+        },
+        {
+            label: 'Role Detail',
+            path: '#',
+        },
+    ],
+    CREATE: [
+        {
+            label: 'Roles Lists',
+            path: Route.Roles,
+        },
+        {
+            label: 'New Role',
+            path: '/roles/create',
+        },
+    ],
+    EDIT: [
+        {
+            label: 'Roles Lists',
+            path: Route.Roles,
+        },
+        {
+            label: 'Edit Role',
+            path: '/roles/edit/:id',
         },
     ],
 };
@@ -115,6 +157,26 @@ const Users = {
     ],
 };
 
+const Notification = {
+    INDEX: [
+        {
+            label: 'Notification',
+            path: '/notifications',
+        },
+    ],
+
+    DETAIL: [
+        {
+            label: 'Notification',
+            path: '/notifications',
+        },
+        {
+            label: 'Notification Detail',
+            path: '/notifications/detail',
+        },
+    ],
+};
+
 export const Breadcrumbs = {
     Users,
     Profile,
@@ -122,4 +184,5 @@ export const Breadcrumbs = {
     Permissions,
     Roles,
     LogActivity,
+    Notification,
 };

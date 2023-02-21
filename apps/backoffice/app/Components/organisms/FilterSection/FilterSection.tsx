@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Col,
     Row,
@@ -11,13 +11,19 @@ import {
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { isMobileScreen } from '../../../Utils/utils';
+import { useDidUpdateEffect } from '../../../Utils/hooks';
+import Filter, { TFilterItem } from './Filter';
 
 export interface IFilterSection {
-    filters?: React.ReactNode[];
-    selectedRows: React.Key[];
+    filters?: TFilterItem[];
+    onFiltersChange?: (
+        values: Record<string, any>,
+        filters: TFilterItem[],
+    ) => void;
+    selectedRows?: React.Key[];
     batchActionMenus: MenuProps['items'];
-    onSearch: (value: string) => void;
-    searchValue: string;
+    onSearch?: (value: string) => void;
+    searchValue?: string;
 }
 
 export const FilterSection = (props: IFilterSection) => {
@@ -25,9 +31,11 @@ export const FilterSection = (props: IFilterSection) => {
 
     const isMobile = isMobileScreen();
 
-    useEffect(() => {
+    useDidUpdateEffect(() => {
         const timeout = setTimeout(() => {
-            props.onSearch(value);
+            if (value || (!value && props.searchValue.length > 0)) {
+                props.onSearch(value);
+            }
         }, 500);
 
         return () => {
@@ -38,11 +46,11 @@ export const FilterSection = (props: IFilterSection) => {
     return (
         <Row gutter={[8, 0]} align="middle">
             {/* Batch Action */}
-            {props.selectedRows.length > 0 && (
+            {props.selectedRows?.length > 0 && props.batchActionMenus && (
                 <Col>
                     <Space style={{ paddingRight: '8px' }}>
                         <Dropdown.Button
-                            menu={{ items: props.batchActionMenus }}
+                            menu={{ items: props.batchActionMenus || [] }}
                             placement="bottom"
                         >
                             Action
@@ -56,29 +64,21 @@ export const FilterSection = (props: IFilterSection) => {
             )}
 
             {/* Filters */}
-            {props.filters?.map((item, index) => {
-                return (
-                    <Col
-                        key={index}
-                        style={{ margin: isMobile ? '5px 0' : '2px' }}
-                    >
-                        {item}
-                    </Col>
-                );
-                return <Col key={index}>{item}</Col>;
-            })}
+            <Filter onChange={props?.onFiltersChange} filters={props.filters} />
 
             {/* Search */}
-            <Col flex="auto">
-                <Input
-                    prefix={<SearchOutlined />}
-                    placeholder="Search"
-                    onChange={(e) => setValue(e.target.value)}
-                    value={value}
-                    allowClear
-                    style={{ margin: isMobile ? '5px 0' : '2px' }}
-                />
-            </Col>
+            {props.onSearch && (
+                <Col flex="auto">
+                    <Input
+                        prefix={<SearchOutlined />}
+                        placeholder="Search"
+                        onChange={(e) => setValue(e.target.value)}
+                        value={value}
+                        allowClear
+                        style={{ margin: isMobile ? '5px 0' : '2px' }}
+                    />
+                </Col>
+            )}
         </Row>
     );
 };

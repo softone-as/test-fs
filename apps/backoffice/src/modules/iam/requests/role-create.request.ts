@@ -8,4 +8,7 @@ export class RoleCreateRequest {
     @IsNotEmpty({ message: 'Field wajib diisi' })
     @IsString()
     key: string;
+
+    @IsNotEmpty({ message: 'Field wajib diisi' })
+    permissions: number[];
 }

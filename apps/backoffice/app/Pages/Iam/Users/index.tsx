@@ -1,22 +1,13 @@
-import React, { useState } from 'react';
-import {
-    DataTable,
-    TOnSort,
-    sortOrder,
-} from '../../../Components/organisms/DataTable';
+import React from 'react';
+import { DataTable, sortOrder } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
-import {} from '../../../Utils/notification';
-import { FilterSection } from '../../../Components/organisms/FilterSection';
-import { Button, MenuProps, Modal, Select, Tag } from 'antd';
+import { Input, Modal, Tag } from 'antd';
 import dayjs from 'dayjs';
-import {
-    DateRangePicker,
-    TRangeValue,
-} from '../../../Components/molecules/Pickers';
+
 import { ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
@@ -29,6 +20,9 @@ import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
 import { EndpointRoute, Route } from 'apps/backoffice/app/Enums/Route';
+import { ItemType } from '../../../Components/organisms/DataTable/Entities';
+import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
+import { Button } from 'apps/backoffice/app/Components/atoms/Button';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -42,46 +36,27 @@ type TFilters = {
 
 const UsersPage: React.FC = (props: IProps) => {
     const {
-        setQueryParams,
+        implementTableFilter,
         filters,
         status: { isFetching },
     } = useTableFilter<TFilters>();
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const isMobile = isMobileScreen();
 
-    const handleBatchDelete = () => {
+    const handleBatchDelete = (selectedRowKeys) => {
         Modal.confirm({
             title: 'Delete Users',
             content: 'Are you sure to delete selected users?',
             okText: 'Yes',
             cancelText: 'Cancel',
             onOk: () =>
-                Inertia.post(EndpointRoute.DeleteUser, {
+                Inertia.post(EndpointRoute.DeleteBatchUser, {
                     ids: selectedRowKeys,
                 }),
         });
     };
 
-    const handleDetail = (id: number) => {
-        return Inertia.get(`${Route.Users}/${id}`);
-    };
-
-    const handleEdit = (id: number) => {
-        return Inertia.get(`${Route.EditUser}/${id}`);
-    };
-
-    const handleDelete = (id: number) => {
-        Modal.confirm({
-            title: 'Delete User',
-            content: 'Are you sure to delete this user?',
-            okText: 'Yes',
-            cancelText: 'Cancel',
-            onOk: () =>
-                Inertia.post(EndpointRoute.DeleteUser, {
-                    ids: [id],
-                }),
-        });
-    };
+    const handleDelete = (id: number) =>
+        Inertia.post(`${EndpointRoute.DeleteUser}/${id}`);
 
     const columns: ColumnsType<IUser> = [
         {
@@ -140,20 +115,25 @@ const UsersPage: React.FC = (props: IProps) => {
                         actions={[
                             {
                                 type: 'view',
-                                href: `#`,
+                                href: `${Route.Users}/${userId}`,
                                 title: 'view',
-                                onClick: () => handleDetail(userId),
                             },
                             {
                                 type: 'edit',
-                                href: `#`,
+                                href: `${Route.EditUser}/${userId}`,
                                 title: 'edit',
-                                onClick: () => handleEdit(userId),
                             },
                             {
                                 type: 'delete',
                                 title: 'delete',
-                                onClick: () => handleDelete(userId),
+                                onClick: () => {
+                                    useModal({
+                                        title: 'Are You Sure? ',
+                                        type: 'confirm',
+                                        variant: 'danger',
+                                        onOk: () => handleDelete(userId),
+                                    });
+                                },
                             },
                         ]}
                     />
@@ -167,46 +147,21 @@ const UsersPage: React.FC = (props: IProps) => {
         { label: 'Wanita', value: GenderEnum.Perempuan },
     ];
 
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
-    const batchActionMenus: MenuProps['items'] = [
+    const batchActionMenus: ItemType[] = [
         {
             key: '1',
             label: 'Delete',
-            onClick: () =>
+            onClick: (_, selectedRowKeys) =>
                 useModal({
                     title: 'Are You Sure? ',
                     type: 'confirm',
-                    onOk: handleBatchDelete,
+                    variant: 'danger',
+                    onOk: () => handleBatchDelete(selectedRowKeys),
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },
         },
     ];
-
-    const handleRange = (val: TRangeValue) => {
-        return setQueryParams({
-            start_at: val?.[0].toISOString(),
-            end_at: val?.[1].toISOString(),
-        });
-    };
-
-    const handleFilterGender = (data) => {
-        return setQueryParams({ gender: data });
-    };
-
-    const handleSort = (sorter: TOnSort<UserResponse>) => {
-        return setQueryParams({
-            sort: sorter.columnKey as string,
-            order: sorter.order,
-        });
-    };
-
-    const handleSearch = (value) => {
-        setQueryParams({ search: value });
-    };
 
     return (
         <MainLayout
@@ -219,42 +174,40 @@ const UsersPage: React.FC = (props: IProps) => {
                 </Link>
             }
         >
-            <FilterSection
-                searchValue={filters.search}
-                onSearch={handleSearch}
-                selectedRows={selectedRowKeys}
+            <DataTable
                 batchActionMenus={batchActionMenus}
-                filters={[
-                    <Select
-                        placeholder="Gender"
-                        defaultValue={filters.gender}
-                        options={genderOptions}
-                        onChange={handleFilterGender}
-                        allowClear
-                        style={{ width: '90px' }}
-                    />,
-                    <DateRangePicker
-                        range={10}
-                        onChange={handleRange}
-                        defaultValue={[
+                filterComponents={[
+                    {
+                        label: 'Email',
+                        render: Input,
+                        name: 'email',
+                        placeholder: 'Search email',
+                    },
+                    {
+                        label: 'Gender',
+                        name: 'gender',
+                        filterType: 'Select',
+                        placeholder: 'Gender',
+                        options: genderOptions,
+                        defaultValue: filters.gender,
+                    },
+                    {
+                        label: 'Created At',
+                        name: 'created_at',
+                        filterType: 'DateRangePicker',
+                        range: 10,
+                        defaultValue: [
                             filters.start_at && dayjs(filters.start_at),
                             filters.end_at && dayjs(filters.end_at),
-                        ]}
-                    />,
+                        ],
+                    },
                 ]}
-            />
-            <DataTable
-                rowSelection={{ selectedRowKeys, onChange: onSelectChange }}
+                onChange={implementTableFilter}
                 columns={columns}
-                dataSource={props.data.map((item) => ({
-                    ...item,
-                    key: item.id,
-                }))}
-                meta={props.meta}
-                onSort={handleSort}
-                onPageChange={(page, pageSize) =>
-                    setQueryParams({ page: page, per_page: pageSize })
-                }
+                dataSource={props.data}
+                rowKey="id"
+                search={filters.search}
+                pagination={paginationTransform(props.meta)}
                 loading={isFetching}
             />
         </MainLayout>

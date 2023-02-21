@@ -48,6 +48,8 @@ export const Route = {
 
     LogActivity: '/logs',
 
+    Notification: '/notifications',
+
     Home: '/dashboard/page',
     Dashboard: '/',
     Logout: '/auth/logout',
@@ -131,7 +133,8 @@ export const EndpointRoute = {
 
     User: '/users',
     CreateUser: '/users/create',
-    DeleteUser: '/users/deletes',
+    DeleteUser: '/users/delete',
+    DeleteBatchUser: '/users/deletes',
     EditUser: '/users/edit',
 
     Permission: '/permissions',
@@ -150,4 +153,6 @@ export const EndpointRoute = {
     UploadImage: '/commons/upload-file',
     UploadImages: '/commons/upload-files',
     Users: '/users',
+
+    NotificationMarkReadAll: '/notifications/mark-read-all',
 };

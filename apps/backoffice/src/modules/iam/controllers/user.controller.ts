@@ -4,6 +4,7 @@ import {
     Get,
     Param,
     Post,
+    Put,
     Query,
     UseGuards,
 } from '@nestjs/common';
@@ -91,7 +92,7 @@ export class UserController {
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_USER))
-    @Post('edit/:id')
+    @Put('edit/:id')
     async update(
         @Param('id') id: number,
         @Body() userUpdateRequest: UserUpdateRequest,
@@ -101,7 +102,7 @@ export class UserController {
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_USER))
-    @Get('delete/:id')
+    @Post('delete/:id')
     async delete(@Param('id') id: number): Promise<void> {
         await this.userCrudApplication.delete(id);
         this.inertiaAdapter.successResponse('users', 'Success update');

@@ -1,8 +1,4 @@
-import {
-    InboxOutlined,
-    MinusCircleOutlined,
-    PlusOutlined,
-} from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
     Button,
     Checkbox,
@@ -17,7 +13,6 @@ import {
     Space,
     Switch,
     TimePicker,
-    Upload,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
@@ -27,6 +22,8 @@ import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Section } from '../../../Components/molecules/Section';
 import { CheckboxDropdown } from 'apps/backoffice/app/Components/molecules/Dropdowns/CheckboxDropdown';
+import { Uploader } from 'apps/backoffice/app/Components/molecules/Form';
+import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
 
 const { Option } = Select;
 
@@ -55,7 +52,7 @@ const suffixSelector = (
     </Form.Item>
 );
 
-const FormBasic: React.FC = () => {
+const FormBasic: React.FC = (props: TInertiaProps) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -73,6 +70,7 @@ const FormBasic: React.FC = () => {
                 <FormContainer
                     form={form}
                     onFinish={onFinish}
+                    errors={props.error}
                     initialValues={{
                         prefix: '62',
                         quantity: 3,
@@ -189,21 +187,11 @@ const FormBasic: React.FC = () => {
                             getValueFromEvent={normFile}
                             noStyle
                         >
-                            <Upload.Dragger
+                            <Uploader
                                 name="files"
                                 action="/upload.do"
                                 listType="picture"
-                            >
-                                <p className="ant-upload-drag-icon">
-                                    <InboxOutlined />
-                                </p>
-                                <p className="ant-upload-text">
-                                    Click or drag file to this area to upload
-                                </p>
-                                <p className="ant-upload-hint">
-                                    Support for a single or bulk upload.
-                                </p>
-                            </Upload.Dragger>
+                            />
                         </Form.Item>
                     </Form.Item>
 

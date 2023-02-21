@@ -8,7 +8,7 @@ import { IUser } from '../../../Modules/User/Entities';
 import { defaultSizeSpace } from '../../../Utils/theme';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
-import { Buttons } from '../../../Components/atoms/Buttons';
+import { Button } from '../../../Components/atoms/Button';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
 import { Inertia } from '@inertiajs/inertia';
@@ -40,11 +40,11 @@ const UserDetailPage: React.FC = (props: IProps) => {
             breadcrumbs={Breadcrumbs.Users.DETAIL}
             topActions={
                 <>
-                    <Buttons icon={<DeleteOutlined />} onClick={handleDelete}>
+                    <Button icon={<DeleteOutlined />} onClick={handleDelete}>
                         Delete
-                    </Buttons>
+                    </Button>
                     <Link href={`${Route.EditUser}/${id}`}>
-                        <Buttons icon={<EditOutlined />}>Edit</Buttons>
+                        <Button icon={<EditOutlined />}>Edit</Button>
                     </Link>
                 </>
             }
