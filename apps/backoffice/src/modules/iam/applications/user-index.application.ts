@@ -9,7 +9,7 @@ import { config } from 'apps/backoffice/src/config';
 import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
 import { IUser } from 'interface-models/iam/user.interface';
 
-const ALLOW_TO_SORT = ['latest', 'oldest', 'fullname'];
+const ALLOW_TO_SORT = ['latest', 'oldest', 'fullname', 'email'];
 
 @Injectable()
 export class UserIndexApplication extends IndexApplication {
