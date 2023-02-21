@@ -24,6 +24,7 @@ import CompanyLogo from '../../Components/atoms/Logos/CompanyLogo';
 import MainHeader from '../../Components/organisms/Layout/MainHeader';
 import { UserAvatar } from '../../Components/atoms/Avatars';
 import NotificationIcon from '../../Components/atoms/Icons/NotificationIcon';
+import { Overlay } from '../../Components/atoms/Overlays';
 
 export type IProps = {
     children: React.ReactNode;
@@ -138,7 +139,7 @@ export const MainLayout: React.FC<IProps> = ({
 }: IProps) => {
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
     const isMobile = isMobileScreen();
 
     // active menu item key
@@ -308,15 +309,14 @@ export const MainLayout: React.FC<IProps> = ({
                     />
                 )}
 
+                {isMobile && !collapsed && (
+                    <Overlay onClick={() => setCollapsed(true)} />
+                )}
+
                 <Content
-                    onClick={() => {
-                        // close sidebar
-                        return isMobile && !collapsed && setCollapsed(true);
-                    }}
                     style={{
-                        padding: '28px 24px',
+                        padding: isMobile ? '18px 16px' : '28px 24px',
                         overflow: 'auto',
-                        marginTop: isMobile ? '25px' : 0,
                     }}
                 >
                     <PageHeader

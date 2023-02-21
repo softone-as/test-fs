@@ -21,7 +21,7 @@ const NotificationIcon: React.FC<INotificationIconProps> = ({
                         style={{
                             display: 'block',
                             color: 'white',
-                            fontSize: '22px',
+                            fontSize: '21px',
                         }}
                     />
                 </Badge>

@@ -44,7 +44,7 @@ const MainHeader: React.FC<IMainHeaderProps> = ({
                 <CompanyLogo />
             </Space>
 
-            <Space size={10}>
+            <Space size={10} align="center">
                 <UserAvatar userDetail={userDetail} />
                 <NotificationIcon notifications={notifications} />
             </Space>
