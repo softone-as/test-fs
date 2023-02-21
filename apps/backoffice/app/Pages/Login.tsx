@@ -20,8 +20,9 @@ import { Link } from '@inertiajs/inertia-react';
 import { doLogin } from '../Modules/Auth/Login/Actions';
 import { TLogin } from '../Modules/Auth/Login/Entities';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
-import { createYupSync } from '../Utils/utils';
+import { createYupSync, isMobileScreen } from '../Utils/utils';
 import { themeColors } from '../Utils/theme';
+import { FormContainer } from '../Components/organisms/FormContainer';
 
 const schema: yup.SchemaOf<TLogin> = yup.object().shape({
     email: yup
@@ -34,6 +35,8 @@ const schema: yup.SchemaOf<TLogin> = yup.object().shape({
 const Login = (props: TInertiaProps) => {
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm<TLogin>();
+
+    const isMobile = isMobileScreen();
 
     const [api, contextHolder] = notification.useNotification();
 
@@ -62,14 +65,17 @@ const Login = (props: TInertiaProps) => {
         <LoginLayout title="Login">
             {contextHolder}
 
-            <Row align="middle" justify="center">
-                <Col span={24}>
+            <Row align="middle" justify="center" style={{ height: '80%' }}>
+                <Col
+                    span={24}
+                    style={{ padding: `4rem ${isMobile ? '' : '7rem'}` }}
+                >
                     <Space
                         direction="vertical"
                         style={{
                             width: '100%',
                             alignItems: 'center',
-                            paddingTop: '4rem',
+                            textAlign: 'center',
                         }}
                     >
                         <Typography.Title level={4}>
@@ -80,15 +86,15 @@ const Login = (props: TInertiaProps) => {
                             specification in Xihu district
                         </Typography.Text>
                     </Space>
-                    <Form
+
+                    <FormContainer
                         form={form}
                         name="basic"
-                        labelCol={{ span: 4 }}
-                        wrapperCol={{ offset: 4, span: 16 }}
                         labelAlign="left"
                         initialValues={{ remember: true }}
                         autoComplete="off"
-                        style={{ padding: '4rem' }}
+                        errors={props.error}
+                        style={{ paddingTop: '4rem' }}
                         onFinish={onSubmit}
                         className="login-form"
                     >
@@ -98,12 +104,7 @@ const Login = (props: TInertiaProps) => {
                                 prefix={<UserOutlined />}
                             />
                         </Form.Item>
-                        <Form.Item
-                            name="password"
-                            rules={[yupSync]}
-                            validateStatus={props?.error?.message && 'error'}
-                            help={props?.error?.message}
-                        >
+                        <Form.Item name="password" rules={[yupSync]}>
                             <Input.Password
                                 placeholder="Password"
                                 prefix={<LockOutlined />}
@@ -141,7 +142,7 @@ const Login = (props: TInertiaProps) => {
                                 Register now!
                             </Link>
                         </Form.Item>
-                    </Form>
+                    </FormContainer>
                 </Col>
             </Row>
         </LoginLayout>

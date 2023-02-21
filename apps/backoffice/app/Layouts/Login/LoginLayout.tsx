@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Row, Col } from 'antd';
 import { themeColors } from '../../Utils/theme';
+import { isMobileScreen } from '../../Utils/utils';
 
 type TLoginLayout = {
     children: React.ReactNode;
@@ -10,6 +11,8 @@ type TLoginLayout = {
 const { Content } = Layout;
 
 export const LoginLayout: React.FC<TLoginLayout> = ({ children }) => {
+    const isMobile = isMobileScreen();
+
     return (
         <>
             <Layout style={{ minHeight: '100vh' }}>
@@ -19,7 +22,7 @@ export const LoginLayout: React.FC<TLoginLayout> = ({ children }) => {
                     }}
                 >
                     <Row style={{ width: '100%' }}>
-                        <Col span={10}>
+                        <Col span={isMobile ? 24 : 10}>
                             <div
                                 style={{
                                     width: '20%',
@@ -37,7 +40,7 @@ export const LoginLayout: React.FC<TLoginLayout> = ({ children }) => {
                             </div>
                             {children}
                         </Col>
-                        <Col span={14}>
+                        <Col span={isMobile ? 24 : 14}>
                             <img
                                 src={'/img/ilustration-login.png'}
                                 alt="ilustration login"
