@@ -71,8 +71,6 @@ const FormUserPage: React.FC = (props: IProps) => {
         form.resetFields();
     };
 
-    console.log(props.data);
-
     return (
         <Layout
             title={props.isUpdate ? 'Edit User' : 'Add New User'}
@@ -86,7 +84,8 @@ const FormUserPage: React.FC = (props: IProps) => {
                 <FormContainer
                     initialValues={{
                         ...props.data,
-                        roles: props.data?.roles[0]?.id,
+                        roles: props.data?.roles?.map((role) => role.id),
+                        password: undefined,
                     }}
                     onFinish={onFinish}
                     form={form}
