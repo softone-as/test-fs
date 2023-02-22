@@ -12,16 +12,19 @@ import { ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
-import { Inertia } from '@inertiajs/inertia';
 
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
-import { EndpointRoute, Route } from 'apps/backoffice/app/Enums/Route';
+import { Route } from 'apps/backoffice/app/Enums/Route';
 import { ItemType } from '../../../Components/organisms/DataTable/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 import { Button } from 'apps/backoffice/app/Components/atoms/Button';
+import {
+    deleteBatchUsers,
+    deleteUser,
+} from 'apps/backoffice/app/Modules/User/Action';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -114,10 +117,7 @@ const UsersPage: React.FC = (props: IProps) => {
                                         title: 'Are You Sure? ',
                                         type: 'confirm',
                                         variant: 'danger',
-                                        onOk: () =>
-                                            Inertia.post(
-                                                `${EndpointRoute.DeleteUser}/${userId}`,
-                                            ),
+                                        onOk: () => deleteUser(userId),
                                     });
                                 },
                             },
@@ -142,10 +142,7 @@ const UsersPage: React.FC = (props: IProps) => {
                     title: 'Are You Sure?',
                     type: 'confirm',
                     variant: 'danger',
-                    onOk: () =>
-                        Inertia.post(EndpointRoute.DeleteBatchUser, {
-                            ids: selectedRowKeys,
-                        }),
+                    onOk: () => deleteBatchUsers(selectedRowKeys),
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },

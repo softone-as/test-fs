@@ -11,9 +11,9 @@ import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { Button } from '../../../Components/atoms/Button';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
-import { Inertia } from '@inertiajs/inertia';
-import { EndpointRoute, Route } from 'apps/backoffice/app/Enums/Route';
+import { Route } from 'apps/backoffice/app/Enums/Route';
 import { useModal } from 'apps/backoffice/app/Utils/modal';
+import { deleteUser } from 'apps/backoffice/app/Modules/User/Action';
 interface IProps extends TInertiaProps {
     data: IUser;
 }
@@ -27,7 +27,7 @@ const UserDetailPage: React.FC = (props: IProps) => {
             title: 'Are You Sure? ',
             type: 'confirm',
             variant: 'danger',
-            onOk: () => Inertia.post(`${EndpointRoute.DeleteUser}/${id}`),
+            onOk: () => deleteUser(id),
         });
     };
 
