@@ -1,75 +1,19 @@
 import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
 import { Descriptions, Space } from 'antd';
-import {
-    DeleteOutlined,
-    DownloadOutlined,
-    EditOutlined,
-    EyeOutlined,
-} from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { IUser } from '../../../Modules/User/Entities';
-import { ColumnsType } from 'antd/es/table';
-import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
+import { defaultSizeSpace } from '../../../Utils/theme';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
-import { DataTable } from '../../../Components/organisms/DataTable';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 import { Button } from '../../../Components/atoms/Button';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
-import { Section, SectionHeader } from '../../../Components/molecules/Section';
-
-const columns: ColumnsType<IUser> = [
-    {
-        title: 'ID',
-        dataIndex: 'id',
-        key: 'id',
-    },
-    {
-        title: 'Name',
-        dataIndex: 'fullname',
-        key: 'fullname',
-    },
-    {
-        title: 'Identity Number',
-        dataIndex: 'identityNumber',
-        key: 'identityNumber',
-    },
-    {
-        title: 'Phone Number',
-        dataIndex: 'phoneNumber',
-        key: 'phoneNumber',
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        width: '142px',
-        render: () => (
-            <Space size="large">
-                <Link href="#">
-                    <EyeOutlined style={iconActionTableStyle} />
-                </Link>
-                <Link href="#">
-                    <EditOutlined style={iconActionTableStyle} />
-                </Link>
-                <Link href="#">
-                    <DeleteOutlined style={iconActionTableStyle} />
-                </Link>
-            </Space>
-        ),
-    },
-];
-
-const data: IUser[] = [
-    {
-        id: 1,
-        fullname: 'John Cena',
-        email: 'john@cena.com',
-        identityNumber: '231',
-        phoneNumber: '0841231322',
-    },
-];
-
+import { Section } from '../../../Components/molecules/Section';
+import { route, Route } from 'apps/backoffice/app/Enums/Route';
+import { useModal } from 'apps/backoffice/app/Utils/modal';
+import { deleteUser } from 'apps/backoffice/app/Modules/User/Action';
 interface IProps extends TInertiaProps {
     data: IUser;
 }
@@ -78,16 +22,27 @@ const UserDetailPage: React.FC = (props: IProps) => {
     const { id, identityNumber, email, fullname, phoneNumber, gender } =
         props.data;
 
+    const handleDelete = () => {
+        useModal({
+            title: 'Are You Sure? ',
+            type: 'confirm',
+            variant: 'danger',
+            onOk: () => deleteUser(id),
+        });
+    };
+
     return (
         <MainLayout
             title="Detail User"
             breadcrumbs={Breadcrumbs.Users.DETAIL}
             topActions={
                 <>
-                    <Button icon={<DeleteOutlined />}>Delete</Button>
-                    <Button icon={<EditOutlined />}>Edit</Button>
-                    <Button icon={<DownloadOutlined />}>Download</Button>
-                    <Button type="primary">Action</Button>
+                    <Button icon={<DeleteOutlined />} onClick={handleDelete}>
+                        Delete
+                    </Button>
+                    <Link href={route(Route.UserEdit, { id })}>
+                        <Button icon={<EditOutlined />}>Edit</Button>
+                    </Link>
                 </>
             }
         >
@@ -131,22 +86,6 @@ const UserDetailPage: React.FC = (props: IProps) => {
                             http://collateral.dot.co.id/resources/contracts/new?viaResource=collaterals&viaResourceId=11927&viaRelationship=contracts
                         </Descriptions.Item>
                     </DescriptionContainer>
-
-                    <SectionHeader
-                        title="Table Title"
-                        actions={<Button type="primary">Add Data</Button>}
-                    />
-
-                    <DataTable<IUser>
-                        columns={columns}
-                        dataSource={data}
-                        rowKey="id"
-                        pagination={{
-                            current: 1,
-                            pageSize: 10,
-                            total: 23,
-                        }}
-                    />
                 </Section>
             </Space>
         </MainLayout>

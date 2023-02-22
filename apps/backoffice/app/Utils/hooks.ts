@@ -4,6 +4,7 @@ import { IndexRequest } from '../../src/common/request/index.request';
 import {
     DataTablePagination,
     DataTableSorter,
+    ITableCurrentDataSource,
 } from '../Components/organisms/DataTable/Entities';
 import { FilterValue } from 'antd/es/table/interface';
 
@@ -28,7 +29,7 @@ export type TPropsTableFilter<T> = Omit<IndexRequest, 'perPage' | 'order'> & {
 } & T;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useTableFilter = <T>() => {
+export const useTableFilter = <T = { [key: string]: any }>() => {
     const [status, setStatus] = useState({
         isFetching: false,
     });
@@ -100,27 +101,35 @@ export const useTableFilter = <T>() => {
 
     const implementTableFilter = (
         customFilter: T,
-        sorter: Omit<DataTableSorter<any>, 'column'>,
+        sorter?: Omit<DataTableSorter<any>, 'column'>,
         filters?: Record<string, FilterValue>,
         pagination?: DataTablePagination,
+        extra?: ITableCurrentDataSource<any>,
     ) => {
-        const flatCustomFilter = Object.keys(customFilter).reduce(
-            (all, key) => {
-                if (
-                    typeof customFilter[key] === 'object' &&
-                    !Array.isArray(customFilter[key])
-                ) {
-                    return { ...all, ...customFilter[key] };
-                }
+        if (extra.action === 'custom') {
+            extra.customContext?.forEach((filter) => {
+                if (!customFilter[filter.name]) return;
 
-                return { ...all, [key]: customFilter[key] };
-            },
-            {},
-        );
+                switch (filter.filterType) {
+                    case 'DateRangePicker': {
+                        customFilter[filter.name] = `${customFilter[
+                            filter.name
+                        ][0]?.toISOString()},${customFilter[
+                            filter.name
+                        ][1]?.toISOString()}`;
+                    }
+                }
+            });
+        }
+
+        const strictSorter = {
+            order: sorter?.order,
+            sort: sorter?.sort,
+        };
 
         setQueryParams({
-            ...flatCustomFilter,
-            ...sorter,
+            ...customFilter,
+            ...strictSorter,
             ...filters,
             ...pagination,
         });

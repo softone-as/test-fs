@@ -8,7 +8,7 @@ import { Badge, Button } from 'antd';
 import { Breadcrumbs } from '../../Enums/Breadcrumb';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
-import { Route } from '../../Enums/Route';
+import { route, Route } from '../../Enums/Route';
 import { markReadAllNotification } from '../../Modules/Notification/Action';
 import { NotifciationType } from '../../Modules/Notification/Entities';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
@@ -54,7 +54,7 @@ const NotificationPage: React.FC = (props: IProps) => {
                             actions={[
                                 {
                                     type: 'view',
-                                    href: `${Route.Notification}/${data.id}`,
+                                    href: route(Route.NotificationDetail, data),
                                 },
                             ]}
                         />
@@ -96,6 +96,7 @@ const NotificationPage: React.FC = (props: IProps) => {
                 batchActionMenus={[]}
                 filterComponents={[
                     {
+                        label: 'Status',
                         name: 'isRead',
                         filterType: 'Select',
                         options: isReadOptions,

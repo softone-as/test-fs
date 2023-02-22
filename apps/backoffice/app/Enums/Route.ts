@@ -1,4 +1,4 @@
-export const route = (url: Route, params: Record<string, unknown>): string => {
+export const route = (url: Route, params: any): string => {
     const urlParamIndex = url.indexOf(':');
     const urlParamName = url.substring(urlParamIndex + 1, url.length);
     const paramValue = params[urlParamName];
@@ -43,6 +43,7 @@ export enum Route {
     UserCreate = '/users/create',
     UserEdit = '/users/edit/:id',
     UserDelete = '/users/delete/:id',
+    UserDeleteBatch = '/users/deletes',
 
     LogActivity = '/logs',
     LogActivityDetail = '/logs/:id',

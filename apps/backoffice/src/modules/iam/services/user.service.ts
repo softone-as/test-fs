@@ -17,8 +17,8 @@ export class UserService {
     ) {}
 
     async create(data: IUser): Promise<IUser> {
-        const newuser = this.userRepository.create(data);
-        return await this.userRepository.save(newuser);
+        const newUser = this.userRepository.create(data);
+        return await this.userRepository.save(newUser);
     }
 
     async validateUser(email: string, password: string): Promise<IUser> {
@@ -110,7 +110,12 @@ export class UserService {
         await this.userRepository.delete({ id });
     }
 
-    async update(id: number, data: IUser, existing: IUser): Promise<void> {
-        await this.userRepository.update(id, Object.assign(existing, data));
+    async bulkDelete(ids: number[]): Promise<void> {
+        await this.userRepository.delete(ids);
+    }
+
+    async update(id: number, data: IUser): Promise<IUser> {
+        await this.userRepository.update(id, data);
+        return data;
     }
 }

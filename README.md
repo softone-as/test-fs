@@ -1,10 +1,3 @@
-# How to use
-
-1. Run the following commands to get all the pacakges
-   `yarn install`
-2. Run `./node_modules/.bin/webpack --mode production`, this willbundle all of the react files.
-3. Browse to https://localhost:3000/book
-
 # Requirements:
 
 -   NodeJS LTS 16+
@@ -78,14 +71,11 @@
 | `yarn migrate:create [migration_name]`   | Create migration but is empty                            |
 | `yarn migrate:generate [migration_name]` | Generate migration add or changes the entities directory |
 | `yarn seed:run`                          | Run the seeder                                           |
-| data                                     |
 | `yarn schema:drop`                       | Drop all tables                                          |
 
-### DB Schema ERD Locations:
+### DB Schema ERD:
 
 We use DBML to create and publish the ERD documentation. Visit [here](https://www.dbml.org/home/#dbdiagram) to show you how to (official documentation)
-
-> https://dbdocs.io/buangdisini.dev/Clover Mart
 
 ### Published Edited DBDOCS Commands:
 
@@ -102,78 +92,261 @@ yarn seed:run -s CreateAppCitySeeder
 
 // reset database
 yarn schema:drop && yarn migrate && yarn seed:run
-
-// or
-
-yarn seed:run
-
-// with specific class name
-yarn seed:run -s CreateAppProvinceSeeder
-yarn seed:run -s CreateAppCitySeeder
-
-// reset database
-yarn schema:drop && yarn migrate && yarn seed:run
 ```
 
 ## Project anatomy
 
 ```
-.
-├── apps
-│   └── backoffice                     → Group of Admin Panel/
-│       ├── app                        → The backoffice application/
-│       │   ├── Components             → Component frontend/
-│       │   │   ├── atoms/
-│       │   │   │   └── ex: Texts
-│       │   │   ├── molecules/
-│       │   │   │   └── ex: sidebar
-│       │   │   └── organism/
-│       │   │       └── ex: datatables
-│       │   ├── Enums                  → Global Enumerations, ex: statu("waiting"=1)
-│       │   ├── Layouts                → General layout
-│       │   ├── Modules                → Collection Type every module/
-│       │   │   └── ex: user
-│       │   ├── Pages                  → Backoffice pages collection/
-│       │   │   └── ex: users
-│       │   └── Utils                  → Helper for backoffice
-│       ├── public                     → Property for components/
-│       │   ├── css
-│       │   ├── lib/
-│       │   │   └── ex: bootstrap
-│       │   └── unity/
-│       │       ├── css
-│       │       ├── img
-│       │       └── js
-│       ├── assets                     → Property for assets for all file config/
-│       ├── src                        → Source nestjs for backoffice/
-│       │   ├── common                 → General needed/
-│       │   │   ├── enums              → Global Enumerations, ex: statu("waiting"=1)
-│       │   │   ├── filters            → Filtering property
-│       │   │   ├── interceptors       → Create bind extra logic before/after method execution
-│       │   │   ├── interface          → Interface for global, ex: paginate
-│       │   │   ├── pipes              → For custom validation
-│       │   │   ├── request            → Request Rules
-│       │   │   ├── rules              → Other rules, ex: maxBigInt
-│       │   │   └── utils              → Global utility
-│       │   ├── infrastructure         → External replaceable, ex: database, caching/
-│       │   │   ├── applications
-│       │   │   ├── inertia            → Inertia package/
-│       │   │   │   ├── adapter
-│       │   │   │   ├── entities
-│       │   │   │   └── middlewares
-│       │   │   └── redis              → Caching
-│       │   └── modules                → Contain all module with bussiness logic/
-│       │       └── ex: auth
-│       └── storages                   → Static content
-├── databases                          → Database migation & seeder/
-│   ├── migrations
-│   └── seeds
-├── entities                           → Contain business entity/
-│   └── ex: iam
-├── interface-models                   → Interface to models database/
-│   └── ex: iam
-├── node_modules (generated)           → NPM dependencies
-└── test                               → All unit test writen
+├── api
+│   ├── assets
+│   ├── dist
+│   ├── src
+│   │   ├── cache
+│   │   ├── common
+│   │   │   ├── constants
+│   │   │   ├── enums
+│   │   │   ├── filters
+│   │   │   ├── interceptors
+│   │   │   ├── interface
+│   │   │   ├── pipes
+│   │   │   ├── request
+│   │   │   ├── rules
+│   │   │   └── utils
+│   │   ├── health
+│   │   ├── infrastructure
+│   │   │   ├── applications
+│   │   │   ├── cache
+│   │   │   │   ├── decorators
+│   │   │   │   ├── interceptors
+│   │   │   │   ├── middlewares
+│   │   │   │   └── services
+│   │   │   ├── error
+│   │   │   ├── mail
+│   │   │   │   └── templates
+│   │   │   ├── notification
+│   │   │   │   └── services
+│   │   │   └── schedules
+│   │   └── modules
+│   │       ├── auth
+│   │       │   ├── applications
+│   │       │   ├── controllers
+│   │       │   │   └── v1
+│   │       │   ├── dto
+│   │       │   ├── guards
+│   │       │   ├── responses
+│   │       │   ├── serializers
+│   │       │   ├── services
+│   │       │   └── strategies
+│   │       ├── common
+│   │       │   ├── applications
+│   │       │   ├── controllers
+│   │       │   │   └── v1
+│   │       │   ├── dto
+│   │       │   └── services
+│   │       ├── queue
+│   │       │   ├── contants
+│   │       │   ├── contracts
+│   │       │   └── services
+│   │       └── user
+│   │           ├── applications
+│   │           ├── controllers
+│   │           │   └── v1
+│   │           ├── request
+│   │           ├── responses
+│   │           └── services
+│   └── storages
+├── backoffice
+│   ├── app
+│   │   ├── Components
+│   │   │   ├── atoms
+│   │   │   │   └── Button
+│   │   │   ├── molecules
+│   │   │   │   ├── Breadcrumbs
+│   │   │   │   ├── DescriptionContainer
+│   │   │   │   ├── Dropdowns
+│   │   │   │   ├── Form
+│   │   │   │   ├── Headers
+│   │   │   │   ├── Pickers
+│   │   │   │   ├── Progress
+│   │   │   │   ├── RowActionButtons
+│   │   │   │   ├── Section
+│   │   │   │   └── TimelinesItem
+│   │   │   └── organisms
+│   │   │       ├── DataTable
+│   │   │       ├── FilterSection
+│   │   │       │   └── InputCollection
+│   │   │       └── FormContainer
+│   │   ├── Contexts
+│   │   ├── Enums
+│   │   ├── Layouts
+│   │   │   ├── Login
+│   │   │   └── MainLayout
+│   │   ├── Modules
+│   │   │   ├── Auth
+│   │   │   │   ├── ForgotPassword
+│   │   │   │   └── Login
+│   │   │   ├── Common
+│   │   │   ├── Inertia
+│   │   │   ├── Notification
+│   │   │   ├── Page
+│   │   │   ├── Profile
+│   │   │   └── User
+│   │   ├── Pages
+│   │   │   ├── Configs
+│   │   │   ├── Iam
+│   │   │   │   ├── Permissions
+│   │   │   │   ├── RolePermissions
+│   │   │   │   ├── Roles
+│   │   │   │   └── Users
+│   │   │   ├── LogActivities
+│   │   │   ├── Notifications
+│   │   │   ├── Profile
+│   │   │   └── Sample
+│   │   │       ├── Detail
+│   │   │       └── Form
+│   │   ├── Types
+│   │   └── Utils
+│   ├── assets
+│   ├── public
+│   │   ├── css
+│   │   ├── img
+│   │   ├── js
+│   │   ├── lib
+│   │   │   ├── bootstrap
+│   │   │   │   └── dist
+│   │   │   │       ├── css
+│   │   │   │       └── js
+│   │   │   ├── jquery
+│   │   │   │   └── dist
+│   │   │   ├── jquery-validation
+│   │   │   │   └── dist
+│   │   │   └── jquery-validation-unobtrusive
+│   │   ├── temp
+│   │   └── unity
+│   │       ├── css
+│   │       ├── img
+│   │       └── js
+│   │           └── lib
+│   ├── src
+│   │   ├── common
+│   │   │   ├── enums
+│   │   │   ├── filters
+│   │   │   ├── interceptors
+│   │   │   ├── interface
+│   │   │   ├── pipes
+│   │   │   ├── request
+│   │   │   ├── rules
+│   │   │   └── utils
+│   │   ├── infrastructure
+│   │   │   ├── ability
+│   │   │   ├── applications
+│   │   │   ├── cache
+│   │   │   │   ├── decorators
+│   │   │   │   ├── middlewares
+│   │   │   │   └── services
+│   │   │   ├── entities
+│   │   │   │   └── subscribers
+│   │   │   ├── error
+│   │   │   ├── event
+│   │   │   ├── inertia
+│   │   │   │   ├── adapter
+│   │   │   │   ├── entities
+│   │   │   │   └── middlewares
+│   │   │   ├── mail
+│   │   │   │   └── templates
+│   │   │   ├── notification
+│   │   │   │   └── services
+│   │   │   ├── redis
+│   │   │   ├── sentry
+│   │   │   └── serializers
+│   │   └── modules
+│   │       ├── auth
+│   │       │   ├── applications
+│   │       │   ├── controllers
+│   │       │   ├── guards
+│   │       │   ├── requests
+│   │       │   ├── responses
+│   │       │   ├── serializers
+│   │       │   ├── services
+│   │       │   └── strategies
+│   │       ├── common
+│   │       │   └── controllers
+│   │       ├── config
+│   │       │   ├── applications
+│   │       │   ├── controllers
+│   │       │   ├── guards
+│   │       │   ├── mappers
+│   │       │   ├── requests
+│   │       │   ├── responses
+│   │       │   └── services
+│   │       ├── glob
+│   │       │   └── service
+│   │       ├── iam
+│   │       │   ├── applications
+│   │       │   ├── controllers
+│   │       │   ├── decorators
+│   │       │   ├── guards
+│   │       │   ├── mappers
+│   │       │   ├── middlewares
+│   │       │   ├── policies
+│   │       │   ├── requests
+│   │       │   ├── responses
+│   │       │   └── services
+│   │       ├── log-activity
+│   │       │   ├── applications
+│   │       │   ├── controllers
+│   │       │   ├── requests
+│   │       │   ├── responses
+│   │       │   └── services
+│   │       ├── main
+│   │       │   └── controllers
+│   │       ├── notification
+│   │       │   ├── applications
+│   │       │   ├── controllers
+│   │       │   ├── middlewares
+│   │       │   ├── requests
+│   │       │   └── services
+│   │       ├── profile
+│   │       │   ├── applications
+│   │       │   ├── controllers
+│   │       │   ├── requests
+│   │       │   ├── responses
+│   │       │   └── services
+│   │       └── queue
+│   │           ├── contants
+│   │           ├── contracts
+│   │           └── services
+│   └── storages
+└── graphql
+    ├── assets
+    ├── public
+    └── src
+        ├── common
+        │   ├── enums
+        │   ├── filters
+        │   ├── guards
+        │   ├── interface
+        │   ├── middlewares
+        │   ├── request
+        │   └── utils
+        ├── infrastructure
+        │   ├── applications
+        │   └── cache
+        │       ├── decorators
+        │       ├── middlewares
+        │       └── services
+        └── modules
+            ├── auth
+            │   ├── applications
+            │   ├── resolvers
+            │   ├── services
+            │   └── types
+            └── iam
+                ├── applications
+                ├── mutations
+                ├── resolvers
+                ├── services
+                └── types
 ```
 
 # VSCode Extentions

@@ -9,7 +9,7 @@ import { config } from 'apps/backoffice/src/config';
 import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
 import { IUser } from 'interface-models/iam/user.interface';
 
-const ALLOW_TO_SORT = ['latest', 'oldest', 'fullname'];
+const ALLOW_TO_SORT = ['latest', 'oldest', 'fullname', 'email'];
 
 @Injectable()
 export class UserIndexApplication extends IndexApplication {
@@ -35,13 +35,14 @@ export class UserIndexApplication extends IndexApplication {
             );
         }
 
-        if (request.start_at && request.end_at) {
+        if (request.created_at) {
+            const [startAt, endAt] = request.created_at.split(',');
             query
                 .where(`user.createdAt >= :startAt`, {
-                    startAt: request.start_at,
+                    startAt,
                 })
                 .andWhere(`user.createdAt <= :endAt`, {
-                    endAt: request.end_at,
+                    endAt,
                 });
         }
 

@@ -21,9 +21,6 @@ export class UserUpdateRequest {
     phoneNumber: string;
 
     @IsNotEmpty({ message: 'Field wajiib diisi' })
-    address: string;
-
-    @IsNotEmpty({ message: 'Field wajiib diisi' })
     roles: IRole[];
 
     @IsOptional({ message: 'Field wajiib diisi' })

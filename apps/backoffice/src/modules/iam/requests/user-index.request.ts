@@ -12,9 +12,5 @@ export class UserIndexRequest extends IndexRequest {
 
     @IsString()
     @IsOptional()
-    start_at?: string;
-
-    @IsString()
-    @IsOptional()
-    end_at?: string;
+    created_at?: string;
 }

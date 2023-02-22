@@ -18,7 +18,7 @@ const DetailPermissionPage: React.FC = (props: IProps) => {
 
     return (
         <MainLayout
-            title="Detail Permisson"
+            title="Detail Permission"
             breadcrumbs={Breadcrumbs.Permissions.DETAIL}
         >
             <Space
