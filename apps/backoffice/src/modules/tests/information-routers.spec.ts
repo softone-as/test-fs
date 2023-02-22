@@ -13,12 +13,10 @@ describe(__filename, () => {
         const routersFrontend = Object.values(Route);
         const routersBackend = response.body as string[];
 
-        let isMatch = true;
+        const missingRoute = !!routersFrontend.find(
+            (router) => !routersBackend.includes(router),
+        );
 
-        routersFrontend.forEach((router) => {
-            if (!routersBackend.includes(router)) isMatch = false;
-        });
-
-        expect(isMatch).toEqual(true);
+        expect(missingRoute).toEqual(false);
     });
 });

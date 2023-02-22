@@ -8,7 +8,7 @@ import {
     SettingOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import { Page } from '@inertiajs/inertia';
+import { Inertia, Page } from '@inertiajs/inertia';
 import { Head, Link, usePage } from '@inertiajs/inertia-react';
 import type { MenuProps } from 'antd';
 import {
@@ -31,7 +31,6 @@ import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { sidebarThemeConfig } from '../../Utils/theme';
 import { isMobileScreen } from '../../Utils/utils';
-import { router } from '../../Modules/Inertia/InertiaRouter';
 
 export type IProps = {
     children: React.ReactNode;
@@ -50,7 +49,7 @@ const handleLogout = (
     const isOk = confirm('Are you sure to logout? ');
 
     if (isOk) {
-        router(Route.AuthLogout);
+        Inertia.get(Route.AuthLogout);
     }
 };
 
