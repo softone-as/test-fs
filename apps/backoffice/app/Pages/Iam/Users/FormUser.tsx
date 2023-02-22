@@ -7,13 +7,14 @@ import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Enums/Breadcrumb';
 
-import { createUser } from '../../../Modules/User/Action';
+import { createUser, editUser } from '../../../Modules/User/Action';
 
 import { IUserForm } from '../../../Modules/User/Entities';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { IRole } from 'interface-models/iam/role.interface';
 import { Section } from '../../../Components/molecules/Section';
 import { AppContext } from '../../../Contexts/App';
+import { IUser } from 'apps/backoffice/app/Modules/Profile/Entities';
 
 const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
@@ -42,6 +43,8 @@ const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
 
 interface IProps extends TInertiaProps {
     roles: IRole[];
+    data?: IUser;
+    isUpdate: boolean;
 }
 
 const FormUserPage: React.FC = (props: IProps) => {
@@ -56,8 +59,7 @@ const FormUserPage: React.FC = (props: IProps) => {
 
         try {
             await form.validateFields();
-            // TODO: do post API
-            createUser(data);
+            props.isUpdate ? editUser(props.data.id, data) : createUser(data);
             notifyNavigating();
             setIsLoading(false);
         } catch (error) {
@@ -70,9 +72,21 @@ const FormUserPage: React.FC = (props: IProps) => {
     };
 
     return (
-        <Layout title="Add New User" breadcrumbs={Breadcrumbs.Users.CREATE}>
+        <Layout
+            title={props.isUpdate ? 'Edit User' : 'Add New User'}
+            breadcrumbs={
+                props.isUpdate
+                    ? Breadcrumbs.Users.EDIT
+                    : Breadcrumbs.Users.CREATE
+            }
+        >
             <Section>
                 <FormContainer
+                    initialValues={{
+                        ...props.data,
+                        roles: props.data?.roles?.map((role) => role.id),
+                        password: undefined,
+                    }}
                     onFinish={onFinish}
                     form={form}
                     layout="vertical"

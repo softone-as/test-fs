@@ -134,6 +134,7 @@ export const EndpointRoute = {
     User: '/users',
     CreateUser: '/users/create',
     DeleteUser: '/users/delete',
+    DeleteBatchUser: '/users/deletes',
     EditUser: '/users/edit',
 
     Permission: '/permissions',

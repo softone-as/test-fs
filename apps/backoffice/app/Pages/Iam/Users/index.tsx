@@ -5,27 +5,26 @@ import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
-import {} from '../../../Utils/notification';
-import dayjs from 'dayjs';
-import {
-    FileExcelOutlined,
-    PlusCircleOutlined,
-    ShareAltOutlined,
-} from '@ant-design/icons';
 import { Input, Tag } from 'antd';
+import dayjs from 'dayjs';
+
+import { ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
 import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
-import { Inertia } from '@inertiajs/inertia';
 
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 
-import { Link } from '@inertiajs/inertia-react';
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
+import { Route } from 'apps/backoffice/app/Enums/Route';
 import { ItemType } from '../../../Components/organisms/DataTable/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 import { Button } from 'apps/backoffice/app/Components/atoms/Button';
+import {
+    deleteBatchUsers,
+    deleteUser,
+} from 'apps/backoffice/app/Modules/User/Action';
 
 interface IProps extends TInertiaProps {
     data: UserResponse[];
@@ -44,17 +43,6 @@ const UsersPage: React.FC = (props: IProps) => {
         status: { isFetching },
     } = useTableFilter<TFilters>();
     const isMobile = isMobileScreen();
-
-    const handleBatchDelete = (selectedRowKeys) => {
-        return Inertia.post(`/users/deletes`, {
-            ids: selectedRowKeys,
-        });
-    };
-
-    const handleCancel = () => {
-        // TODO: Replace with actual cancel logic
-        console.log('cancel modal');
-    };
 
     const columns: ColumnsType<IUser> = [
         {
@@ -106,29 +94,37 @@ const UsersPage: React.FC = (props: IProps) => {
             title: isMobile ? null : 'Action',
             key: 'action',
             width: '142px',
-            render: () => (
-                <RowActionButtons
-                    actions={[
-                        {
-                            type: 'view',
-                            href: `#`,
-                            title: 'view',
-                        },
-                        {
-                            type: 'edit',
-                            href: `#`,
-                            title: 'edit',
-                        },
-                        {
-                            type: 'delete',
-                            title: 'delete',
-                            onClick: () => {
-                                // TODO : handle delete function
+            render: (text, record) => {
+                const userId = record.id;
+                return (
+                    <RowActionButtons
+                        actions={[
+                            {
+                                type: 'view',
+                                href: `${Route.Users}/${userId}`,
+                                title: 'view',
                             },
-                        },
-                    ]}
-                />
-            ),
+                            {
+                                type: 'edit',
+                                href: `${Route.EditUser}/${userId}`,
+                                title: 'edit',
+                            },
+                            {
+                                type: 'delete',
+                                title: 'delete',
+                                onClick: () => {
+                                    useModal({
+                                        title: 'Are You Sure? ',
+                                        type: 'confirm',
+                                        variant: 'danger',
+                                        onOk: () => deleteUser(userId),
+                                    });
+                                },
+                            },
+                        ]}
+                    />
+                );
+            },
         },
     ];
 
@@ -143,11 +139,10 @@ const UsersPage: React.FC = (props: IProps) => {
             label: 'Delete',
             onClick: (_, selectedRowKeys) =>
                 useModal({
-                    title: 'Are You Sure? ',
+                    title: 'Are You Sure?',
                     type: 'confirm',
                     variant: 'danger',
-                    onOk: () => handleBatchDelete(selectedRowKeys),
-                    onCancel: () => handleCancel(),
+                    onOk: () => deleteBatchUsers(selectedRowKeys),
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },
@@ -157,20 +152,11 @@ const UsersPage: React.FC = (props: IProps) => {
     return (
         <MainLayout
             title="User List"
-            topActions={[
-                <Button icon={<FileExcelOutlined />} responsive={true}>
-                    Import
-                </Button>,
-                <Link href="users/create">
-                    <Button
-                        icon={<PlusCircleOutlined />}
-                        type="primary"
-                        responsive={true}
-                    >
-                        New User
-                    </Button>
-                </Link>,
-            ]}
+            topActions={
+                <Button href={Route.CreateUser} size="large" type="primary">
+                    New User
+                </Button>
+            }
         >
             <DataTable
                 batchActionMenus={batchActionMenus}
