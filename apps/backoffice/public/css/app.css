@@ -509,6 +509,6 @@ a.sidebar__link:hover .sidebar__icon .icon {
     padding: 20px;
 }
 
-.ant-descriptions-item-content {
-    opacity: 45%;
+.ant-menu-submenu-popup {
+    display: none;
 }

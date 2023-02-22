@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     Param,
     Post,
@@ -22,6 +23,8 @@ import {
     PERMISSION_BACKOFFICE_UPDATE_ROLE,
 } from 'constants/permission.constant';
 import { RoleMapper } from '../mappers/role.mapper';
+import { UserCrudApplication } from '../applications/user-crud.application';
+import { PermissionCrudApplication } from '../applications/permission-crud.application';
 
 @Controller('roles')
 export class RoleController {
@@ -29,6 +32,8 @@ export class RoleController {
         private readonly inertiaAdapter: InertiaAdapter,
         private readonly roleCrudApplication: RoleCrudApplication,
         private readonly roleIndexApplication: RoleIndexApplication,
+        private readonly userCrudApplication: UserCrudApplication,
+        private readonly permissionCrudApplication: PermissionCrudApplication,
     ) {}
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_ROLE))
@@ -47,16 +52,23 @@ export class RoleController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_ROLE))
     @Get('create')
     async createPage(): Promise<void> {
-        return this.inertiaAdapter.render({ component: 'Iam/Roles/FormRole' });
+        const permissions = await this.permissionCrudApplication.findAll();
+        return this.inertiaAdapter.render({
+            component: 'Iam/Roles/CreateRole',
+            props: {
+                permissions,
+            },
+        });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_ROLE))
     @Get(':id')
     async detailPage(@Param('id') id: number): Promise<void> {
         const data = await this.roleCrudApplication.findById(id);
+        const users = await this.userCrudApplication.findAllWithRole(id);
         return this.inertiaAdapter.render({
             component: 'Iam/Roles/DetailRole',
-            props: { data, meta: null },
+            props: { data, users, meta: null },
         });
     }
 
@@ -64,19 +76,19 @@ export class RoleController {
     @Get('edit/:id')
     async editPage(@Param('id') id: number): Promise<void> {
         const data = await this.roleCrudApplication.findById(id);
+        const permissions = await this.permissionCrudApplication.findAll();
         return this.inertiaAdapter.render({
-            component: 'Iam/Roles/FormRole',
+            component: 'Iam/Roles/EditRole',
             props: {
-                id,
                 data,
-                isUpdate: true,
+                permissions,
             },
         });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_ROLE))
     @Post('create')
-    async store(@Body() roleCreateRequest: RoleCreateRequest): Promise<void> {
+    async store(@Body() roleCreateRequest: RoleCreateRequest) {
         await this.roleCrudApplication.create(roleCreateRequest);
         return this.inertiaAdapter.successResponse('roles', 'Success create');
     }
@@ -92,7 +104,7 @@ export class RoleController {
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_ROLE))
-    @Get('delete/:id')
+    @Delete('delete/:id')
     async delete(@Param('id') id: number): Promise<void> {
         await this.roleCrudApplication.delete(id);
         return this.inertiaAdapter.successResponse('roles', 'Success delete');

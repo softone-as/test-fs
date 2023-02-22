@@ -16,7 +16,10 @@ import Filter, { TFilterItem } from './Filter';
 
 export interface IFilterSection {
     filters?: TFilterItem[];
-    onFiltersChange?: (values: Record<string, any>) => void;
+    onFiltersChange?: (
+        values: Record<string, any>,
+        filters: TFilterItem[],
+    ) => void;
     selectedRows?: React.Key[];
     batchActionMenus: MenuProps['items'];
     onSearch?: (value: string) => void;
@@ -61,11 +64,7 @@ export const FilterSection = (props: IFilterSection) => {
             )}
 
             {/* Filters */}
-            <Filter onChange={props?.onFiltersChange}>
-                {props.filters?.map((filter) => (
-                    <Filter.Item key={filter.name} {...filter} />
-                ))}
-            </Filter>
+            <Filter onChange={props?.onFiltersChange} filters={props.filters} />
 
             {/* Search */}
             {props.onSearch && (
