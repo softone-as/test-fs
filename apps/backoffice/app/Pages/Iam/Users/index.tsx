@@ -156,7 +156,8 @@ const UsersPage: React.FC = (props: IProps) => {
 
     const defaultValueCreatedAt = filters.created_at
         ?.split(',')
-        .map((date) => dayjs(date));
+        .map((date) => dayjs(date)) as [dayjs.Dayjs, dayjs.Dayjs];
+
     const defaultValueCheckbox = filters.checkbox?.split(',');
 
     return (
@@ -207,10 +208,7 @@ const UsersPage: React.FC = (props: IProps) => {
                         type: 'DateRangePicker',
                         name: 'created_at',
                         range: 10,
-                        defaultValue: defaultValueCreatedAt && [
-                            defaultValueCreatedAt[0],
-                            defaultValueCreatedAt[1],
-                        ],
+                        defaultValue: defaultValueCreatedAt,
                     },
                 ]}
                 onChange={implementTableFilter}
