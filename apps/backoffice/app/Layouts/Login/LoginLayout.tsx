@@ -22,23 +22,16 @@ export const LoginLayout: React.FC<TLoginLayout> = ({ children }) => {
                 >
                     <Row style={{ width: '100%' }}>
                         <Col span={isMobile ? 24 : 10}>
-                            <div
-                                style={{
-                                    width: '20%',
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    height: '64px',
-                                    margin: '2rem',
-                                    backgroundColor: 'rgb(40,171,0)',
-                                }}
-                            >
-                                {/* Apps Logo or Title */}
-                                <img src="/img/company-logo.svg" width="80px" />
-                            </div>
+                            {/* Apps Logo or Title */}
+                            <img
+                                src="/img/logo-dot.svg"
+                                width="80px"
+                                style={{ margin: '1.5rem' }}
+                            />
+
                             {children}
                         </Col>
+
                         <Col span={isMobile ? 24 : 14}>
                             <img
                                 src={'/img/ilustration-login.png'}
