@@ -11,9 +11,8 @@
 build_mr:docker_image_preview:
   extends: .mr:base
   stage: build
-  image:
-    name: asia.gcr.io/dot-gitlab-runner/aws-cli:docker
-    entrypoint: [""]
+  image: docker:20.10
+  tags: [dot-highcpu]
   when: manual
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
