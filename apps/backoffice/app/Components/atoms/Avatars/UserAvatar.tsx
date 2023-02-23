@@ -1,7 +1,7 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Link } from '@inertiajs/inertia-react';
 import { Avatar, Space, Typography } from 'antd';
-import { Route } from 'apps/backoffice/app/Enums/Route';
+import { Route } from 'apps/backoffice/app/Common/Route/Route';
 import { IUser } from 'apps/backoffice/app/Modules/Profile/Entities';
 import { isMobileScreen } from 'apps/backoffice/app/Utils/utils';
 import React from 'react';

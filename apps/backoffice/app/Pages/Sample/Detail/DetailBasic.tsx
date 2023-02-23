@@ -17,7 +17,7 @@ import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
 import { Button } from '../../../Components/atoms/Button';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';

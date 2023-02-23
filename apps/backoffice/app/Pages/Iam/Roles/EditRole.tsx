@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Section } from '../../../Components/molecules/Section';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { ColumnsType } from 'antd/es/table';

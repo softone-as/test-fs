@@ -10,11 +10,11 @@ import { PermissionResponse } from '../../../../src/modules/iam/responses/permis
 import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
 import type { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../../../Utils/hooks';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { RowActionButtons } from 'apps/backoffice/app/Components/molecules/RowActionButtons';
 import { ItemType } from '../../../Components/organisms/DataTable/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
-import { Route } from 'apps/backoffice/app/Enums/Route';
+import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
 import { Inertia } from '@inertiajs/inertia';
 import { Link } from '@inertiajs/inertia-react';
 import { deleteRole } from 'apps/backoffice/app/Modules/Role/Action';
@@ -64,18 +64,17 @@ const RolePage: React.FC = (props: IProps) => {
             key: 'action',
             width: '142px',
             render: (text, record) => {
-                const id = record.id;
                 return (
                     <RowActionButtons
                         actions={[
                             {
                                 type: 'view',
-                                href: `${Route.Roles}/${id}`,
+                                href: route(Route.RoleDetail, record),
                                 title: 'view',
                             },
                             {
                                 type: 'edit',
-                                href: `${Route.EditRole}/${id}`,
+                                href: route(Route.RoleEdit, record),
                                 title: 'edit',
                             },
                             {
@@ -85,7 +84,7 @@ const RolePage: React.FC = (props: IProps) => {
                                     useModal({
                                         title: 'Are You Sure? ',
                                         type: 'confirm',
-                                        onOk: () => deleteRole(id),
+                                        onOk: () => deleteRole(record),
                                     }),
                             },
                         ]}

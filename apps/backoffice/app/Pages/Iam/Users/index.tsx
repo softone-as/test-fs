@@ -17,7 +17,7 @@ import { RowActionButtons } from '../../../Components/molecules/RowActionButtons
 
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
-import { Route } from 'apps/backoffice/app/Enums/Route';
+import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
 import { ItemType } from '../../../Components/organisms/DataTable/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 import { Button } from 'apps/backoffice/app/Components/atoms/Button';
@@ -95,18 +95,17 @@ const UsersPage: React.FC = (props: IProps) => {
             key: 'action',
             width: '142px',
             render: (text, record) => {
-                const userId = record.id;
                 return (
                     <RowActionButtons
                         actions={[
                             {
                                 type: 'view',
-                                href: `${Route.Users}/${userId}`,
+                                href: route(Route.UserDetail, record),
                                 title: 'view',
                             },
                             {
                                 type: 'edit',
-                                href: `${Route.EditUser}/${userId}`,
+                                href: route(Route.UserEdit, record),
                                 title: 'edit',
                             },
                             {
@@ -117,7 +116,7 @@ const UsersPage: React.FC = (props: IProps) => {
                                         title: 'Are You Sure? ',
                                         type: 'confirm',
                                         variant: 'danger',
-                                        onOk: () => deleteUser(userId),
+                                        onOk: () => deleteUser(record.id),
                                     });
                                 },
                             },
@@ -159,7 +158,7 @@ const UsersPage: React.FC = (props: IProps) => {
         <MainLayout
             title="User List"
             topActions={
-                <Button href={Route.CreateUser} size="large" type="primary">
+                <Button href={Route.UserCreate} size="large" type="primary">
                     New User
                 </Button>
             }

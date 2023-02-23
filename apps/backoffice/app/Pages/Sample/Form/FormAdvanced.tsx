@@ -16,7 +16,7 @@ import React, { useMemo, useState } from 'react';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { useTableFilter } from '../../../Utils/hooks';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';

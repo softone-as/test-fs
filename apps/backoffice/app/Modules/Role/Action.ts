@@ -1,36 +1,16 @@
 import { Inertia } from '@inertiajs/inertia';
-import { EndpointRoute } from '../../Enums/Route';
+import { IRole } from 'interface-models/iam/role.interface';
+import { route, Route } from '../../Common/Route/Route';
 import { IRoleForm } from './Entities';
 
 export const createRole = (roleData: IRoleForm): void => {
-    Inertia.post(EndpointRoute.CreateRole, roleData, {
-        onSuccess: (success) => {
-            console.log('Sukses: ', success);
-        },
-        onError: (error) => {
-            console.log('Error: ', error);
-        },
-    });
+    Inertia.post(Route.RoleCreate, roleData);
 };
 
-export const editRole = (roleData: IRoleForm, id: number): void => {
-    Inertia.put(EndpointRoute.EditRole + '/' + id, roleData, {
-        onSuccess: (success) => {
-            console.log('Sukses: ', success);
-        },
-        onError: (error) => {
-            console.log('Error: ', error);
-        },
-    });
+export const editRole = (roleData: IRoleForm, roleId: number): void => {
+    Inertia.put(route(Route.RoleEdit, { id: roleId }), roleData);
 };
 
-export const deleteRole = (id: number): void => {
-    Inertia.delete(EndpointRoute.DeleteRole + '/' + id, {
-        onSuccess: (success) => {
-            console.log('Sukses: ', success);
-        },
-        onError: (error) => {
-            console.log('Error: ', error);
-        },
-    });
+export const deleteRole = (role: IRole): void => {
+    Inertia.delete(route(Route.RoleDelete, role));
 };

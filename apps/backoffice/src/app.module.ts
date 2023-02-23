@@ -49,6 +49,7 @@ import { NotificationUnreadMiddleware } from './modules/notification/middlewares
 import { SentryModule } from './infrastructure/sentry/sentry.module';
 import * as Sentry from '@sentry/node';
 import { ProfileModule } from './modules/profile/profile.module';
+import { InformationModule } from './modules/tests/information.module';
 
 @Module({
     imports: [
@@ -109,6 +110,7 @@ import { ProfileModule } from './modules/profile/profile.module';
         ConfigModule,
         InAppNotificationModule,
         CacheModule,
+        InformationModule,
         AdminAuthModule,
         MainModule,
         CommonModule,
