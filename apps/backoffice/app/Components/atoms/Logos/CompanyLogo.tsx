@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
 
-import { Route } from 'apps/backoffice/app/Enums/Route';
+import { Route } from 'apps/backoffice/app/Common/Route/Route';
 
 const CompanyLogo = () => {
     return (

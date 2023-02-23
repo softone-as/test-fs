@@ -1,6 +1,6 @@
 import { Inertia } from '@inertiajs/inertia';
 import { IRole } from 'interface-models/iam/role.interface';
-import { route, Route } from '../../Enums/Route';
+import { route, Route } from '../../Common/Route/Route';
 import { IRoleForm } from './Entities';
 
 export const createRole = (roleData: IRoleForm): void => {

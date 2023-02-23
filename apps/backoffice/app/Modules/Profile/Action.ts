@@ -1,5 +1,5 @@
 import { Inertia } from '@inertiajs/inertia';
-import { Route } from '../../Enums/Route';
+import { Route } from '../../Common/Route/Route';
 import { IProfileForm } from './Entities';
 
 export const editProfile = (profileData: IProfileForm): void => {

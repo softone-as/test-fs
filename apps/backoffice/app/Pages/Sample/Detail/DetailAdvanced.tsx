@@ -31,7 +31,7 @@ import { DataTable } from '../../../Components/organisms/DataTable';
 import { TimelinesItem } from '../../../Components/molecules/TimelinesItem';
 
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 
 import { Link } from '@inertiajs/inertia-react';
 import { Button } from '../../../Components/atoms/Button';

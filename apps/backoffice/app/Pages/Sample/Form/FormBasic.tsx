@@ -18,7 +18,7 @@ import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { DateRangePicker } from '../../../Components/molecules/Pickers';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Section } from '../../../Components/molecules/Section';
 import { CheckboxDropdown } from 'apps/backoffice/app/Components/molecules/Dropdowns/CheckboxDropdown';

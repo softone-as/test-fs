@@ -2,7 +2,7 @@ import React from 'react';
 import { Descriptions, Space, Tag } from 'antd';
 import { defaultSizeSpace } from '../../Utils/theme';
 import { MainLayout } from '../../Layouts/MainLayout';
-import { Breadcrumbs } from '../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import { Section } from '../../Components/molecules/Section';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';

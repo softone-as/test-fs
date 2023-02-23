@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { createYupSync } from '../../Utils/utils';
 import { FormContainer } from '../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../Layouts/MainLayout';
-import { Breadcrumbs } from '../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import { Section } from '../../Components/molecules/Section';
 import { AppContext } from '../../Contexts/App';
 import { IProfileFormPassword } from '../../Modules/Profile/Entities';

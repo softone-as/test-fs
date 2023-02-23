@@ -1,4 +1,4 @@
-import { Route } from '../../../app/Enums/Route';
+import { Route } from '../../../app/Common/Route/Route';
 import dotenv from 'dotenv';
 import request from 'supertest';
 

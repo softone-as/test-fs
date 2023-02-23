@@ -5,11 +5,11 @@ import { MainLayout } from '../../Layouts/MainLayout';
 import { IUser } from '../../Modules/User/Entities';
 import { defaultSizeSpace } from '../../Utils/theme';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
-import { Breadcrumbs } from '../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import { Button } from '../../Components/atoms/Button';
 import DescriptionContainer from '../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../Components/molecules/Section';
-import { Route } from '../../Enums/Route';
+import { Route } from '../../Common/Route/Route';
 
 interface IProps extends TInertiaProps {
     data: IUser;

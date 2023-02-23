@@ -1,8 +1,8 @@
 import { Controller, Get, Request } from '@nestjs/common';
 import { Request as RequestExpress, Router } from 'express';
 
+// TODO: Cari cara get all router backend by test saja (file: information-routers.spec.ts)
 @Controller('informations')
-// TODO add guard
 export class InformationController {
     @Get('get-all-routers')
     async getAllRouters(@Request() req: RequestExpress): Promise<string[]> {

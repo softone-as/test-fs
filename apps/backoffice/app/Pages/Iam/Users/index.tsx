@@ -17,7 +17,7 @@ import { RowActionButtons } from '../../../Components/molecules/RowActionButtons
 
 import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
-import { route, Route } from 'apps/backoffice/app/Enums/Route';
+import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
 import { ItemType } from '../../../Components/organisms/DataTable/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 import { Button } from 'apps/backoffice/app/Components/atoms/Button';

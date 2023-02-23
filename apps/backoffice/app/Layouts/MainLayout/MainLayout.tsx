@@ -14,7 +14,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { PageHeader } from '../../Components/molecules/Headers';
 import { PageProgress } from '../../Components/molecules/Progress';
 import { AppContext } from '../../Contexts/App';
-import { Route } from '../../Enums/Route';
+import { Route } from '../../Common/Route/Route';
 import { useNotification } from '../../Utils/notification';
 import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
@@ -118,12 +118,12 @@ const menuItems: MenuItem[] = [
         ],
     },
     {
-        key: '#Log-Activity',
-        label: <Link href="/logs">Log Activity</Link>,
+        key: Route.LogActivity,
+        label: <Link href={Route.LogActivity}>Log Activity</Link>,
         icon: <HistoryOutlined />,
     },
     {
-        key: '#Config',
+        key: Route.Configs,
         label: <Link href="#">Configuration</Link>,
         icon: <SettingOutlined />,
     },

@@ -7,11 +7,11 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 import { IUser } from '../../../Modules/User/Entities';
 import { defaultSizeSpace } from '../../../Utils/theme';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { Button } from '../../../Components/atoms/Button';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
-import { route, Route } from 'apps/backoffice/app/Enums/Route';
+import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
 import { useModal } from 'apps/backoffice/app/Utils/modal';
 import { deleteUser } from 'apps/backoffice/app/Modules/User/Action';
 interface IProps extends TInertiaProps {

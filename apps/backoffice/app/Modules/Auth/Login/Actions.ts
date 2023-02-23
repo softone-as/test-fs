@@ -1,5 +1,5 @@
 import { Inertia } from '@inertiajs/inertia';
-import { Route } from '../../../Enums/Route';
+import { Route } from '../../../Common/Route/Route';
 
 export const doLogin = (loginData): void => {
     Inertia.post(Route.AuthLogin + `?one_signal_player_id=`, loginData, {

@@ -15,7 +15,7 @@ import {
 import { Form, Typography, Space } from 'antd';
 import { useTableFilter } from '../Utils/hooks';
 
-import { Breadcrumbs } from '../Enums/Breadcrumb';
+import { Breadcrumbs } from '../Common/Enums/Breadcrumb';
 import { RowActionButtons } from '../Components/molecules/RowActionButtons';
 import { paginationTransform } from '../Components/organisms/DataTable/DataTable';
 

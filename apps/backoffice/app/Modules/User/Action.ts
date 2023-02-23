@@ -1,4 +1,4 @@
-import { route, Route } from './../../Enums/Route';
+import { route, Route } from '../../Common/Route/Route';
 import { Inertia } from '@inertiajs/inertia';
 import { IUserForm } from './Entities';
 
