@@ -70,3 +70,11 @@ export const formatDate = (
 ): string => {
     return format(new Date(date), pattern);
 };
+
+export const debounce = (fn: (...args: any[]) => any, delay: number) => {
+    let timer;
+    return (...args: any[]) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+    };
+};
