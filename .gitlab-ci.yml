@@ -23,10 +23,8 @@ build:storybook:
 
 build_develop:base_docker_image:
   stage: build
-  image:
-    name: asia.gcr.io/dot-gitlab-runner/aws-cli:docker
-    entrypoint: [""]
-  tags: [dot]
+  image: docker:20.10
+  tags: [dot-highcpu]
   rules:
     - if: $CI_COMMIT_BRANCH == "development"
       changes:
@@ -45,10 +43,8 @@ build_develop:base_docker_image:
 
 build_develop:docker_image:
   stage: build
-  image:
-    name: asia.gcr.io/dot-gitlab-runner/aws-cli:docker
-    entrypoint: [""]
-  tags: [dot]
+  image: docker:20.10
+  tags: [dot-highcpu]
   only: [development]
   when: manual
   before_script:
