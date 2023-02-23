@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Col, Drawer, Form, FormInstance, Row, Typography } from 'antd';
-import { isMobileScreen } from 'apps/backoffice/app/Utils/utils';
+import { debounce, isMobileScreen } from 'apps/backoffice/app/Utils/utils';
 import InputCollection, { StrictSelectProps } from './InputCollection';
 import { StrictDateRangePickerProps } from './InputCollection/DateRangePicker';
 import { FilterOutlined } from '@ant-design/icons';
@@ -63,21 +63,22 @@ const Filter = ({ filters, onChange }: IFilterProps) => {
                 localStore[key] !== undefined &&
                 localStore[key] !== '',
         );
+    const handleStoreChangeDeb = debounce((store, name) => {
+        // when navigating page,
+        // registerWatch is assumed being triggered when unmounting component form item,
+        // fortunatelly property unmounting form item does not exist in the store object,
+        // and this condition is needed to prevent change parent state while navigating.
+        if (!(name[0][0] in store)) return;
+        onChange(store, filters);
+        setLocalStore(store);
+    }, 200);
 
     useEffect(() => {
         const { registerWatch } = (
             form as IFilterFormInstance
         ).getInternalHooks(HOOK_MARK);
 
-        const cancelRegister = registerWatch((store, name) => {
-            // when navigating page,
-            // registerWatch is assumed being triggered when unmounting component form item,
-            // fortunatelly property unmounting form item does not exist in the store object,
-            // and this condition is needed to prevent change parent state while navigating.
-            if (!(name[0][0] in store)) return;
-            onChange(store, filters);
-            setLocalStore(store);
-        });
+        const cancelRegister = registerWatch(handleStoreChangeDeb);
         return cancelRegister;
     }, []);
 
