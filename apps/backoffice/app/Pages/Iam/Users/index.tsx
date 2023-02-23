@@ -32,8 +32,8 @@ interface IProps extends TInertiaProps {
 
 type TFilters = {
     gender?: string;
-    start_at?: string;
-    end_at?: string;
+    created_at?: string;
+    checkbox?: string;
 };
 
 const UsersPage: React.FC = (props: IProps) => {
@@ -149,6 +149,12 @@ const UsersPage: React.FC = (props: IProps) => {
         },
     ];
 
+    const defaultValueCreatedAt = filters.created_at
+        ?.split(',')
+        .map((date) => dayjs(date)) as [dayjs.Dayjs, dayjs.Dayjs];
+
+    const defaultValueCheckbox = filters.checkbox?.split(',');
+
     return (
         <MainLayout
             title="User List"
@@ -162,6 +168,14 @@ const UsersPage: React.FC = (props: IProps) => {
                 batchActionMenus={batchActionMenus}
                 filterComponents={[
                     {
+                        label: 'Checkbox',
+                        type: 'CheckboxDropdown',
+                        name: 'checkbox',
+                        placeholder: 'Checkbox Dropdown',
+                        options: [{ label: 'Checkbox 1', value: 'checkbox 1' }],
+                        defaultValue: defaultValueCheckbox,
+                    },
+                    {
                         label: 'Email',
                         render: Input,
                         name: 'email',
@@ -169,21 +183,18 @@ const UsersPage: React.FC = (props: IProps) => {
                     },
                     {
                         label: 'Gender',
+                        type: 'Select',
                         name: 'gender',
-                        filterType: 'Select',
                         placeholder: 'Gender',
                         options: genderOptions,
                         defaultValue: filters.gender,
                     },
                     {
                         label: 'Created At',
+                        type: 'DateRangePicker',
                         name: 'created_at',
-                        filterType: 'DateRangePicker',
                         range: 10,
-                        defaultValue: [
-                            filters.start_at && dayjs(filters.start_at),
-                            filters.end_at && dayjs(filters.end_at),
-                        ],
+                        defaultValue: defaultValueCreatedAt,
                     },
                 ]}
                 onChange={implementTableFilter}

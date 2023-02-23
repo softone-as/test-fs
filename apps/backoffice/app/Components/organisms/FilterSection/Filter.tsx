@@ -4,11 +4,12 @@ import { isMobileScreen } from 'apps/backoffice/app/Utils/utils';
 import InputCollection, { StrictSelectProps } from './InputCollection';
 import { StrictDateRangePickerProps } from './InputCollection/DateRangePicker';
 import { FilterOutlined } from '@ant-design/icons';
+import { StrictCheckboxDropdown } from './InputCollection/CheckboxDropdown';
 
 export type InternalHooks = {
     registerWatch: (
-        FC: (store: Record<string, any>, name: string) => void,
-    ) => void;
+        FC: (store: Record<string, any>, name: string[][]) => void,
+    ) => () => void;
 };
 export interface IFilterFormInstance<T = any> extends FormInstance<T> {
     getInternalHooks: (mark: string) => InternalHooks;
@@ -20,8 +21,8 @@ type RegisterFilterItem<
     N extends string | undefined,
 > = P & {
     label: string;
+    type?: N;
     name: string;
-    filterType?: N;
 };
 
 type CustomFilterProps = {
@@ -31,6 +32,7 @@ type CustomFilterProps = {
 export type TFilterItem =
     | RegisterFilterItem<StrictSelectProps, 'Select'>
     | RegisterFilterItem<StrictDateRangePickerProps, 'DateRangePicker'>
+    | RegisterFilterItem<StrictCheckboxDropdown, 'CheckboxDropdown'>
     | RegisterFilterItem<CustomFilterProps, undefined>;
 
 export interface IFilterProps {
@@ -67,7 +69,12 @@ const Filter = ({ filters, onChange }: IFilterProps) => {
             form as IFilterFormInstance
         ).getInternalHooks(HOOK_MARK);
 
-        const cancelRegister = registerWatch((store) => {
+        const cancelRegister = registerWatch((store, name) => {
+            // when navigating page,
+            // registerWatch is assumed being triggered when unmounting component form item,
+            // fortunatelly property unmounting form item does not exist in the store object,
+            // and this condition is needed to prevent change parent state while navigating.
+            if (!(name[0][0] in store)) return;
             onChange(store, filters);
             setLocalStore(store);
         });
@@ -122,13 +129,13 @@ const Filter = ({ filters, onChange }: IFilterProps) => {
 const FilterInputNotFound = () => <div></div>;
 
 const FilterItem = (props: TFilterItem) => {
-    const { name, filterType, label, ...rest } = props;
+    const { name, type, label, ...rest } = props;
     const { isMobile } = useContext(FilterContext);
 
     const customFilterProps = props as CustomFilterProps;
 
     const Component =
-        InputCollection[filterType] ||
+        InputCollection[type] ||
         customFilterProps.render ||
         FilterInputNotFound;
 
