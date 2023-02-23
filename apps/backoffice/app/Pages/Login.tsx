@@ -10,6 +10,8 @@ import {
     Typography,
     Space,
     notification,
+    Row,
+    Col,
 } from 'antd';
 import { LoginLayout } from '../Layouts';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -18,7 +20,9 @@ import { Link } from '@inertiajs/inertia-react';
 import { doLogin } from '../Modules/Auth/Login/Actions';
 import { TLogin } from '../Modules/Auth/Login/Entities';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
-import { createYupSync } from '../Utils/utils';
+import { createYupSync, isMobileScreen } from '../Utils/utils';
+import { themeColors } from '../Utils/theme';
+import { FormContainer } from '../Components/organisms/FormContainer';
 
 const schema: yup.SchemaOf<TLogin> = yup.object().shape({
     email: yup
@@ -28,9 +32,15 @@ const schema: yup.SchemaOf<TLogin> = yup.object().shape({
     password: yup.string().required('Field Password wajib diisi'),
 });
 
+const formItemSpacingStyle = {
+    marginBottom: '16px',
+};
+
 const Login = (props: TInertiaProps) => {
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm<TLogin>();
+
+    const isMobile = isMobileScreen();
 
     const [api, contextHolder] = notification.useNotification();
 
@@ -58,67 +68,102 @@ const Login = (props: TInertiaProps) => {
     return (
         <LoginLayout title="Login">
             {contextHolder}
-            <Space
-                size={16}
-                direction="vertical"
-                style={{
-                    backgroundColor: 'white',
-                    width: '100%',
-                    alignItems: 'center',
-                    paddingTop: '4rem',
-                }}
-            >
-                <Typography.Title>Ant Design</Typography.Title>
-                <Typography.Text style={{ opacity: 0.5 }}>
-                    Ant Design is the most influential web design specification
-                    in Xihu district
-                </Typography.Text>
-            </Space>
-            <Form
-                form={form}
-                name="basic"
-                labelCol={{ span: 4 }}
-                wrapperCol={{ offset: 4, span: 16 }}
-                labelAlign="left"
-                initialValues={{ remember: true }}
-                autoComplete="off"
-                style={{ backgroundColor: 'white', padding: '4rem' }}
-                onFinish={onSubmit}
-            >
-                <Form.Item name="email" rules={[yupSync]}>
-                    <Input placeholder="Username" prefix={<UserOutlined />} />
-                </Form.Item>
-                <Form.Item
-                    name="password"
-                    rules={[yupSync]}
-                    validateStatus={props?.error?.message && 'error'}
-                    help={props?.error?.message}
+
+            <Row align="middle" justify="center" style={{ height: '80%' }}>
+                <Col
+                    span={24}
+                    style={{ padding: `4rem ${isMobile ? '' : '7rem'}` }}
                 >
-                    <Input.Password
-                        placeholder="Password"
-                        prefix={<LockOutlined />}
-                    />
-                </Form.Item>
-                <Form.Item
-                    name="remember"
-                    valuePropName="checked"
-                    wrapperCol={{ offset: 4, span: 8 }}
-                >
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-                <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                        style={{ width: '100%' }}
+                    <Space
+                        direction="vertical"
+                        style={{
+                            width: '100%',
+                            alignItems: 'center',
+                            textAlign: 'center',
+                        }}
                     >
-                        Login
-                    </Button>
-                </Form.Item>
-                <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-                    <Link href="/auth/forgot-password">Forgot Password?</Link>
-                </Form.Item>
-            </Form>
+                        <Typography.Title level={4}>
+                            Welcome back!
+                        </Typography.Title>
+                        <Typography.Text style={{ opacity: 0.5 }}>
+                            Ant Design is the most influential web design
+                            specification in Xihu district
+                        </Typography.Text>
+                    </Space>
+
+                    <FormContainer
+                        form={form}
+                        name="basic"
+                        labelAlign="left"
+                        initialValues={{ remember: true }}
+                        autoComplete="off"
+                        errors={props.error}
+                        style={{ paddingTop: '2.5rem' }}
+                        onFinish={onSubmit}
+                        className="login-form"
+                    >
+                        <Form.Item
+                            name="email"
+                            rules={[yupSync]}
+                            style={formItemSpacingStyle}
+                        >
+                            <Input
+                                placeholder="Username"
+                                prefix={<UserOutlined />}
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            name="password"
+                            rules={[yupSync]}
+                            style={formItemSpacingStyle}
+                        >
+                            <Input.Password
+                                placeholder="Password"
+                                prefix={<LockOutlined />}
+                            />
+                        </Form.Item>
+                        <Form.Item style={formItemSpacingStyle}>
+                            <Form.Item
+                                name="remember"
+                                valuePropName="checked"
+                                noStyle
+                            >
+                                <Checkbox>Remember me</Checkbox>
+                            </Form.Item>
+                            <Link
+                                href="/auth/forgot-password"
+                                className="login-form-forgot"
+                                style={{ color: themeColors.primary }}
+                            >
+                                Forgot Password?
+                            </Link>
+                        </Form.Item>
+                        <Form.Item style={formItemSpacingStyle}>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                className="login-form-button"
+                            >
+                                Login
+                            </Button>
+                        </Form.Item>
+                        <Form.Item
+                            style={{
+                                textAlign: 'center',
+                                ...formItemSpacingStyle,
+                            }}
+                        >
+                            Or{' '}
+                            <Link
+                                href="/auth/forgot-password"
+                                style={{ color: themeColors.primary }}
+                            >
+                                Register now!
+                            </Link>
+                        </Form.Item>
+                    </FormContainer>
+                </Col>
+            </Row>
         </LoginLayout>
     );
 };
