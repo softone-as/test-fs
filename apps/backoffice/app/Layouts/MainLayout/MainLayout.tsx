@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Inertia, Page } from '@inertiajs/inertia';
 import { Head, Link, usePage } from '@inertiajs/inertia-react';
-import type { MenuProps } from 'antd';
+import { MenuProps, Switch, theme } from 'antd';
 import { ConfigProvider, Layout, Menu } from 'antd';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { PageHeader } from '../../Components/molecules/Headers';
@@ -25,6 +25,7 @@ import MainHeader from '../../Components/organisms/Layout/MainHeader';
 import { UserAvatar } from '../../Components/atoms/Avatars';
 import NotificationIcon from '../../Components/atoms/Icons/NotificationIcon';
 import { Overlay } from '../../Components/atoms/Overlays';
+import { ThemeContext } from '../../Contexts/Theme';
 
 export type IProps = {
     children: React.ReactNode;
@@ -139,6 +140,10 @@ export const MainLayout: React.FC<IProps> = ({
 }: IProps) => {
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
+
+    const { isDarkMode, handleSwitchTheme } = useContext(ThemeContext);
+    const { darkAlgorithm, defaultAlgorithm } = theme;
+
     const [collapsed, setCollapsed] = useState(true);
     const isMobile = isMobileScreen();
 
@@ -184,150 +189,175 @@ export const MainLayout: React.FC<IProps> = ({
     }, [pageProps.error]);
 
     return (
-        // Fix height, so the scroll will be belongs to Content only
-        <Layout style={{ height: '100vh' }}>
-            <Head title={title} />
+        <ConfigProvider
+            theme={{
+                algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
+            }}
+        >
+            {/* Fix height, so the scroll will be belongs to Content only */}
+            <Layout style={{ height: '100vh' }}>
+                <Head title={title} />
 
-            {appState.isNavigating && <PageProgress />}
-            <Sider
-                trigger={null}
-                collapsible
-                collapsed={isMobile ? collapsed : false}
-                theme="light"
-                style={{
-                    backgroundColor: '#006D75',
-                    minHeight: '100vh',
-                    marginTop: isMobile ? '-60px' : 0,
-                    overflow: isMobile && 'auto',
-                    position: isMobile ? 'fixed' : 'relative',
-                    left: isMobile && 0,
-                    top: isMobile && 0,
-                    bottom: isMobile && 0,
-                    zIndex: isMobile && 10,
-                    filter:
-                        isMobile &&
-                        'drop-shadow(16px 4px 52px rgba(0, 0, 0, 0.25))',
-                }}
-                width="222px"
-                breakpoint="lg"
-                collapsedWidth="0"
-            >
-                <div
+                {appState.isNavigating && <PageProgress />}
+                <Sider
+                    trigger={null}
+                    collapsible
+                    collapsed={isMobile ? collapsed : false}
+                    theme="light"
                     style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: '100%',
+                        backgroundColor: '#006D75',
+                        minHeight: '100vh',
+                        marginTop: isMobile ? '-60px' : 0,
+                        overflow: isMobile && 'auto',
+                        position: isMobile ? 'fixed' : 'relative',
+                        left: isMobile && 0,
+                        top: isMobile && 0,
+                        bottom: isMobile && 0,
+                        zIndex: isMobile && 10,
+                        filter:
+                            isMobile &&
+                            'drop-shadow(16px 4px 52px rgba(0, 0, 0, 0.25))',
                     }}
+                    width="222px"
+                    breakpoint="lg"
+                    collapsedWidth="0"
                 >
-                    {!isMobile && (
-                        <div
-                            style={{
-                                width: '100%',
-                                display: 'flex',
-                                flexDirection: 'row',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                height: '64px',
-                                borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
-                                padding: '0rem 1rem',
-                            }}
-                        >
-                            {/* Apps Logo or Title */}
-                            <CompanyLogo />
-                        </div>
-                    )}
-
-                    {!isMobile && pageProps.userDetail && (
-                        <div
-                            style={{
-                                width: '100%',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                height: '58px',
-                                padding: '8px 16px',
-                                marginBottom: '14px',
-                            }}
-                        >
-                            {/* User Icon */}
-                            <UserAvatar userDetail={pageProps.userDetail} />
-
-                            {/* Notification Icon */}
-                            <NotificationIcon
-                                notifications={pageProps.notifications}
-                            />
-                        </div>
-                    )}
-
-                    <ConfigProvider theme={sidebarThemeConfig}>
-                        <div
-                            style={{
-                                flex: 1,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
-                                marginTop: isMobile && '80px',
-                            }}
-                        >
-                            <Menu
-                                items={menuItems}
-                                theme="light"
-                                style={{ backgroundColor: '#006D75' }}
-                                mode="inline"
-                                defaultOpenKeys={[defaultOpenedKey]}
-                                selectedKeys={[activeMenuKey]}
-                            />
-
-                            {/* Bottom Menu */}
-                            <Menu
-                                theme="light"
-                                style={{ backgroundColor: '#006D75' }}
-                                mode="inline"
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            height: '100%',
+                        }}
+                    >
+                        {!isMobile && (
+                            <div
+                                style={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    height: '64px',
+                                    borderBottom:
+                                        '1px solid rgba(0, 0, 0, 0.06)',
+                                    padding: '0rem 1rem',
+                                }}
                             >
-                                <Menu.Divider />
-                                {/* Logout Button */}
-                                <Menu.Item
-                                    key="logout"
-                                    icon={<LogoutOutlined />}
+                                {/* Apps Logo or Title */}
+                                <CompanyLogo />
+                            </div>
+                        )}
+
+                        {!isMobile && pageProps.userDetail && (
+                            <div
+                                style={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    height: '58px',
+                                    padding: '8px 16px',
+                                    marginBottom: '14px',
+                                }}
+                            >
+                                {/* User Icon */}
+                                <UserAvatar userDetail={pageProps.userDetail} />
+
+                                {/* Notification Icon */}
+                                <NotificationIcon
+                                    notifications={pageProps.notifications}
+                                />
+                            </div>
+                        )}
+
+                        <ConfigProvider theme={sidebarThemeConfig}>
+                            <div
+                                style={{
+                                    flex: 1,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
+                                    marginTop: isMobile && '80px',
+                                }}
+                            >
+                                <Menu
+                                    items={menuItems}
+                                    theme="light"
+                                    style={{ backgroundColor: '#006D75' }}
+                                    mode="inline"
+                                    defaultOpenKeys={[defaultOpenedKey]}
+                                    selectedKeys={[activeMenuKey]}
+                                />
+
+                                {/* Bottom Menu */}
+                                <Menu
+                                    theme="light"
+                                    style={{ backgroundColor: '#006D75' }}
+                                    mode="inline"
                                 >
-                                    <Link href="#" onClick={handleLogout}>
-                                        Logout
-                                    </Link>
-                                </Menu.Item>
-                            </Menu>
-                        </div>
-                    </ConfigProvider>
-                </div>
-            </Sider>
-            <Layout>
-                {isMobile && (
-                    <MainHeader
-                        collapsed={collapsed}
-                        setCollapsed={setCollapsed}
-                        userDetail={pageProps.userDetail}
-                        notifications={pageProps.notifications}
-                    />
-                )}
+                                    {/* Toggle switch theme */}
+                                    <Menu.Item key="switchTheme">
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            Dark Mode
+                                            <Switch
+                                                checked={isDarkMode}
+                                                onChange={handleSwitchTheme}
+                                            />
+                                        </div>
+                                    </Menu.Item>
 
-                {isMobile && !collapsed && (
-                    <Overlay onClick={() => setCollapsed(true)} />
-                )}
+                                    <Menu.Divider />
 
-                <Content
-                    style={{
-                        padding: isMobile ? '18px 16px' : '28px 24px',
-                        overflow: 'auto',
-                    }}
-                >
-                    <PageHeader
-                        title={title}
-                        topActions={topActions}
-                        breadcrumbs={breadcrumbs}
-                    />
+                                    {/* Logout Button */}
+                                    <Menu.Item
+                                        key="logout"
+                                        icon={<LogoutOutlined />}
+                                    >
+                                        <Link href="#" onClick={handleLogout}>
+                                            Logout
+                                        </Link>
+                                    </Menu.Item>
+                                </Menu>
+                            </div>
+                        </ConfigProvider>
+                    </div>
+                </Sider>
+                <Layout>
+                    {isMobile && (
+                        <MainHeader
+                            collapsed={collapsed}
+                            setCollapsed={setCollapsed}
+                            userDetail={pageProps.userDetail}
+                            notifications={pageProps.notifications}
+                        />
+                    )}
 
-                    {children}
-                </Content>
+                    {isMobile && !collapsed && (
+                        <Overlay onClick={() => setCollapsed(true)} />
+                    )}
+
+                    <Content
+                        style={{
+                            padding: isMobile ? '18px 16px' : '28px 24px',
+                            overflow: 'auto',
+                        }}
+                    >
+                        <PageHeader
+                            title={title}
+                            topActions={topActions}
+                            breadcrumbs={breadcrumbs}
+                        />
+
+                        {children}
+                    </Content>
+                </Layout>
             </Layout>
-        </Layout>
+        </ConfigProvider>
     );
 };
