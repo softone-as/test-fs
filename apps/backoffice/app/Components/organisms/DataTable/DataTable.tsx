@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Table, Pagination, Space, PaginationProps } from 'antd';
 import {
     FilterValue,
@@ -11,12 +11,12 @@ import { FilterSection } from '../FilterSection';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import { TMeta } from '../../../Modules/Inertia/Entities';
 import { TFilterItem } from '../FilterSection/Filter';
+import { ThemeContext } from '../../../Contexts/Theme';
 
 const stylePaginantion: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'end',
     padding: '8px',
-    backgroundColor: 'white',
 };
 const tableLayout: React.CSSProperties = { width: '100%' };
 
@@ -42,6 +42,7 @@ function DataTable<T extends object = any>(
         },
     });
     const stateRef = useRef<FilterState<T>>(state);
+    const { isDarkMode } = useContext(ThemeContext);
 
     const handleSetState = (value: FilterState<T>) => {
         setState(value);
@@ -194,8 +195,13 @@ function DataTable<T extends object = any>(
                     }}
                 />
 
-                <div style={stylePaginantion}>
-                    {pagination && !!pagination?.total && (
+                {pagination && !!pagination?.total && (
+                    <div
+                        style={{
+                            ...stylePaginantion,
+                            backgroundColor: isDarkMode ? '#1D1D1D' : 'white',
+                        }}
+                    >
                         <Pagination
                             showTotal={(total, range) =>
                                 `${range[0]}-${range[1]} of ${total} items`
@@ -205,8 +211,8 @@ function DataTable<T extends object = any>(
                             {...pagination}
                             onChange={handlePageChange}
                         />
-                    )}
-                </div>
+                    </div>
+                )}
             </Space.Compact>
         </>
     );

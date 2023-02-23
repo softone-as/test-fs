@@ -6,6 +6,8 @@ import 'react-quill/dist/quill.snow.css';
 // import 'react-toastify/dist/ReactToastify.css';
 // import { ToastContext } from './Contexts/Toast';
 import { AppProvider } from './Contexts/App';
+import { ThemeProvider } from './Contexts/Theme';
+import { CookiesProvider } from 'react-cookie';
 
 //Ant Design
 import { ConfigProvider } from 'antd';
@@ -30,18 +32,22 @@ const App = () => {
 
     return (
         <>
-            <ConfigProvider theme={globalThemeConfig}>
-                <AppProvider>
-                    <InertiaApp
-                        initialPage={JSON.parse(app.dataset.page)}
-                        resolveComponent={(pageString) =>
-                            import(`./Pages/${pageString}`).then(
-                                (module) => module.default,
-                            )
-                        }
-                    />
-                </AppProvider>
-            </ConfigProvider>
+            <CookiesProvider>
+                <ThemeProvider>
+                    <ConfigProvider theme={globalThemeConfig}>
+                        <AppProvider>
+                            <InertiaApp
+                                initialPage={JSON.parse(app.dataset.page)}
+                                resolveComponent={(pageString) =>
+                                    import(`./Pages/${pageString}`).then(
+                                        (module) => module.default,
+                                    )
+                                }
+                            />
+                        </AppProvider>
+                    </ConfigProvider>
+                </ThemeProvider>
+            </CookiesProvider>
         </>
     );
 };
