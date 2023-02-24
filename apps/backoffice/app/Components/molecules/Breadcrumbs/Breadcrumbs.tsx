@@ -1,7 +1,6 @@
 import { Link } from '@inertiajs/inertia-react';
-import { Breadcrumb } from 'antd';
-import { ThemeContext } from '../../../Contexts/Theme';
-import React, { useContext } from 'react';
+import { Breadcrumb, theme } from 'antd';
+import React from 'react';
 import { TBreadcrumbsItem } from '../../../Modules/Common/Entities';
 
 type PropsBreadcrumb = {
@@ -9,7 +8,7 @@ type PropsBreadcrumb = {
 };
 
 const Breadcrumbs = ({ breadcrumbs }: PropsBreadcrumb) => {
-    const { isDarkMode } = useContext(ThemeContext);
+    const { token } = theme.useToken();
     return (
         <Breadcrumb style={{ marginBottom: '8px' }}>
             {breadcrumbs?.map(({ label, path }, index) => {
@@ -18,9 +17,7 @@ const Breadcrumbs = ({ breadcrumbs }: PropsBreadcrumb) => {
                     <Breadcrumb.Item key={label}>
                         <span
                             style={{
-                                color: isDarkMode
-                                    ? '#c2bebe'
-                                    : 'rgba(0, 0, 0, 0.88)',
+                                color: token.colorTextSecondary,
                             }}
                         >
                             {label}

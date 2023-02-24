@@ -18,7 +18,11 @@ import { Route } from '../../Enums/Route';
 import { useNotification } from '../../Utils/notification';
 import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
-import { sidebarThemeConfig } from '../../Utils/theme';
+import {
+    customDarkThemeColors,
+    sidebarThemeConfig,
+    themeColors,
+} from '../../Utils/theme';
 import { isMobileScreen } from '../../Utils/utils';
 import CompanyLogo from '../../Components/atoms/Logos/CompanyLogo';
 import MainHeader from '../../Components/organisms/Layout/MainHeader';
@@ -141,8 +145,13 @@ export const MainLayout: React.FC<IProps> = ({
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
 
+    // dark theme mode
     const { isDarkMode, handleSwitchTheme } = useContext(ThemeContext);
     const { darkAlgorithm, defaultAlgorithm } = theme;
+    const themeAlgorithm = isDarkMode ? darkAlgorithm : defaultAlgorithm;
+    const bgSiderLayoutColor = isDarkMode
+        ? customDarkThemeColors?.bgSiderLayout
+        : themeColors?.bgSiderLayout;
 
     const [collapsed, setCollapsed] = useState(true);
     const isMobile = isMobileScreen();
@@ -191,7 +200,7 @@ export const MainLayout: React.FC<IProps> = ({
     return (
         <ConfigProvider
             theme={{
-                algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
+                algorithm: themeAlgorithm,
             }}
         >
             {/* Fix height, so the scroll will be belongs to Content only */}
@@ -203,9 +212,8 @@ export const MainLayout: React.FC<IProps> = ({
                     trigger={null}
                     collapsible
                     collapsed={isMobile ? collapsed : false}
-                    theme="light"
                     style={{
-                        backgroundColor: '#006D75',
+                        backgroundColor: bgSiderLayoutColor,
                         minHeight: '100vh',
                         marginTop: isMobile ? '-60px' : 0,
                         overflow: isMobile && 'auto',
@@ -282,8 +290,9 @@ export const MainLayout: React.FC<IProps> = ({
                             >
                                 <Menu
                                     items={menuItems}
-                                    theme="light"
-                                    style={{ backgroundColor: '#006D75' }}
+                                    style={{
+                                        backgroundColor: bgSiderLayoutColor,
+                                    }}
                                     mode="inline"
                                     defaultOpenKeys={[defaultOpenedKey]}
                                     selectedKeys={[activeMenuKey]}
@@ -291,8 +300,9 @@ export const MainLayout: React.FC<IProps> = ({
 
                                 {/* Bottom Menu */}
                                 <Menu
-                                    theme="light"
-                                    style={{ backgroundColor: '#006D75' }}
+                                    style={{
+                                        backgroundColor: bgSiderLayoutColor,
+                                    }}
                                     mode="inline"
                                 >
                                     {/* Toggle switch theme */}

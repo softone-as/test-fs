@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from 'react';
-import { Table, Pagination, Space, PaginationProps } from 'antd';
+import React, { useRef, useState } from 'react';
+import { Table, Pagination, Space, PaginationProps, theme } from 'antd';
 import {
     FilterValue,
     SorterResult,
@@ -11,9 +11,8 @@ import { FilterSection } from '../FilterSection';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import { TMeta } from '../../../Modules/Inertia/Entities';
 import { TFilterItem } from '../FilterSection/Filter';
-import { ThemeContext } from '../../../Contexts/Theme';
 
-const stylePaginantion: React.CSSProperties = {
+const stylePagination: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'end',
     padding: '8px',
@@ -42,7 +41,7 @@ function DataTable<T extends object = any>(
         },
     });
     const stateRef = useRef<FilterState<T>>(state);
-    const { isDarkMode } = useContext(ThemeContext);
+    const { token } = theme.useToken();
 
     const handleSetState = (value: FilterState<T>) => {
         setState(value);
@@ -198,8 +197,8 @@ function DataTable<T extends object = any>(
                 {pagination && !!pagination?.total && (
                     <div
                         style={{
-                            ...stylePaginantion,
-                            backgroundColor: isDarkMode ? '#1D1D1D' : 'white',
+                            ...stylePagination,
+                            backgroundColor: token.colorBgContainer,
                         }}
                     >
                         <Pagination
