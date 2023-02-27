@@ -54,8 +54,8 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
 
     const setQueryParams = (propsParams: TPropsTableFilter<T>) => {
         const data = Object.keys(propsParams).reduce((all, key) => {
-            if (propsParams[key] !== '')
-                return { ...all, [key]: propsParams[key] };
+            if (propsParams[key] === '') delete all[key];
+            else return { ...all, [key]: propsParams[key] };
             return all;
         }, existingParams) as TPropsTableFilter<T>;
 
@@ -82,6 +82,7 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
         }
 
         setFilters(data);
+
         Inertia.visit(window.location.pathname, {
             data: data,
             preserveState: true,
@@ -108,26 +109,25 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
         extra?: ITableCurrentDataSource<any>,
     ) => {
         const newCustomFilter: T = { ...customFilter };
-        if (extra.action === 'custom') {
-            extra.customContext?.forEach((filter) => {
-                if (!newCustomFilter[filter.name]) return;
-                switch (filter.type) {
-                    case 'DateRangePicker': {
-                        newCustomFilter[filter.name] = `${newCustomFilter[
-                            filter.name
-                        ][0]?.toISOString()},${newCustomFilter[
-                            filter.name
-                        ][1]?.toISOString()}`;
-                        break;
-                    }
-                    case 'CheckboxDropdown': {
-                        newCustomFilter[filter.name] =
-                            newCustomFilter[filter.name]?.join(',');
-                        break;
-                    }
+
+        extra.customContext?.forEach((filter) => {
+            if (!newCustomFilter[filter.name]) return;
+            switch (filter.type) {
+                case 'DateRangePicker': {
+                    newCustomFilter[filter.name] = `${newCustomFilter[
+                        filter.name
+                    ][0]?.toISOString()},${newCustomFilter[
+                        filter.name
+                    ][1]?.toISOString()}`;
+                    break;
                 }
-            });
-        }
+                case 'CheckboxDropdown': {
+                    newCustomFilter[filter.name] =
+                        newCustomFilter[filter.name]?.join(',');
+                    break;
+                }
+            }
+        });
 
         const strictSorter = {
             order: sorter?.order,

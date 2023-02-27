@@ -10,7 +10,6 @@ import { IDataTableProps, TOnSort, FilterState } from './Entities';
 import { FilterSection } from '../FilterSection';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import { TMeta } from '../../../Modules/Inertia/Entities';
-import { TFilterItem } from '../FilterSection/Filter';
 
 const stylePagination: React.CSSProperties = {
     display: 'flex',
@@ -48,6 +47,17 @@ function DataTable<T extends object = any>(
         stateRef.current = value;
     };
 
+    const handleOnChange = (value: FilterState<T>) => {
+        handleSetState(value);
+        onChange(
+            value.custom,
+            value.sorter,
+            value.filters,
+            value.pagination,
+            value.extra,
+        );
+    };
+
     const handleSelectRow = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
@@ -62,16 +72,10 @@ function DataTable<T extends object = any>(
             },
             extra: {
                 action: 'paginate',
+                customContext: filterComponents,
             },
         };
-        handleSetState(newState);
-        onChange(
-            newState.custom,
-            newState.sorter,
-            newState.filters,
-            newState.pagination,
-            newState.extra,
-        );
+        handleOnChange(newState);
     };
 
     const handleSearch = (search: string) => {
@@ -84,38 +88,24 @@ function DataTable<T extends object = any>(
             },
             extra: {
                 action: 'custom',
+                customContext: filterComponents,
             },
         };
 
-        handleSetState(newState);
-        onChange(
-            newState.custom,
-            newState.sorter,
-            newState.filters,
-            newState.pagination,
-            newState.extra,
-        );
+        handleOnChange(newState);
     };
 
-    const handleFiltersChange = (
-        customFilters: Record<string, any>,
-        context: TFilterItem[],
-    ) => {
+    const handleFiltersChange = (customFilters: Record<string, any>) => {
         const newState: FilterState<T> = {
             ...stateRef.current,
             custom: { ...(stateRef.current.custom || {}), ...customFilters },
-        };
-        handleSetState(newState);
-        onChange(
-            newState.custom,
-            newState.sorter,
-            newState.filters,
-            newState.pagination,
-            {
+            extra: {
                 action: 'custom',
-                customContext: context,
+
+                customContext: filterComponents,
             },
-        );
+        };
+        handleOnChange(newState);
     };
 
     const handleTableChange = (
@@ -136,16 +126,12 @@ function DataTable<T extends object = any>(
                 sort: String(sorter.columnKey),
                 order: sorter.order,
             },
-            extra,
+            extra: {
+                ...extra,
+                customContext: filterComponents,
+            },
         };
-        handleSetState(newState);
-        onChange(
-            newState.custom,
-            newState.sorter,
-            newState.filters,
-            newState.pagination,
-            newState.extra,
-        );
+        handleOnChange(newState);
     };
 
     return (

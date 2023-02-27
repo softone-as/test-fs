@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { defaultSizeSpace } from '../../../Utils/theme';

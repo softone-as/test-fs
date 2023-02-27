@@ -3,7 +3,7 @@ import { Badge, Tooltip } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
 import { Link } from '@inertiajs/inertia-react';
 
-import { Route } from 'apps/backoffice/app/Enums/Route';
+import { Route } from 'apps/backoffice/app/Common/Route/Route';
 import { TNotificationProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
 
 interface INotificationIconProps {

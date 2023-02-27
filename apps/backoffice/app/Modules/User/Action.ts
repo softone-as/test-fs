@@ -1,57 +1,21 @@
+import { route, Route } from '../../Common/Route/Route';
 import { Inertia } from '@inertiajs/inertia';
-import { EndpointRoute } from '../../Enums/Route';
 import { IUserForm } from './Entities';
 
 export const createUser = (userData: IUserForm): void => {
-    Inertia.post(EndpointRoute.CreateUser, userData, {
-        onSuccess: (success) => {
-            console.log('Sukses: ', success);
-        },
-        onError: (error) => {
-            console.log('Error: ', error);
-        },
-    });
+    Inertia.post(Route.UserCreate, userData);
 };
 
-export const editUser = (id: number, userData: IUserForm): void => {
-    Inertia.put(`${EndpointRoute.EditUser}/${id}`, userData, {
-        onSuccess: (success) => {
-            console.log('Sukses: ', success);
-        },
-        onError: (error) => {
-            console.log('Error: ', error);
-        },
-    });
+export const editUser = (userId: number, userData: IUserForm): void => {
+    Inertia.put(route(Route.UserEdit, { id: userId }), userData);
 };
 
 export const deleteUser = (userId: number): void => {
-    Inertia.post(
-        `${EndpointRoute.DeleteUser}/${userId}`,
-        {},
-        {
-            onSuccess: (success) => {
-                console.log('Sukses: ', success);
-            },
-            onError: (error) => {
-                console.log('Error: ', error);
-            },
-        },
-    );
+    Inertia.post(route(Route.UserDelete, { id: userId }), {});
 };
 
 export const deleteBatchUsers = (userIds: React.Key[]): void => {
-    Inertia.post(
-        EndpointRoute.DeleteBatchUser,
-        {
-            ids: userIds,
-        },
-        {
-            onSuccess: (success) => {
-                console.log('Sukses: ', success);
-            },
-            onError: (error) => {
-                console.log('Error: ', error);
-            },
-        },
-    );
+    Inertia.post(Route.UserDeleteBatch, {
+        ids: userIds,
+    });
 };

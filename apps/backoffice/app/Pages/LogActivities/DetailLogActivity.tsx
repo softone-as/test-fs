@@ -3,7 +3,7 @@ import React from 'react';
 import { Descriptions, Space } from 'antd';
 import { defaultSizeSpace } from '../../Utils/theme';
 import { MainLayout } from '../../Layouts/MainLayout';
-import { Breadcrumbs } from '../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import DescriptionContainer from '../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../Components/molecules/Section';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';

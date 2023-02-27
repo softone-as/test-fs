@@ -4,11 +4,11 @@ import { MainLayout } from '../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
-import { Breadcrumbs } from '../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
-import { Route } from '../../Enums/Route';
+import { route, Route } from '../../Common/Route/Route';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
 import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
 import { formatDate } from '../../Utils/utils';
@@ -67,7 +67,7 @@ const LogActivityPage: React.FC = (props: IProps) => {
                     actions={[
                         {
                             type: 'view',
-                            href: `${Route.LogActivity}/${data.id}`,
+                            href: route(Route.LogActivityDetail, data),
                             title: 'view',
                         },
                     ]}
@@ -91,17 +91,17 @@ const LogActivityPage: React.FC = (props: IProps) => {
                 batchActionMenus={[]}
                 filterComponents={[
                     {
-                        filterLabel: 'Menu',
+                        label: 'Menu',
+                        type: 'Select',
                         name: 'menu',
                         placeholder: 'Menu',
-                        filterType: 'Select',
                         options: menuOptions,
                         defaultValue: filters.menu,
                     },
                     {
-                        filterLabel: 'Created At',
+                        label: 'Created At',
+                        type: 'DateRangePicker',
                         name: 'rangeCreateAt',
-                        filterType: 'DateRangePicker',
                         range: 10,
                         defaultValue: [
                             filters.start_at && dayjs(filters.start_at),

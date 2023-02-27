@@ -5,11 +5,11 @@ import { MainLayout } from '../../Layouts/MainLayout';
 import { IUser } from '../../Modules/User/Entities';
 import { defaultSizeSpace } from '../../Utils/theme';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
-import { Breadcrumbs } from '../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import { Button } from '../../Components/atoms/Button';
 import DescriptionContainer from '../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../Components/molecules/Section';
-import { Route } from '../../Enums/Route';
+import { Route } from '../../Common/Route/Route';
 
 interface IProps extends TInertiaProps {
     data: IUser;
@@ -27,13 +27,13 @@ const UserDetailPage: React.FC = (props: IProps) => {
                 <>
                     <Button
                         type="primary"
-                        href={Route.EditProfile}
+                        href={Route.ProfileEdit}
                         icon={<EditOutlined />}
                     >
                         Edit
                     </Button>
                     <Button
-                        href={Route.EditProfilePassword}
+                        href={Route.ProfileEditPassword}
                         icon={<EditOutlined />}
                     >
                         Edit Password

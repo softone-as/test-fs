@@ -14,7 +14,7 @@ import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
 
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
-import { Breadcrumbs } from '../../../Enums/Breadcrumb';
+import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Section } from '../../../Components/molecules/Section';
 import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';

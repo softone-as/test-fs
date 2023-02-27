@@ -36,7 +36,7 @@ export const FilterSection = (props: IFilterSection) => {
             if (value || (!value && props.searchValue.length > 0)) {
                 props.onSearch(value);
             }
-        }, 500);
+        }, 200);
 
         return () => {
             clearTimeout(timeout);

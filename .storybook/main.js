@@ -1,9 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    stories: [
-        '../apps/backoffice/app/Components/**/*.stories.@(js|jsx|ts|tsx)',
-    ],
+    stories: ['../apps/backoffice/app/**/*.stories.@(js|jsx|ts|tsx)'],
     addons: [
         '@storybook/addon-links',
         '@storybook/addon-essentials',
