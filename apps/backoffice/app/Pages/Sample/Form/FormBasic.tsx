@@ -302,7 +302,7 @@ const FormBasic: React.FC = (props: TInertiaProps) => {
 
                     <Form.Item label="Categories" name="categories" required>
                         <CheckboxDropdown
-                            label="Categories"
+                            placeholder="Categories"
                             options={[
                                 { label: 'Checkbox 1', value: 'checkbox 1' },
                             ]}

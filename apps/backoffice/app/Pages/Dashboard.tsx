@@ -143,7 +143,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                 batchActionMenus={batchActionMenus}
                 filterComponents={[
                     {
-                        filterLabel: 'Status',
+                        label: 'Status',
                         name: 'status',
                         render: () => (
                             <MultiFilterDropdown
@@ -231,13 +231,13 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                         ),
                     },
                     {
-                        filterLabel: 'Created At',
+                        label: 'Created At',
+                        type: 'DateRangePicker',
                         name: 'rangeCreateAt',
-                        filterType: 'DateRangePicker',
                         range: 10,
                     },
                     {
-                        filterLabel: 'Date',
+                        label: 'Date',
                         name: 'date',
                         render: DatePicker,
                     },

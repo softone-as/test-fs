@@ -108,26 +108,25 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
         extra?: ITableCurrentDataSource<any>,
     ) => {
         const newCustomFilter: T = { ...customFilter };
-        if (extra.action === 'custom') {
-            extra.customContext?.forEach((filter) => {
-                if (!newCustomFilter[filter.name]) return;
-                switch (filter.type) {
-                    case 'DateRangePicker': {
-                        newCustomFilter[filter.name] = `${newCustomFilter[
-                            filter.name
-                        ][0]?.toISOString()},${newCustomFilter[
-                            filter.name
-                        ][1]?.toISOString()}`;
-                        break;
-                    }
-                    case 'CheckboxDropdown': {
-                        newCustomFilter[filter.name] =
-                            newCustomFilter[filter.name]?.join(',');
-                        break;
-                    }
+
+        extra.customContext?.forEach((filter) => {
+            if (!newCustomFilter[filter.name]) return;
+            switch (filter.type) {
+                case 'DateRangePicker': {
+                    newCustomFilter[filter.name] = `${newCustomFilter[
+                        filter.name
+                    ][0]?.toISOString()},${newCustomFilter[
+                        filter.name
+                    ][1]?.toISOString()}`;
+                    break;
                 }
-            });
-        }
+                case 'CheckboxDropdown': {
+                    newCustomFilter[filter.name] =
+                        newCustomFilter[filter.name]?.join(',');
+                    break;
+                }
+            }
+        });
 
         const strictSorter = {
             order: sorter?.order,

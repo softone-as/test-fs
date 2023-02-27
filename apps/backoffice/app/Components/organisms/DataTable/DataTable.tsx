@@ -10,7 +10,6 @@ import { IDataTableProps, TOnSort, FilterState } from './Entities';
 import { FilterSection } from '../FilterSection';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import { TMeta } from '../../../Modules/Inertia/Entities';
-import { TFilterItem } from '../FilterSection/Filter';
 
 const stylePaginantion: React.CSSProperties = {
     display: 'flex',
@@ -62,6 +61,7 @@ function DataTable<T extends object = any>(
             },
             extra: {
                 action: 'paginate',
+                customContext: filterComponents,
             },
         };
         handleSetState(newState);
@@ -70,7 +70,10 @@ function DataTable<T extends object = any>(
             newState.sorter,
             newState.filters,
             newState.pagination,
-            newState.extra,
+            {
+                ...newState.extra,
+                customContext: filterComponents,
+            },
         );
     };
 
@@ -84,6 +87,7 @@ function DataTable<T extends object = any>(
             },
             extra: {
                 action: 'custom',
+                customContext: filterComponents,
             },
         };
 
@@ -93,14 +97,14 @@ function DataTable<T extends object = any>(
             newState.sorter,
             newState.filters,
             newState.pagination,
-            newState.extra,
+            {
+                ...newState.extra,
+                customContext: filterComponents,
+            },
         );
     };
 
-    const handleFiltersChange = (
-        customFilters: Record<string, any>,
-        context: TFilterItem[],
-    ) => {
+    const handleFiltersChange = (customFilters: Record<string, any>) => {
         const newState: FilterState<T> = {
             ...stateRef.current,
             custom: { ...(stateRef.current.custom || {}), ...customFilters },
@@ -113,7 +117,7 @@ function DataTable<T extends object = any>(
             newState.pagination,
             {
                 action: 'custom',
-                customContext: context,
+                customContext: filterComponents,
             },
         );
     };
@@ -144,7 +148,10 @@ function DataTable<T extends object = any>(
             newState.sorter,
             newState.filters,
             newState.pagination,
-            newState.extra,
+            {
+                ...newState.extra,
+                customContext: filterComponents,
+            },
         );
     };
 
