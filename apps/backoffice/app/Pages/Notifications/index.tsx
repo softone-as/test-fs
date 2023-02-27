@@ -96,12 +96,12 @@ const NotificationPage: React.FC = (props: IProps) => {
                 batchActionMenus={[]}
                 filterComponents={[
                     {
-                        filterLabel: 'Status',
+                        label: 'Status',
+                        type: 'Select',
                         name: 'isRead',
-                        filterType: 'Select',
                         options: isReadOptions,
                         placeholder: 'Status',
-                        defaultValue: filters.isRead,
+                        defaultValue: filters.isRead && [filters.isRead],
                     },
                 ]}
                 onChange={implementTableFilter}
