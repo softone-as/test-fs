@@ -96,7 +96,7 @@ const LogActivityPage: React.FC = (props: IProps) => {
                         name: 'menu',
                         placeholder: 'Menu',
                         options: menuOptions,
-                        defaultValue: filters.menu && [filters.menu],
+                        defaultValue: filters.menu,
                     },
                     {
                         label: 'Created At',

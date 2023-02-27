@@ -101,7 +101,7 @@ const NotificationPage: React.FC = (props: IProps) => {
                         name: 'isRead',
                         options: isReadOptions,
                         placeholder: 'Status',
-                        defaultValue: filters.isRead && [filters.isRead],
+                        defaultValue: filters.isRead,
                     },
                 ]}
                 onChange={implementTableFilter}
