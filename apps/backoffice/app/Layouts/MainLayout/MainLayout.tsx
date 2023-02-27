@@ -149,9 +149,15 @@ export const MainLayout: React.FC<IProps> = ({
     const { isDarkMode, handleSwitchTheme } = useContext(ThemeContext);
     const { darkAlgorithm, defaultAlgorithm } = theme;
     const themeAlgorithm = isDarkMode ? darkAlgorithm : defaultAlgorithm;
+
     const bgSiderLayoutColor = isDarkMode
         ? customDarkThemeColors?.bgSiderLayout
         : themeColors?.bgSiderLayout;
+
+    const tableDarkThemeStyle = isDarkMode && {
+        controlItemBgActive: 'undefined',
+        controlItemBgActiveHover: 'undefined',
+    };
 
     const [collapsed, setCollapsed] = useState(true);
     const isMobile = isMobileScreen();
@@ -201,6 +207,9 @@ export const MainLayout: React.FC<IProps> = ({
         <ConfigProvider
             theme={{
                 algorithm: themeAlgorithm,
+                components: {
+                    Table: tableDarkThemeStyle,
+                },
             }}
         >
             {/* Fix height, so the scroll will be belongs to Content only */}
