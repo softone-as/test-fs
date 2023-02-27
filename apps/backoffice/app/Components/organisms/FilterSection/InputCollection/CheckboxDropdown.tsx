@@ -19,6 +19,7 @@ const FilterCheckboxDropdown = (props: StrictCheckboxDropdown) => {
             options={options}
             placeholder={placeholder}
             defaultValue={defaultValue}
+            allowClear
         />
     );
 };
