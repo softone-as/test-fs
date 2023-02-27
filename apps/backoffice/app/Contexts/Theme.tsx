@@ -1,5 +1,8 @@
+import { ConfigProvider, theme } from 'antd';
+import { ThemeConfig } from 'antd/es/config-provider/context';
 import React, { createContext, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { globalThemeConfig } from '../Utils/theme';
 
 export interface IThemeContext {
     isDarkMode: boolean;
@@ -23,6 +26,25 @@ export const ThemeProvider: React.FunctionComponent<IThemeProviderProps> = (
         setCookie('darkMode', isDarkMode, { path: '/' });
     };
 
+    const { darkAlgorithm, defaultAlgorithm } = theme;
+
+    const themeAlgorithm = isDarkMode ? darkAlgorithm : defaultAlgorithm;
+    const tableComponentStyle = isDarkMode
+        ? {
+              controlItemBgActive: undefined,
+              controlItemBgActiveHover: undefined,
+          }
+        : globalThemeConfig['components']['Table'];
+
+    console.log(tableComponentStyle);
+    const customThemeConfig: ThemeConfig = {
+        ...globalThemeConfig,
+        algorithm: themeAlgorithm,
+        components: {
+            Table: tableComponentStyle,
+        },
+    };
+
     return (
         <ThemeContext.Provider
             {...props}
@@ -32,6 +54,10 @@ export const ThemeProvider: React.FunctionComponent<IThemeProviderProps> = (
                     : isDarkMode,
                 handleSwitchTheme,
             }}
-        />
+        >
+            <ConfigProvider theme={customThemeConfig}>
+                {props.children}
+            </ConfigProvider>
+        </ThemeContext.Provider>
     );
 };

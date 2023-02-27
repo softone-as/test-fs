@@ -9,11 +9,10 @@ export const themeColors = {
     warning: '',
     error: '#FF4D4F',
     info: '',
-    bgSiderLayout: '#006D75',
 };
 
-export const customDarkThemeColors = {
-    bgSiderLayout: '#001213',
+export const darkThemeColors = {
+    primary: '#001213',
 };
 
 export const iconActionTableStyle: CSSProperties = {
