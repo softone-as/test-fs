@@ -54,8 +54,8 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
 
     const setQueryParams = (propsParams: TPropsTableFilter<T>) => {
         const data = Object.keys(propsParams).reduce((all, key) => {
-            if (propsParams[key] !== '')
-                return { ...all, [key]: propsParams[key] };
+            if (propsParams[key] === '') delete all[key];
+            else return { ...all, [key]: propsParams[key] };
             return all;
         }, existingParams) as TPropsTableFilter<T>;
 
@@ -82,6 +82,7 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
         }
 
         setFilters(data);
+
         Inertia.visit(window.location.pathname, {
             data: data,
             preserveState: true,

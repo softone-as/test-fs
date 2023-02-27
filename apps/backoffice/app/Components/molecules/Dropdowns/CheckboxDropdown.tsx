@@ -7,7 +7,7 @@ import {
     Space,
     theme,
 } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined, CloseCircleFilled } from '@ant-design/icons';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 
 const { useToken } = theme;
@@ -18,6 +18,7 @@ export interface IPropsCheckboxDropdown {
     options?: CheckboxOptionType[];
     value?: CheckboxValueType[];
     onChange?: (checkedValue: CheckboxValueType[]) => void;
+    allowClear?: boolean;
 }
 
 interface IPropsCheckboxDropdownRender {
@@ -55,7 +56,8 @@ const CheckboxDropdownRender: React.FC<IPropsCheckboxDropdownRender> = (
 };
 
 export const CheckboxDropdown: React.FC<IPropsCheckboxDropdown> = (props) => {
-    const { placeholder, options, value, onChange, defaultValue } = props;
+    const { placeholder, options, value, onChange, defaultValue, allowClear } =
+        props;
 
     const [state, setState] = useState<CheckboxValueType[]>(
         value || defaultValue || [],
@@ -65,11 +67,20 @@ export const CheckboxDropdown: React.FC<IPropsCheckboxDropdown> = (props) => {
         onChange(value);
     };
 
+    const handleOnClear = () => {
+        handleOnChange([]);
+    };
+
     const { token } = useToken();
     const [open, setOpen] = useState(false);
 
     const labelStyle: React.CSSProperties = {
         color: state?.length ? token.colorText : token.colorTextPlaceholder,
+    };
+
+    const iconClearStyle: React.CSSProperties = {
+        color: token.colorTextPlaceholder,
+        cursor: 'pointer',
     };
 
     return (
@@ -87,7 +98,14 @@ export const CheckboxDropdown: React.FC<IPropsCheckboxDropdown> = (props) => {
             <Button>
                 <Space style={labelStyle}>
                     {placeholder}
-                    <DownOutlined />
+                    {allowClear && state.length ? (
+                        <CloseCircleFilled
+                            onClick={handleOnClear}
+                            style={iconClearStyle}
+                        />
+                    ) : (
+                        <DownOutlined />
+                    )}
                 </Space>
             </Button>
         </Dropdown>

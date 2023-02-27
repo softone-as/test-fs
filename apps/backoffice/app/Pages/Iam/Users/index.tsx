@@ -31,6 +31,7 @@ interface IProps extends TInertiaProps {
 }
 
 type TFilters = {
+    email?: string;
     gender?: string;
     created_at?: string;
     checkbox?: string;
@@ -179,6 +180,7 @@ const UsersPage: React.FC = (props: IProps) => {
                         render: Input,
                         name: 'email',
                         placeholder: 'Search email',
+                        defaultValue: filters.email,
                     },
                     {
                         label: 'Gender',

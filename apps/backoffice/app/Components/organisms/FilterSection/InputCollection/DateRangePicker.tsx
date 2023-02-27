@@ -20,6 +20,7 @@ const FilterDateRangePicker = (props: StrictDateRangePickerProps) => {
             defaultValue={defaultValue}
             range={range}
             style={{ width: isMobile && '100%' }}
+            allowClear
         />
     );
 };

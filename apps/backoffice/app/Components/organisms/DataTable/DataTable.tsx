@@ -47,6 +47,17 @@ function DataTable<T extends object = any>(
         stateRef.current = value;
     };
 
+    const handleOnChange = (value: FilterState<T>) => {
+        handleSetState(value);
+        onChange(
+            value.custom,
+            value.sorter,
+            value.filters,
+            value.pagination,
+            value.extra,
+        );
+    };
+
     const handleSelectRow = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
@@ -64,17 +75,7 @@ function DataTable<T extends object = any>(
                 customContext: filterComponents,
             },
         };
-        handleSetState(newState);
-        onChange(
-            newState.custom,
-            newState.sorter,
-            newState.filters,
-            newState.pagination,
-            {
-                ...newState.extra,
-                customContext: filterComponents,
-            },
-        );
+        handleOnChange(newState);
     };
 
     const handleSearch = (search: string) => {
@@ -91,35 +92,20 @@ function DataTable<T extends object = any>(
             },
         };
 
-        handleSetState(newState);
-        onChange(
-            newState.custom,
-            newState.sorter,
-            newState.filters,
-            newState.pagination,
-            {
-                ...newState.extra,
-                customContext: filterComponents,
-            },
-        );
+        handleOnChange(newState);
     };
 
     const handleFiltersChange = (customFilters: Record<string, any>) => {
         const newState: FilterState<T> = {
             ...stateRef.current,
             custom: { ...(stateRef.current.custom || {}), ...customFilters },
-        };
-        handleSetState(newState);
-        onChange(
-            newState.custom,
-            newState.sorter,
-            newState.filters,
-            newState.pagination,
-            {
+            extra: {
                 action: 'custom',
+
                 customContext: filterComponents,
             },
-        );
+        };
+        handleOnChange(newState);
     };
 
     const handleTableChange = (
@@ -140,19 +126,12 @@ function DataTable<T extends object = any>(
                 sort: String(sorter.columnKey),
                 order: sorter.order,
             },
-            extra,
-        };
-        handleSetState(newState);
-        onChange(
-            newState.custom,
-            newState.sorter,
-            newState.filters,
-            newState.pagination,
-            {
-                ...newState.extra,
+            extra: {
+                ...extra,
                 customContext: filterComponents,
             },
-        );
+        };
+        handleOnChange(newState);
     };
 
     return (
