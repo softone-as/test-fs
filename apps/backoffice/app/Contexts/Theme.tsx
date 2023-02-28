@@ -36,7 +36,6 @@ export const ThemeProvider: React.FunctionComponent<IThemeProviderProps> = (
           }
         : globalThemeConfig['components']['Table'];
 
-    console.log(tableComponentStyle);
     const customThemeConfig: ThemeConfig = {
         ...globalThemeConfig,
         algorithm: themeAlgorithm,
