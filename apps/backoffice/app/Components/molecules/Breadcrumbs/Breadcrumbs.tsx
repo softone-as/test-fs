@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/inertia-react';
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, theme } from 'antd';
 import React from 'react';
 import { TBreadcrumbsItem } from '../../../Modules/Common/Entities';
 
@@ -8,6 +8,7 @@ type PropsBreadcrumb = {
 };
 
 const Breadcrumbs = ({ breadcrumbs }: PropsBreadcrumb) => {
+    const { token } = theme.useToken();
     return (
         <Breadcrumb style={{ marginBottom: '8px' }}>
             {breadcrumbs?.map(({ label, path }, index) => {
@@ -16,7 +17,7 @@ const Breadcrumbs = ({ breadcrumbs }: PropsBreadcrumb) => {
                     <Breadcrumb.Item key={label}>
                         <span
                             style={{
-                                color: 'rgba(0, 0, 0, 0.88)',
+                                color: token.colorTextSecondary,
                             }}
                         >
                             {label}

@@ -8,8 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Inertia, Page } from '@inertiajs/inertia';
 import { Head, Link, usePage } from '@inertiajs/inertia-react';
-import type { MenuProps } from 'antd';
-import { ConfigProvider, Layout, Menu } from 'antd';
+import { MenuProps, Switch, ConfigProvider, Layout, Menu } from 'antd';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { PageHeader } from '../../Components/molecules/Headers';
 import { PageProgress } from '../../Components/molecules/Progress';
@@ -18,13 +17,18 @@ import { Route } from '../../Common/Route/Route';
 import { useNotification } from '../../Utils/notification';
 import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
-import { sidebarThemeConfig } from '../../Utils/theme';
+import {
+    darkThemeColors,
+    sidebarThemeConfig,
+    themeColors,
+} from '../../Utils/theme';
 import { isMobileScreen } from '../../Utils/utils';
 import CompanyLogo from '../../Components/atoms/Logos/CompanyLogo';
 import MainHeader from '../../Components/organisms/Layout/MainHeader';
 import { UserAvatar } from '../../Components/atoms/Avatars';
 import NotificationIcon from '../../Components/atoms/Icons/NotificationIcon';
 import { Overlay } from '../../Components/atoms/Overlays';
+import { ThemeContext } from '../../Contexts/Theme';
 
 export type IProps = {
     children: React.ReactNode;
@@ -139,6 +143,15 @@ export const MainLayout: React.FC<IProps> = ({
 }: IProps) => {
     const { appState } = useContext(AppContext);
     const { props: pageProps } = usePage<Page<TInertiaProps>>();
+
+    // dark theme mode
+    const { isDarkMode, handleSwitchTheme } = useContext(ThemeContext);
+
+    // additional style because not affected directly from antd theme before
+    const bgSiderLayoutColor = isDarkMode
+        ? darkThemeColors?.primary
+        : themeColors?.primary;
+
     const [collapsed, setCollapsed] = useState(true);
     const isMobile = isMobileScreen();
 
@@ -184,7 +197,7 @@ export const MainLayout: React.FC<IProps> = ({
     }, [pageProps.error]);
 
     return (
-        // Fix height, so the scroll will be belongs to Content only
+        //  Fix height, so the scroll will be belongs to Content only
         <Layout style={{ height: '100vh' }}>
             <Head title={title} />
 
@@ -193,9 +206,8 @@ export const MainLayout: React.FC<IProps> = ({
                 trigger={null}
                 collapsible
                 collapsed={isMobile ? collapsed : false}
-                theme="light"
                 style={{
-                    backgroundColor: '#006D75',
+                    backgroundColor: bgSiderLayoutColor,
                     minHeight: '100vh',
                     marginTop: isMobile ? '-60px' : 0,
                     overflow: isMobile && 'auto',
@@ -271,8 +283,9 @@ export const MainLayout: React.FC<IProps> = ({
                         >
                             <Menu
                                 items={menuItems}
-                                theme="light"
-                                style={{ backgroundColor: '#006D75' }}
+                                style={{
+                                    backgroundColor: bgSiderLayoutColor,
+                                }}
                                 mode="inline"
                                 defaultOpenKeys={[defaultOpenedKey]}
                                 selectedKeys={[activeMenuKey]}
@@ -280,11 +293,30 @@ export const MainLayout: React.FC<IProps> = ({
 
                             {/* Bottom Menu */}
                             <Menu
-                                theme="light"
-                                style={{ backgroundColor: '#006D75' }}
+                                style={{
+                                    backgroundColor: bgSiderLayoutColor,
+                                }}
                                 mode="inline"
                             >
+                                {/* Toggle switch theme */}
+                                <Menu.Item key="switchTheme">
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        Dark Mode
+                                        <Switch
+                                            checked={isDarkMode}
+                                            onChange={handleSwitchTheme}
+                                        />
+                                    </div>
+                                </Menu.Item>
+
                                 <Menu.Divider />
+
                                 {/* Logout Button */}
                                 <Menu.Item
                                     key="logout"

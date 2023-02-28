@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Table, Pagination, Space, PaginationProps } from 'antd';
+import { Table, Pagination, Space, PaginationProps, theme } from 'antd';
 import {
     FilterValue,
     SorterResult,
@@ -11,11 +11,10 @@ import { FilterSection } from '../FilterSection';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import { TMeta } from '../../../Modules/Inertia/Entities';
 
-const stylePaginantion: React.CSSProperties = {
+const stylePagination: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'end',
     padding: '8px',
-    backgroundColor: 'white',
 };
 const tableLayout: React.CSSProperties = { width: '100%' };
 
@@ -41,6 +40,7 @@ function DataTable<T extends object = any>(
         },
     });
     const stateRef = useRef<FilterState<T>>(state);
+    const { token } = theme.useToken();
 
     const handleSetState = (value: FilterState<T>) => {
         setState(value);
@@ -180,8 +180,13 @@ function DataTable<T extends object = any>(
                     }}
                 />
 
-                <div style={stylePaginantion}>
-                    {pagination && !!pagination?.total && (
+                {pagination && !!pagination?.total && (
+                    <div
+                        style={{
+                            ...stylePagination,
+                            backgroundColor: token.colorBgContainer,
+                        }}
+                    >
                         <Pagination
                             showTotal={(total, range) =>
                                 `${range[0]}-${range[1]} of ${total} items`
@@ -191,8 +196,8 @@ function DataTable<T extends object = any>(
                             {...pagination}
                             onChange={handlePageChange}
                         />
-                    )}
-                </div>
+                    </div>
+                )}
             </Space.Compact>
         </>
     );

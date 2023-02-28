@@ -11,6 +11,10 @@ export const themeColors = {
     info: '',
 };
 
+export const darkThemeColors = {
+    primary: '#001213',
+};
+
 export const iconActionTableStyle: CSSProperties = {
     color: themeColors.primary,
     fontSize: '14px',
@@ -25,7 +29,6 @@ export const sidebarThemeConfig: ThemeConfig = {
             colorItemBgHover: '#08979C',
             colorItemBgSelected: '#08979C',
             fontSize: 14,
-            colorItemBg: themeColors.primary,
         },
     },
 };
