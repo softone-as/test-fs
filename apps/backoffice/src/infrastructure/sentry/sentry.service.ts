@@ -30,6 +30,7 @@ export class SentryService {
         const transaction = Sentry.startTransaction({
             name: url,
             op: 'transaction',
+            status: 'ok',
         });
 
         // setup context of newly created transaction

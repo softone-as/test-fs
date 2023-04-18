@@ -67,7 +67,9 @@ const LogActivityPage: React.FC = (props: IProps) => {
                     actions={[
                         {
                             type: 'view',
-                            href: route(Route.LogActivityDetail, data),
+                            href: route(Route.LogActivityDetail, {
+                                id: data.id,
+                            }),
                             title: 'view',
                         },
                     ]}

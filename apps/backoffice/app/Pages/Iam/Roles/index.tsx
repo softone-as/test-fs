@@ -69,12 +69,14 @@ const RolePage: React.FC = (props: IProps) => {
                         actions={[
                             {
                                 type: 'view',
-                                href: route(Route.RoleDetail, record),
+                                href: route(Route.RoleDetail, {
+                                    id: record.id,
+                                }),
                                 title: 'view',
                             },
                             {
                                 type: 'edit',
-                                href: route(Route.RoleEdit, record),
+                                href: route(Route.RoleEdit, { id: record.id }),
                                 title: 'edit',
                             },
                             {
