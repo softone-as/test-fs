@@ -1,11 +1,12 @@
-export const route = (url: Route, params: any): string => {
-    const urlParamIndex = url.indexOf(':');
-    const urlParamName = url.substring(urlParamIndex + 1, url.length);
-    const paramValue = params[urlParamName];
-    const urlNative = url.substring(0, urlParamIndex);
-    const urlFinal = urlNative + paramValue;
-
-    return urlFinal;
+export const route = (
+    url: Route,
+    propsParams: Record<string, string | number>,
+): string => {
+    let newUrl: string = url;
+    Object.keys(propsParams).forEach((param) => {
+        newUrl = newUrl.replace(`:${param}`, String(propsParams[param]));
+    });
+    return newUrl;
 };
 
 export enum Route {

@@ -32,81 +32,36 @@ import { CommonModule } from './modules/common/common.module';
 import { NotificationModule } from './infrastructure/notification/notification.module';
 import { InertiaModule } from './infrastructure/inertia/inertia.module';
 import { UserDetailMiddleware } from './modules/iam/middlewares/user-detail.middleware';
-import { config } from './config';
-import { MailerModule } from '@nestjs-modules/mailer';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { join } from 'path';
-import { QueryFailedError } from 'typeorm';
+import {
+    EntityNotFoundError,
+    FindRelationsNotFoundError,
+    QueryFailedError,
+} from 'typeorm';
 import { CacheModule as CacheModuleManager } from '@nestjs/common';
 import { CacheModule } from './infrastructure/cache/cache.module';
 import { InAppNotificationModule as InAppNotificationModule } from './modules/notification/notification.module';
 import { CacheCleanMiddleware } from './infrastructure/cache/middlewares/cache-clean.middleware';
 import { LogActivityModule } from './modules/log-activity/log-activity.module';
-import { WinstonModule } from 'nest-winston';
-import * as winston from 'winston';
 import { GlobalServiceModule } from './modules/glob/global-service.module';
 import { NotificationUnreadMiddleware } from './modules/notification/middlewares/notification-unread.middleware';
 import { SentryModule } from './infrastructure/sentry/sentry.module';
 import * as Sentry from '@sentry/node';
 import { ProfileModule } from './modules/profile/profile.module';
 import { InformationModule } from './modules/tests/information.module';
+import { MailModule } from './infrastructure/mail/mail.module';
+import { WinstonModule } from './infrastructure/winston/winston.module';
 
 @Module({
     imports: [
+        SentryModule.forRoot(),
         TypeOrmModule.forRoot(connectionOption),
-        CacheModuleManager.register({
-            isGlobal: true,
-        }),
-        MailerModule.forRoot({
-            transport: {
-                host: config.mail.smtp.host,
-                port: config.mail.smtp.port,
-                secure: false,
-                auth: {
-                    user: config.mail.smtp.user,
-                    pass: config.mail.smtp.password,
-                },
-            },
-            defaults: {
-                from: `"No Reply" <${config.mail.smtp.emailSender}>`,
-            },
-            template: {
-                dir: join(__dirname, 'infrastructure/mail/templates'),
-                adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
-                options: {
-                    strict: true,
-                },
-            },
-        }),
-        SentryModule.forRoot(
-            config.sentry.dsn && {
-                dsn: config.sentry.dsn,
-                attachStacktrace: true,
-                debug: false,
-                environment: config.nodeEnv,
-                ignoreErrors: [
-                    'EntityNotFoundError',
-                    'QueryFailedError',
-                    'FindRelationsNotFoundError',
-                ],
-                tracesSampleRate: 1.0,
-            },
-        ),
-        WinstonModule.forRoot({
-            transports: [
-                new winston.transports.File({
-                    filename: 'info.log',
-                    format: winston.format.combine(
-                        winston.format.timestamp(),
-                        winston.format.json(),
-                    ),
-                }),
-            ],
-        }),
-
-        // write your module here
+        CacheModuleManager.register({ isGlobal: true }),
+        MailModule,
+        WinstonModule,
         RavenModule,
         RedisModule,
+
+        // write your module here
         ConfigModule,
         InAppNotificationModule,
         CacheModule,
@@ -156,12 +111,23 @@ import { InformationModule } from './modules/tests/information.module';
                 filters: [
                     {
                         type: HttpException,
-                        filter: (exception: HttpException) =>
-                            500 > exception.getStatus(),
+                        filter: (exception: HttpException) => {
+                            return 500 > exception.getStatus();
+                        },
+                    },
+                    {
+                        type: EntityNotFoundError,
+                        filter: (exception: EntityNotFoundError) =>
+                            exception.name === 'EntityNotFoundError',
+                    },
+                    {
+                        type: FindRelationsNotFoundError,
+                        filter: (exception: FindRelationsNotFoundError) =>
+                            exception.name === 'FindRelationsNotFoundError',
                     },
                     {
                         type: QueryFailedError,
-                        filter: () => false,
+                        filter: () => true,
                     },
                 ],
             }),

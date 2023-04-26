@@ -86,5 +86,6 @@ module.exports = {
                 prefix: ['I'],
             },
         ],
+        'no-console': 1,
     },
 };

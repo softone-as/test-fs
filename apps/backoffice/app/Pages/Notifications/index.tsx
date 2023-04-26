@@ -54,7 +54,9 @@ const NotificationPage: React.FC = (props: IProps) => {
                             actions={[
                                 {
                                     type: 'view',
-                                    href: route(Route.NotificationDetail, data),
+                                    href: route(Route.NotificationDetail, {
+                                        id: data.id,
+                                    }),
                                 },
                             ]}
                         />

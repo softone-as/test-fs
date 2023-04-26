@@ -12,5 +12,5 @@ export const editRole = (roleData: IRoleForm, roleId: number): void => {
 };
 
 export const deleteRole = (role: IRole): void => {
-    Inertia.delete(route(Route.RoleDelete, role));
+    Inertia.delete(route(Route.RoleDelete, { id: role.id }));
 };

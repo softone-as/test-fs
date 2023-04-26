@@ -101,12 +101,14 @@ const UsersPage: React.FC = (props: IProps) => {
                         actions={[
                             {
                                 type: 'view',
-                                href: route(Route.UserDetail, record),
+                                href: route(Route.UserDetail, {
+                                    id: record.id,
+                                }),
                                 title: 'view',
                             },
                             {
                                 type: 'edit',
-                                href: route(Route.UserEdit, record),
+                                href: route(Route.UserEdit, { id: record.id }),
                                 title: 'edit',
                             },
                             {
