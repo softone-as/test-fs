@@ -188,11 +188,18 @@ export const MainLayout: React.FC<IProps> = ({
 
     // error notification
     useEffect(() => {
-        if (pageProps.error) {
-            useNotification({
-                type: 'error',
-                message: pageProps.error.message,
-            });
+        if (pageProps?.error?.message?.length > 0) {
+            'error' in pageProps.error
+                ? useNotification({
+                      type: 'error',
+                      message: pageProps.error.message,
+                  })
+                : debounce(() => {
+                      useNotification({
+                          type: 'error',
+                          message: pageProps.error.message,
+                      });
+                  }, 300);
         }
     }, [pageProps.error]);
 
