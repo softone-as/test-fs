@@ -22,7 +22,7 @@ import {
     sidebarThemeConfig,
     themeColors,
 } from '../../Utils/theme';
-import { isMobileScreen } from '../../Utils/utils';
+import { isMobileScreen, debounce } from '../../Utils/utils';
 import CompanyLogo from '../../Components/atoms/Logos/CompanyLogo';
 import MainHeader from '../../Components/organisms/Layout/MainHeader';
 import { UserAvatar } from '../../Components/atoms/Avatars';
