@@ -188,6 +188,9 @@ export const config = {
     sentry: {
         dsn: process.env.SENTRY_DSN,
         tracesSampleRate: +process.env.TRACES_SAMPLE_RATE || 1.0,
+        publicKey: process.env.SENTRY_PUBLIC_KEY,
+        organizationSlug: process.env.SENTRY_ORGANIZATION_SLUG,
+        projectIdentifierNumber: process.env.SENTRY_PROJECT_IDENTIFIER_NUMBER,
     },
 
     /**
