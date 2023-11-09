@@ -238,4 +238,17 @@ export class Utils {
         result.setDate(result.getDate() + days);
         return result.toISOString();
     };
+    
+    static generateRandomHexString(length) {
+        return crypto.randomBytes(length).toString('hex');
+    };
+
+    static splitBaggageHeader(baggageHeader: string): [string, string] {
+        const splittedBaggageHeader = baggageHeader?.split(',');
+
+        const traceIdFromFe = splittedBaggageHeader[2]?.split('=')[1];
+        const replayIdFromFe = splittedBaggageHeader[3]?.split('=')[1];
+
+        return [traceIdFromFe, replayIdFromFe];
+    }
 }
