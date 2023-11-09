@@ -20,7 +20,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
                 from: `"No Reply" <${config.mail.smtp.emailSender}>`,
             },
             template: {
-                dir: join(__dirname, 'infrastructure/mail/templates'),
+                dir: join(__dirname, 'templates'),
                 adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
                 options: {
                     strict: true,
