@@ -5,6 +5,7 @@ import { REQUEST } from '@nestjs/core';
 import * as Sentry from '@sentry/node';
 import '@sentry/tracing';
 import { Span, SpanContext } from '@sentry/types';
+import { Utils } from '../../common/utils/util';
 
 /**
  * Because we inject REQUEST we need to set the service as request scoped
@@ -26,11 +27,21 @@ export class SentryService {
     constructor(@Inject(REQUEST) private request: Request) {
         const { method, headers, url } = this.request;
 
+        let traceIdFromFe = "";
+
+        if (headers['baggage']) {
+            const baggageHeader = request.headers['baggage'].toString();
+            
+            [ traceIdFromFe ] = Utils.splitBaggageHeader(baggageHeader);
+        }
+
         // recreate transaction based from HTTP request
         const transaction = Sentry.startTransaction({
             name: url,
             op: 'transaction',
             status: 'ok',
+
+            traceId: traceIdFromFe ? traceIdFromFe : Utils.generateRandomHexString(32),
         });
 
         // setup context of newly created transaction

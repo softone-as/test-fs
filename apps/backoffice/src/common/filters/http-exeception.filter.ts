@@ -15,6 +15,7 @@ import { EntityNotFoundError } from 'typeorm';
 import AccessLoginAuthenticatedException from '../../infrastructure/error/access-login-authenticated.exception';
 import BadRequestAndRedirectException from '../../infrastructure/error/bad-request-and-redirect.exception';
 import { Utils } from '../utils/util';
+import { captureException } from '../../infrastructure/sentry/sentry-capture-exception';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -24,6 +25,21 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const request = ctx.getRequest<Request>();
 
         const path = request.path.slice(1);
+
+        let traceIdFromFe = "";
+        let replayIdFromFe = "";
+
+        if (request.headers['baggage']) {
+            const baggageHeader = request.headers['baggage'].toString();
+            
+            [
+                traceIdFromFe, 
+                replayIdFromFe
+            ] = Utils.splitBaggageHeader(baggageHeader);
+        }
+
+        // Capture exception to Sentry
+        captureException(exception, request, traceIdFromFe, replayIdFromFe);
 
         if (exception instanceof UnprocessableEntityException) {
             const exceptionResponse = exception.getResponse();
