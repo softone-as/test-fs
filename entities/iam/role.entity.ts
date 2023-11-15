@@ -18,7 +18,7 @@ import { IUser } from 'interface-models/iam/user.interface';
 import { BaseEntity } from 'entities/base.entity';
 
 export const ROLE_CHANGER = 'changer';
-export const ROLE_ADMIN = 'changer';
+export const ROLE_ADMIN = 'admin';
 
 @Entity({ name: 'roles' })
 export class Role extends BaseEntity implements IRole {

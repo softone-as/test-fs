@@ -16,6 +16,7 @@ import AccessLoginAuthenticatedException from '../../infrastructure/error/access
 import BadRequestAndRedirectException from '../../infrastructure/error/bad-request-and-redirect.exception';
 import { Utils } from '../utils/util';
 import { captureException } from '../../infrastructure/sentry/sentry-capture-exception';
+import AccessLoginSSOAuthenticatedException from '../../infrastructure/error/access-login-sso-authenticated.exception';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -26,16 +27,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
         const path = request.path.slice(1);
 
-        let traceIdFromFe = "";
-        let replayIdFromFe = "";
+        let traceIdFromFe = '';
+        let replayIdFromFe = '';
 
         if (request.headers['baggage']) {
             const baggageHeader = request.headers['baggage'].toString();
-            
-            [
-                traceIdFromFe, 
-                replayIdFromFe
-            ] = Utils.splitBaggageHeader(baggageHeader);
+
+            [traceIdFromFe, replayIdFromFe] =
+                Utils.splitBaggageHeader(baggageHeader);
         }
 
         // Capture exception to Sentry
@@ -87,6 +86,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
             return response.redirect(Utils.pathToUrl(exception.path));
         } else if (exception instanceof AccessLoginAuthenticatedException) {
             return response.redirect(Utils.pathToUrl('/dashboard/page'));
+        } else if (exception instanceof AccessLoginSSOAuthenticatedException) {
+            return response.redirect(
+                301,
+                Utils.pathToUrl('/auth/sso-oidc/redirect'),
+            );
         } else if (exception instanceof BadRequestException) {
             request.session['error'] = {
                 errors: null,

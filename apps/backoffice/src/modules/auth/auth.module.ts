@@ -24,6 +24,8 @@ import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { LogActivityService } from '../log-activity/services/log-activity.service';
 import { UserRole } from 'entities/iam/user-role.entity';
 import { UserRoleService } from '../iam/services/user-role.service';
+import { Connection } from 'typeorm';
+import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
 
 @Module({
     imports: [
@@ -47,6 +49,26 @@ import { UserRoleService } from '../iam/services/user-role.service';
         OneSignalPushNotificationService,
         OtpService,
         LocalStrategy,
+
+        {
+            provide: 'OidcStrategy',
+            useFactory: async (connection: Connection) => {
+                const userRepository = connection.getRepository(User);
+                const userRoleRepository = connection.getRepository(UserRole);
+                const roleRepository = connection.getRepository(Role);
+
+                const client = await buildOpenIdClient();
+                const strategy = new OidcStrategy(
+                    roleRepository,
+                    userRoleRepository,
+                    userRepository,
+                    client,
+                );
+                return strategy;
+            },
+            inject: [Connection],
+        },
+
         UserCrudApplication,
         LogActivityService,
         LdapService,

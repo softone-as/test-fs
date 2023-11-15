@@ -160,6 +160,14 @@ const Login = (props: TInertiaProps) => {
                             >
                                 Register now!
                             </Link>
+                            {' Or '}
+                            <a
+                                href="/auth/sso-oidc"
+                                target="blank"
+                                style={{ color: themeColors.primary }}
+                            >
+                                Login by SSO
+                            </a>
                         </Form.Item>
                     </FormContainer>
                 </Col>

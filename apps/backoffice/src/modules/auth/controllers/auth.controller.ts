@@ -13,6 +13,7 @@ import { AuthApplication } from '../applications/auth.application';
 import { LocalGuard } from '../guards/local.guard';
 import { LoggedInGuard } from '../guards/logged-in.guard';
 import { LoggedOutGuard } from '../guards/logged-out.guard';
+import { OidcGuard } from '../guards/oidc.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -27,6 +28,26 @@ export class AuthController {
         return this.inertiaAdapter.render({
             component: 'Login',
         });
+    }
+
+    @Get('sso-oidc/redirect')
+    async SSOOIDCRedirectPage(): Promise<void> {
+        return this.inertiaAdapter.render({
+            component: 'SSORedirectPage',
+        });
+    }
+
+    @UseGuards(OidcGuard)
+    @Get('sso-oidc/callback')
+    async SSOOIDCCallbaack(@Res() res: Response): Promise<void> {
+        console.log('Came in controller');
+        return res.redirect('/');
+    }
+
+    @UseGuards(OidcGuard)
+    @Get('sso-oidc')
+    async loginSSOPage(): Promise<void> {
+        console.log('[Redirect] to SSO Login Page');
     }
 
     @UseGuards(LocalGuard)

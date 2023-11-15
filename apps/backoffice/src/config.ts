@@ -17,6 +17,32 @@ export const config = {
         ldap: {
             url: process.env.LDAP_URL || 'ldap://ldap.forumsys.com',
         },
+        sso: {
+            oidc: {
+                wellKnownConfigurationUrl:
+                    process.env.OIDC_WELL_KNOWN_CONFIGURATION_URL ||
+                    'https://keycloak.codespace.id/realms/master/.well-known/openid-configuration',
+                issuer: process.env.OIDC_ISSUER || 'http://localhost:3001',
+                redirectUri:
+                    process.env.OIDC_REDIRECT_URI ||
+                    'http://localhost:3001/auth/sso-oidc/callback',
+                clientId: process.env.OIDC_CLIENT_ID || 'client_id',
+                clientSecret: process.env.OIDC_CLIENT_SECRET || 'client_secret',
+                userInfoEndpointWithAuthHeader:
+                    !!process.env.OIDC_USER_INFO_ENDPOINT_WITH_AUTH_HEADER ||
+                    true,
+                scopes: process.env.OIDC_SCOPES || 'openid profile email',
+                authorizationEndpoint:
+                    process.env.OIDC_AUTHORIZATION_ENDPOINT ||
+                    'https://keycloak.codespace.id/realms/master/protocol/openid-connect/auth',
+                tokenEndpoint:
+                    process.env.OIDC_TOKEN_ENDPOINT ||
+                    'https://keycloak.codespace.id/realms/master/protocol/openid-connect/token',
+                userInfoEndpoint:
+                    process.env.OIDC_USER_INFO_ENDPOINT ||
+                    'https://keycloak.codespace.id/realms/master/protocol/openid-connect/userinfo',
+            },
+        },
     },
 
     amqp: {
