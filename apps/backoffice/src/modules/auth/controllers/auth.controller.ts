@@ -1,6 +1,7 @@
 import {
     Controller,
     Get,
+    InternalServerErrorException,
     Post,
     Query,
     Req,
@@ -14,15 +15,17 @@ import { LocalGuard } from '../guards/local.guard';
 import { LoggedInGuard } from '../guards/logged-in.guard';
 import { LoggedOutGuard } from '../guards/logged-out.guard';
 import { OidcGuard } from '../guards/oidc.guard';
+import { FailSafeCheck } from 'apps/backoffice/src/infrastructure/fail-safe/decorators/fail-safe.decorator';
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
         private readonly authApplication: AuthApplication,
-    ) {}
+    ) { }
 
     @Get('login')
+    @FailSafeCheck()
     @UseGuards(LoggedOutGuard)
     async loginPage(): Promise<void> {
         return this.inertiaAdapter.render({
@@ -40,7 +43,6 @@ export class AuthController {
     @UseGuards(OidcGuard)
     @Get('sso-oidc/callback')
     async SSOOIDCCallbaack(@Res() res: Response): Promise<void> {
-        console.log('Came in controller');
         return res.redirect('/');
     }
 

@@ -26,6 +26,9 @@ import { UserRole } from 'entities/iam/user-role.entity';
 import { UserRoleService } from '../iam/services/user-role.service';
 import { Connection } from 'typeorm';
 import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
+import { RedisModule } from '../../infrastructure/redis';
+import { RedisService } from '../../infrastructure/redis/services/redis.service';
+import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module';
 
 @Module({
     imports: [
@@ -35,6 +38,8 @@ import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
             defaultStrategy: 'local',
         }),
         CacheModule,
+        RedisModule,
+        FailSafeModule,
     ],
     controllers: [AuthController, ForgotPasswordController],
     providers: [
@@ -49,7 +54,6 @@ import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
         OneSignalPushNotificationService,
         OtpService,
         LocalStrategy,
-
         {
             provide: 'OidcStrategy',
             useFactory: async (connection: Connection) => {
@@ -76,4 +80,4 @@ import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
     ],
     exports: [],
 })
-export class AdminAuthModule {}
+export class AdminAuthModule { }

@@ -12,6 +12,24 @@ export const config = {
     port: process.env.PORT_BACKOFFICE || '3001',
     host: process.env.HOST_BACKOFFICE || 'localhost:3001',
 
+    circuitBreaker: {
+        isEnable: process.env.CIRCUIT_BREAKER_IS_ENABLE == 'true',
+        maxDown: +process.env.CIRCUIT_BREAKER_MAX_DOWN || 5,
+        cooldownOnOpen: +process.env.CIRCUIT_BREAKER_COOLDOWN_ON_OPEN_IN_SECOND || 300,
+    },
+
+    mode: {
+        maintain: {
+            isEnable: process.env.MAINTAIN_MODE_IS_ENABLED === 'true'
+        },
+        pause: {
+            isEnable: process.env.PAUSE_MODE_IS_ENABLED === 'true',
+            message: process.env.PAUSE_MODE_MESSAGE || 'Sorry... we are off for now, we will back and inform you',
+            startAt: process.env.PAUSE_MODE_START_AT || '1970-01-01 00:00:00',
+            endAt: process.env.PAUSE_MODE_END_AT || '1970-01-01 00:00:01',
+        }
+    },
+
     auth: {
         schema: process.env.AUTH_SCHEMA || AuthSchemaEnum.Local,
         ldap: {
