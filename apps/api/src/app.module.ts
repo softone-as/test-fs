@@ -13,7 +13,6 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { QueueModule } from './modules/queue/queue.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { HealthController } from './health/health.controller';
 import { QueryExceptionFilter } from './common/filters/query-failed-error.filter';
 import { NotificationModule } from './infrastructure/notification/notification.module';
 import { join } from 'path';
@@ -130,6 +129,6 @@ import { CacheInterceptor } from './infrastructure/cache/interceptors/cache-inte
             }),
         },
     ],
-    controllers: [HealthController, ClearCacheController],
+    controllers: [ClearCacheController],
 })
-export class AppModule {}
+export class AppModule { }

@@ -10,11 +10,19 @@ import { InternalServerErrorException } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { Storage } from '@google-cloud/storage';
 import { snakeCase } from 'snake-case';
+import { format } from 'date-fns';
 
 export class Utils {
     static md5(contents: string): string {
         return crypto.createHash('md5').update(contents).digest('hex');
     }
+
+    static formatDate(
+        date: string | Date,
+        pattern = 'yyyy-MM-dd H:i:s',
+    ): string {
+        return format(new Date(date), pattern);
+    };
 
     static async bcryptHash(contents: string): Promise<string> {
         return await bcrypt.hash(contents, 10);
@@ -175,13 +183,13 @@ export class Utils {
         if (startingDate.getDay() == 6 && nearestDay == 5) {
             nearestTime.setDate(
                 startingDate.getDate() +
-                    ((7 + nearestDay - startingDate.getDay()) % 7) -
-                    7,
+                ((7 + nearestDay - startingDate.getDay()) % 7) -
+                7,
             );
         } else {
             nearestTime.setDate(
                 startingDate.getDate() +
-                    ((7 + nearestDay - startingDate.getDay()) % 7),
+                ((7 + nearestDay - startingDate.getDay()) % 7),
             );
         }
 
@@ -238,7 +246,7 @@ export class Utils {
         result.setDate(result.getDate() + days);
         return result.toISOString();
     };
-    
+
     static generateRandomHexString(length) {
         return crypto.randomBytes(length).toString('hex');
     };
