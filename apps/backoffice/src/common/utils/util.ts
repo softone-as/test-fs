@@ -6,7 +6,7 @@ import { Request } from 'express';
 import * as fs from 'fs';
 import * as bcrypt from 'bcrypt';
 import * as path from 'path';
-import { InternalServerErrorException } from '@nestjs/common';
+import { Logger, ServiceUnavailableException } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { Storage } from '@google-cloud/storage';
 import { snakeCase } from 'snake-case';
@@ -22,7 +22,7 @@ export class Utils {
         pattern = 'yyyy-MM-dd H:i:s',
     ): string {
         return format(new Date(date), pattern);
-    };
+    }
 
     static async bcryptHash(contents: string): Promise<string> {
         return await bcrypt.hash(contents, 10);
@@ -108,25 +108,24 @@ export class Utils {
                 const s3 = new AWS.S3({
                     accessKeyId: config.storage.s3.accessKeyId,
                     secretAccessKey: config.storage.s3.secretAccessKey,
+                    region: config.storage.s3.defaultRegion,
                 });
 
                 const filename = fileDestPath.replace(/^.*[\\\/]/, '');
 
                 // TEMPORARY ALL PUBLIC ACCESS
-                const params = {
+                const params: AWS.S3.PutObjectRequest = {
                     Bucket: config.storage.s3.bucketName,
                     Key: filename,
                     Body: file,
-                    CreateBucketConfiguration: {
-                        LocationConstraint: config.storage.s3.defaultRegion,
-                    },
                 };
 
                 try {
                     const s3Response = await s3.upload(params).promise();
                     return s3Response.Location;
                 } catch (e) {
-                    throw new InternalServerErrorException('Error upload');
+                    Logger.error('Error upload', e.stack);
+                    throw new ServiceUnavailableException('Error upload');
                 }
 
                 return '';
@@ -141,9 +140,7 @@ export class Utils {
                     fileDestRelativePath,
                     function (err) {
                         if (err) {
-                            console.log(
-                                'Successfully not renamed - AKA moved!',
-                            );
+                            Logger.log('Successfully not renamed - AKA moved!');
                         }
                     },
                 );
@@ -183,13 +180,13 @@ export class Utils {
         if (startingDate.getDay() == 6 && nearestDay == 5) {
             nearestTime.setDate(
                 startingDate.getDate() +
-                ((7 + nearestDay - startingDate.getDay()) % 7) -
-                7,
+                    ((7 + nearestDay - startingDate.getDay()) % 7) -
+                    7,
             );
         } else {
             nearestTime.setDate(
                 startingDate.getDate() +
-                ((7 + nearestDay - startingDate.getDay()) % 7),
+                    ((7 + nearestDay - startingDate.getDay()) % 7),
             );
         }
 
@@ -249,7 +246,7 @@ export class Utils {
 
     static generateRandomHexString(length) {
         return crypto.randomBytes(length).toString('hex');
-    };
+    }
 
     static splitBaggageHeader(baggageHeader: string): [string, string] {
         const splittedBaggageHeader = baggageHeader?.split(',');
