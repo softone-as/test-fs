@@ -1,5 +1,5 @@
 // auth/oidc.strategy.ts
-import { UnauthorizedException } from '@nestjs/common';
+import { Logger, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import {
     Strategy,
@@ -12,9 +12,7 @@ import { config } from 'apps/backoffice/src/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'entities/iam/user.entity';
 import { Repository } from 'typeorm';
-import { IUser } from 'interface-models/iam/user.interface';
 import { ROLE_ADMIN, Role } from 'entities/iam/role.entity';
-import { UserRole } from 'entities/iam/user-role.entity';
 export const buildOpenIdClient = async () => {
     const TrustIssuer = await Issuer.discover(
         `${config.auth.sso.oidc.wellKnownConfigurationUrl}`,
@@ -28,12 +26,11 @@ export const buildOpenIdClient = async () => {
 
 export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
     client: Client;
+    logger = new Logger(OidcStrategy.name);
 
     constructor(
         @InjectRepository(Role)
         private readonly roleRepository: Repository<Role>,
-        @InjectRepository(UserRole)
-        private readonly userRoleRepository: Repository<UserRole>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         client: Client,
@@ -71,24 +68,13 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
                 phoneNumber: userInfo.phone_number || '',
             });
 
-            const roles = await this.roleRepository.find({
+            newUser.roles = await this.roleRepository.find({
                 key: ROLE_ADMIN,
             });
 
-            const newUserCreated = <IUser>(
-                await this.userRepository.save(newUser)
-            );
-
-            const createUserRoles = roles.map((role) => ({
-                user: newUserCreated,
-                role,
-            }));
-
-            await this.userRoleRepository.save(createUserRoles);
-
-            return newUserCreated;
+            await this.userRepository.save(newUser);
         } catch (err) {
-            console.log('[Error Strategy]', err);
+            this.logger.error('[Error Strategy]', err);
             throw new UnauthorizedException();
         }
     }

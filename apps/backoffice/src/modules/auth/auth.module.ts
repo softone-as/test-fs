@@ -22,17 +22,14 @@ import { Role } from 'entities/iam/role.entity';
 import { RoleService } from '../iam/services/role.service';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { LogActivityService } from '../log-activity/services/log-activity.service';
-import { UserRole } from 'entities/iam/user-role.entity';
-import { UserRoleService } from '../iam/services/user-role.service';
 import { Connection } from 'typeorm';
 import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
 import { RedisModule } from '../../infrastructure/redis';
-import { RedisService } from '../../infrastructure/redis/services/redis.service';
 import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User, Role, Otp, LogActivity, UserRole]),
+        TypeOrmModule.forFeature([User, Role, Otp, LogActivity]),
         PassportModule.register({
             session: true,
             defaultStrategy: 'local',
@@ -58,13 +55,11 @@ import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module'
             provide: 'OidcStrategy',
             useFactory: async (connection: Connection) => {
                 const userRepository = connection.getRepository(User);
-                const userRoleRepository = connection.getRepository(UserRole);
                 const roleRepository = connection.getRepository(Role);
 
                 const client = await buildOpenIdClient();
                 const strategy = new OidcStrategy(
                     roleRepository,
-                    userRoleRepository,
                     userRepository,
                     client,
                 );
@@ -76,8 +71,7 @@ import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module'
         UserCrudApplication,
         LogActivityService,
         LdapService,
-        UserRoleService,
     ],
     exports: [],
 })
-export class AdminAuthModule { }
+export class AdminAuthModule {}

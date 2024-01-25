@@ -27,7 +27,6 @@ import { EmailNotificationService } from '../../infrastructure/notification/serv
 import { AuthLogoutApplication } from './applications/auth-logout.application';
 import { AuthLogoutController } from './controllers/v1/auth-logout.controller';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
-import { RolePermission } from 'entities/iam/role-permission.entity';
 import { GoSmsApiNotificationService } from '../../infrastructure/notification/services/gosmsapi-notification.service';
 import { LogActivityService } from 'apps/backoffice/src/modules/log-activity/services/log-activity.service';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
@@ -38,13 +37,7 @@ import { LogActivity } from 'entities/log-activity/log-activity.entity';
             timeout: 60000,
             retries: 5,
         }),
-        TypeOrmModule.forFeature([
-            User,
-            Role,
-            Otp,
-            RolePermission,
-            LogActivity,
-        ]),
+        TypeOrmModule.forFeature([User, Role, Otp, LogActivity]),
         PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.registerAsync({
             imports: [],

@@ -74,7 +74,7 @@ const EditRolePage: React.FC = (props: IProps) => {
     const onFinish = async () => {
         setIsLoading(true);
         const data = form.getFieldsValue();
-        data.permissions = selectedRowKeys as number[];
+        data.permissionIds = selectedRowKeys as number[];
 
         try {
             await form.validateFields();

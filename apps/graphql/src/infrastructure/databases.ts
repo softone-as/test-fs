@@ -1,7 +1,6 @@
 import { config } from 'apps/backoffice/src/config';
 import { Config } from 'entities/config/config.entity';
 import { Permission } from 'entities/iam/permission.entity';
-import { RolePermission } from 'entities/iam/role-permission.entity';
 import { Role } from 'entities/iam/role.entity';
 import { User } from 'entities/iam/user.entity';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
@@ -15,15 +14,7 @@ export const connectionOption: ConnectionOptions = {
     username: config.database.username,
     password: config.database.password,
     database: config.database.database,
-    entities: [
-        User,
-        Role,
-        InAppNotification,
-        Permission,
-        RolePermission,
-        Otp,
-        Config,
-    ],
+    entities: [User, Role, InAppNotification, Permission, Otp, Config],
     synchronize: false,
     logging: config.nodeEnv === 'local',
     charset: 'utf8mb4_unicode_ci',

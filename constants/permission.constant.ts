@@ -24,17 +24,6 @@ export const PERMISSION_BACKOFFICE_UPDATE_ROLE = 'backoffice-update-role';
 export const PERMISSION_BACKOFFICE_CREATE_ROLE = 'backoffice-create-role';
 export const PERMISSION_BACKOFFICE_DELETE_ROLE = 'backoffice-delete-role';
 
-export const PERMISSION_BACKOFFICE_SHOW_ROLE_PERMISSION =
-    'backoffice-show-role-permission';
-export const PERMISSION_BACKOFFICE_DETAIL_ROLE_PERMISSION =
-    'backoffice-detail-role-permission';
-export const PERMISSION_BACKOFFICE_UPDATE_ROLE_PERMISSION =
-    'backoffice-update-role-permission';
-export const PERMISSION_BACKOFFICE_CREATE_ROLE_PERMISSION =
-    'backoffice-create-role-permission';
-export const PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION =
-    'backoffice-delete-role-permission';
-
 export const PERMISSION_BACKOFFICE_SHOW_PERMISSION =
     'backoffice-show-permission';
 export const PERMISSION_BACKOFFICE_DETAIL_PERMISSION =

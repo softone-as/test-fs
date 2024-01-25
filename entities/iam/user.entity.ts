@@ -22,14 +22,7 @@ export class User extends BaseEntity implements IUser {
     id: number;
 
     @ManyToMany(() => Role)
-    @JoinTable({
-        name: 'user_role',
-        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-        inverseJoinColumn: {
-            name: 'role_id',
-            referencedColumnName: 'id',
-        },
-    })
+    @JoinTable({ name: 'user_roles' })
     roles: IRole[];
 
     @Column()

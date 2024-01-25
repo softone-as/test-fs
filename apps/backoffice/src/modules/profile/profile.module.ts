@@ -1,4 +1,3 @@
-import { RolePermission } from 'entities/iam/role-permission.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
@@ -12,10 +11,7 @@ import { Permission } from 'entities/iam/permission.entity';
 import { ProfilePasswordController } from './controllers/profile-password.controller';
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([User, Role, Permission, RolePermission]),
-        CacheModule,
-    ],
+    imports: [TypeOrmModule.forFeature([User, Role, Permission]), CacheModule],
     controllers: [ProfilePasswordController, ProfileController],
     providers: [InertiaAdapter, ProfileApplication, ProfileService],
 })

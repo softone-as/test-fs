@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Permission } from 'entities/iam/permission.entity';
-import { RolePermission } from 'entities/iam/role-permission.entity';
 import { Role } from 'entities/iam/role.entity';
 import { User } from 'entities/iam/user.entity';
 import { RoleCrudApplication } from './applications/role-crud.application';
@@ -18,10 +17,7 @@ import { UserIndexApplication } from './applications/user-index.application';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([User, Role, RolePermission, Permission]),
-        CacheModule,
-    ],
+    imports: [TypeOrmModule.forFeature([User, Role, Permission]), CacheModule],
     providers: [
         UserIndexApplication,
         UserCrudApplication,
