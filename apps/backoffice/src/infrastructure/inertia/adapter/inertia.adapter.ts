@@ -3,7 +3,7 @@ import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Utils } from 'apps/backoffice/src/common/utils/util';
 import { config } from 'apps/backoffice/src/config';
-import { IRenderInertia } from '../entities/render.inertia';
+import { IRenderInertia, IRenderInertiaNew } from '../entities/render.inertia';
 
 @Injectable()
 export class InertiaAdapter {
@@ -13,6 +13,21 @@ export class InertiaAdapter {
         return this.request.Inertia.setViewData({ title: config.appName })
             .setStatusCode(statusCode)
             .render(data);
+    }
+
+    renderNew<T extends Record<string, any>>(
+        component: string,
+        props: T,
+        statusCode = HttpStatus.OK,
+    ): T {
+        // merge component and props
+        const renderData: IRenderInertiaNew<T> = {
+            component: component,
+            props: props,
+        };
+        return this.request.Inertia.setViewData({ title: config.appName })
+            .setStatusCode(statusCode)
+            .render(renderData);
     }
 
     share(data: any): void {
