@@ -22,8 +22,10 @@ import {
 } from 'constants/permission.constant';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { UserUpdateRequest } from '../requests/user-update.request';
-import { UserMapper } from '../mappers/user.mapper';
 import { UserBulkDeleteRequest } from '../requests/user-bulk-delete.request';
+import { UserMapper } from '../mappers/user.mapper';
+import { UserResponse } from '../responses/user.response';
+import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 
 @Controller('users')
 export class UserController {
@@ -36,15 +38,18 @@ export class UserController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get()
-    async indexPage(@Query() indexRequest: UserIndexRequest): Promise<void> {
-        const props = await this.userIndexApplication.fetch(indexRequest);
-        return this.inertiaAdapter.render({
-            component: 'Iam/Users',
-            props: {
-                ...props,
-                data: props.data.map((user) => UserMapper.fromEntity(user)),
-            },
+    async indexPage(@Query() indexRequest: UserIndexRequest): Promise<{
+        data: UserResponse[];
+        meta: IPaginationMeta;
+    }> {
+        const users = await this.userIndexApplication.fetch(indexRequest);
+
+        const response = this.inertiaAdapter.renderNew('Iam/Users', {
+            data: users.data.map((user) => UserMapper.fromEntity(user)),
+            meta: users.meta,
         });
+
+        return response;
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
