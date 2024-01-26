@@ -8,11 +8,11 @@ import {
     Query,
     UseGuards,
 } from '@nestjs/common';
-import { UserCrudApplication } from '../applications/user-crud.application';
-import { RoleCrudApplication } from '../applications/role-crud.application';
+import { UserCrudApplication } from '../services/user-crud.application';
+import { RoleCrudApplication } from '../services/role-crud.application';
 import { UserCreateRequest } from '../requests/user-create.request';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
-import { UserIndexApplication } from '../applications/user-index.application';
+import { UserIndexApplication } from '../services/user-index.application';
 import { UserIndexRequest } from '../requests/user-index.request';
 import {
     PERMISSION_BACKOFFICE_CREATE_USER,

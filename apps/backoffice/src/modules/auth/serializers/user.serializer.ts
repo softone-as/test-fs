@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
-import { UserCrudApplication } from '../../iam/applications/user-crud.application';
+import { UserCrudApplication } from '../../iam/services/user-crud.application';
 import { IUser } from 'interface-models/iam/user.interface';
 
 @Injectable()

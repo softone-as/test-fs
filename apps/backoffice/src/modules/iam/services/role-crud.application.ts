@@ -2,16 +2,18 @@ import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { IRole } from 'interface-models/iam/role.interface';
 import { Role } from 'entities/iam/role.entity';
 import { RoleCreateRequest } from '../requests/role-create.request';
-import { RoleService } from '../services/role.service';
+import { RoleService } from '../repositories/role.service';
 import { RoleEditRequest } from '../requests/role-edit.request';
 import { config } from 'apps/backoffice/src/config';
 import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
-import { getManager } from 'typeorm';
-import { Permission } from 'entities/iam/permission.entity';
+import { PermissionRepository } from '../repositories/permission.repository';
 
 @Injectable()
 export class RoleCrudApplication {
-    constructor(private readonly roleService: RoleService) {}
+    constructor(
+        private readonly roleService: RoleService,
+        private readonly permissionRepository: PermissionRepository,
+    ) {}
 
     @CacheClear(config.cache.name.roles.detail)
     async create(roleRequest: RoleCreateRequest): Promise<IRole> {
@@ -24,9 +26,9 @@ export class RoleCrudApplication {
             );
         }
 
-        const permissions = await getManager()
-            .getRepository(Permission)
-            .findByIds(roleRequest.permissions);
+        const permissions = await this.permissionRepository.findByIds(
+            roleRequest.permissions,
+        );
 
         const newRole = new Role();
         Object.assign(newRole, roleRequest);
@@ -57,9 +59,9 @@ export class RoleCrudApplication {
             );
         }
 
-        const permissions = await getManager()
-            .getRepository(Permission)
-            .findByIds(roleRequest.permissionIds);
+        const permissions = await this.permissionRepository.findByIds(
+            roleRequest.permissionIds,
+        );
 
         roleExists.name = roleRequest.name;
         roleExists.key = roleRequest.key;

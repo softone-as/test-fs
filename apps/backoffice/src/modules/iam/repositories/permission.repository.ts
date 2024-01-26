@@ -1,33 +1,32 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { config } from 'apps/backoffice/src/config';
-import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
-import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { IndexApplication } from 'apps/backoffice/src/infrastructure/applications/index.application';
-import { Permission } from 'entities/iam/permission.entity';
 import { Repository } from 'typeorm';
 import { PermissionIndexRequest } from '../requests/permission-index.request';
-import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-get-set.decorator';
+import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
 import { IPermission } from 'interface-models/iam/permission.interface';
+import { IndexUtil } from 'apps/backoffice/src/common/utils/index.util';
+import { Injectable } from '@nestjs/common';
+import { Permission } from 'entities/iam/permission.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
-const ALLOW_TO_SORT = ['latest', 'oldest', 'name', 'key'];
-
+/* Write your complex queries here
+ * If your query is simple, you can use the repository directly for minimization of code
+ */
 @Injectable()
-export class PermissionIndexApplication extends IndexApplication {
+export class PermissionRepository extends Repository<Permission> {
     constructor(
         @InjectRepository(Permission)
-        private readonly PermissionRepository: Repository<Permission>,
-        private readonly cacheService: CacheService,
+        private readonly repo: PermissionRepository,
     ) {
-        super();
+        super(repo.target, repo.manager, repo.queryRunner);
     }
 
-    @CacheGetSet(config.cache.name.permissions.list)
-    async fetch(
+    private readonly indexUtil = new IndexUtil();
+
+    async pagination(
         request: PermissionIndexRequest,
     ): Promise<IPaginateResponse<IPermission>> {
-        const query =
-            this.PermissionRepository.createQueryBuilder('permission');
+        const ALLOW_TO_SORT = ['latest', 'oldest', 'name', 'key'];
+
+        const query = this.createQueryBuilder('permission');
 
         if (request.search) {
             query.where(
@@ -49,16 +48,16 @@ export class PermissionIndexApplication extends IndexApplication {
                         ? `permission.${request.sort}`
                         : `permission.${ALLOW_TO_SORT[0]}`
                     : `permission.createdAt`,
-                this.getOrder(request.order),
+                this.indexUtil.getOrder(request.order),
             );
         }
 
         query.take(request.perPage ?? 10);
-        query.skip(this.countOffset(request));
+        query.skip(this.indexUtil.countOffset(request));
 
         const [data, count] = await query.getManyAndCount();
 
-        const meta = this.mapMeta(count, request);
+        const meta = this.indexUtil.mapMeta(count, request);
 
         const results = {
             data,

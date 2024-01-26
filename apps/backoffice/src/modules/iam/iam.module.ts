@@ -2,18 +2,17 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'entities/iam/user.entity';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
-import { UserCrudApplication } from './applications/user-crud.application';
-import { UserIndexApplication } from './applications/user-index.application';
+import { UserCrudApplication } from './services/user-crud.application';
+import { UserIndexApplication } from './services/user-index.application';
 import { UserController } from './controllers/user.controller';
-import { UserService } from './services/user.service';
-import { RoleCrudApplication } from './applications/role-crud.application';
-import { RoleIndexApplication } from './applications/role-index.application';
+import { UserService } from './repositories/user.service';
+import { RoleCrudApplication } from './services/role-crud.application';
+import { RoleIndexApplication } from './services/role-index.application';
 import { RoleController } from './controllers/role.controller';
-import { RoleService } from './services/role.service';
+import { RoleService } from './repositories/role.service';
 import { Role } from 'entities/iam/role.entity';
-import { PermissionCrudApplication } from './applications/permission-crud.application';
-import { PermissionService } from './services/permission.service';
-import { PermissionIndexApplication } from './applications/permission-index.application';
+import { PermissionCrudService } from './services/permission-crud.service';
+import { PermissionRepository } from './repositories/permission.repository';
 import { Permission } from 'entities/iam/permission.entity';
 import { PermissionController } from './controllers/permission.controller';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
@@ -38,9 +37,8 @@ import { AbilityModule } from '../../infrastructure/ability/ability.module';
         RoleCrudApplication,
         RoleService,
         RoleIndexApplication,
-        PermissionCrudApplication,
-        PermissionService,
-        PermissionIndexApplication,
+        PermissionCrudService,
+        PermissionRepository,
         LogActivityService,
     ],
     exports: [UserCrudApplication],

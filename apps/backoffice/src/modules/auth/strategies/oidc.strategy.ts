@@ -51,7 +51,7 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         const userInfo: UserinfoResponse = await this.client.userinfo(tokenset);
 
         try {
-            const isUserExists = await this.userRepository.findOne({
+            const isUserExists = await this.userRepository.findOneBy({
                 email: userInfo.email,
             });
 
@@ -67,7 +67,7 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
                 phoneNumber: userInfo.phone_number || '',
             });
 
-            newUser.roles = await this.roleRepository.find({
+            newUser.roles = await this.roleRepository.findBy({
                 key: ROLE_ADMIN,
             });
 

@@ -8,17 +8,14 @@
 import { OrderDirectionType } from 'apps/backoffice/src/common/enums/index.enum';
 import {
     IPaginateRequest,
-    IPaginateResponse,
     IPaginationMeta,
 } from 'apps/backoffice/src/common/interface/index.interface';
 
-export abstract class IndexApplication {
+export class IndexUtil {
     readonly DefaultPerPage: number = 10;
     readonly DefaultPage: number = 1;
     readonly DefaultSort: string = 'created_at';
     readonly DefaultOrder: OrderDirectionType = 'DESC';
-
-    abstract fetch(arg0: any, arg1: any): Promise<IPaginateResponse<any>>;
 
     countOffset({ page, perPage }: IPaginateRequest): number {
         page = page ?? this.DefaultPage;

@@ -40,7 +40,7 @@ export class SyncPermissionSeeder implements Seeder {
                 permissions.PERMISSION_BACKOFFICE_UPDATE_PERMISSION,
             ];
 
-            const permissionExists = await repository.find({
+            const permissionExists = await repository.findBy({
                 key: In(permissionConstants),
             });
 

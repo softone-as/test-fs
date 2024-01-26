@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { config } from 'apps/backoffice/src/config';
 import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { IndexApplication } from 'apps/backoffice/src/infrastructure/applications/index.application';
+import { IndexUtil } from 'apps/backoffice/src/common/utils/index.util';
 import { Role } from 'entities/iam/role.entity';
 import { Repository } from 'typeorm';
 import { RoleIndexRequest } from '../requests/role-index.request';
@@ -13,7 +13,7 @@ import { IRole } from 'interface-models/iam/role.interface';
 const ALLOW_TO_SORT = ['latest', 'oldest', 'name', 'key'];
 
 @Injectable()
-export class RoleIndexApplication extends IndexApplication {
+export class RoleIndexApplication extends IndexUtil {
     constructor(
         @InjectRepository(Role)
         private readonly RoleRepository: Repository<Role>,

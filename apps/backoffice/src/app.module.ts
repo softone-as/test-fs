@@ -16,7 +16,7 @@ import {
 } from './common/filters/http-exeception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { ValidationPipe } from './common/pipes/validation.pipe';
-import { connectionOption } from './infrastructure/databases';
+import { dataSourceOptions } from '../../../databases/data-source';
 import { ScheduleModule } from '@nestjs/schedule';
 import { IamModule } from './modules/iam/iam.module';
 import { ConfigModule } from './modules/config/config.module';
@@ -57,7 +57,7 @@ import { FailSafeModule } from './infrastructure/fail-safe/fail-safe.module';
 @Module({
     imports: [
         SentryModule.forRoot(),
-        TypeOrmModule.forRoot(connectionOption),
+        TypeOrmModule.forRoot(dataSourceOptions),
         CacheModuleManager.register({ isGlobal: true }),
         MailModule,
         WinstonModule,
