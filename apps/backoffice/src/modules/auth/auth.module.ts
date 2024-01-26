@@ -19,13 +19,14 @@ import { OtpService } from './services/otp.service';
 import { Otp } from 'entities/otp/otp.entity';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
 import { Role } from 'entities/iam/role.entity';
-import { RoleService } from '../iam/repositories/role.service';
+import { RoleRepository } from '../iam/repositories/role.repository';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { LogActivityService } from '../log-activity/services/log-activity.service';
 import { Connection } from 'typeorm';
 import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
 import { RedisModule } from '../../infrastructure/redis';
 import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module';
+import { PaginateUtil } from '../../common/utils/paginate.util';
 
 @Module({
     imports: [
@@ -40,10 +41,11 @@ import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module'
     ],
     controllers: [AuthController, ForgotPasswordController],
     providers: [
+        PaginateUtil,
         InertiaAdapter,
         AdminAuthService,
         UserService,
-        RoleService,
+        RoleRepository,
         UserSerializer,
         AuthApplication,
         AuthForgotPasswordApplication,

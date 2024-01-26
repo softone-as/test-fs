@@ -2,7 +2,7 @@ import { config } from 'apps/backoffice/src/config';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { IndexUtil } from 'apps/backoffice/src/common/utils/index.util';
+import { PaginateUtil } from 'apps/backoffice/src/common/utils/paginate.util';
 import { Repository } from 'typeorm';
 import { InAppNotificationIndexRequest } from '../requests/in-app-notification-index.request';
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
@@ -13,7 +13,7 @@ import { CacheGetSet } from 'apps/backoffice/src/infrastructure/cache/decorators
 const ALLOW_TO_SORT = ['latest', 'oldest', 'title'];
 
 @Injectable()
-export class InAppNotificationIndexApplication extends IndexUtil {
+export class InAppNotificationIndexApplication extends PaginateUtil {
     constructor(
         @InjectRepository(InAppNotification)
         private readonly notificationRepository: Repository<InAppNotification>,

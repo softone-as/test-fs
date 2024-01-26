@@ -9,7 +9,7 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { UserCrudApplication } from '../services/user-crud.application';
-import { RoleCrudApplication } from '../services/role-crud.application';
+import { RoleCrudService } from '../services/role-crud.service';
 import { UserCreateRequest } from '../requests/user-create.request';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { UserIndexApplication } from '../services/user-index.application';
@@ -32,7 +32,7 @@ export class UserController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
         private readonly userCrudApplication: UserCrudApplication,
-        private readonly roleCrudApplication: RoleCrudApplication,
+        private readonly roleCrudApplication: RoleCrudService,
         private readonly userIndexApplication: UserIndexApplication,
     ) {}
 

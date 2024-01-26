@@ -9,10 +9,9 @@ import {
     Query,
     UseGuards,
 } from '@nestjs/common';
-import { RoleCrudApplication } from '../services/role-crud.application';
+import { RoleCrudService } from '../services/role-crud.service';
 import { RoleCreateRequest } from '../requests/role-create.request';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
-import { RoleIndexApplication } from '../services/role-index.application';
 import { RoleIndexRequest } from '../requests/role-index.request';
 import { RoleEditRequest } from '../requests/role-edit.request';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
@@ -30,16 +29,15 @@ import { PermissionCrudService } from '../services/permission-crud.service';
 export class RoleController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
-        private readonly roleCrudApplication: RoleCrudApplication,
-        private readonly roleIndexApplication: RoleIndexApplication,
+        private readonly roleCrudService: RoleCrudService,
         private readonly userCrudApplication: UserCrudApplication,
-        private readonly permissionCrudApplication: PermissionCrudService,
+        private readonly permissionCrudService: PermissionCrudService,
     ) {}
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_ROLE))
     @Get()
     async indexPage(@Query() indexRequest: RoleIndexRequest): Promise<void> {
-        const props = await this.roleIndexApplication.fetch(indexRequest);
+        const props = await this.roleCrudService.pagination(indexRequest);
         return this.inertiaAdapter.render({
             component: 'Iam/Roles',
             props: {
@@ -52,7 +50,7 @@ export class RoleController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_ROLE))
     @Get('create')
     async createPage(): Promise<void> {
-        const permissions = await this.permissionCrudApplication.findAll();
+        const permissions = await this.permissionCrudService.findAll();
         return this.inertiaAdapter.render({
             component: 'Iam/Roles/CreateRole',
             props: {
@@ -64,7 +62,7 @@ export class RoleController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_ROLE))
     @Get(':id')
     async detailPage(@Param('id') id: number): Promise<void> {
-        const data = await this.roleCrudApplication.findById(id);
+        const data = await this.roleCrudService.findById(id);
         const users = await this.userCrudApplication.findAllWithRole(id);
         return this.inertiaAdapter.render({
             component: 'Iam/Roles/DetailRole',
@@ -75,8 +73,8 @@ export class RoleController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_ROLE))
     @Get('edit/:id')
     async editPage(@Param('id') id: number): Promise<void> {
-        const data = await this.roleCrudApplication.findById(id);
-        const permissions = await this.permissionCrudApplication.findAll();
+        const data = await this.roleCrudService.findById(id);
+        const permissions = await this.permissionCrudService.findAll();
         return this.inertiaAdapter.render({
             component: 'Iam/Roles/EditRole',
             props: {
@@ -89,7 +87,7 @@ export class RoleController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_ROLE))
     @Post('create')
     async store(@Body() roleCreateRequest: RoleCreateRequest) {
-        await this.roleCrudApplication.create(roleCreateRequest);
+        await this.roleCrudService.create(roleCreateRequest);
         return this.inertiaAdapter.successResponse('roles', 'Success create');
     }
 
@@ -99,14 +97,14 @@ export class RoleController {
         @Param('id') id: number,
         @Body() roleEditRequest: RoleEditRequest,
     ): Promise<void> {
-        await this.roleCrudApplication.edit(id, roleEditRequest);
+        await this.roleCrudService.edit(id, roleEditRequest);
         return this.inertiaAdapter.successResponse('roles', 'Success edit');
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_ROLE))
     @Delete('delete/:id')
     async delete(@Param('id') id: number): Promise<void> {
-        await this.roleCrudApplication.delete(id);
+        await this.roleCrudService.delete(id);
         return this.inertiaAdapter.successResponse('roles', 'Success delete');
     }
 }

@@ -11,7 +11,7 @@ import {
     IPaginationMeta,
 } from 'apps/backoffice/src/common/interface/index.interface';
 
-export class IndexUtil {
+export class PaginateUtil {
     readonly DefaultPerPage: number = 10;
     readonly DefaultPage: number = 1;
     readonly DefaultSort: string = 'created_at';
