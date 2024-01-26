@@ -2,11 +2,11 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { IUser } from 'interface-models/iam/user.interface';
 import { Strategy } from 'passport-local';
-import { UserService } from '../../iam/repositories/user.service';
+import { UserRepository } from '../../iam/repositories/user.repository';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-    constructor(private readonly userService: UserService) {
+    constructor(private readonly userService: UserRepository) {
         super({
             usernameField: 'email',
         });

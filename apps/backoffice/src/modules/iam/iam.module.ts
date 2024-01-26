@@ -2,12 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'entities/iam/user.entity';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
-import { UserCrudApplication } from './services/user-crud.application';
-import { UserIndexApplication } from './services/user-index.application';
+import { UserCrudService } from './services/user-crud.service';
 import { UserController } from './controllers/user.controller';
-import { UserService } from './repositories/user.service';
+import { UserRepository } from './repositories/user.repository';
 import { RoleCrudService } from './services/role-crud.service';
-import { RoleIndexApplication } from './services/role-index.application';
 import { RoleController } from './controllers/role.controller';
 import { RoleRepository } from './repositories/role.repository';
 import { Role } from 'entities/iam/role.entity';
@@ -33,16 +31,14 @@ import { PaginateUtil } from '../../common/utils/paginate.util';
         PaginateUtil,
         LdapService,
         InertiaAdapter,
-        UserCrudApplication,
-        UserService,
-        UserIndexApplication,
+        UserCrudService,
+        UserRepository,
         RoleCrudService,
         RoleRepository,
-        RoleIndexApplication,
         PermissionCrudService,
         PermissionRepository,
         LogActivityService,
     ],
-    exports: [UserCrudApplication],
+    exports: [UserCrudService],
 })
 export class IamModule {}

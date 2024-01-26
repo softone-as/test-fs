@@ -8,11 +8,10 @@ import {
     Query,
     UseGuards,
 } from '@nestjs/common';
-import { UserCrudApplication } from '../services/user-crud.application';
+import { UserCrudService } from '../services/user-crud.service';
 import { RoleCrudService } from '../services/role-crud.service';
 import { UserCreateRequest } from '../requests/user-create.request';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
-import { UserIndexApplication } from '../services/user-index.application';
 import { UserIndexRequest } from '../requests/user-index.request';
 import {
     PERMISSION_BACKOFFICE_CREATE_USER,
@@ -31,9 +30,8 @@ import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.inte
 export class UserController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
-        private readonly userCrudApplication: UserCrudApplication,
+        private readonly userCrudService: UserCrudService,
         private readonly roleCrudApplication: RoleCrudService,
-        private readonly userIndexApplication: UserIndexApplication,
     ) {}
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
@@ -42,7 +40,7 @@ export class UserController {
         data: UserResponse[];
         meta: IPaginationMeta;
     }> {
-        const users = await this.userIndexApplication.fetch(indexRequest);
+        const users = await this.userCrudService.pagination(indexRequest);
 
         const response = this.inertiaAdapter.renderNew('Iam/Users', {
             data: users.data.map((user) => UserMapper.fromEntity(user)),
@@ -67,7 +65,7 @@ export class UserController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get(':id')
     async detailPage(@Param('id') id: number): Promise<void> {
-        const data = await this.userCrudApplication.findById(id);
+        const data = await this.userCrudService.findById(id);
         return this.inertiaAdapter.render({
             component: 'Iam/Users/DetailUser',
             props: { data },
@@ -77,7 +75,7 @@ export class UserController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_USER))
     @Get('edit/:id')
     async editPage(@Param('id') id: number): Promise<void> {
-        const data = await this.userCrudApplication.findById(id);
+        const data = await this.userCrudService.findById(id);
         const roles = await this.roleCrudApplication.findAll();
         return this.inertiaAdapter.render({
             component: 'Iam/Users/FormUser',
@@ -93,7 +91,7 @@ export class UserController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_USER))
     @Post('create')
     async store(@Body() userCreateRequest: UserCreateRequest): Promise<void> {
-        await this.userCrudApplication.create(userCreateRequest);
+        await this.userCrudService.create(userCreateRequest);
         this.inertiaAdapter.successResponse('users', 'Success create');
     }
 
@@ -103,21 +101,21 @@ export class UserController {
         @Param('id') id: number,
         @Body() userUpdateRequest: UserUpdateRequest,
     ): Promise<void> {
-        await this.userCrudApplication.update(id, userUpdateRequest);
+        await this.userCrudService.update(id, userUpdateRequest);
         this.inertiaAdapter.successResponse('users', 'Success update');
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_USER))
     @Post('delete/:id')
     async delete(@Param('id') id: number): Promise<void> {
-        await this.userCrudApplication.delete(id);
+        await this.userCrudService.delete(id);
         this.inertiaAdapter.successResponse('users', 'Success delete');
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_USER))
     @Post('deletes')
     async batchDelete(@Body() request: UserBulkDeleteRequest): Promise<void> {
-        await this.userCrudApplication.bulkDelete(request.ids);
+        await this.userCrudService.bulkDelete(request.ids);
         this.inertiaAdapter.successResponse('users', 'Success delete');
     }
 }

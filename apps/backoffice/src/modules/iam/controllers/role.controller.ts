@@ -22,7 +22,7 @@ import {
     PERMISSION_BACKOFFICE_UPDATE_ROLE,
 } from 'constants/permission.constant';
 import { RoleMapper } from '../mappers/role.mapper';
-import { UserCrudApplication } from '../services/user-crud.application';
+import { UserCrudService } from '../services/user-crud.service';
 import { PermissionCrudService } from '../services/permission-crud.service';
 
 @Controller('roles')
@@ -30,7 +30,7 @@ export class RoleController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
         private readonly roleCrudService: RoleCrudService,
-        private readonly userCrudApplication: UserCrudApplication,
+        private readonly userCrudService: UserCrudService,
         private readonly permissionCrudService: PermissionCrudService,
     ) {}
 
@@ -63,7 +63,7 @@ export class RoleController {
     @Get(':id')
     async detailPage(@Param('id') id: number): Promise<void> {
         const data = await this.roleCrudService.findById(id);
-        const users = await this.userCrudApplication.findAllWithRole(id);
+        const users = await this.userCrudService.findAllWithRole(id);
         return this.inertiaAdapter.render({
             component: 'Iam/Roles/DetailRole',
             props: { data, users, meta: null },

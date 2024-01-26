@@ -1,13 +1,13 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { Request, Response } from 'express';
-import { UserCrudApplication } from '../services/user-crud.application';
+import { UserCrudService } from '../services/user-crud.service';
 
 @Injectable()
 export class UserDetailMiddleware implements NestMiddleware {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
-        private readonly userCrudApplication: UserCrudApplication,
+        private readonly userCrudService: UserCrudService,
     ) {}
 
     async use(req: Request, res: Response, next: () => void): Promise<void> {
@@ -16,9 +16,7 @@ export class UserDetailMiddleware implements NestMiddleware {
         });
 
         if (req.user) {
-            const user = await this.userCrudApplication.findById(
-                req.user['id'],
-            );
+            const user = await this.userCrudService.findById(req.user['id']);
             this.inertiaAdapter.share({
                 userDetail: user,
             });

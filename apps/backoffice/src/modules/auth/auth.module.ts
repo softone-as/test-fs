@@ -6,11 +6,11 @@ import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.ada
 import { AuthApplication } from './applications/auth.application';
 import { AuthController } from './controllers/auth.controller';
 import { AdminAuthService } from './services/auth-admin.service';
-import { UserService } from '../iam/repositories/user.service';
+import { UserRepository } from '../iam/repositories/user.repository';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
 import { UserSerializer } from './serializers/user.serializer';
-import { UserCrudApplication } from '../iam/services/user-crud.application';
+import { UserCrudService } from '../iam/services/user-crud.service';
 import { OneSignalPushNotificationService } from '../../infrastructure/notification/services/one-signal-push-notification.service';
 import { EmailNotificationService } from '../../infrastructure/notification/services/email-notification.service';
 import { ForgotPasswordController } from '../auth/controllers/auth-forgot-password.controller';
@@ -44,7 +44,7 @@ import { PaginateUtil } from '../../common/utils/paginate.util';
         PaginateUtil,
         InertiaAdapter,
         AdminAuthService,
-        UserService,
+        UserRepository,
         RoleRepository,
         UserSerializer,
         AuthApplication,
@@ -70,7 +70,7 @@ import { PaginateUtil } from '../../common/utils/paginate.util';
             inject: [Connection],
         },
 
-        UserCrudApplication,
+        UserCrudService,
         LogActivityService,
         LdapService,
     ],

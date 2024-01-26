@@ -1,22 +1,32 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { IUser } from 'interface-models/iam/user.interface';
 import { UserCreateRequest } from '../requests/user-create.request';
-import { UserService } from '../repositories/user.service';
+import { UserRepository } from '../repositories/user.repository';
 import { UserUpdateRequest } from '../requests/user-update.request';
 import { config } from 'apps/backoffice/src/config';
 import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { Utils } from 'apps/backoffice/src/common/utils/util';
-import { Role } from 'entities/iam/role.entity';
 import { User } from 'entities/iam/user.entity';
-import dataSource from 'databases/data-source';
+import { RoleIndexRequest } from '../requests/role-index.request';
+import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
+import { RoleRepository } from '../repositories/role.repository';
 
 @Injectable()
-export class UserCrudApplication {
-    constructor(private readonly userService: UserService) {}
+export class UserCrudService {
+    constructor(
+        private readonly userRepository: UserRepository,
+        private readonly roleRepository: RoleRepository,
+    ) {}
+
+    async pagination(
+        request: RoleIndexRequest,
+    ): Promise<IPaginateResponse<IUser>> {
+        return this.userRepository.pagination(request);
+    }
 
     @CacheClear(config.cache.name.users.detail)
     async create(userRequest: UserCreateRequest): Promise<void> {
-        const emailExists = await this.userService.isEmailExists(
+        const emailExists = await this.userRepository.isEmailExists(
             userRequest.email,
         );
 
@@ -26,9 +36,7 @@ export class UserCrudApplication {
             );
         }
 
-        const roles = await dataSource
-            .getRepository(Role)
-            .findByIds(userRequest.roles);
+        const roles = await this.roleRepository.findByIds(userRequest.roles);
 
         const userCreate = new User();
 
@@ -39,43 +47,42 @@ export class UserCrudApplication {
         userCreate.password = await Utils.bcryptHash(userRequest.password);
         userCreate.roles = roles;
 
-        await this.userService.create(userCreate);
+        await this.userRepository.save(userCreate);
     }
 
     async findById(id: number): Promise<IUser> {
-        const results = await this.userService.findOneById(id);
-        return results;
-    }
-
-    async findByRole(id: number): Promise<IUser[]> {
-        const results = await this.userService.findAllWithRole(id);
+        const results = await this.userRepository.findOne({
+            where: { id },
+            relations: ['roles', 'roles.permissions'],
+        });
         return results;
     }
 
     async findByPhoneNumber(phoneNumber: string): Promise<IUser> {
-        const results = await this.userService.findOneByPhoneNumber(
-            phoneNumber,
-        );
+        const results = await this.userRepository.findOneBy({ phoneNumber });
         return results;
     }
 
     async findAllWithRole(roleId: number): Promise<IUser[]> {
-        const results = await this.userService.findAllWithRole(roleId);
+        const results = await this.userRepository.find({
+            where: { roles: { id: roleId } },
+            relations: ['roles', 'roles.permissions'],
+        });
         return results;
     }
 
     async bulkDelete(ids: number[]): Promise<void> {
-        await this.userService.bulkDelete(ids);
+        await this.userRepository.bulkDelete(ids);
     }
 
     @CacheClear(config.cache.name.users.detail)
     async delete(id: number): Promise<void> {
-        await this.userService.delete(id);
+        await this.userRepository.delete(id);
     }
 
     @CacheClear(config.cache.name.users.detail)
     async update(id: number, request: UserUpdateRequest): Promise<void> {
-        const userExists = await this.userService.findByIdAndEmail(
+        const userExists = await this.userRepository.findByIdAndEmail(
             request.email,
             id,
         );
@@ -86,9 +93,7 @@ export class UserCrudApplication {
             );
         }
 
-        const roles = await dataSource
-            .getRepository(Role)
-            .findByIds(request.roles);
+        const roles = await this.roleRepository.findByIds(request.roles);
 
         userExists.fullname = request.fullname;
         userExists.email = request.email;
@@ -99,6 +104,6 @@ export class UserCrudApplication {
             userExists.password = await Utils.bcryptHash(request.password);
         }
 
-        await this.userService.repository.save(userExists);
+        await this.userRepository.save(userExists);
     }
 }
