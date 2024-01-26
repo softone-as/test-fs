@@ -9,10 +9,10 @@ import {
     Query,
     UseGuards,
 } from '@nestjs/common';
-import { RoleCrudApplication } from '../applications/role-crud.application';
+import { RoleCrudApplication } from '../services/role-crud.application';
 import { RoleCreateRequest } from '../requests/role-create.request';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
-import { RoleIndexApplication } from '../applications/role-index.application';
+import { RoleIndexApplication } from '../services/role-index.application';
 import { RoleIndexRequest } from '../requests/role-index.request';
 import { RoleEditRequest } from '../requests/role-edit.request';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
@@ -23,8 +23,8 @@ import {
     PERMISSION_BACKOFFICE_UPDATE_ROLE,
 } from 'constants/permission.constant';
 import { RoleMapper } from '../mappers/role.mapper';
-import { UserCrudApplication } from '../applications/user-crud.application';
-import { PermissionCrudApplication } from '../applications/permission-crud.application';
+import { UserCrudApplication } from '../services/user-crud.application';
+import { PermissionCrudService } from '../services/permission-crud.service';
 
 @Controller('roles')
 export class RoleController {
@@ -33,7 +33,7 @@ export class RoleController {
         private readonly roleCrudApplication: RoleCrudApplication,
         private readonly roleIndexApplication: RoleIndexApplication,
         private readonly userCrudApplication: UserCrudApplication,
-        private readonly permissionCrudApplication: PermissionCrudApplication,
+        private readonly permissionCrudApplication: PermissionCrudService,
     ) {}
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_ROLE))

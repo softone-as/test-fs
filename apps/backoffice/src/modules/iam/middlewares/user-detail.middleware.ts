@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { Request, Response } from 'express';
-import { UserCrudApplication } from '../applications/user-crud.application';
+import { UserCrudApplication } from '../services/user-crud.application';
 
 @Injectable()
 export class UserDetailMiddleware implements NestMiddleware {

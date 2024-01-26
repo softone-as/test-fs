@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { IndexApplication } from 'apps/backoffice/src/infrastructure/applications/index.application';
+import { IndexUtil } from 'apps/backoffice/src/common/utils/index.util';
 import { CacheService } from 'apps/backoffice/src/infrastructure/cache/services/cache.service';
 import { Config } from 'entities/config/config.entity';
 import { Repository } from 'typeorm';
@@ -10,7 +10,7 @@ import { ConfigIndexRequest } from '../requests/config-index.request';
 const ALLOW_TO_SORT = ['latest', 'oldest', 'name', 'key', 'value'];
 
 @Injectable()
-export class ConfigIndexApplication extends IndexApplication {
+export class ConfigIndexApplication extends IndexUtil {
     constructor(
         @InjectRepository(Config)
         private readonly configRepository: Repository<Config>,

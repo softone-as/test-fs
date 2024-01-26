@@ -1,14 +1,14 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { IUser } from 'interface-models/iam/user.interface';
 import { UserCreateRequest } from '../requests/user-create.request';
-import { UserService } from '../services/user.service';
+import { UserService } from '../repositories/user.service';
 import { UserUpdateRequest } from '../requests/user-update.request';
 import { config } from 'apps/backoffice/src/config';
 import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { Utils } from 'apps/backoffice/src/common/utils/util';
 import { Role } from 'entities/iam/role.entity';
-import { getManager } from 'typeorm';
 import { User } from 'entities/iam/user.entity';
+import dataSource from 'databases/data-source';
 
 @Injectable()
 export class UserCrudApplication {
@@ -26,7 +26,7 @@ export class UserCrudApplication {
             );
         }
 
-        const roles = await getManager()
+        const roles = await dataSource
             .getRepository(Role)
             .findByIds(userRequest.roles);
 
@@ -86,7 +86,7 @@ export class UserCrudApplication {
             );
         }
 
-        const roles = await getManager()
+        const roles = await dataSource
             .getRepository(Role)
             .findByIds(request.roles);
 

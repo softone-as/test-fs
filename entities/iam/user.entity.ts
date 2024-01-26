@@ -63,7 +63,7 @@ export class User extends BaseEntity implements IUser {
             menu: LogActivityMenuEnum.USER,
             path: __filename,
             user: null, // get user from jwt
-            meta_data: this,
+            metaData: this,
             source: this.id.toString(),
             activity: 'Update user',
         };
@@ -77,7 +77,7 @@ export class User extends BaseEntity implements IUser {
             menu: LogActivityMenuEnum.USER,
             path: __filename,
             user: null, // get user from jwt
-            meta_data: this,
+            metaData: this,
             source: this.id.toString(),
             activity: 'Create new user',
         };

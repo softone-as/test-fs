@@ -9,7 +9,7 @@ export class LogActivityDto {
     @IsNotEmpty()
     path: string;
 
-    meta_data: any;
+    metaData: any;
 
     source: string;
 

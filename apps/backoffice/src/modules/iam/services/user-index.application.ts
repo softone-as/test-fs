@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { IndexApplication } from 'apps/backoffice/src/infrastructure/applications/index.application';
+import { IndexUtil } from 'apps/backoffice/src/common/utils/index.util';
 import { User } from 'entities/iam/user.entity';
 import { Repository } from 'typeorm';
 import { UserIndexRequest } from '../requests/user-index.request';
@@ -12,7 +12,7 @@ import { IUser } from 'interface-models/iam/user.interface';
 const ALLOW_TO_SORT = ['latest', 'oldest', 'fullname', 'email'];
 
 @Injectable()
-export class UserIndexApplication extends IndexApplication {
+export class UserIndexApplication extends IndexUtil {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,

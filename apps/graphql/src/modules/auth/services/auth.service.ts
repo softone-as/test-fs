@@ -71,7 +71,7 @@ export class AuthService {
         return await this.userRepository.find({
             where: {
                 id: Not(In(ids)),
-                role: {
+                roles: {
                     id: roleId,
                 },
             },

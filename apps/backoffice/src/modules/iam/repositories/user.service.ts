@@ -56,7 +56,7 @@ export class UserService {
         exceptIds: number[],
     ): Promise<IUser[]> {
         return await this.userRepository.find({
-            where: { role: { id: roleId }, id: Not(In(exceptIds)) },
+            where: { roles: { id: roleId }, id: Not(In(exceptIds)) },
         });
     }
 

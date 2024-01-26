@@ -16,8 +16,12 @@ export class SyncRoleAdminSeeder implements Seeder {
 
         const permissions = await connection.getRepository(Permission).find();
 
-        const roleSync = data.map((roleKey) => {
-            const role = repository.create();
+        const roleSync = data.map(async (roleKey) => {
+            const roleExist = await repository.findOne({
+                where: { key: roleKey },
+            });
+
+            const role = roleExist || repository.create();
 
             role.name = roleKey;
             role.key = roleKey;
