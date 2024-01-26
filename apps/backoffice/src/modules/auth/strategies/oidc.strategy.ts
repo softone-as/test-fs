@@ -1,4 +1,3 @@
-// auth/oidc.strategy.ts
 import { Logger, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import {
