@@ -16,6 +16,9 @@ export class UserService {
         private readonly ldapService: LdapService,
     ) {}
 
+    // TODO: refactor this repository pattern
+    repository = this.userRepository;
+
     async create(data: IUser): Promise<IUser> {
         const newUser = this.userRepository.create(data);
         return await this.userRepository.save(newUser);

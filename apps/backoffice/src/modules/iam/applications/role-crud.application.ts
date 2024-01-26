@@ -8,15 +8,10 @@ import { config } from 'apps/backoffice/src/config';
 import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { getManager } from 'typeorm';
 import { Permission } from 'entities/iam/permission.entity';
-import { RolePermissionService } from '../services/role-permission.service';
-import { RolePermission } from 'entities/iam/role-permission.entity';
 
 @Injectable()
 export class RoleCrudApplication {
-    constructor(
-        private readonly roleService: RoleService,
-        private readonly rolePermissionService: RolePermissionService,
-    ) {}
+    constructor(private readonly roleService: RoleService) {}
 
     @CacheClear(config.cache.name.roles.detail)
     async create(roleRequest: RoleCreateRequest): Promise<IRole> {
@@ -36,17 +31,8 @@ export class RoleCrudApplication {
         const newRole = new Role();
         Object.assign(newRole, roleRequest);
 
+        newRole.permissions = permissions;
         const createRole = await this.roleService.create(newRole);
-
-        const rolePermissions: RolePermission[] = [];
-        permissions.forEach((permission) => {
-            const rolePermission = new RolePermission();
-            rolePermission.role = createRole;
-            rolePermission.permission = permission;
-            rolePermissions.push(rolePermission);
-        });
-
-        this.rolePermissionService.createAll(rolePermissions);
 
         return {
             id: createRole.id,
@@ -73,35 +59,13 @@ export class RoleCrudApplication {
 
         const permissions = await getManager()
             .getRepository(Permission)
-            .findByIds(roleRequest.permissions);
+            .findByIds(roleRequest.permissionIds);
 
-        const updateRole = await this.roleService.update(id, {
-            id: id,
-            name: roleRequest.name,
-            key: roleRequest.key,
-        });
+        roleExists.name = roleRequest.name;
+        roleExists.key = roleRequest.key;
+        roleExists.permissions = permissions;
 
-        // save to role_permission table
-        if (roleExists.permissions.length > 0) {
-            await this.rolePermissionService.deleteByRoleId(id);
-        }
-
-        const rolePermissions: RolePermission[] = [];
-        permissions.forEach((permission) => {
-            const rolePermission = new RolePermission();
-            rolePermission.role = updateRole;
-            rolePermission.permission = permission;
-            rolePermissions.push(rolePermission);
-        });
-
-        this.rolePermissionService.createAll(rolePermissions);
-
-        return {
-            id: updateRole.id,
-            name: updateRole.name,
-            key: updateRole.key,
-            permissions: updateRole.permissions,
-        };
+        return await this.roleService.repository.save(roleExists);
     }
 
     @CacheClear(config.cache.name.roles.detail)

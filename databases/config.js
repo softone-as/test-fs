@@ -1,4 +1,5 @@
 const { config } = require('dotenv');
+const { SnakeNamingStrategy } = require('typeorm-naming-strategies');
 
 config();
 
@@ -18,4 +19,5 @@ module.exports = {
         entitiesDir: 'entities',
         migrationsDir: 'databases/migrations',
     },
+    namingStrategy: new SnakeNamingStrategy(),
 };

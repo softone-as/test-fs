@@ -11,6 +11,9 @@ export class RoleService {
         private readonly roleRepository: Repository<Role>,
     ) {}
 
+    // TODO: refactor this repository pattern
+    repository = this.roleRepository;
+
     async create(data: IRole): Promise<IRole> {
         const newRole = this.roleRepository.create(data);
         return await this.roleRepository.save(newRole);

@@ -10,5 +10,5 @@ export class RoleEditRequest {
     key: string;
 
     @IsNotEmpty({ message: 'Field wajib diisi' })
-    permissions: number[];
+    permissionIds: number[];
 }

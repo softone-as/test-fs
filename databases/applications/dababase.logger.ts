@@ -1,7 +1,8 @@
 import { Span } from '@sentry/tracing';
 import { SentryQueryService } from 'apps/backoffice/src/infrastructure/sentry/sentry-query.service';
+import { Logger as TypeormLogger } from 'typeorm';
 
-export class DatabaseLogger {
+export class DatabaseLogger implements TypeormLogger {
     constructor(
         private sentryQueryService: SentryQueryService,
         private span: Span,
@@ -26,5 +27,15 @@ export class DatabaseLogger {
         );
 
         this.span = span;
+    }
+
+    logSchemaBuild() {
+        // Method not implemented.
+    }
+    logMigration() {
+        // Method not implemented.
+    }
+    log() {
+        // Method not implemented.
     }
 }

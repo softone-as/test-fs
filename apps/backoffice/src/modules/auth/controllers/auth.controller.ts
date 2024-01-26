@@ -1,7 +1,6 @@
 import {
     Controller,
     Get,
-    InternalServerErrorException,
     Post,
     Query,
     Req,
@@ -22,7 +21,7 @@ export class AuthController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
         private readonly authApplication: AuthApplication,
-    ) { }
+    ) {}
 
     @Get('login')
     @FailSafeCheck()

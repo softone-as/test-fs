@@ -13,6 +13,16 @@ import * as winston from 'winston';
                         winston.format.json(),
                     ),
                 }),
+                new winston.transports.Console({
+                    level: 'error',
+                    format: winston.format.combine(
+                        winston.format.colorize(),
+                        winston.format.simple(),
+                        winston.format.printf((info) => {
+                            return `\n${info.level}: ${info.message} \n ${info.stack}`;
+                        }),
+                    ),
+                }),
             ],
         }),
     ],

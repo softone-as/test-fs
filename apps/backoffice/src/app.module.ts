@@ -52,7 +52,6 @@ import { MailModule } from './infrastructure/mail/mail.module';
 import { WinstonModule } from './infrastructure/winston/winston.module';
 import { MaintainModeMiddleware } from './infrastructure/gates/middlewares/maintain-mode.middleware';
 import { PauseModeMiddleware } from './infrastructure/gates/middlewares/pause-mode.middleware';
-import { RedisService } from './infrastructure/redis/services/redis.service';
 import { FailSafeModule } from './infrastructure/fail-safe/fail-safe.module';
 
 @Module({
@@ -140,15 +139,13 @@ import { FailSafeModule } from './infrastructure/fail-safe/fail-safe.module';
     ],
 })
 export class AppModule implements NestModule {
-    constructor(@Inject(REDIS) private readonly redisClient: RedisClient) { }
+    constructor(@Inject(REDIS) private readonly redisClient: RedisClient) {}
 
     configure(consumer: MiddlewareConsumer): void {
-
         // Maintain mode and Pause mode
-        consumer.apply(
-            MaintainModeMiddleware,
-            PauseModeMiddleware,
-        ).forRoutes("*")
+        consumer
+            .apply(MaintainModeMiddleware, PauseModeMiddleware)
+            .forRoutes('*');
 
         consumer.apply(Sentry.Handlers.requestHandler()).forRoutes({
             path: '*',
@@ -157,7 +154,9 @@ export class AppModule implements NestModule {
         consumer
             .apply(
                 session({
-                    store: new (RedisStore(session))({ client: this.redisClient }),
+                    store: new (RedisStore(session))({
+                        client: this.redisClient,
+                    }),
                     saveUninitialized: false,
                     secret: 'sup3rs3cr3t',
                     resave: false,

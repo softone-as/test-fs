@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Permission } from 'entities/iam/permission.entity';
-import { RolePermission } from 'entities/iam/role-permission.entity';
 import { Role } from 'entities/iam/role.entity';
 import { User } from 'entities/iam/user.entity';
 import { config } from '../../config';
@@ -13,7 +12,7 @@ import { AuthService } from './services/auth.service';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User, Role, RolePermission, Permission]),
+        TypeOrmModule.forFeature([User, Role, Permission]),
         JwtModule.registerAsync({
             imports: [],
             useFactory: async () => ({
