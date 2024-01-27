@@ -6,11 +6,11 @@ import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.ada
 import { AuthApplication } from './applications/auth.application';
 import { AuthController } from './controllers/auth.controller';
 import { AdminAuthService } from './services/auth-admin.service';
-import { UserService } from '../iam/repositories/user.service';
+import { UserRepository } from '../iam/repositories/user.repository';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
 import { UserSerializer } from './serializers/user.serializer';
-import { UserCrudApplication } from '../iam/services/user-crud.application';
+import { UserCrudService } from '../iam/services/user-crud.service';
 import { OneSignalPushNotificationService } from '../../infrastructure/notification/services/one-signal-push-notification.service';
 import { EmailNotificationService } from '../../infrastructure/notification/services/email-notification.service';
 import { ForgotPasswordController } from '../auth/controllers/auth-forgot-password.controller';
@@ -19,13 +19,14 @@ import { OtpService } from './services/otp.service';
 import { Otp } from 'entities/otp/otp.entity';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
 import { Role } from 'entities/iam/role.entity';
-import { RoleService } from '../iam/repositories/role.service';
+import { RoleRepository } from '../iam/repositories/role.repository';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { LogActivityService } from '../log-activity/services/log-activity.service';
 import { Connection } from 'typeorm';
 import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
 import { RedisModule } from '../../infrastructure/redis';
 import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module';
+import { PaginateUtil } from '../../common/utils/paginate.util';
 
 @Module({
     imports: [
@@ -40,10 +41,11 @@ import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module'
     ],
     controllers: [AuthController, ForgotPasswordController],
     providers: [
+        PaginateUtil,
         InertiaAdapter,
         AdminAuthService,
-        UserService,
-        RoleService,
+        UserRepository,
+        RoleRepository,
         UserSerializer,
         AuthApplication,
         AuthForgotPasswordApplication,
@@ -68,7 +70,7 @@ import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module'
             inject: [Connection],
         },
 
-        UserCrudApplication,
+        UserCrudService,
         LogActivityService,
         LdapService,
     ],

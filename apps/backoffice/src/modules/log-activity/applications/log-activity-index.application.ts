@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { IndexUtil } from 'apps/backoffice/src/common/utils/index.util';
+import { PaginateUtil } from 'apps/backoffice/src/common/utils/paginate.util';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { Repository } from 'typeorm';
 import { LogActivityIndexRequest } from '../requests/log-activity-index.request';
@@ -9,7 +9,7 @@ import { LogActivityIndexRequest } from '../requests/log-activity-index.request'
 const ALLOW_TO_SORT = ['latest', 'oldest', 'menu'];
 
 @Injectable()
-export class LogActivityIndexApplication extends IndexUtil {
+export class LogActivityIndexApplication extends PaginateUtil {
     constructor(
         @InjectRepository(LogActivity)
         private readonly logActivityRepository: Repository<LogActivity>,

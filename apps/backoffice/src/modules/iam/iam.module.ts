@@ -2,14 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'entities/iam/user.entity';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
-import { UserCrudApplication } from './services/user-crud.application';
-import { UserIndexApplication } from './services/user-index.application';
+import { UserCrudService } from './services/user-crud.service';
 import { UserController } from './controllers/user.controller';
-import { UserService } from './repositories/user.service';
-import { RoleCrudApplication } from './services/role-crud.application';
-import { RoleIndexApplication } from './services/role-index.application';
+import { UserRepository } from './repositories/user.repository';
+import { RoleCrudService } from './services/role-crud.service';
 import { RoleController } from './controllers/role.controller';
-import { RoleService } from './repositories/role.service';
+import { RoleRepository } from './repositories/role.repository';
 import { Role } from 'entities/iam/role.entity';
 import { PermissionCrudService } from './services/permission-crud.service';
 import { PermissionRepository } from './repositories/permission.repository';
@@ -20,6 +18,7 @@ import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { LogActivityService } from '../log-activity/services/log-activity.service';
 import { LdapService } from '../auth/services/ldap.service';
 import { AbilityModule } from '../../infrastructure/ability/ability.module';
+import { PaginateUtil } from '../../common/utils/paginate.util';
 
 @Module({
     imports: [
@@ -29,18 +28,17 @@ import { AbilityModule } from '../../infrastructure/ability/ability.module';
     ],
     controllers: [UserController, RoleController, PermissionController],
     providers: [
+        PaginateUtil,
         LdapService,
         InertiaAdapter,
-        UserCrudApplication,
-        UserService,
-        UserIndexApplication,
-        RoleCrudApplication,
-        RoleService,
-        RoleIndexApplication,
+        UserCrudService,
+        UserRepository,
+        RoleCrudService,
+        RoleRepository,
         PermissionCrudService,
         PermissionRepository,
         LogActivityService,
     ],
-    exports: [UserCrudApplication],
+    exports: [UserCrudService],
 })
 export class IamModule {}
