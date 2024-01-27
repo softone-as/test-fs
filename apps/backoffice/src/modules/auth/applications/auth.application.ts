@@ -1,5 +1,5 @@
 import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { EmailNotificationService } from 'apps/backoffice/src/infrastructure/notification/services/email-notification.service';
 import { OneSignalPushNotificationService } from '../../../infrastructure/notification/services/one-signal-push-notification.service';
@@ -48,7 +48,7 @@ export class AuthApplication {
 
         await this.sendNotifEmailLoginAttempt();
 
-        this.logActivityService.create({
+        await this.logActivityService.create({
             activity:
                 'user with email ' + this.request.user['email'] + ' login',
             metaData: {
@@ -80,7 +80,7 @@ export class AuthApplication {
         await this.adminAuthService.removeOneSignalPlayerIdById(id, playerId);
         await this.oneSignalPushNotificationService.setStatus(playerId, false);
         this.request.logOut((done) => {
-            console.log(done);
+            Logger.log(done);
         });
     }
 }

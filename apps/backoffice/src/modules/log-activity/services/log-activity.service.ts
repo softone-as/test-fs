@@ -1,25 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
-import { Repository } from 'typeorm';
+import { LogActivityRepository } from '../repositories/log-activity.respository';
+import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
+import { LogActivityIndexRequest } from '../requests/log-activity-index.request';
 import { LogActivityCreateRequest } from '../requests/log-activity-create.request';
 
 @Injectable()
 export class LogActivityService {
-    constructor(
-        @InjectRepository(LogActivity)
-        private logActivityRepo: Repository<LogActivity>,
-    ) {}
+    constructor(private readonly logActivityRepo: LogActivityRepository) {}
 
-    create(data: LogActivityCreateRequest) {
-        this.logActivityRepo.save(data);
+    async pagination(
+        request: LogActivityIndexRequest,
+    ): Promise<IPaginateResponse<ILogActivity>> {
+        return this.logActivityRepo.pagination(request);
     }
 
     async findOneById(id: number): Promise<ILogActivity> {
-        return await this.logActivityRepo.findOneOrFail({
-            where: { id },
-            relations: ['user'],
+        return this.logActivityRepo.findOneById(id);
+    }
+
+    async create(data: LogActivityCreateRequest): Promise<void> {
+        await this.logActivityRepo.createLog({
+            user: data.user,
+            source: data.source,
+            activity: data.activity,
+            menu: data.menu,
+            path: data.path,
+            metaData: data.metaData,
         });
     }
 }

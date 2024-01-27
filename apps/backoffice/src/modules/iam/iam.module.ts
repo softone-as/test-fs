@@ -15,16 +15,17 @@ import { Permission } from 'entities/iam/permission.entity';
 import { PermissionController } from './controllers/permission.controller';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
-import { LogActivityService } from '../log-activity/services/log-activity.service';
 import { LdapService } from '../auth/services/ldap.service';
 import { AbilityModule } from '../../infrastructure/ability/ability.module';
 import { PaginateUtil } from '../../common/utils/paginate.util';
+import { LogActivityModule } from '../log-activity/log-activity.module';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([User, Role, Permission, LogActivity]),
         CacheModule,
         AbilityModule,
+        LogActivityModule,
     ],
     controllers: [UserController, RoleController, PermissionController],
     providers: [
@@ -37,7 +38,6 @@ import { PaginateUtil } from '../../common/utils/paginate.util';
         RoleRepository,
         PermissionCrudService,
         PermissionRepository,
-        LogActivityService,
     ],
     exports: [UserCrudService],
 })
