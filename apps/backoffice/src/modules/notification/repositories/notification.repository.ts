@@ -71,10 +71,16 @@ export class NotificationRepository extends Repository<InAppNotification> {
         return results;
     }
 
-    // Create
     async createNotification(notification: IInAppNotification): Promise<void> {
         const newNotification = this.repo.create(notification);
         await this.repo.save(newNotification);
+    }
+
+    async bulkCreateNotification(
+        notifications: IInAppNotification[],
+    ): Promise<void> {
+        const newNotifications = this.repo.create(notifications);
+        await this.repo.save(newNotifications);
     }
 
     async readAllNotification(): Promise<UpdateResult> {
@@ -95,5 +101,23 @@ export class NotificationRepository extends Repository<InAppNotification> {
                 isRead: true,
             },
         );
+    }
+
+    async readNotificationById(id: number): Promise<UpdateResult> {
+        return await this.repo.update(
+            {
+                id,
+            },
+            {
+                isRead: true,
+            },
+        );
+    }
+
+    async countUnreadNotificationByUserId(userId: number): Promise<number> {
+        return await this.createQueryBuilder('notification')
+            .where('notification.targetUser = :userId', { userId })
+            .andWhere('notification.isRead = :isRead', { isRead: false })
+            .getCount();
     }
 }

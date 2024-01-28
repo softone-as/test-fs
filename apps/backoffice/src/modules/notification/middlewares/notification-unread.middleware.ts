@@ -16,7 +16,7 @@ export class NotificationUnreadMiddleware implements NestMiddleware {
 
         const user = req.user as IUser;
         const notificationUnread =
-            await this.inAppNotificationService.countUnread(user);
+            await this.inAppNotificationService.countUnread(user.id);
 
         this.inertiaAdapter.share({
             notifications:
