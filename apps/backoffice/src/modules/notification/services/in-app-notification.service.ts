@@ -1,27 +1,43 @@
 import { config } from 'apps/backoffice/src/config';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
-import { In, QueryFailedError, Repository } from 'typeorm';
+import { In, QueryFailedError } from 'typeorm';
 import { IUser } from 'interface-models/iam/user.interface';
 import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
+import { NotificationRepository } from '../repositories/notification.repository';
+import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
+import { InAppNotificationIndexRequest } from '../requests/in-app-notification-index.request';
+import { InAppNotificationMarkReadRequest } from '../requests/in-app-notification-mark-read.request';
 
 @Injectable()
 export class InAppNotificationService {
     constructor(
-        @InjectRepository(InAppNotification)
-        private readonly notificationRepository: Repository<InAppNotification>,
+        private readonly notificationRepository: NotificationRepository,
     ) {}
 
-    async find(): Promise<IInAppNotification[]> {
-        return await this.notificationRepository.find();
+    async pagination(
+        request: InAppNotificationIndexRequest,
+        user: IUser,
+    ): Promise<IPaginateResponse<IInAppNotification>> {
+        return await this.notificationRepository.pagination(request, user);
+    }
+
+    async readAllNotification(): Promise<void> {
+        await this.notificationRepository.readAllNotification();
+    }
+
+    async readNotificationsByIds(
+        request: InAppNotificationMarkReadRequest,
+    ): Promise<void> {
+        await this.notificationRepository.readNotificationsByIds(
+            request.notificationIds,
+        );
     }
 
     @CacheClear(config.cache.name.notification.list)
-    async create(data: IInAppNotification): Promise<IInAppNotification> {
-        const newAdmin = this.notificationRepository.create(data);
-        return await this.notificationRepository.save(newAdmin);
+    async create(data: IInAppNotification): Promise<void> {
+        await this.notificationRepository.createNotification(data);
     }
 
     @CacheClear(config.cache.name.notification.list)
@@ -53,6 +69,7 @@ export class InAppNotificationService {
             { id },
             { ...data },
         );
+
         if (status.affected < 1) {
             throw new QueryFailedError('Error, Data not changed', null, null);
         }

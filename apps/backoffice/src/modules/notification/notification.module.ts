@@ -4,9 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { InAppNotification } from 'entities/notification/in-app-notification.entity';
 import { InAppNotificationIndexApplication } from './applications/in-app-notification-index.application';
 import { InAppNotificationController } from './controllers/in-app-notification.controller';
-import { InAppNotificationService } from './services/in-app-notifiacation.service';
+import { InAppNotificationService } from './services/in-app-notification.service';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
-import { InAppNotificationApplication } from './applications/in-app-notification.application';
+import { NotificationRepository } from './repositories/notification.repository';
+import { PaginateUtil } from '../../common/utils/paginate.util';
 
 @Module({
     imports: [TypeOrmModule.forFeature([InAppNotification]), CacheModule],
@@ -15,7 +16,8 @@ import { InAppNotificationApplication } from './applications/in-app-notification
         InertiaAdapter,
         InAppNotificationService,
         InAppNotificationIndexApplication,
-        InAppNotificationApplication,
+        NotificationRepository,
+        PaginateUtil,
     ],
     exports: [InAppNotificationIndexApplication, InAppNotificationService],
 })

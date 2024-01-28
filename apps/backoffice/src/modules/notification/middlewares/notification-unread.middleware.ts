@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { Request, Response } from 'express';
 import { IUser } from 'interface-models/iam/user.interface';
-import { InAppNotificationService } from '../services/in-app-notifiacation.service';
+import { InAppNotificationService } from '../services/in-app-notification.service';
 
 @Injectable()
 export class NotificationUnreadMiddleware implements NestMiddleware {
