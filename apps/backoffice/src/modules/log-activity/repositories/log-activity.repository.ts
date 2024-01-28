@@ -20,8 +20,7 @@ export class LogActivityRepository extends Repository<LogActivity> {
     async pagination(
         request: LogActivityIndexRequest,
     ): Promise<IPaginateResponse<ILogActivity>> {
-        const ALLOW_TO_SORT = ['latest', 'oldest', 'fullname', 'email'];
-
+        const ALLOW_TO_SORT = ['latest', 'oldest', 'menu'];
         const query = this.createQueryBuilder('logActivity').leftJoinAndSelect(
             'logActivity.user',
             'user',
