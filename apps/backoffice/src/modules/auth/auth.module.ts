@@ -21,12 +21,12 @@ import { CacheModule } from '../../infrastructure/cache/cache.module';
 import { Role } from 'entities/iam/role.entity';
 import { RoleRepository } from '../iam/repositories/role.repository';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
-import { LogActivityService } from '../log-activity/services/log-activity.service';
 import { Connection } from 'typeorm';
 import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
 import { RedisModule } from '../../infrastructure/redis';
 import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module';
 import { PaginateUtil } from '../../common/utils/paginate.util';
+import { LogActivityModule } from '../log-activity/log-activity.module';
 
 @Module({
     imports: [
@@ -38,6 +38,7 @@ import { PaginateUtil } from '../../common/utils/paginate.util';
         CacheModule,
         RedisModule,
         FailSafeModule,
+        LogActivityModule,
     ],
     controllers: [AuthController, ForgotPasswordController],
     providers: [
@@ -71,7 +72,6 @@ import { PaginateUtil } from '../../common/utils/paginate.util';
         },
 
         UserCrudService,
-        LogActivityService,
         LdapService,
     ],
     exports: [],

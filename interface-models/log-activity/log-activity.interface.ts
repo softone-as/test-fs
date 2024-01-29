@@ -1,7 +1,7 @@
 import { IUser } from '../iam/user.interface';
 
 export interface ILogActivity {
-    id: number;
+    id?: number;
 
     user: IUser;
 
