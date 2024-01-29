@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 /**
- * Index Application
- * Used to fetch paginated data with any sort, filter and search
+ * Paginate Util
+ * Used to paginate the data
  */
 
 import { OrderDirectionType } from 'apps/backoffice/src/common/enums/index.enum';

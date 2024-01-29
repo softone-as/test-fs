@@ -1,27 +1,42 @@
 import { config } from 'apps/backoffice/src/config';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
-import { InAppNotification } from 'entities/notification/in-app-notification.entity';
-import { In, QueryFailedError, Repository } from 'typeorm';
+import { In, QueryFailedError } from 'typeorm';
 import { IUser } from 'interface-models/iam/user.interface';
 import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
+import { NotificationRepository } from '../repositories/notification.repository';
+import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
+import { InAppNotificationIndexRequest } from '../requests/in-app-notification-index.request';
+import { InAppNotificationMarkReadRequest } from '../requests/in-app-notification-mark-read.request';
 
 @Injectable()
 export class InAppNotificationService {
     constructor(
-        @InjectRepository(InAppNotification)
-        private readonly notificationRepository: Repository<InAppNotification>,
+        private readonly notificationRepository: NotificationRepository,
     ) {}
 
-    async find(): Promise<IInAppNotification[]> {
-        return await this.notificationRepository.find();
+    async pagination(
+        request: InAppNotificationIndexRequest,
+        user: IUser,
+    ): Promise<IPaginateResponse<IInAppNotification>> {
+        return await this.notificationRepository.pagination(request, user);
+    }
+
+    async readAllNotification(): Promise<void> {
+        await this.notificationRepository.readAllNotification();
+    }
+
+    async readNotificationsByIds(
+        request: InAppNotificationMarkReadRequest,
+    ): Promise<void> {
+        await this.notificationRepository.readNotificationsByIds(
+            request.notificationIds,
+        );
     }
 
     @CacheClear(config.cache.name.notification.list)
-    async create(data: IInAppNotification): Promise<IInAppNotification> {
-        const newAdmin = this.notificationRepository.create(data);
-        return await this.notificationRepository.save(newAdmin);
+    async create(data: IInAppNotification): Promise<void> {
+        await this.notificationRepository.createNotification(data);
     }
 
     @CacheClear(config.cache.name.notification.list)
@@ -29,19 +44,16 @@ export class InAppNotificationService {
         userIds: number[],
         data: IInAppNotification,
     ): Promise<void> {
-        const newDatas = userIds.map((userId) => {
-            const newData = <IInAppNotification>{};
-            Object.assign(newData, data);
-            newData.targetUserId = userId;
-            return newData;
+        const newNotifications = userIds.map((userId) => {
+            const newNotification = <IInAppNotification>{};
+            Object.assign(newNotification, data);
+            newNotification.targetUserId = userId;
+            return newNotification;
         });
 
-        await this.notificationRepository
-            .createQueryBuilder()
-            .insert()
-            .into(InAppNotification)
-            .values(newDatas)
-            .execute();
+        await this.notificationRepository.bulkCreateNotification(
+            newNotifications,
+        );
     }
 
     @CacheClear(config.cache.name.notification.list)
@@ -53,6 +65,7 @@ export class InAppNotificationService {
             { id },
             { ...data },
         );
+
         if (status.affected < 1) {
             throw new QueryFailedError('Error, Data not changed', null, null);
         }
@@ -117,22 +130,19 @@ export class InAppNotificationService {
     }
 
     async findOneByIds(ids: number[]): Promise<IInAppNotification[]> {
-        return await this.notificationRepository.find({
-            where: { id: In(ids) },
+        return await this.notificationRepository.findBy({
+            id: In(ids),
         });
     }
 
-    async countUnread(user: IUser): Promise<number> {
-        return await this.notificationRepository
-            .createQueryBuilder('notification')
-            .leftJoinAndSelect('notification.targetUser', 'targetUser')
-            .andWhere('targetUser.id = :userId', { userId: user.id })
-            .andWhere('notification.isRead = :isRead', { isRead: false })
-            .getCount();
+    async countUnread(userId: number): Promise<number> {
+        return await this.notificationRepository.countUnreadNotificationByUserId(
+            userId,
+        );
     }
 
     @CacheClear(config.cache.name.notification.list)
     async markRead(id: number): Promise<void> {
-        await this.notificationRepository.update({ id }, { isRead: true });
+        await this.notificationRepository.readNotificationById(id);
     }
 }
