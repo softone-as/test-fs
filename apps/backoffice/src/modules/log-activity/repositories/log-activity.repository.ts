@@ -83,12 +83,4 @@ export class LogActivityRepository extends Repository<LogActivity> {
         const newLog = this.create(data);
         await this.save(newLog);
     }
-
-    async findOneById(id: number): Promise<LogActivity> {
-        return await this.findOneOrFail({
-            where: {
-                id,
-            },
-        });
-    }
 }
