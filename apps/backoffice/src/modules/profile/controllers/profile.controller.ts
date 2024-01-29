@@ -3,20 +3,20 @@ import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapt
 import { IUser } from 'interface-models/iam/user.interface';
 import { LoggedInGuard } from '../../auth/guards/logged-in.guard';
 import { GetUserLogged } from '../../iam/decorators/get-user.decorator';
-import { ProfileApplication } from '../applications/profile.application';
 import { ProfileEditRequest } from '../requests/profile-edit.request';
+import { ProfileService } from '../services/profile.service';
 
 @Controller('profile')
 @UseGuards(LoggedInGuard)
 export class ProfileController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
-        private readonly profileApplication: ProfileApplication,
+        private readonly profileService: ProfileService,
     ) {}
 
     @Get()
     async detailPage(@GetUserLogged() user: IUser): Promise<void> {
-        const data = await this.profileApplication.findOneById(user.id);
+        const data = await this.profileService.findOneById(user.id);
         return this.inertiaAdapter.render({
             component: 'Profile',
             props: {
@@ -27,7 +27,7 @@ export class ProfileController {
 
     @Get('edit')
     async editPage(@GetUserLogged() user: IUser): Promise<void> {
-        const data = await this.profileApplication.findOneById(user.id);
+        const data = await this.profileService.findOneById(user.id);
         return this.inertiaAdapter.render({
             component: 'Profile/FormProfile',
             props: {
@@ -41,7 +41,7 @@ export class ProfileController {
         @GetUserLogged() user: IUser,
         @Body() request: ProfileEditRequest,
     ): Promise<void> {
-        await this.profileApplication.edit(user.id, request);
+        await this.profileService.update(user.id, request);
         this.inertiaAdapter.share('success');
         return this.inertiaAdapter.successResponse('/profile', 'Sukses edit');
     }

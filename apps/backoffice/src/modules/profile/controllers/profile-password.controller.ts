@@ -3,15 +3,15 @@ import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapt
 import { IUser } from 'interface-models/iam/user.interface';
 import { LoggedInGuard } from '../../auth/guards/logged-in.guard';
 import { GetUserLogged } from '../../iam/decorators/get-user.decorator';
-import { ProfileApplication } from '../applications/profile.application';
 import { ProfileEditPasswordRequest } from '../requests/profile-edit-password.request';
+import { ProfileService } from '../services/profile.service';
 
 @Controller('profile/edit/password')
 @UseGuards(LoggedInGuard)
 export class ProfilePasswordController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
-        private readonly profileApplication: ProfileApplication,
+        private readonly profileService: ProfileService,
     ) {}
 
     @Get()
@@ -26,7 +26,7 @@ export class ProfilePasswordController {
         @GetUserLogged() user: IUser,
         @Body() request: ProfileEditPasswordRequest,
     ): Promise<void> {
-        await this.profileApplication.editPassword(user.id, request);
+        await this.profileService.updatePassword(user.id, request);
         this.inertiaAdapter.share('success');
         return this.inertiaAdapter.successResponse('/profile', 'Sukses edit');
     }
