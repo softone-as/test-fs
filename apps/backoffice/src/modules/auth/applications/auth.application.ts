@@ -48,7 +48,7 @@ export class AuthApplication {
 
         await this.sendNotifEmailLoginAttempt();
 
-        await this.logActivityService.create({
+        this.logActivityService.create({
             activity:
                 'user with email ' + this.request.user['email'] + ' login',
             metaData: {

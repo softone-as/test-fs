@@ -91,8 +91,4 @@ export class LogActivityRepository extends Repository<LogActivity> {
             },
         });
     }
-
-    async bulkDelete(ids: number[]): Promise<void> {
-        await this.delete(ids);
-    }
 }
