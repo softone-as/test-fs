@@ -66,7 +66,6 @@ import { CacheInterceptor } from './infrastructure/cache/interceptors/cache-inte
             redis: {
                 host: config.redis.host,
                 port: Number(config.redis.port),
-                password: config.redis.password,
             },
         }),
     ],
@@ -131,4 +130,4 @@ import { CacheInterceptor } from './infrastructure/cache/interceptors/cache-inte
     ],
     controllers: [ClearCacheController],
 })
-export class AppModule { }
+export class AppModule {}

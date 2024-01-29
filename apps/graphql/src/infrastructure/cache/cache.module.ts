@@ -9,7 +9,6 @@ import { config } from '../../config';
             store: redisStore,
             host: config.redis.host,
             port: config.redis.port,
-            password: config.redis.password,
             ttl: 60,
         }),
     ],

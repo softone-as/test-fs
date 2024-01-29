@@ -11,15 +11,14 @@ import { RedisService } from './services/redis.service';
             useValue: redis.createClient(
                 config.redis.isEnabled == 'true'
                     ? {
-                        port: +config.redis.port,
-                        host: config.redis.host,
-                        password: config.redis.password,
-                    }
+                          port: +config.redis.port,
+                          host: config.redis.host,
+                      }
                     : {},
             ),
         },
-        RedisService
+        RedisService,
     ],
     exports: [REDIS, RedisService],
 })
-export class RedisModule { }
+export class RedisModule {}
