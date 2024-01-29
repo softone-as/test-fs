@@ -66,34 +66,32 @@ export class RoleController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_ROLE))
     @Get(':id')
     async detailPage(@Param('id') id: number): Promise<{
-        role: IRole;
-        users: IUser[];
+        data: IUser[];
     }> {
-        const role = await this.roleCrudService.findById(id);
         const users = await this.userCrudService.findAllWithRole(id);
         return this.inertiaAdapter.render('Iam/Roles/DetailRole', {
-            role,
-            users,
+            data: users,
         });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_ROLE))
     @Get('edit/:id')
     async editPage(@Param('id') id: number): Promise<{
-        role: IRole;
+        data: IRole;
         permissions: IPermission[];
     }> {
-        const role = await this.roleCrudService.findById(id);
+        const data = await this.roleCrudService.findById(id);
         const permissions = await this.permissionCrudService.findAll();
+
         return this.inertiaAdapter.render('Iam/Roles/EditRole', {
-            role,
+            data,
             permissions,
         });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_ROLE))
     @Post('create')
-    async store(@Body() roleCreateRequest: RoleCreateRequest) {
+    async store(@Body() roleCreateRequest: RoleCreateRequest): Promise<void> {
         await this.roleCrudService.create(roleCreateRequest);
         return this.inertiaAdapter.successResponse('roles', 'Success create');
     }
