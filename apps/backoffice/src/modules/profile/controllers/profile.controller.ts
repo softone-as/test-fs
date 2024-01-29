@@ -15,24 +15,22 @@ export class ProfileController {
     ) {}
 
     @Get()
-    async detailPage(@GetUserLogged() user: IUser): Promise<void> {
+    async detailPage(@GetUserLogged() user: IUser): Promise<{
+        data: IUser;
+    }> {
         const data = await this.profileService.findOneById(user.id);
-        return this.inertiaAdapter.render({
-            component: 'Profile',
-            props: {
-                data,
-            },
+        return this.inertiaAdapter.render('Profile', {
+            data,
         });
     }
 
     @Get('edit')
-    async editPage(@GetUserLogged() user: IUser): Promise<void> {
+    async editPage(@GetUserLogged() user: IUser): Promise<{
+        data: IUser;
+    }> {
         const data = await this.profileService.findOneById(user.id);
-        return this.inertiaAdapter.render({
-            component: 'Profile/FormProfile',
-            props: {
-                data,
-            },
+        return this.inertiaAdapter.render('Profile/FormProfile', {
+            data,
         });
     }
 

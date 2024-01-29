@@ -25,6 +25,8 @@ import { UserBulkDeleteRequest } from '../requests/user-bulk-delete.request';
 import { UserMapper } from '../mappers/user.mapper';
 import { UserResponse } from '../responses/user.response';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
+import { IRole } from 'apps/backoffice/app/Modules/Role/Entities';
+import { IUser } from 'apps/backoffice/app/Modules/Profile/Entities';
 
 @Controller('users')
 export class UserController {
@@ -42,49 +44,44 @@ export class UserController {
     }> {
         const users = await this.userCrudService.pagination(indexRequest);
 
-        const response = this.inertiaAdapter.renderNew('Iam/Users', {
+        return this.inertiaAdapter.render('Iam/Users', {
             data: users.data.map((user) => UserMapper.fromEntity(user)),
             meta: users.meta,
         });
-
-        return response;
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get('create')
-    async createPage(): Promise<void> {
+    async createPage(): Promise<{ roles: IRole[] }> {
         const roles = await this.roleCrudApplication.findAll();
-        return this.inertiaAdapter.render({
-            component: 'Iam/Users/FormUser',
-            props: {
-                roles,
-            },
+
+        return this.inertiaAdapter.render('Iam/Users/FormUser', {
+            roles,
         });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get(':id')
-    async detailPage(@Param('id') id: number): Promise<void> {
+    async detailPage(@Param('id') id: number): Promise<{ data: IUser }> {
         const data = await this.userCrudService.findById(id);
-        return this.inertiaAdapter.render({
-            component: 'Iam/Users/DetailUser',
-            props: { data },
-        });
+        return this.inertiaAdapter.render('Iam/Users/DetailUser', { data });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_USER))
     @Get('edit/:id')
-    async editPage(@Param('id') id: number): Promise<void> {
+    async editPage(@Param('id') id: number): Promise<{
+        id: number;
+        data: IUser;
+        roles: IRole[];
+        isUpdate: boolean;
+    }> {
         const data = await this.userCrudService.findById(id);
         const roles = await this.roleCrudApplication.findAll();
-        return this.inertiaAdapter.render({
-            component: 'Iam/Users/FormUser',
-            props: {
-                id,
-                data,
-                roles,
-                isUpdate: true,
-            },
+        return this.inertiaAdapter.render('Iam/Users/FormUser', {
+            id,
+            data,
+            roles,
+            isUpdate: true,
         });
     }
 

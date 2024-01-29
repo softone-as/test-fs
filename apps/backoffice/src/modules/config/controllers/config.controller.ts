@@ -21,6 +21,9 @@ import {
     PERMISSION_BACKOFFICE_UPDATE_CONFIG,
 } from 'constants/permission.constant';
 import { ConfigMapper } from '../mappers/config.mapper';
+import { ConfigResponse } from '../responses/config.response';
+import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
+import { IConfig } from 'interface-models/config/config.interface';
 
 @Controller('configs')
 export class ConfigController {
@@ -32,48 +35,46 @@ export class ConfigController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_CONFIG))
     @Get()
-    async indexPage(@Query() indexRequest: ConfigIndexRequest): Promise<void> {
+    async indexPage(@Query() indexRequest: ConfigIndexRequest): Promise<{
+        data: ConfigResponse[];
+        meta: IPaginationMeta;
+    }> {
         const props = await this.configIndexApplication.fetch(indexRequest);
-        return this.inertiaAdapter.render({
-            component: 'Configs',
-            props: {
-                ...props,
-                data: props.data.map((role) => ConfigMapper.fromEntity(role)),
-            },
+        return this.inertiaAdapter.render('Configs', {
+            data: props.data.map((role) => ConfigMapper.fromEntity(role)),
+            meta: props.meta,
         });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_CONFIG))
     @Get('create')
-    async createPage(): Promise<void> {
-        return this.inertiaAdapter.render({
-            component: 'Configs/FormConfig',
-        });
+    async createPage(): Promise<null> {
+        return this.inertiaAdapter.render('Configs/FormConfig');
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_CONFIG))
     @Get(':id')
-    async detailPage(@Param('id') id: number): Promise<void> {
+    async detailPage(@Param('id') id: number): Promise<{
+        data: IConfig;
+    }> {
         const data = await this.configCrudApplication.findById(id);
-        return this.inertiaAdapter.render({
-            component: 'Configs/DetailConfig',
-            props: {
-                data,
-            },
+        return this.inertiaAdapter.render('Configs/DetailConfig', {
+            data,
         });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_CONFIG))
     @Get('edit/:id')
-    async editPage(@Param('id') id: number): Promise<void> {
+    async editPage(@Param('id') id: number): Promise<{
+        id: number;
+        data: IConfig;
+        isUpdate: boolean;
+    }> {
         const data = await this.configCrudApplication.findById(id);
-        return this.inertiaAdapter.render({
-            component: 'Configs/FormConfig',
-            props: {
-                id,
-                data,
-                isUpdate: true,
-            },
+        return this.inertiaAdapter.render('Configs/FormConfig', {
+            id,
+            data,
+            isUpdate: true,
         });
     }
 
