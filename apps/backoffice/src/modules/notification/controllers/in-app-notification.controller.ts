@@ -13,6 +13,8 @@ import { GetUserLogged } from '../../iam/decorators/get-user.decorator';
 import { InAppNotificationIndexRequest } from '../requests/in-app-notification-index.request';
 import { InAppNotificationMarkReadRequest } from '../requests/in-app-notification-mark-read.request';
 import { InAppNotificationService } from '../services/in-app-notification.service';
+import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
+import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
 
 @Controller('notifications')
 @UseGuards(LoggedInGuard)
@@ -26,23 +28,28 @@ export class InAppNotificationController {
     async fetch(
         @Query() indexRequest: InAppNotificationIndexRequest,
         @GetUserLogged() user: IUser,
-    ): Promise<void> {
+    ): Promise<{
+        title: string;
+        data: IInAppNotification[];
+        meta: IPaginationMeta;
+    }> {
         const response = await this.inAppNotificationService.pagination(
             indexRequest,
             user,
         );
 
-        return this.inertiaAdapter.render({
-            component: 'Notifications',
-            props: {
-                title: 'Notifications',
-                ...response,
-            },
+        return this.inertiaAdapter.render('Notifications', {
+            title: 'Notifications',
+            data: response.data,
+            meta: response.meta,
         });
     }
 
     @Get(':id')
-    async findOneAndMarkRead(@Param('id') id: number): Promise<void> {
+    async findOneAndMarkRead(@Param('id') id: number): Promise<{
+        title: string;
+        data: IInAppNotification;
+    }> {
         const dataMarkRead = new InAppNotificationMarkReadRequest();
         dataMarkRead.notificationIds = [id];
         await this.inAppNotificationService.readNotificationsByIds(
@@ -50,12 +57,9 @@ export class InAppNotificationController {
         );
 
         const data = await this.inAppNotificationService.findOneById(id);
-        return this.inertiaAdapter.render({
-            component: 'Notifications/DetailNotification',
-            props: {
-                title: 'Detail Notification',
-                data,
-            },
+        return this.inertiaAdapter.render('Notifications/DetailNotification', {
+            title: 'Detail Notification',
+            data,
         });
     }
 

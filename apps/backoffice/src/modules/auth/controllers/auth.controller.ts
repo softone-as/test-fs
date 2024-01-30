@@ -1,6 +1,7 @@
 import {
     Controller,
     Get,
+    Logger,
     Post,
     Query,
     Req,
@@ -26,17 +27,13 @@ export class AuthController {
     @Get('login')
     @FailSafeCheck()
     @UseGuards(LoggedOutGuard)
-    async loginPage(): Promise<void> {
-        return this.inertiaAdapter.render({
-            component: 'Login',
-        });
+    async loginPage(): Promise<null> {
+        return this.inertiaAdapter.render('Login');
     }
 
     @Get('sso-oidc/redirect')
-    async SSOOIDCRedirectPage(): Promise<void> {
-        return this.inertiaAdapter.render({
-            component: 'SSORedirectPage',
-        });
+    async SSOOIDCRedirectPage(): Promise<null> {
+        return this.inertiaAdapter.render('SSORedirectPage');
     }
 
     @UseGuards(OidcGuard)
@@ -48,7 +45,7 @@ export class AuthController {
     @UseGuards(OidcGuard)
     @Get('sso-oidc')
     async loginSSOPage(): Promise<void> {
-        console.log('[Redirect] to SSO Login Page');
+        Logger.log('[Redirect] to SSO Login Page');
     }
 
     @UseGuards(LocalGuard)

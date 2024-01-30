@@ -12,17 +12,13 @@ export class ForgotPasswordController {
     ) {}
 
     @Get('forgot-password')
-    async forgotPasswordPage(): Promise<void> {
-        return this.inertiaAdapter.render({
-            component: 'ForgotPassword',
-        });
+    async forgotPasswordPage(): Promise<null> {
+        return this.inertiaAdapter.render('ForgotPassword');
     }
 
     @Get('change-password')
-    async changePasswordPage(): Promise<void> {
-        return this.inertiaAdapter.render({
-            component: 'ChangePassword',
-        });
+    async changePasswordPage(): Promise<null> {
+        return this.inertiaAdapter.render('ChangePassword');
     }
 
     @Post('forgot-password')
