@@ -17,15 +17,15 @@ import { IApiResponse } from 'apps/api/src/common/interface/response.interface';
 import { LoggedInGuard } from '../../../auth/guards/logged-in.guard';
 import { OptionalLoggedInGuard } from '../../../auth/guards/optional-logged-in.guard';
 import { UserUpdateProfileRequest } from '../../../user/request/user-update-profile.request';
-import { UserApplication } from '../../applications/user.application';
 import { UserUpdateEmailRequest } from '../../request/user-update-email.request';
 import { UserUpdatePasswordRequest } from '../../request/user-update-password.request';
 import { UserUpdatePhoneNumberRequest } from '../../request/user-update-phone.reques';
 import { UserResponse } from '../../responses/user.response';
+import { UserService } from '../../services/user.service';
 
 @Controller('users')
 export class UserController {
-    constructor(private readonly userApplication: UserApplication) {}
+    constructor(private readonly userService: UserService) {}
 
     @Patch('profile/update')
     @UseGuards(LoggedInGuard)
@@ -44,10 +44,10 @@ export class UserController {
             throw IsNullStringErr;
         }
 
-        const data = await this.userApplication.editUser(dataUser);
+        const data = await this.userService.editUser(dataUser);
 
         return {
-            data: data,
+            data: UserResponse.fromEntity(data),
             message: 'User Update Successfully',
         };
     }
@@ -57,7 +57,7 @@ export class UserController {
     async passwordUpdate(
         @Body() dataUser: UserUpdatePasswordRequest,
     ): Promise<IApiResponse<UserResponse>> {
-        await this.userApplication.changePassword(dataUser);
+        await this.userService.changePassword(dataUser);
         return {
             data: null,
             message: 'User Update Successfully',
@@ -69,7 +69,7 @@ export class UserController {
     async emailPhoneNumber(
         @Body() dataUser: UserUpdatePhoneNumberRequest,
     ): Promise<IApiResponse<UserResponse>> {
-        await this.userApplication.sendPhoneNumberUpdateConfirmation(dataUser);
+        await this.userService.sendPhoneNumberUpdateConfirmation(dataUser);
         return {
             data: null,
             message: 'SMS Sent Successfully',
@@ -81,7 +81,7 @@ export class UserController {
     async emailUpdate(
         @Body() dataUser: UserUpdateEmailRequest,
     ): Promise<IApiResponse<UserResponse>> {
-        await this.userApplication.sendEmailUpdateConfirmation(dataUser);
+        await this.userService.sendEmailUpdateConfirmation(dataUser);
         return {
             data: null,
             message: 'Email Sent Successfully',
@@ -98,17 +98,14 @@ export class UserController {
     ): Promise<IApiResponse<UserResponse>> {
         switch (type) {
             case OTP_UPDATE_EMAIL:
-                await this.userApplication.updateEmailByIdentifierAndOtp(
+                await this.userService.updateEmailByIdentifierAndOtp(
                     identifier,
                     otpCode,
                     newIdentifier,
                 );
                 break;
             case OTP_UPDATE_PHONE_NUMBER:
-                await this.userApplication.updatePhoneByOtp(
-                    otpCode,
-                    newIdentifier,
-                );
+                await this.userService.updatePhoneByOtp(otpCode, newIdentifier);
                 break;
             default:
                 throw new BadRequestException('Wrong type');
@@ -128,10 +125,10 @@ export class UserController {
     ): Promise<IApiResponse<UserResponse>> {
         switch (type) {
             case OTP_UPDATE_EMAIL:
-                await this.userApplication.resendOtpUpdateEmail(newIdentity);
+                await this.userService.resendOtpUpdateEmail(newIdentity);
                 break;
             case OTP_UPDATE_PHONE_NUMBER:
-                await this.userApplication.resendOtpUpdatePhone(newIdentity);
+                await this.userService.resendOtpUpdatePhone(newIdentity);
                 break;
             default:
                 throw new BadRequestException('Wrong type');
@@ -146,7 +143,7 @@ export class UserController {
     @Delete('account/delete')
     @UseGuards(LoggedInGuard)
     async accountDelete(): Promise<IApiResponse<UserResponse>> {
-        await this.userApplication.accountDelete();
+        await this.userService.accountDelete();
         return {
             data: null,
             message: 'Account Successfully Deleted',
