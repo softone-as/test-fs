@@ -66,7 +66,7 @@ export class RoleRepository extends Repository<Role> {
         return results;
     }
 
-    async findRoleByKeyAndId(key: string, id: number): Promise<IRole> {
+    async findRoleByKeyAndId(key: string, id: number): Promise<IRole | null> {
         const role = await this.findOne({
             where: {
                 key,

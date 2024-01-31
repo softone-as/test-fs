@@ -16,6 +16,6 @@ import { PaginateUtil } from '../../common/utils/paginate.util';
         LogActivityService,
         LogActivityRepository,
     ],
-    exports: [LogActivityService],
+    exports: [TypeOrmModule, LogActivityService, PaginateUtil],
 })
 export class LogActivityModule {}

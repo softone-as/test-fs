@@ -16,7 +16,7 @@ export class LogActivityService {
     }
 
     async findOneById(id: number): Promise<ILogActivity> {
-        return await this.logActivityRepo.findOneById(id);
+        return await this.logActivityRepo.findOneByOrFail({ id });
     }
 
     async create(data: LogActivityCreateRequest): Promise<void> {

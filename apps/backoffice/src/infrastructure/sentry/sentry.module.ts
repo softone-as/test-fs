@@ -9,19 +9,21 @@ export const SENTRY_OPTIONS = 'SENTRY_OPTIONS';
 
 @Module({ providers: [SentryService, SentryQueryService] })
 export class SentryModule {
-    static forRoot() {
-        const options: Sentry.NodeOptions = config.sentry.dsn && {
-            dsn: config.sentry.dsn,
-            attachStacktrace: true,
-            debug: false,
-            environment: config.nodeEnv,
-            ignoreErrors: [
-                'EntityNotFoundError',
-                'QueryFailedError',
-                'FindRelationsNotFoundError',
-            ],
-            tracesSampleRate: 1.0,
-        };
+    static forRoot(): any {
+        const options: Sentry.NodeOptions | undefined = config.sentry.dsn
+            ? {
+                  dsn: config.sentry.dsn,
+                  attachStacktrace: true,
+                  debug: false,
+                  environment: config.nodeEnv,
+                  ignoreErrors: [
+                      'EntityNotFoundError',
+                      'QueryFailedError',
+                      'FindRelationsNotFoundError',
+                  ],
+                  tracesSampleRate: 1.0,
+              }
+            : undefined;
 
         Sentry.init(options);
 

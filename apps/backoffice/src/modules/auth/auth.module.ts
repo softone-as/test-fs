@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'entities/iam/user.entity';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
-import { AuthApplication } from './applications/auth.application';
+import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
 import { AdminAuthService } from './services/auth-admin.service';
 import { UserRepository } from '../iam/repositories/user.repository';
@@ -14,7 +14,7 @@ import { UserCrudService } from '../iam/services/user-crud.service';
 import { OneSignalPushNotificationService } from '../../infrastructure/notification/services/one-signal-push-notification.service';
 import { EmailNotificationService } from '../../infrastructure/notification/services/email-notification.service';
 import { ForgotPasswordController } from '../auth/controllers/auth-forgot-password.controller';
-import { AuthForgotPasswordApplication } from './applications/auth-forgot-password.application';
+import { AuthForgotPasswordService } from './services/auth-forgot-password.service';
 import { OtpService } from './services/otp.service';
 import { Otp } from 'entities/otp/otp.entity';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
@@ -48,15 +48,17 @@ import { LogActivityModule } from '../log-activity/log-activity.module';
         UserRepository,
         RoleRepository,
         UserSerializer,
-        AuthApplication,
-        AuthForgotPasswordApplication,
+        AuthService,
+        AuthForgotPasswordService,
         EmailNotificationService,
         OneSignalPushNotificationService,
         OtpService,
         LocalStrategy,
         {
             provide: 'OidcStrategy',
-            useFactory: async (connection: Connection) => {
+            useFactory: async (
+                connection: Connection,
+            ): Promise<OidcStrategy> => {
                 const userRepository = connection.getRepository(User);
                 const roleRepository = connection.getRepository(Role);
 

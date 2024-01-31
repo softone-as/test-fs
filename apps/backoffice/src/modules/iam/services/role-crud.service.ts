@@ -81,14 +81,14 @@ export class RoleCrudService {
     }
 
     async findById(id: number): Promise<IRole> {
-        const results = await this.roleRepository.findOne({
+        const results = await this.roleRepository.findOneOrFail({
             where: { id },
             relations: ['permissions'],
         });
         return results;
     }
 
-    async findByKey(key: string): Promise<IRole> {
+    async findByKey(key: string): Promise<IRole | null> {
         const results = await this.roleRepository.findOneBy({ key });
         return results;
     }

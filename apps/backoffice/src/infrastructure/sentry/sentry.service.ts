@@ -15,7 +15,7 @@ export class SentryService {
     /**
      * Return the current span defined in the current Hub and Scope
      */
-    get span(): Span {
+    get span(): Span | undefined {
         return Sentry.getCurrentHub().getScope().getSpan();
     }
 
@@ -27,12 +27,12 @@ export class SentryService {
     constructor(@Inject(REQUEST) private request: Request) {
         const { method, headers, url } = this.request;
 
-        let traceIdFromFe = "";
+        let traceIdFromFe = '';
 
         if (headers['baggage']) {
-            const baggageHeader = request.headers['baggage'].toString();
-            
-            [ traceIdFromFe ] = Utils.splitBaggageHeader(baggageHeader);
+            const baggageHeader = String(request.headers['baggage']);
+
+            [traceIdFromFe] = Utils.splitBaggageHeader(baggageHeader);
         }
 
         // recreate transaction based from HTTP request
@@ -41,7 +41,9 @@ export class SentryService {
             op: 'transaction',
             status: 'ok',
 
-            traceId: traceIdFromFe ? traceIdFromFe : Utils.generateRandomHexString(32),
+            traceId: traceIdFromFe
+                ? traceIdFromFe
+                : Utils.generateRandomHexString(32),
         });
 
         // setup context of newly created transaction
@@ -62,7 +64,7 @@ export class SentryService {
      *
      * @param spanContext
      */
-    startChild(spanContext: SpanContext): Span {
-        return this.span.startChild(spanContext);
+    startChild(spanContext: SpanContext): Span | undefined {
+        return this.span?.startChild(spanContext);
     }
 }

@@ -27,8 +27,8 @@ export class SentryInterceptor implements NestInterceptor {
 
         return next.handle().pipe(
             finalize(() => {
-                span.finish();
-                this.sentryService.span.finish();
+                span?.finish();
+                this.sentryService.span?.finish();
             }),
         );
     }

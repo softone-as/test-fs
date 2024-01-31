@@ -51,7 +51,7 @@ export class UserCrudService {
     }
 
     async findById(id: number): Promise<IUser> {
-        const results = await this.userRepository.findOne({
+        const results = await this.userRepository.findOneOrFail({
             where: { id },
             relations: ['roles', 'roles.permissions'],
         });
@@ -59,7 +59,9 @@ export class UserCrudService {
     }
 
     async findByPhoneNumber(phoneNumber: string): Promise<IUser> {
-        const results = await this.userRepository.findOneBy({ phoneNumber });
+        const results = await this.userRepository.findOneByOrFail({
+            phoneNumber,
+        });
         return results;
     }
 

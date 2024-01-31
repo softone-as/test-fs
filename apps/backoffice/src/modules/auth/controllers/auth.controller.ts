@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { Request, Response } from 'express';
-import { AuthApplication } from '../applications/auth.application';
+import { AuthService } from '../services/auth.service';
 import { LocalGuard } from '../guards/local.guard';
 import { LoggedInGuard } from '../guards/logged-in.guard';
 import { LoggedOutGuard } from '../guards/logged-out.guard';
@@ -21,18 +21,18 @@ import { FailSafeCheck } from 'apps/backoffice/src/infrastructure/fail-safe/deco
 export class AuthController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
-        private readonly authApplication: AuthApplication,
+        private readonly authService: AuthService,
     ) {}
 
     @Get('login')
     @FailSafeCheck()
     @UseGuards(LoggedOutGuard)
-    async loginPage(): Promise<null> {
+    async loginPage(): Promise<Record<string, any>> {
         return this.inertiaAdapter.render('Login');
     }
 
     @Get('sso-oidc/redirect')
-    async SSOOIDCRedirectPage(): Promise<null> {
+    async SSOOIDCRedirectPage(): Promise<Record<string, any>> {
         return this.inertiaAdapter.render('SSORedirectPage');
     }
 
@@ -54,8 +54,8 @@ export class AuthController {
         @Query('one_signal_player_id') playerId: string,
         @Req() req: Request,
     ): Promise<void> {
-        const id = req.user['id'];
-        await this.authApplication.loginAttempt(id, playerId);
+        const id = req.user?.['id'];
+        await this.authService.loginAttempt(id, playerId);
         return this.inertiaAdapter.successResponse('/', 'Success Login');
     }
 
@@ -65,7 +65,7 @@ export class AuthController {
         @Query('one_signal_player_id') playerId: string,
         @Res() res: Response,
     ): Promise<void> {
-        await this.authApplication.logout(playerId);
+        await this.authService.logout(playerId);
         return res.redirect('/');
     }
 }

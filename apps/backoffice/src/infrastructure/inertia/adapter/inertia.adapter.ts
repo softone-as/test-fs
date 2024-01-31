@@ -15,7 +15,7 @@ export class InertiaAdapter {
         statusCode = HttpStatus.OK,
     ): T {
         // merge component and props
-        const renderData: IRenderInertia<T> = {
+        const renderData: IRenderInertia<T | any> = {
             component: component,
             props: props,
         };

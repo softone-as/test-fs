@@ -41,5 +41,7 @@ export class AbilityGuard implements CanActivate {
                 throw new ForbiddenException(error.message);
             }
         }
+
+        return false;
     }
 }

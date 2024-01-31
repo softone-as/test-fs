@@ -9,7 +9,7 @@ import { RedisService } from './services/redis.service';
         {
             provide: REDIS,
             useValue: redis.createClient(
-                config.redis.isEnabled == 'true'
+                config.redis.isEnabled
                     ? {
                           port: +config.redis.port,
                           host: config.redis.host,

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
-import { AuthForgotPasswordApplication } from '../applications/auth-forgot-password.application';
+import { AuthForgotPasswordService } from '../services/auth-forgot-password.service';
 import { UserConfirmForgotPasswordRequest } from '../requests/user-confirm-forgot-password.request';
 import { UserForgotPasswordRequest } from '../requests/user-forgot-password.request';
 
@@ -8,16 +8,16 @@ import { UserForgotPasswordRequest } from '../requests/user-forgot-password.requ
 export class ForgotPasswordController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
-        private readonly authApplication: AuthForgotPasswordApplication,
+        private readonly authForgotPasswordService: AuthForgotPasswordService,
     ) {}
 
     @Get('forgot-password')
-    async forgotPasswordPage(): Promise<null> {
+    async forgotPasswordPage(): Promise<Record<string, any>> {
         return this.inertiaAdapter.render('ForgotPassword');
     }
 
     @Get('change-password')
-    async changePasswordPage(): Promise<null> {
+    async changePasswordPage(): Promise<Record<string, any>> {
         return this.inertiaAdapter.render('ChangePassword');
     }
 
@@ -25,7 +25,7 @@ export class ForgotPasswordController {
     async forgotPassword(
         @Body() req: UserForgotPasswordRequest,
     ): Promise<void> {
-        await this.authApplication.forgotPassword(req);
+        await this.authForgotPasswordService.forgotPassword(req);
         return this.inertiaAdapter.successResponse(
             '/auth/login',
             'Check your email',
@@ -38,7 +38,11 @@ export class ForgotPasswordController {
         @Query('otp_code') otpCode: string,
         @Body() req: UserConfirmForgotPasswordRequest,
     ): Promise<void> {
-        await this.authApplication.changePassword(email, otpCode, req);
+        await this.authForgotPasswordService.changePassword(
+            email,
+            otpCode,
+            req,
+        );
         return this.inertiaAdapter.successResponse(
             '/auth/login',
             'Success change password',

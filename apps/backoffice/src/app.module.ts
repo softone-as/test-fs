@@ -115,23 +115,25 @@ import { FailSafeModule } from './infrastructure/fail-safe/fail-safe.module';
                 filters: [
                     {
                         type: HttpException,
-                        filter: (exception: HttpException) => {
+                        filter: (exception: HttpException): boolean => {
                             return 500 > exception.getStatus();
                         },
                     },
                     {
                         type: EntityNotFoundError,
-                        filter: (exception: EntityNotFoundError) =>
+                        filter: (exception: EntityNotFoundError): boolean =>
                             exception.name === 'EntityNotFoundError',
                     },
                     {
                         type: FindRelationsNotFoundError,
-                        filter: (exception: FindRelationsNotFoundError) =>
+                        filter: (
+                            exception: FindRelationsNotFoundError,
+                        ): boolean =>
                             exception.name === 'FindRelationsNotFoundError',
                     },
                     {
                         type: QueryFailedError,
-                        filter: () => true,
+                        filter: (): boolean => true,
                     },
                 ],
             }),

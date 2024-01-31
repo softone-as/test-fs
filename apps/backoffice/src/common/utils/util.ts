@@ -244,7 +244,7 @@ export class Utils {
         return result.toISOString();
     };
 
-    static generateRandomHexString(length) {
+    static generateRandomHexString(length): string {
         return crypto.randomBytes(length).toString('hex');
     }
 

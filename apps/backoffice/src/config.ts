@@ -170,7 +170,7 @@ export const config = {
      * redis configuration
      */
     redis: {
-        isEnabled: process.env.REDIS_IS_ENABLED || false,
+        isEnabled: process.env.REDIS_IS_ENABLED === 'true' || false,
         port: process.env.REDIS_PORT || 6379,
         password: process.env.REDIS_PASSWORD || '',
         host: process.env.REDIS_HOST || 'localhost',
@@ -195,7 +195,7 @@ export const config = {
         port: process.env.DB_PORT || 3306,
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
-        database: process.env.DB_DATABASE,
+        database: process.env.DB_DATABASE || 'db_name',
         databaseTest: process.env.DB_DATABASE_TEST,
         maxQueryExecutionTimeInMs:
             process.env.DB_MAX_QUERY_EXECUTION_TIME_IN_MS || 0.000001,
@@ -218,12 +218,12 @@ export const config = {
             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
             defaultRegion: process.env.AWS_DEFAULT_REGION,
-            bucketName: process.env.AWS_BUCKET_NAME,
+            bucketName: process.env.AWS_BUCKET_NAME || 'aws_bucket_name',
         },
         gcs: {
             projectId: process.env.GCS_PROJECT_ID,
             pathKeyFileJson: process.env.GCS_PATH_KEY_FILE_JSON,
-            bucketName: process.env.GCS_BUCKET_NAME,
+            bucketName: process.env.GCS_BUCKET_NAME || 'gcs_bucket_name',
         },
         path: './storages',
     },
