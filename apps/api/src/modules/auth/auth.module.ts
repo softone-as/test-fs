@@ -28,7 +28,6 @@ import { AuthLogoutApplication } from './applications/auth-logout.application';
 import { AuthLogoutController } from './controllers/v1/auth-logout.controller';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
 import { GoSmsApiNotificationService } from '../../infrastructure/notification/services/gosmsapi-notification.service';
-import { LogActivityService } from 'apps/backoffice/src/modules/log-activity/services/log-activity.service';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 
 @Module({
@@ -73,7 +72,13 @@ import { LogActivity } from 'entities/log-activity/log-activity.entity';
         AuthLoginApplication,
         AuthLogoutApplication,
         GoSmsApiNotificationService,
-        LogActivityService,
+    ],
+    exports: [
+        AuthService,
+        EmailNotificationService,
+        GoSmsApiNotificationService,
+        OneSignalPushNotificationService,
+        OtpService,
     ],
 })
 export class AuthModule {}

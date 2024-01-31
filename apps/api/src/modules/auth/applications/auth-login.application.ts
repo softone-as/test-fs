@@ -22,27 +22,21 @@ export class AuthLoginApplication {
     ) {}
 
     async basic(data: AuthLoginDto): Promise<IUserWithToken> {
-        try {
-            const user = await this.userService.validateUser(
-                data.phoneNumber,
-                data.password,
-            );
-            const payload: IJwtPayload = {
-                id: user.id,
-                email: user.email,
-                phoneNumber: user.phoneNumber,
-            };
-            const accessToken: string = this.jwtService.sign(payload);
+        const user = await this.userService.validateUser(
+            data.phoneNumber,
+            data.password,
+        );
+        const payload: IJwtPayload = {
+            id: user.id,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+        };
+        const accessToken: string = this.jwtService.sign(payload);
 
-            return {
-                user,
-                token: accessToken,
-            };
-        } catch (_) {
-            throw new BadRequestException(
-                'No. Telp and Kata Sandi tidak dikenali',
-            );
-        }
+        return {
+            user,
+            token: accessToken,
+        };
     }
 
     async addOneSignalPlayerIdById(
