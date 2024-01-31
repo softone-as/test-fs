@@ -2,12 +2,12 @@ import { IBaseEntity } from 'interface-models/base-entity.interface';
 import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
 
 export class BaseEntity implements IBaseEntity {
-    @CreateDateColumn({ name: 'created_at' })
+    @CreateDateColumn()
     createdAt?: Date;
 
-    @UpdateDateColumn({ name: 'updated_at' })
+    @UpdateDateColumn()
     updatedAt?: Date;
 
-    @DeleteDateColumn({ name: 'deleted_at' })
+    @DeleteDateColumn()
     deletedAt?: Date;
 }
