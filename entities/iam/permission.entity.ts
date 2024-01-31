@@ -30,7 +30,7 @@ export class Permission extends BaseEntity implements IPermission {
     roles: Role[];
 
     @AfterUpdate()
-    async createLogActivityUpdate() {
+    createLogActivityUpdate(): void {
         const logActivity: LogActivityDto = {
             menu: LogActivityMenuEnum.PERMISSION,
             path: __filename,
@@ -44,7 +44,7 @@ export class Permission extends BaseEntity implements IPermission {
     }
 
     @AfterInsert()
-    async createLogActivityInsert() {
+    createLogActivityInsert(): void {
         const logActivity: LogActivityDto = {
             menu: LogActivityMenuEnum.PERMISSION,
             path: __filename,

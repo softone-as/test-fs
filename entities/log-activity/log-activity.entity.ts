@@ -16,24 +16,24 @@ export class LogActivity implements ILogActivity {
     id: number;
 
     @ManyToOne(() => User)
-    @JoinColumn({ name: 'user_id' })
+    @JoinColumn()
     user: IUser;
 
-    @Column({ name: 'meta_data', type: 'json', nullable: true })
+    @Column({ type: 'json', nullable: true })
     metaData: any;
 
-    @Column({ name: 'source', nullable: true })
+    @Column({ nullable: true })
     source: string;
 
-    @Column({ name: 'activity' })
+    @Column()
     activity: string;
 
-    @Column({ name: 'menu', nullable: true })
+    @Column({ nullable: true })
     menu: string;
 
-    @Column({ name: 'path', nullable: true })
+    @Column({ nullable: true })
     path: string;
 
-    @CreateDateColumn({ name: 'created_at' })
+    @CreateDateColumn()
     createdAt?: Date;
 }

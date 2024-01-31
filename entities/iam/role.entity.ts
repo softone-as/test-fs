@@ -39,7 +39,7 @@ export class Role extends BaseEntity implements IRole {
     users: User[];
 
     @AfterUpdate()
-    async createLogActivityUpdate() {
+    createLogActivityUpdate(): void {
         const logActivity: LogActivityDto = {
             menu: LogActivityMenuEnum.ROLE,
             path: __filename,
@@ -53,7 +53,7 @@ export class Role extends BaseEntity implements IRole {
     }
 
     @AfterInsert()
-    async createLogActivityInsert() {
+    createLogActivityInsert(): void {
         const logActivity: LogActivityDto = {
             menu: LogActivityMenuEnum.ROLE,
             path: __filename,

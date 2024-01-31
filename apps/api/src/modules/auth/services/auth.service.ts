@@ -54,7 +54,6 @@ export class AuthService {
             where: {
                 phoneNumber,
             },
-            relations: ['role', 'role.permissions'],
         });
     }
 
@@ -63,7 +62,6 @@ export class AuthService {
             where: {
                 id,
             },
-            relations: ['role', 'role.permissions'],
         });
     }
 
@@ -75,7 +73,7 @@ export class AuthService {
                     id: roleId,
                 },
             },
-            relations: ['role', 'role.permissions'],
+            relations: ['roles', 'roles.permissions'],
         });
     }
 
@@ -130,7 +128,6 @@ export class AuthService {
         const isTrue = await bcrypt.compare(password, user.password);
 
         if (user && isTrue) {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
             return user;
         }
 
