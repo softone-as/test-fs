@@ -8,7 +8,7 @@ export class DashbordController {
     constructor(private readonly inertiaAdapter: InertiaAdapter) {}
 
     @Get('/')
-    async indexPage(): Promise<null> {
+    async indexPage(): Promise<Record<string, any>> {
         return this.inertiaAdapter.render('Dashboard');
     }
 }

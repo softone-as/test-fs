@@ -23,7 +23,7 @@ export class User extends BaseEntity implements IUser {
 
     @ManyToMany(() => Role)
     @JoinTable({ name: 'user_roles' })
-    roles: IRole[];
+    roles?: IRole[];
 
     @Column()
     fullname: string;
@@ -43,13 +43,13 @@ export class User extends BaseEntity implements IUser {
 
     @Column({ name: 'one_signal_player_ids', nullable: true, type: 'json' })
     @Transform((value) => JSON.stringify(value))
-    oneSignalPlayerIds: string[];
+    oneSignalPlayerIds?: string[];
 
     @Column({ name: 'email_verified_at', nullable: true })
-    emailVerifiedAt: Date;
+    emailVerifiedAt?: Date;
 
     @Column({ name: 'phone_verified_at', nullable: true })
-    phoneNumberVerifiedAt: Date;
+    phoneNumberVerifiedAt?: Date;
 
     @Column({ name: 'gender' })
     gender?: GenderEnum = GenderEnum.LakiLaki;
@@ -58,7 +58,7 @@ export class User extends BaseEntity implements IUser {
     birthDate?: Date;
 
     @AfterUpdate()
-    async createLogActivityUpdate() {
+    createLogActivityUpdate(): void {
         const logActivity: LogActivityDto = {
             menu: LogActivityMenuEnum.USER,
             path: __filename,
@@ -72,7 +72,7 @@ export class User extends BaseEntity implements IUser {
     }
 
     @AfterInsert()
-    async createLogActivityInsert() {
+    createLogActivityInsert(): void {
         const logActivity: LogActivityDto = {
             menu: LogActivityMenuEnum.USER,
             path: __filename,

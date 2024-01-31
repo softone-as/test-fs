@@ -14,7 +14,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class PermissionRepository extends Repository<Permission> {
     constructor(
         @InjectRepository(Permission)
-        private readonly repo: PermissionRepository,
+        private readonly repo: Repository<Permission>,
         private readonly paginateUtil: PaginateUtil,
     ) {
         super(repo.target, repo.manager, repo.queryRunner);

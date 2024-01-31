@@ -4,7 +4,7 @@ import { User } from 'entities/iam/user.entity';
 
 export class LogActivityDto {
     @IsNotEmpty()
-    user: User;
+    user: User | null;
 
     @IsNotEmpty()
     path: string;

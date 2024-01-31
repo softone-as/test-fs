@@ -156,8 +156,12 @@ export class UserService {
     @CacheClear(config.cache.name.users.detail)
     async update(id: number, data: IUser): Promise<IUser> {
         const status = await this.userRepository.update({ id }, { ...data });
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
 
         return data;
@@ -166,7 +170,7 @@ export class UserService {
     @CacheClear(config.cache.name.users.detail)
     async softDelete(id: number): Promise<boolean> {
         const status = await this.userRepository.softDelete({ id });
-        if (status.affected < 1) {
+        if (status.affected && status.affected < 1) {
             throw new QueryFailedError('Error, Data not deleted', null, null);
         }
 

@@ -19,8 +19,12 @@ export class PermissionService {
             { id },
             { ...data },
         );
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
 
         return data;
@@ -29,8 +33,12 @@ export class PermissionService {
     @CacheClear(config.cache.name.permissions.detail)
     async delete(id: number): Promise<void> {
         const status = await this.permissionRepository.delete({ id });
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
     }
 

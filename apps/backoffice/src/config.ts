@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { AuthSchemaEnum } from './common/enums/auth.enum';
+import * as callbackAPI from 'amqplib/callback_api';
 
 dotenv.config();
 
@@ -14,9 +15,10 @@ export const config = {
 
     circuitBreaker: {
         isEnable: process.env.CIRCUIT_BREAKER_IS_ENABLE == 'true',
-        maxDown: +process.env.CIRCUIT_BREAKER_MAX_DOWN || 5,
-        cooldownOnOpen:
-            +process.env.CIRCUIT_BREAKER_COOLDOWN_ON_OPEN_IN_SECOND || 300,
+        maxDown: +(process.env.CIRCUIT_BREAKER_MAX_DOWN || 5),
+        cooldownOnOpen: +(
+            process.env.CIRCUIT_BREAKER_COOLDOWN_ON_OPEN_IN_SECOND || 300
+        ),
     },
 
     mode: {
@@ -80,7 +82,7 @@ export const config = {
     },
 
     amqp: {
-        conn: null,
+        conn: {} as callbackAPI.Connection, // TODO: fill this with connection
         url: process.env.AMQP_URL,
         username: process.env.AMQP_USERNAME,
         password: process.env.AMQP_PASSWORD,
@@ -147,7 +149,7 @@ export const config = {
     mail: {
         smtp: {
             host: process.env.SMTP_HOST || '',
-            port: +process.env.SMTP_PORT || 587,
+            port: +(process.env.SMTP_PORT || 587),
             emailSender: process.env.SMTP_EMAIL_SENDER || '',
             user: process.env.SMTP_USER || '',
             password: process.env.SMTP_PASSWORD || '',
@@ -190,7 +192,7 @@ export const config = {
     database: {
         dialect: process.env.DB_SERVER,
         host: process.env.DB_HOSTNAME,
-        port: process.env.DB_PORT,
+        port: process.env.DB_PORT || 3306,
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
@@ -247,7 +249,7 @@ export const config = {
      */
     sentry: {
         dsn: process.env.SENTRY_DSN,
-        tracesSampleRate: +process.env.TRACES_SAMPLE_RATE || 1.0,
+        tracesSampleRate: +(process.env.TRACES_SAMPLE_RATE || 1.0),
         publicKey: process.env.SENTRY_PUBLIC_KEY,
         organizationSlug: process.env.SENTRY_ORGANIZATION_SLUG,
         projectIdentifierNumber: process.env.SENTRY_PROJECT_IDENTIFIER_NUMBER,
@@ -290,18 +292,19 @@ export const config = {
          * 0.01%   = 0.0001   = 100
          * 0.0001% = 0.000001 = 1
          */
-        percentageWei: +process.env.MAX_FEE_PERCENTAGE / 100 || 10000,
+        percentageWei:
+            +(process.env.MAX_FEE_PERCENTAGE || 1000000) / 100 || 10000,
 
         /**
          * 100% in percentageWei based on percentageWei value
          */
-        maxPercentage: +process.env.MAX_FEE_PERCENTAGE || 1000000,
+        maxPercentage: +(process.env.MAX_FEE_PERCENTAGE || 1000000),
 
         /**
          * used to charge each user transaction on platform
          * value must in percentage wei as defined in percentageWei
          */
-        platformFee: +process.env.PLATFORM_FEE || 5000,
+        platformFee: +(process.env.PLATFORM_FEE || 5000),
     },
 
     scheduler: {
