@@ -32,7 +32,7 @@ export class CommonController {
     async uploadFiles(
         @UploadedFiles() files: Express.Multer.File[],
     ): Promise<any> {
-        const fileUrls = [];
+        const fileUrls: string[] = [];
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             const fileUrl = await Utils.moveFile(

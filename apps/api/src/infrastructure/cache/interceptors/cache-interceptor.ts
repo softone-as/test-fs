@@ -28,12 +28,12 @@ export class CacheInterceptor implements NestInterceptor {
         }
 
         const isUserCache = request.headers['is-user-cache'] == 'true' || false;
-        const userId = isUserCache ? request.user['id'] : null;
+        const userId = isUserCache ? request.user?.['id'] : null;
 
         if (url.includes('?')) {
             const endpoint = url.split('?')[0];
             const params = Object.keys(request.query).map(
-                (x) => x + '=' + request.query[x].toString(),
+                (x) => x + '=' + request.query[x]?.toString(),
             );
 
             const nameKey = await this.cacheService.setNameByEndpoint(

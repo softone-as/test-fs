@@ -19,7 +19,7 @@ export class AdminAuthService {
         const admin = await this.adminRepository.findOneOrFail({
             where: { id },
         });
-        if (admin.oneSignalPlayerIds?.length > 0) {
+        if (admin.oneSignalPlayerIds && admin.oneSignalPlayerIds?.length > 0) {
             admin.oneSignalPlayerIds = [...admin.oneSignalPlayerIds, playerId];
         } else {
             admin.oneSignalPlayerIds = [playerId];
@@ -61,7 +61,7 @@ export class AdminAuthService {
         const admin = await this.adminRepository.findOneOrFail({
             where: { id },
         });
-        if (admin.oneSignalPlayerIds?.length > 0) {
+        if (admin.oneSignalPlayerIds && admin.oneSignalPlayerIds?.length > 0) {
             const filteredPlayerId = admin.oneSignalPlayerIds.filter(
                 (oldPlayerId) => {
                     return oldPlayerId != playerId;

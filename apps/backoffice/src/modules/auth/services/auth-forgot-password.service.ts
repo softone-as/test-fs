@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { UserForgotPasswordRequest } from '../requests/user-forgot-password.request';
 import { EmailNotificationService } from '../../../infrastructure/notification/services/email-notification.service';
-import { AdminAuthService } from '../services/auth-admin.service';
-import { OtpService } from '../services/otp.service';
+import { AdminAuthService } from './auth-admin.service';
+import { OtpService } from './otp.service';
 import { UserConfirmForgotPasswordRequest } from '../requests/user-confirm-forgot-password.request';
 import { config } from 'apps/backoffice/src/config';
 import { EntityNotFoundError } from 'typeorm';
 import BadRequestAndRedirectException from 'apps/backoffice/src/infrastructure/error/bad-request-and-redirect.exception';
 
 @Injectable()
-export class AuthForgotPasswordApplication {
+export class AuthForgotPasswordService {
     constructor(
         private readonly emailNotificationService: EmailNotificationService,
         private readonly authService: AdminAuthService,

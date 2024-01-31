@@ -5,7 +5,7 @@ import {
     UnauthorizedException,
 } from '@nestjs/common';
 import { IUser } from 'interface-models/iam/user.interface';
-import { QueryFailedError, UpdateResult } from 'typeorm';
+import { QueryFailedError } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CacheClear } from 'apps/api/src/infrastructure/cache/decorators/cache-clear.decorator';
 import { config } from 'apps/api/src/config';
@@ -33,7 +33,7 @@ export class UserService {
     ) {}
 
     async editUser(dataUpdate: UserUpdateProfileRequest): Promise<IUser> {
-        const userId = this.request.user['id'] || null;
+        const userId = this.request.user?.['id'] || null;
         const newUser = <IUser>{};
         const user = await this.findOneById(userId);
 
@@ -60,7 +60,7 @@ export class UserService {
     async changePassword(
         userPasswordUpdate: UserUpdatePasswordRequest,
     ): Promise<void> {
-        const userId = this.request.user['id'] || null;
+        const userId = this.request.user?.['id'] || null;
 
         const user = await this.findOneById(userId);
         const isPasswordSame = await bcrypt.compare(
@@ -79,7 +79,7 @@ export class UserService {
     }
 
     async resendOtpUpdatePhone(newPhoneNumber: string): Promise<void> {
-        const userId = this.request.user['id'] || null;
+        const userId = this.request.user?.['id'] || null;
         const currentOtp = await this.otpService.findByIdentifier(
             newPhoneNumber,
         );
@@ -94,34 +94,46 @@ export class UserService {
         const isFinalTrial = currentOtp.trial == 5;
 
         const nowTime = new Date();
-        const oneMinuteWaiting = new Date(
-            currentOtp.updatedAt.setMinutes(
-                new Date(currentOtp.updatedAt).getMinutes() +
-                    Number(oneMinutesToResend),
-            ),
-        );
-        const halfMinuteWaiting = new Date(
-            currentOtp.updatedAt.setSeconds(
-                new Date(currentOtp.updatedAt).getSeconds() + 30,
-            ),
-        );
+        if (currentOtp.updatedAt) {
+            const oneMinuteWaiting = new Date(
+                currentOtp.updatedAt.setMinutes(
+                    new Date(currentOtp.updatedAt).getMinutes() +
+                        Number(oneMinutesToResend),
+                ),
+            );
+            const halfMinuteWaiting = new Date(
+                currentOtp.updatedAt.setSeconds(
+                    new Date(currentOtp.updatedAt).getSeconds() + 30,
+                ),
+            );
 
-        const fiveMinuteWaiting = new Date(
-            currentOtp.updatedAt.setMinutes(
-                new Date(currentOtp.updatedAt).getMinutes() +
-                    Number(fiveMinutesToResend),
-            ),
-        );
+            const fiveMinuteWaiting = new Date(
+                currentOtp.updatedAt.setMinutes(
+                    new Date(currentOtp.updatedAt).getMinutes() +
+                        Number(fiveMinutesToResend),
+                ),
+            );
 
-        if (isInitiateTrial && nowTime < oneMinuteWaiting) {
-            throw new BadRequestException('Cannot resend OTP, wait 1 minutes');
-        } else if (
-            (isSecondTrial || isThirdTrial || isFourthTrial) &&
-            nowTime < halfMinuteWaiting
-        ) {
-            throw new BadRequestException('Cannot resend OTP, wait 30 seconds');
-        } else if (isFinalTrial && nowTime < fiveMinuteWaiting) {
-            throw new BadRequestException('Cannot resend OTP, wait 5 minutes');
+            if (
+                oneMinuteWaiting &&
+                isInitiateTrial &&
+                nowTime < oneMinuteWaiting
+            ) {
+                throw new BadRequestException(
+                    'Cannot resend OTP, wait 1 minutes',
+                );
+            } else if (
+                (isSecondTrial || isThirdTrial || isFourthTrial) &&
+                nowTime < halfMinuteWaiting
+            ) {
+                throw new BadRequestException(
+                    'Cannot resend OTP, wait 30 seconds',
+                );
+            } else if (isFinalTrial && nowTime < fiveMinuteWaiting) {
+                throw new BadRequestException(
+                    'Cannot resend OTP, wait 5 minutes',
+                );
+            }
         }
 
         const otpCode = await this.otpService.createNewCodeByIdentifier(
@@ -147,7 +159,10 @@ export class UserService {
         );
         if (!otp) {
             throw new BadRequestException('Otp tidak ditemukan');
-        } else if (otp.isValid || otp.expiredAt < new Date()) {
+        } else if (
+            otp.isValid ||
+            (otp.expiredAt && otp.expiredAt < new Date())
+        ) {
             throw new BadRequestException('Otp tidak berlaku');
         }
 
@@ -159,7 +174,7 @@ export class UserService {
         otpCode: string,
         newPhoneNumber: string,
     ): Promise<void> {
-        const phoneNumber = this.request.user['phoneNumber'] || null;
+        const phoneNumber = this.request.user?.['phoneNumber'] || null;
         if (!phoneNumber) {
             throw new UnauthorizedException();
         }
@@ -174,7 +189,7 @@ export class UserService {
             throw new BadRequestException('OTP number is not match');
         }
 
-        if (otp.isValid || otp.expiredAt < new Date()) {
+        if (otp.isValid || (otp.expiredAt && otp.expiredAt < new Date())) {
             throw new BadRequestException('Otp sudah kadaluarsa');
         }
 
@@ -185,8 +200,8 @@ export class UserService {
     async sendEmailUpdateConfirmation(
         userEmailUpdate: UserUpdateEmailRequest,
     ): Promise<void> {
-        const userId = this.request.user['id'] || null;
-        const email = this.request.user['email'] || null;
+        const userId = this.request.user?.['id'] || null;
+        const email = this.request.user?.['email'] || null;
         const isRegistered = await this.isEmailExists(
             userEmailUpdate.newEmail,
             +userId,
@@ -211,8 +226,8 @@ export class UserService {
     }
 
     async resendOtpUpdateEmail(newEmail: string): Promise<void> {
-        const userId = this.request.user['id'] || null;
-        const email = this.request.user['email'] || null;
+        const userId = this.request.user?.['id'] || null;
+        const email = this.request.user?.['email'] || null;
         const isRegistered = await this.isEmailExists(newEmail, +userId);
 
         if (isRegistered) {
@@ -236,8 +251,8 @@ export class UserService {
     async sendPhoneNumberUpdateConfirmation(
         dataUser: UserUpdatePhoneNumberRequest,
     ): Promise<void> {
-        const userId = this.request.user['id'] || null;
-        const phoneNumber = this.request.user['phoneNumber'] || null;
+        const userId = this.request.user?.['id'] || null;
+        const phoneNumber = this.request.user?.['phoneNumber'] || null;
         const isPhoneNumberExists = await this.isPhoneExists(
             dataUser.newPhoneNumber,
             userId,
@@ -259,8 +274,8 @@ export class UserService {
         );
     }
 
-    async accountDelete() {
-        const userId = this.request.user['id'] || null;
+    async accountDelete(): Promise<void> {
+        const userId = this.request.user?.['id'] || null;
 
         await Promise.all([
             this.update(userId, <IUser>{
@@ -357,24 +372,28 @@ export class UserService {
     }
 
     @CacheClear(config.cache.name.users.detail)
-    async update(id: number, data: IUser): Promise<UpdateResult> {
-        const updateResult = await this.userRepository.update(
-            { id },
-            { ...data },
-        );
-
-        if (updateResult.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+    async update(id: number, data: IUser): Promise<IUser> {
+        const status = await this.userRepository.update({ id }, { ...data });
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
 
-        return updateResult;
+        return await this.findOneById(id);
     }
 
     @CacheClear(config.cache.name.users.detail)
     async softDelete(id: number): Promise<boolean> {
         const status = await this.userRepository.softDelete({ id });
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not deleted', null, null);
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not deleted',
+                undefined,
+                new Error(),
+            );
         }
 
         return true;

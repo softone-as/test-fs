@@ -66,8 +66,12 @@ export class InAppNotificationService {
             { ...data },
         );
 
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
 
         return data;
@@ -82,8 +86,12 @@ export class InAppNotificationService {
             { targetUser: { id: userId } },
             { ...data },
         );
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
 
         return data;
@@ -99,8 +107,12 @@ export class InAppNotificationService {
             { id: In(ids), targetUser: { id: userId } },
             { ...data },
         );
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
 
         return data;
@@ -109,8 +121,12 @@ export class InAppNotificationService {
     @CacheClear(config.cache.name.notification.list)
     async delete(id: number): Promise<void> {
         const status = await this.notificationRepository.delete({ id });
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
     }
 

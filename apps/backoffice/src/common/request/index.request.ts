@@ -6,7 +6,7 @@ import { IPaginateRequest, ISortRequest } from '../interface/index.interface';
 export class IndexRequest implements ISortRequest, IPaginateRequest {
     @IsOptional()
     @IsString()
-    sort?: string;
+    sort = 'updatedAt';
 
     @IsOptional()
     @IsEnum(OrderDirectionEnum)

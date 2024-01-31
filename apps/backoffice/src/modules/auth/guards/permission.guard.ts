@@ -24,11 +24,15 @@ export const PermissionGuard = (permissionKey: string): Type<CanActivate> => {
                     relations: ['roles', 'roles.permissions'],
                 });
             const roles = user?.roles;
+            if (!roles) {
+                throw new ForbiddenException('Not allowed');
+            }
+
             for (let i = 0; i < roles.length; i++) {
-                const permissionKeys = roles[i].permissions.map(
+                const permissionKeys = roles[i].permissions?.map(
                     (permission) => permission.key,
                 );
-                if (permissionKeys.includes(permissionKey)) {
+                if (permissionKeys?.includes(permissionKey)) {
                     return true;
                 } else {
                     if (i == roles.length - 1) {

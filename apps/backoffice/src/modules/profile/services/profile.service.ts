@@ -32,8 +32,12 @@ export class ProfileService {
             },
         );
 
-        if (updatedUser.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (updatedUser.affected && updatedUser.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
 
         return await this.findOneById(id);
@@ -49,8 +53,12 @@ export class ProfileService {
             password: newPassword,
         });
 
-        if (updatedUser.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (updatedUser.affected && updatedUser.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
 
         return await this.findOneById(id);

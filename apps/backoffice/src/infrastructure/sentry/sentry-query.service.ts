@@ -2,12 +2,12 @@ import { Span, Transaction } from '@sentry/tracing';
 import * as Sentry from '@sentry/node';
 
 export class SentryQueryService {
-    startTransaction(): Transaction {
+    startTransaction(): Transaction | undefined {
         const transaction = Sentry.getCurrentHub().getScope().getTransaction();
         if (transaction) return transaction as unknown as Transaction;
     }
 
-    startSpan(transaction: Transaction, query: string): Span {
+    startSpan(transaction: Transaction, query: string): Span | undefined {
         if (transaction) {
             return transaction.startChild({
                 op: 'db.sql.query',
@@ -17,7 +17,7 @@ export class SentryQueryService {
         }
     }
 
-    finishSpan(span: Span) {
+    finishSpan(span: Span): void {
         if (span?.data) {
             try {
                 span.setStatus('ok');
@@ -30,7 +30,7 @@ export class SentryQueryService {
         }
     }
 
-    finishTransaction(transaction: Transaction) {
+    finishTransaction(transaction: Transaction): void {
         if (transaction) {
             try {
                 transaction.finish();

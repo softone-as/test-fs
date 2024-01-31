@@ -1,7 +1,6 @@
 import { Inject } from '@nestjs/common';
 import { RedisService } from '../../redis/services/redis.service';
 import { REQUEST } from '@nestjs/core';
-import { FAIL_SAFE_PREFIX } from '../../contants';
 import { Request } from 'express';
 import { FailSafeService } from '../services/fail-safe.service';
 import InternalOpenCircuitException from '../../error/internal-open-circuit-exception.exception';
@@ -24,9 +23,11 @@ export const FailSafeCheck = (): any => {
 
         const originalMethod = propertyDescriptor.value;
 
-        propertyDescriptor.value = async function (...args: any[]) {
+        propertyDescriptor.value = async function (
+            ...args: any[]
+        ): Promise<any> {
             if (!config.circuitBreaker.isEnable) {
-                return originalMethod.apply(this, arguments);
+                return originalMethod.apply(this, args);
             }
 
             const request: Request = this.request;
@@ -34,22 +35,22 @@ export const FailSafeCheck = (): any => {
             const failSafeService: FailSafeService = this.failSafeService;
 
             // get key from path of url
-            const key = request.originalUrl
+            const key = request.originalUrl;
             const failSafeKey = failSafeService.createKey(key);
 
             // check the expiry of fail safe open gate
             const isExpiry = await redisService.checkExpiry(failSafeKey);
             if (isExpiry) {
-                return originalMethod.apply(this, arguments);
+                return originalMethod.apply(this, args);
             }
 
             // get value count of fail safe fired
-            const failSafeErrorCount = await redisService.getValue(failSafeKey)
-            const downCount = parseInt(failSafeErrorCount) || 0
+            const failSafeErrorCount = await redisService.getValue(failSafeKey);
+            const downCount = +(failSafeErrorCount || 0);
 
             const maxDown = config.circuitBreaker.maxDown;
             if (downCount > maxDown) throw new InternalOpenCircuitException();
-            return originalMethod.apply(this, arguments);
+            return originalMethod.apply(this, args);
         };
     };
 };

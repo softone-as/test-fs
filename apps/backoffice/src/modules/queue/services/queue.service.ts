@@ -33,7 +33,7 @@ export class QueueService {
     private async addConsumer(
         conn: callbackAPI.Connection,
         cb: (messageContract: callbackAPI.Message) => Promise<void>,
-    ) {
+    ): Promise<void> {
         conn.createChannel((err: Error, ch: callbackAPI.Channel) => {
             if (err != null) {
                 console.error(err);
@@ -77,7 +77,7 @@ export class QueueService {
         });
     }
 
-    private async closeChann(ch: callbackAPI.Channel) {
+    private async closeChann(ch: callbackAPI.Channel): Promise<void> {
         ch.close((err: Error) => {
             if (err != null) {
                 console.error(err);
@@ -93,7 +93,7 @@ export class QueueService {
         conn: callbackAPI.Connection,
         messageContract: MessageContract,
         delay: number,
-    ) {
+    ): Promise<void> {
         conn.createChannel((err: Error, ch: callbackAPI.Channel) => {
             if (err != null) {
                 console.error(err);

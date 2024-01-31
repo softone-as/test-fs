@@ -6,7 +6,7 @@ export class CircuitBreakerController {
     constructor(private readonly inertiaAdapter: InertiaAdapter) {}
 
     @Get('/feature-close')
-    featureClose(): null {
-        return this.inertiaAdapter.render('FeatureClose');
+    featureClose(): undefined {
+        return this.inertiaAdapter.render('FeatureClose', undefined);
     }
 }

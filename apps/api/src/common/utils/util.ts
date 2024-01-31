@@ -24,7 +24,7 @@ export class Utils {
         return await bcrypt.hash(contents, 10);
     }
 
-    static randStr(length: number) {
+    static randStr(length: number): string {
         let result = '';
         const characters =
             'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -166,7 +166,7 @@ export class Utils {
                 const filename = fileDestPath.replace(/^.*[\\\/]/, '');
 
                 // TEMPORARY ALL PUBLIC ACCESS
-                const params = {
+                const params: AWS.S3.PutObjectRequest = {
                     Bucket: config.storage.s3.bucketName,
                     Key: filename,
                     Body: file,
@@ -174,7 +174,7 @@ export class Utils {
                     CreateBucketConfiguration: {
                         LocationConstraint: config.storage.s3.defaultRegion,
                     },
-                };
+                } as AWS.S3.PutObjectRequest;
 
                 try {
                     const s3Response = await s3.upload(params).promise();
@@ -243,7 +243,7 @@ export class Utils {
         return prefix == undefined ? rupiah : rupiah ? '(IDR) ' + rupiah : '';
     }
 
-    static formatDateISO8601(date: Date) {
+    static formatDateISO8601(date: Date): string {
         return (
             [
                 date.getFullYear(),
@@ -259,7 +259,7 @@ export class Utils {
         );
     }
 
-    static ucFirstChar(str: string) {
+    static ucFirstChar(str: string): string {
         return str[0].toUpperCase() + str.slice(1);
     }
 
@@ -319,7 +319,7 @@ export class Utils {
     }
 }
 
-export const fileFilter = (req, file, callback) => {
+export const fileFilter = (req, file, callback): (() => any) | undefined => {
     if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
         return callback(
             new UnprocessableEntityException('This file type is not allowed!'),
@@ -330,7 +330,7 @@ export const fileFilter = (req, file, callback) => {
 
 export const photoFilter = (
     file: Express.Multer.File,
-): UnprocessableEntityException => {
+): UnprocessableEntityException | undefined => {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
         return new UnprocessableEntityException(
             'Wrong format! Please select photo with jpg|jpeg|png',
@@ -373,7 +373,7 @@ export const generateWithdrawTransactionCode = (userId: number): string => {
     return 'PS-TF-' + String(digitCombination) + String(timeNow.getDate());
 };
 
-export const toLocalTimeWIB = (localTime: Date): Date => {
+export const toLocalTimeWIB = (localTime: Date): Date | null => {
     const dateConv = new Date(localTime);
     if (!localTime) {
         return null;

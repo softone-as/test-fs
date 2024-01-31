@@ -17,7 +17,7 @@ export class LogActivity implements ILogActivity {
 
     @ManyToOne(() => User)
     @JoinColumn()
-    user: IUser;
+    user: IUser | null;
 
     @Column({ type: 'json', nullable: true })
     metaData: any;

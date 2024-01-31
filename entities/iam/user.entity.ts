@@ -23,7 +23,7 @@ export class User extends BaseEntity implements IUser {
 
     @ManyToMany(() => Role)
     @JoinTable({ name: 'user_roles' })
-    roles: IRole[];
+    roles?: IRole[];
 
     @Column()
     fullname: string;
@@ -43,13 +43,13 @@ export class User extends BaseEntity implements IUser {
 
     @Column({ nullable: true, type: 'json' })
     @Transform((value) => JSON.stringify(value))
-    oneSignalPlayerIds: string[];
+    oneSignalPlayerIds?: string[];
 
     @Column({ nullable: true })
-    emailVerifiedAt: Date;
+    emailVerifiedAt?: Date;
 
     @Column({ nullable: true })
-    phoneNumberVerifiedAt: Date;
+    phoneNumberVerifiedAt?: Date;
 
     @Column()
     gender?: GenderEnum = GenderEnum.LakiLaki;

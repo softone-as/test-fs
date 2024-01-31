@@ -33,39 +33,46 @@ export class AuthOtpApplication {
         const isFinalTrial = currentOtp.trial == 5;
 
         const nowTime = new Date();
-        const oneMinuteWaiting = new Date(
-            currentOtp.updatedAt.setMinutes(
-                new Date(currentOtp.updatedAt).getMinutes() +
-                    Number(oneMinutesToResend),
-            ),
-        );
+        if (currentOtp.updatedAt) {
+            const oneMinuteWaiting = new Date(
+                currentOtp.updatedAt.setMinutes(
+                    new Date(currentOtp.updatedAt).getMinutes() +
+                        Number(oneMinutesToResend),
+                ),
+            );
 
-        const halfMinuteWaiting = new Date(
-            currentOtp.updatedAt.setSeconds(
-                new Date(currentOtp.updatedAt).getSeconds() + 30,
-            ),
-        );
+            const halfMinuteWaiting = new Date(
+                currentOtp.updatedAt.setSeconds(
+                    new Date(currentOtp.updatedAt).getSeconds() + 30,
+                ),
+            );
 
-        const fiveMinuteWaiting = new Date(
-            currentOtp.updatedAt.setMinutes(
-                new Date(currentOtp.updatedAt).getMinutes() +
-                    Number(fiveMinutesToResend),
-            ),
-        );
+            const fiveMinuteWaiting = new Date(
+                currentOtp.updatedAt.setMinutes(
+                    new Date(currentOtp.updatedAt).getMinutes() +
+                        Number(fiveMinutesToResend),
+                ),
+            );
 
-        if (isInitiateTrial && nowTime < oneMinuteWaiting) {
-            throw new BadRequestException('Cannot resend OTP, wait 1 minutes');
-        } else if (
-            (isSecondTrial || isThirdTrial || isFourthTrial) &&
-            nowTime < halfMinuteWaiting
-        ) {
-            throw new BadRequestException('Cannot resend OTP, wait 30 seconds');
-        } else if (isFinalTrial && nowTime < fiveMinuteWaiting) {
-            throw new BadRequestException('Cannot resend OTP, wait 5 minutes');
+            if (isInitiateTrial && nowTime < oneMinuteWaiting) {
+                throw new BadRequestException(
+                    'Cannot resend OTP, wait 1 minutes',
+                );
+            } else if (
+                (isSecondTrial || isThirdTrial || isFourthTrial) &&
+                nowTime < halfMinuteWaiting
+            ) {
+                throw new BadRequestException(
+                    'Cannot resend OTP, wait 30 seconds',
+                );
+            } else if (isFinalTrial && nowTime < fiveMinuteWaiting) {
+                throw new BadRequestException(
+                    'Cannot resend OTP, wait 5 minutes',
+                );
+            }
         }
 
-        let code: string = null;
-        code = await this.otpService.createNewCodeByIdentifier(
+        const code = await this.otpService.createNewCodeByIdentifier(
             data.phoneNumber,
             isFinalTrial,
         );
@@ -113,7 +120,7 @@ export class AuthOtpApplication {
             );
 
             const dateNow = Utils.nowTime();
-            if (otp.expiredAt.getTime() < dateNow) {
+            if (otp.expiredAt && otp.expiredAt.getTime() < dateNow) {
                 throw new BadRequestException('Expired time period');
             } else if (checkIsValid && otp.isValid) {
                 throw new BadRequestException('Not valid otp');

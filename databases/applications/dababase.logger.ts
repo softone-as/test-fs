@@ -10,7 +10,9 @@ export class DatabaseLogger implements TypeormLogger {
 
     logQuery(query: string): void {
         const transaction = this.sentryQueryService.startTransaction();
+        if (!transaction) return;
         const span = this.sentryQueryService.startSpan(transaction, query);
+        if (!span) return;
 
         this.span = span;
     }
@@ -21,21 +23,23 @@ export class DatabaseLogger implements TypeormLogger {
 
     logQueryError(error: string | Error, query: string): void {
         const transaction = this.sentryQueryService.startTransaction();
+        if (!transaction) return;
         const span = this.sentryQueryService.startSpan(
             transaction,
             'Error' + error + query,
         );
+        if (!span) return;
 
         this.span = span;
     }
 
-    logSchemaBuild() {
+    logSchemaBuild(): void {
         // Method not implemented.
     }
-    logMigration() {
+    logMigration(): void {
         // Method not implemented.
     }
-    log() {
+    log(): void {
         // Method not implemented.
     }
 }

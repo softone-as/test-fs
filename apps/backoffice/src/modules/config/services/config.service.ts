@@ -18,8 +18,12 @@ export class ConfigService {
 
     async update(id: number, data: IConfig): Promise<IConfig> {
         const status = await this.configRepository.update({ id }, { ...data });
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
 
         return data;
@@ -27,8 +31,12 @@ export class ConfigService {
 
     async delete(id: number): Promise<void> {
         const status = await this.configRepository.delete({ id });
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
+        if (status.affected && status.affected < 1) {
+            throw new QueryFailedError(
+                'Error, Data not changed',
+                undefined,
+                new Error(),
+            );
         }
     }
 

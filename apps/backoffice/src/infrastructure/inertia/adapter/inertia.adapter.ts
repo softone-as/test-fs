@@ -9,13 +9,13 @@ import { IRenderInertia } from '../entities/render.inertia';
 export class InertiaAdapter {
     constructor(@Inject(REQUEST) private request: any) {}
 
-    render<T extends Record<string, any>>(
+    render<T extends Record<string, any> | undefined>(
         component: string,
-        props?: T,
+        props: T | null,
         statusCode = HttpStatus.OK,
     ): T {
         // merge component and props
-        const renderData: IRenderInertia<T> = {
+        const renderData: IRenderInertia<T | any> = {
             component: component,
             props: props,
         };

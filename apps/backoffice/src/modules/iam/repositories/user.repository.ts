@@ -86,10 +86,13 @@ export class UserRepository extends Repository<User> {
         return results;
     }
 
-    async validateUser(email: string, password: string): Promise<IUser> {
+    async validateUser(email: string, password: string): Promise<IUser | null> {
         switch (config.auth.schema) {
             case AuthSchemaEnum.Ldap:
-                const isValid = this.ldapService.validate(email, password);
+                const isValid = await this.ldapService.validate(
+                    email,
+                    password,
+                );
                 if (isValid) return await this.findOneBy({ email });
                 break;
 

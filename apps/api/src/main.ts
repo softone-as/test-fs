@@ -11,7 +11,7 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as callbackAPI from 'amqplib/callback_api';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
     // Sentry
     Sentry.init({
         dsn: config.sentry.dsn,
@@ -30,17 +30,18 @@ async function bootstrap() {
     app.useStaticAssets(publicPath);
     app.setGlobalPrefix('/api/v1');
 
-    callbackAPI.connect(
-        config.amqp.url,
-        (err: Error, conn: callbackAPI.Connection) => {
-            if (err != null) {
-                console.error(err);
-                process.exit(1);
-            }
+    config.amqp.url &&
+        callbackAPI.connect(
+            config.amqp.url,
+            (err: Error, conn: callbackAPI.Connection) => {
+                if (err != null) {
+                    console.error(err);
+                    process.exit(1);
+                }
 
-            config.amqp.conn = conn;
-        },
-    );
+                config.amqp.conn = conn;
+            },
+        );
 
     app.enableCors();
     const port: string = config.port;

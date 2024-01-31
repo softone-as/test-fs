@@ -8,7 +8,6 @@ import {
 } from './common/filters/http-exeception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { ValidationPipe } from './common/pipes/validation.pipe';
-import { connectionOption } from './infrastructure/databases';
 import { ScheduleModule } from '@nestjs/schedule';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { QueueModule } from './modules/queue/queue.module';
@@ -25,10 +24,11 @@ import { UserModule } from './modules/user/user.module';
 import { ClearCacheController } from './cache/clear-cache.controller';
 import { BullModule } from '@nestjs/bull';
 import { CacheInterceptor } from './infrastructure/cache/interceptors/cache-interceptor';
+import { dataSourceOptions } from 'databases/data-source';
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot(connectionOption),
+        TypeOrmModule.forRoot(dataSourceOptions),
         RavenModule,
         QueueModule,
         CacheModule,
@@ -107,21 +107,21 @@ import { CacheInterceptor } from './infrastructure/cache/interceptors/cache-inte
                 filters: [
                     {
                         type: HttpException,
-                        filter: (exception: HttpException) => {
+                        filter: (exception: HttpException): boolean => {
                             return 500 > exception.getStatus();
                         },
                     },
                     {
                         type: QueryFailedError,
-                        filter: () => false,
+                        filter: (): boolean => false,
                     },
                     {
                         type: EntityNotFoundError,
-                        filter: () => true,
+                        filter: (): boolean => true,
                     },
                     {
                         type: EntityNotFoundError,
-                        filter: (exception: EntityNotFoundError) =>
+                        filter: (exception: EntityNotFoundError): boolean =>
                             exception.name === 'EntityNotFoundError',
                     },
                 ],

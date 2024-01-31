@@ -10,15 +10,15 @@ export class UserSerializer extends PassportSerializer {
         super();
     }
 
-    serializeUser(user: User, done: (err: Error, user: IUser) => void) {
-        done(null, user);
+    serializeUser(user: User, done: (err: Error, user: IUser) => void): void {
+        done(new Error(), user);
     }
 
     async deserializeUser(
         payload: IUser,
         done: (err: Error, user: Omit<IUser, 'password'>) => void,
-    ) {
+    ): Promise<void> {
         const user = await this.authCrudApplication.findById(payload.id);
-        done(null, user);
+        done(new Error(), user);
     }
 }

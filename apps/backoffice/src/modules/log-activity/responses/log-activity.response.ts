@@ -5,7 +5,7 @@ import { ILogActivity } from 'interface-models/log-activity/log-activity.interfa
 import { UserMapper } from '../../iam/mappers/user.mapper';
 
 export class LogActivityResponse extends OmitType(LogActivity, ['user']) {
-    user: UserResponse;
+    user: UserResponse | null;
 
     static fromEntity(entity: ILogActivity): LogActivityResponse {
         const response = new LogActivityResponse();

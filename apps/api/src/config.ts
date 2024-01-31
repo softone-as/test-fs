@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import * as callbackAPI from 'amqplib/callback_api';
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ export const config = {
     upload: {
         image: {
             maxSize: {
-                inMb: +process.env.MAX_SIZE_IMAGE_UPLOAD_IN_MB || 7,
+                inMb: +(process.env.MAX_SIZE_IMAGE_UPLOAD_IN_MB || 7),
             },
             compressed: {
                 quality: 0.8,
@@ -88,7 +89,7 @@ export const config = {
     mail: {
         smtp: {
             host: process.env.SMTP_HOST || '',
-            port: +process.env.SMTP_PORT || 587,
+            port: +(process.env.SMTP_PORT || 587),
             emailSender: process.env.SMTP_EMAIL_SENDER || '',
             user: process.env.SMTP_USER || '',
             password: process.env.SMTP_PASSWORD || '',
@@ -155,7 +156,7 @@ export const config = {
     database: {
         dialect: process.env.DB_SERVER,
         host: process.env.DB_HOSTNAME,
-        port: process.env.DB_PORT,
+        port: +(process.env.DB_PORT || 3306),
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
@@ -179,18 +180,18 @@ export const config = {
             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
             defaultRegion: process.env.AWS_DEFAULT_REGION,
-            bucketName: process.env.AWS_BUCKET_NAME,
+            bucketName: process.env.AWS_BUCKET_NAME || 'bucket_name',
         },
         gcs: {
             projectId: process.env.GCS_PROJECT_ID,
             pathKeyFileJson: process.env.GCS_PATH_KEY_FILE_JSON,
-            bucketName: process.env.GCS_BUCKET_NAME,
+            bucketName: process.env.GCS_BUCKET_NAME || 'bucket_name',
         },
         path: './storages',
     },
 
     amqp: {
-        conn: null,
+        conn: {} as callbackAPI.Connection, // TODO: fill this with connection
         url: process.env.AMQP_URL,
         username: process.env.AMQP_USERNAME,
         password: process.env.AMQP_PASSWORD,
@@ -229,7 +230,7 @@ export const config = {
      */
     sentry: {
         dsn: process.env.SENTRY_DSN,
-        tracesSampleRate: +process.env.TRACES_SAMPLE_RATE || 1.0,
+        tracesSampleRate: +(process.env.TRACES_SAMPLE_RATE || 1.0),
     },
 
     /**
@@ -279,18 +280,19 @@ export const config = {
          * 0.01%   = 0.0001   = 100
          * 0.0001% = 0.000001 = 1
          */
-        percentageWei: +process.env.MAX_FEE_PERCENTAGE / 100 || 10000,
+        percentageWei:
+            +(process.env.MAX_FEE_PERCENTAGE || 1000000) / 100 || 10000,
 
         /**
          * 100% in percentageWei based on percentageWei value
          */
-        maxPercentage: +process.env.MAX_FEE_PERCENTAGE || 1000000,
+        maxPercentage: +(process.env.MAX_FEE_PERCENTAGE || 1000000),
 
         /**
          * used to charge each user transaction on platform
          * value must in percentage wei as defined in percentageWei
          */
-        platformFee: +process.env.PLATFORM_FEE || 5000,
+        platformFee: +(process.env.PLATFORM_FEE || 5000),
     },
 
     scheduler: {
