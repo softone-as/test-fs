@@ -22,24 +22,24 @@ export class InAppNotification
     id: number;
 
     @ManyToOne(() => User)
-    @JoinColumn({ name: 'target_user_id' })
+    @JoinColumn()
     targetUser: IUser;
 
-    @Column({ name: 'target_user_id' })
+    @Column()
     targetUserId: number;
 
-    @Column({ name: 'type' })
+    @Column()
     type: NotificationTypeEnum;
 
-    @Column({ name: 'title' })
+    @Column()
     title: string;
 
-    @Column({ name: 'message' })
+    @Column()
     message: string;
 
-    @Column({ name: 'meta', type: 'json', nullable: true })
+    @Column({ type: 'json', nullable: true })
     meta: any;
 
-    @Column({ name: 'is_read' })
+    @Column()
     isRead: boolean;
 }

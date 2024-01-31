@@ -16,9 +16,9 @@ export class Otp extends BaseEntity implements IOtp {
     @Column()
     trial: number;
 
-    @Column({ name: 'is_valid', default: false })
+    @Column({ default: false })
     isValid: boolean;
 
-    @Column({ name: 'expired_at', nullable: true })
+    @Column({ nullable: true })
     expiredAt: Date;
 }

@@ -35,30 +35,30 @@ export class User extends BaseEntity implements IUser {
     @Exclude()
     password: string;
 
-    @Column({ name: 'identity_number', unique: true })
+    @Column({ unique: true })
     identityNumber: string;
 
-    @Column({ name: 'phone_number', unique: true })
+    @Column({ unique: true })
     phoneNumber: string;
 
-    @Column({ name: 'one_signal_player_ids', nullable: true, type: 'json' })
+    @Column({ nullable: true, type: 'json' })
     @Transform((value) => JSON.stringify(value))
     oneSignalPlayerIds: string[];
 
-    @Column({ name: 'email_verified_at', nullable: true })
+    @Column({ nullable: true })
     emailVerifiedAt: Date;
 
-    @Column({ name: 'phone_verified_at', nullable: true })
+    @Column({ nullable: true })
     phoneNumberVerifiedAt: Date;
 
-    @Column({ name: 'gender' })
+    @Column()
     gender?: GenderEnum = GenderEnum.LakiLaki;
 
-    @Column({ name: 'birth_date', nullable: true })
+    @Column({ nullable: true })
     birthDate?: Date;
 
     @AfterUpdate()
-    async createLogActivityUpdate() {
+    createLogActivityUpdate(): void {
         const logActivity: LogActivityDto = {
             menu: LogActivityMenuEnum.USER,
             path: __filename,
@@ -72,7 +72,7 @@ export class User extends BaseEntity implements IUser {
     }
 
     @AfterInsert()
-    async createLogActivityInsert() {
+    createLogActivityInsert(): void {
         const logActivity: LogActivityDto = {
             menu: LogActivityMenuEnum.USER,
             path: __filename,
