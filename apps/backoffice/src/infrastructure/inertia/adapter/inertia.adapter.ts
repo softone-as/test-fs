@@ -9,7 +9,7 @@ import { IRenderInertia } from '../entities/render.inertia';
 export class InertiaAdapter {
     constructor(@Inject(REQUEST) private request: any) {}
 
-    render<T>(
+    render<T extends Record<string, any> | undefined>(
         component: string,
         props: T | null,
         statusCode = HttpStatus.OK,
