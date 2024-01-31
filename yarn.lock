@@ -3171,12 +3171,10 @@
     lodash.omit "4.5.0"
     tslib "2.4.1"
 
-"@nestjs/axios@0.0.8":
-  version "0.0.8"
-  resolved "https://registry.npmjs.org/@nestjs/axios/-/axios-0.0.8.tgz"
-  integrity sha512-oJyfR9/h9tVk776il0829xyj3b2e81yTu6HjPraxynwNtMNGqZBHHmAQL24yMB3tVbBM0RvG3eUXH8+pRCGwlg==
-  dependencies:
-    axios "0.27.2"
+"@nestjs/axios@^3.0.0":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/axios/-/axios-3.0.1.tgz#b006f81dd54a49def92cfaf9a8970434567e75ce"
+  integrity sha512-VlOZhAGDmOoFdsmewn8AyClAdGpKXQQaY1+3PGB+g6ceurGIdTxZgRX3VXc1T6Zs60PedWjg3A82TDOB05mrzQ==
 
 "@nestjs/bull@0.5.0":
   version "0.5.0"
@@ -3346,13 +3344,12 @@
     lodash "4.17.21"
     path-to-regexp "3.2.0"
 
-"@nestjs/terminus@^10.1.1":
-  version "10.1.1"
-  resolved "https://registry.npmjs.org/@nestjs/terminus/-/terminus-10.1.1.tgz"
-  integrity sha512-aDoPK/uaR9PHn56xzand6zqpp+S3Ibm+y/OrG3M01F1WnScLfo29hbS6MdnIMqmVRAS11r/8X3xWTSo8TT/Lig==
+"@nestjs/terminus@^8.1.1":
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/terminus/-/terminus-8.1.1.tgz#21a7c1a543224ebfef00d161efdf22e390376301"
+  integrity sha512-C+Pm1LZse8ZSfXeZXMTmUIGAmDpov1WRury/cyWj50ceCCCWz7csACNouGBEvjDmBklzfbkxgDH9mOSbm1r54A==
   dependencies:
-    boxen "5.1.2"
-    check-disk-space "3.4.0"
+    check-disk-space "3.3.0"
 
 "@nestjs/testing@^8.4.6":
   version "8.4.7"
@@ -7736,7 +7733,7 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz"
   integrity sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==
 
-boxen@5.1.2, boxen@^5.0.0, boxen@^5.1.2:
+boxen@^5.0.0, boxen@^5.1.2:
   version "5.1.2"
   resolved "https://registry.npmjs.org/boxen/-/boxen-5.1.2.tgz"
   integrity sha512-9gYgQKXx+1nP8mP7CzFyaUARhg7D3n1dF/FnErWmu9l6JvGpNUN278h0aSb+QjoiKSWG+iZ3uHrcqk0qrY9RQQ==
@@ -8304,10 +8301,10 @@ charenc@0.0.2:
   resolved "https://registry.npmjs.org/charenc/-/charenc-0.0.2.tgz"
   integrity sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==
 
-check-disk-space@3.4.0:
-  version "3.4.0"
-  resolved "https://registry.npmjs.org/check-disk-space/-/check-disk-space-3.4.0.tgz"
-  integrity sha512-drVkSqfwA+TvuEhFipiR1OC9boEGZL5RrWvVsOthdcvQNXyCCuKkEiTOTXZ7qxSf/GLwq4GvzfrQD/Wz325hgw==
+check-disk-space@3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/check-disk-space/-/check-disk-space-3.3.0.tgz#2a8f4c9542ed71a70878fc28fda7e265d40942ec"
+  integrity sha512-Hvr+Nr01xSSvuCpXvJ8oZ2iXjIu4XT3uHbw3g7F/Uiw6O5xk8c/Ot7ZGFDaTRDf2Bz8AdWA4DvpAgCJVKt8arw==
 
 cheerio-select@^1.5.0:
   version "1.6.0"
@@ -15851,10 +15848,10 @@ neo-async@^2.5.0, neo-async@^2.6.0, neo-async@^2.6.1, neo-async@^2.6.2:
   resolved "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nest-raven@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.npmjs.org/nest-raven/-/nest-raven-8.1.0.tgz"
-  integrity sha512-LuDhVuamwCqDhP2diVSR4sBKN7Je6o6WPzveyCi1a5dXTMWO0DiKx/atEfINVA9nXQHgjey0dnEKRmtAAf+sQQ==
+nest-raven@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/nest-raven/-/nest-raven-8.2.0.tgz#4ee747d21ddd5e0e9469302f9ca57477670be712"
+  integrity sha512-DGTpdX4Wr9KICtczhy9hLgw+jP0KtmS8ZrAi9U70uMYstTtGPQkCt79cSk71E6lcgwbnNPOPlxPA5UqAupUqQQ==
   optionalDependencies:
     "@nestjs/apollo" "^10.0.0"
     "@nestjs/graphql" "^10.0.0"
