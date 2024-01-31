@@ -13,7 +13,7 @@ export class AuthLogoutApplication {
     ) {}
 
     async logout(playerId: string): Promise<any> {
-        const id = this.request.user['id'];
+        const id = this.request.user?.['id'];
         await this.authService.removeOneSignalPlayerIdById(id, playerId);
         await this.oneSignalPushNotificationService.setStatus(playerId, false);
         return this.request.user;

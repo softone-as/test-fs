@@ -15,8 +15,8 @@ export class ProfilePasswordController {
     ) {}
 
     @Get()
-    async editPage(): Promise<Record<string, any>> {
-        return this.inertiaAdapter.render('Profile/FormProfilePassword');
+    async editPage(): Promise<null> {
+        return this.inertiaAdapter.render('Profile/FormProfilePassword', null);
     }
 
     @Put()

@@ -13,7 +13,7 @@ export class UserRepository extends Repository<User> {
         super(repo.target, repo.manager, repo.queryRunner);
     }
 
-    async findOneByEmail(email: string): Promise<IUser> {
+    async findOneByEmail(email: string): Promise<IUser | null> {
         return await this.repo.findOne({
             where: { email },
         });
@@ -37,7 +37,7 @@ export class UserRepository extends Repository<User> {
     async findOneByEmailExceptId(
         email: string,
         exceptId: number,
-    ): Promise<IUser> {
+    ): Promise<IUser | null> {
         return await this.repo.findOne({
             where: { email, id: Not(exceptId) },
         });
@@ -46,7 +46,7 @@ export class UserRepository extends Repository<User> {
     async findOneByPhoneNumberExceptId(
         phoneNumber: string,
         exceptId: number,
-    ): Promise<IUser> {
+    ): Promise<IUser | null> {
         return await this.repo.findOne({
             where: { phoneNumber, id: Not(exceptId) },
         });

@@ -51,7 +51,7 @@ export class CacheService {
     }
 
     // get cache by key
-    async getCache<T>(key: string): Promise<T> {
+    async getCache<T>(key: string): Promise<T | null> {
         return (await this.cacheManager.get<T>(key)) || null;
     }
 
@@ -67,7 +67,7 @@ export class CacheService {
 
     // clean cache by match key string
     async cleanCacheMatch(keyMatch: string): Promise<void> {
-        const cacheNames = await this.cacheManager.store.keys<string[]>();
+        const cacheNames = await this.cacheManager.store.keys<string[]>?.();
         const names = cacheNames.filter((name) => {
             return name.includes(keyMatch);
         });

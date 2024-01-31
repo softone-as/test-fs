@@ -7,8 +7,8 @@ export class ModeController {
     constructor(private readonly inertiaAdapter: InertiaAdapter) {}
 
     @Get('/maintain')
-    maintainMode(): Record<string, any> {
-        return this.inertiaAdapter.render('MaintainMode');
+    maintainMode(): undefined {
+        return this.inertiaAdapter.render('MaintainMode', undefined);
     }
 
     @Get('/pause')

@@ -18,13 +18,15 @@ export const CacheList = (): any => {
         const originalMethod = propertyDescriptor.value;
 
         //redefine descriptor value within own function block
-        propertyDescriptor.value = async function (...args: any[]) {
+        propertyDescriptor.value = async function (
+            ...args: any[]
+        ): Promise<any> {
             const cacheService: CacheService = this.cacheService;
             const request: Request = this.request;
             const endpoint = request.url.split('?')[0];
 
             const params = Object.keys(request.query).map(
-                (x) => x + '=' + request.query[x].toString(),
+                (x) => x + '=' + request.query[x]?.toString(),
             );
             const nameKey = await cacheService.getNameCacheList(
                 endpoint,

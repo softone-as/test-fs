@@ -29,7 +29,7 @@ export class AuthService {
         const user = await this.userRepository.findOneOrFail({
             where: { id },
         });
-        if (user.oneSignalPlayerIds?.length > 0) {
+        if (user.oneSignalPlayerIds && user.oneSignalPlayerIds?.length > 0) {
             // Jika playerId belum ada di list oneSignalPlayerIds, jika ada maka lewati
             if (!user.oneSignalPlayerIds.find((val) => val === playerId)) {
                 user.oneSignalPlayerIds = [
@@ -131,7 +131,7 @@ export class AuthService {
             return user;
         }
 
-        return null;
+        return user;
     }
 
     @CacheClear(config.cache.name.users.detail)
@@ -142,7 +142,10 @@ export class AuthService {
         const changer = await this.userRepository.findOneOrFail({
             where: { id },
         });
-        if (changer.oneSignalPlayerIds?.length > 0) {
+        if (
+            changer.oneSignalPlayerIds &&
+            changer.oneSignalPlayerIds?.length > 0
+        ) {
             const filteredPlayerId = changer.oneSignalPlayerIds.filter(
                 (oldPlayerId) => {
                     return oldPlayerId != playerId;

@@ -27,13 +27,13 @@ export class AuthController {
     @Get('login')
     @FailSafeCheck()
     @UseGuards(LoggedOutGuard)
-    async loginPage(): Promise<Record<string, any>> {
-        return this.inertiaAdapter.render('Login');
+    async loginPage(): Promise<undefined> {
+        return this.inertiaAdapter.render('Login', undefined);
     }
 
     @Get('sso-oidc/redirect')
-    async SSOOIDCRedirectPage(): Promise<Record<string, any>> {
-        return this.inertiaAdapter.render('SSORedirectPage');
+    async SSOOIDCRedirectPage(): Promise<undefined> {
+        return this.inertiaAdapter.render('SSORedirectPage', undefined);
     }
 
     @UseGuards(OidcGuard)

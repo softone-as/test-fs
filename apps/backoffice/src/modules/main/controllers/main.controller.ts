@@ -11,17 +11,17 @@ export class MainController {
     }
 
     @Get('server-error')
-    async serverErrorPage(): Promise<Record<string, any>> {
-        return this.inertiaAdapter.render('ServerError');
+    async serverErrorPage(): Promise<undefined> {
+        return this.inertiaAdapter.render('ServerError', undefined);
     }
 
     @Get('forbidden-error')
-    async forbiddenErrorPage(): Promise<Record<string, any>> {
-        return this.inertiaAdapter.render('ForbiddenError');
+    async forbiddenErrorPage(): Promise<undefined> {
+        return this.inertiaAdapter.render('ForbiddenError', undefined);
     }
 
     @Get('not-found-error')
-    async notFoundErrorPage(): Promise<Record<string, any>> {
-        return this.inertiaAdapter.render('NotFoundError');
+    async notFoundErrorPage(): Promise<undefined> {
+        return this.inertiaAdapter.render('NotFoundError', undefined);
     }
 }

@@ -10,7 +10,7 @@ const isCli = !!process.argv[2];
 export const dataSourceOptions: DataSourceOptions = {
     type: 'mysql',
     host: config.database.host,
-    port: +config.database.port,
+    port: config.database.port,
     username: config.database.username,
     password: config.database.password,
     database: config.database.database,

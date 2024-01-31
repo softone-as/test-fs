@@ -123,7 +123,7 @@ export class OtpService {
     async findOneByIdentifierAndCode(
         identifier: string,
         code: string,
-    ): Promise<IOtp> {
+    ): Promise<IOtp | null> {
         return await this.otpRepository.findOne({
             where: {
                 identifier,

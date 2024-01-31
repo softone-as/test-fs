@@ -48,8 +48,8 @@ export class ConfigController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_CONFIG))
     @Get('create')
-    async createPage(): Promise<Record<string, any>> {
-        return this.inertiaAdapter.render('Configs/FormConfig');
+    async createPage(): Promise<undefined> {
+        return this.inertiaAdapter.render('Configs/FormConfig', undefined);
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_CONFIG))

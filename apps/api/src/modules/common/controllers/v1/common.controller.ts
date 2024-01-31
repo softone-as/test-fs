@@ -48,7 +48,7 @@ export class CommonController {
     async uploadFiles(
         @UploadedFiles() files: Express.Multer.File[],
     ): Promise<any> {
-        const fileUrls = [];
+        const fileUrls: string[] = [];
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             const fileUrl = await Utils.moveFile(
@@ -73,7 +73,7 @@ export class CommonController {
         @Query() query: CommonGenerateCodeDto,
     ): Promise<IApiResponse<any>> {
         const timeNow = new Date();
-        const id = req.user['id'];
+        const id = req.user?.['id'];
 
         const fourDigitCombination = String(
             timeNow.getFullYear() +
