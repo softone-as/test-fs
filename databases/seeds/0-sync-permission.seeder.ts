@@ -60,6 +60,8 @@ export class SyncPermissionSeeder implements Seeder {
                             .toUpperCase();
 
                         return newPermission;
+                    } else {
+                        return new Permission();
                     }
                 },
             );
