@@ -11,7 +11,7 @@ export class UserSerializer extends PassportSerializer {
     }
 
     serializeUser(user: IUser, done: (err: Error, user: IUser) => void): void {
-        done(new Error(), user);
+        done(null as unknown as Error, user);
     }
 
     async deserializeUser(
@@ -20,9 +20,9 @@ export class UserSerializer extends PassportSerializer {
     ): Promise<void> {
         try {
             const user = await this.adminApplication.findById(payload.id);
-            done(new Error(), user);
+            done(null as unknown as Error, user);
         } catch (e) {
-            done(new Error(), new User());
+            done(null as unknown as Error, new User());
         }
     }
 }

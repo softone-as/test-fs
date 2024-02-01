@@ -60,12 +60,14 @@ export class SyncPermissionSeeder implements Seeder {
                             .toUpperCase();
 
                         return newPermission;
+                    } else {
+                        return new Permission();
                     }
                 },
             );
 
             const saveData = await Promise.all(permissionSync);
-            await repository.save(saveData);
+            await repository.save(saveData as Permission[]);
         }
     }
 }

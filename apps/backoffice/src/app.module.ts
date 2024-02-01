@@ -37,7 +37,7 @@ import {
     FindRelationsNotFoundError,
     QueryFailedError,
 } from 'typeorm';
-import { CacheModule as CacheModuleManager } from '@nestjs/common';
+import { CacheModule as CacheModuleManager } from '@nestjs/cache-manager';
 import { CacheModule } from './infrastructure/cache/cache.module';
 import { InAppNotificationModule as InAppNotificationModule } from './modules/notification/notification.module';
 import { CacheCleanMiddleware } from './infrastructure/cache/middlewares/cache-clean.middleware';

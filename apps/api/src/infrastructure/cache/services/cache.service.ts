@@ -1,4 +1,5 @@
-import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Inject, Injectable } from '@nestjs/common';
 import { IndexRequest } from 'apps/backoffice/src/common/request/index.request';
 import { Cache } from 'cache-manager';
 
@@ -47,7 +48,7 @@ export class CacheService {
 
     // set or save cache by key
     async setCache<T>(key: string, data: T): Promise<void> {
-        await this.cacheManager.set<T>(key, data);
+        await this.cacheManager.set(key, data);
     }
 
     // get cache by key
@@ -67,7 +68,7 @@ export class CacheService {
 
     // clean cache by match key string
     async cleanCacheMatch(keyMatch: string): Promise<void> {
-        const cacheNames = await this.cacheManager.store.keys<string[]>?.();
+        const cacheNames = await this.cacheManager.store.keys(keyMatch);
         const names = cacheNames.filter((name) => {
             return name.includes(keyMatch);
         });

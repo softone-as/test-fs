@@ -7,9 +7,15 @@ import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './controllers/health.controller';
 import { ModeController } from './controllers/mode.controller';
 import { CircuitBreakerController } from './controllers/circuit-braeker.controller';
+import { TerminusLogger } from '../../infrastructure/loggers/terminus.logger';
 
 @Module({
-    imports: [TerminusModule],
+    imports: [
+        TerminusModule.forRoot({
+            logger: TerminusLogger,
+            errorLogStyle: 'pretty',
+        }),
+    ],
     controllers: [
         DashbordController,
         CircuitBreakerController,

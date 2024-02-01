@@ -21,7 +21,7 @@ import { CacheModule } from '../../infrastructure/cache/cache.module';
 import { Role } from 'entities/iam/role.entity';
 import { RoleRepository } from '../iam/repositories/role.repository';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
-import { Connection } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
 import { RedisModule } from '../../infrastructure/redis';
 import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module';
@@ -57,10 +57,10 @@ import { LogActivityModule } from '../log-activity/log-activity.module';
         {
             provide: 'OidcStrategy',
             useFactory: async (
-                connection: Connection,
+                dataSource: DataSource,
             ): Promise<OidcStrategy> => {
-                const userRepository = connection.getRepository(User);
-                const roleRepository = connection.getRepository(Role);
+                const userRepository = dataSource.getRepository(User);
+                const roleRepository = dataSource.getRepository(Role);
 
                 const client = await buildOpenIdClient();
                 const strategy = new OidcStrategy(
@@ -70,7 +70,7 @@ import { LogActivityModule } from '../log-activity/log-activity.module';
                 );
                 return strategy;
             },
-            inject: [Connection],
+            inject: [DataSource],
         },
 
         UserCrudService,
