@@ -250,9 +250,14 @@ export class Utils {
 
     static splitBaggageHeader(baggageHeader: string): [string, string] {
         const splittedBaggageHeader = baggageHeader?.split(',');
+        const isBagaageHeaderValid = splittedBaggageHeader?.length === 4;
 
-        const traceIdFromFe = splittedBaggageHeader[2]?.split('=')[1];
-        const replayIdFromFe = splittedBaggageHeader[3]?.split('=')[1];
+        const traceIdFromFe = isBagaageHeaderValid
+            ? splittedBaggageHeader[2].split('=')[1]
+            : '';
+        const replayIdFromFe = isBagaageHeaderValid
+            ? splittedBaggageHeader[3].split('=')[1]
+            : '';
 
         return [traceIdFromFe, replayIdFromFe];
     }
