@@ -24,21 +24,23 @@ export class CreateUserAdminSeeder implements Seeder {
                 .where({ key: 'admin' })
                 .getOne();
 
-            const usersCreate = data.map(async (user) => {
-                const userCreate = repository.create();
+            if (roleAdmin) {
+                const usersCreate = data.map(async (user) => {
+                    const userCreate = repository.create();
 
-                userCreate.fullname = user.fullname;
-                userCreate.email = user.email;
-                userCreate.phoneNumber = user.phoneNumber;
-                userCreate.identityNumber = user.identityNumber;
-                userCreate.password = await Utils.bcryptHash(user.password);
-                userCreate.roles = roleAdmin ? [roleAdmin] : undefined;
+                    userCreate.fullname = user.fullname;
+                    userCreate.email = user.email;
+                    userCreate.phoneNumber = user.phoneNumber;
+                    userCreate.identityNumber = user.identityNumber;
+                    userCreate.password = await Utils.bcryptHash(user.password);
+                    userCreate.roles = [roleAdmin];
 
-                return userCreate;
-            });
+                    return userCreate;
+                });
 
-            const saveData = await Promise.all(usersCreate);
-            await repository.save(saveData);
+                const saveData = await Promise.all(usersCreate);
+                await repository.save(saveData);
+            }
         }
     }
 }
