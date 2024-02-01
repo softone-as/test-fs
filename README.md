@@ -1,10 +1,11 @@
 # Requirements:
 
--   NodeJS LTS 16+
--   NestJS 8.4
--   MySQL 5.7
+-   NodeJS LTS 20+
+-   NestJS 10
+-   MySQL 8
 -   RabbitMQ with Delayed Message Plugins
 -   Redis
+-   Yarn 4+
 
 # Quick Start Backoffice:
 
