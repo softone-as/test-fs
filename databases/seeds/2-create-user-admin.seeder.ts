@@ -32,7 +32,7 @@ export class CreateUserAdminSeeder implements Seeder {
                 userCreate.phoneNumber = user.phoneNumber;
                 userCreate.identityNumber = user.identityNumber;
                 userCreate.password = await Utils.bcryptHash(user.password);
-                userCreate.roles = [roleAdmin];
+                userCreate.roles = roleAdmin ? [roleAdmin] : undefined;
 
                 return userCreate;
             });

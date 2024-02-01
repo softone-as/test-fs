@@ -65,7 +65,7 @@ export class SyncPermissionSeeder implements Seeder {
             );
 
             const saveData = await Promise.all(permissionSync);
-            await repository.save(saveData);
+            saveData && (await repository.save(saveData as Permission[]));
         }
     }
 }
