@@ -53,6 +53,7 @@ import { WinstonModule } from './infrastructure/winston/winston.module';
 import { MaintainModeMiddleware } from './infrastructure/gates/middlewares/maintain-mode.middleware';
 import { PauseModeMiddleware } from './infrastructure/gates/middlewares/pause-mode.middleware';
 import { FailSafeModule } from './infrastructure/fail-safe/fail-safe.module';
+import { ZodValidationExceptionFilter } from './common/filters/zod-exception.filter';
 
 @Module({
     imports: [
@@ -107,6 +108,16 @@ import { FailSafeModule } from './infrastructure/fail-safe/fail-safe.module';
             // Output response using snakecase
             provide: APP_INTERCEPTOR,
             useClass: ResponseInterceptor,
+        },
+        // {
+        //     // Zod Validation Pipe
+        //     provide: APP_FILTER,
+        //     useClass: ZodValidationPipe,
+        // },
+        {
+            // Zod Exception Filter
+            provide: APP_FILTER,
+            useClass: ZodValidationExceptionFilter,
         },
         {
             // Sentry configuration
