@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import React from 'react';
 import { Form, Space, Input, Button, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
@@ -8,17 +7,11 @@ import { Link } from '@inertiajs/inertia-react';
 import { sendEmailForgotPassword } from '../Modules/Auth/ForgotPassword/Action';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
 import { TForgotPassword } from '../Modules/Auth/ForgotPassword/Entities';
-import { createYupSync } from '../Utils/utils';
-
-const schema: yup.SchemaOf<TForgotPassword> = yup.object().shape({
-    email: yup
-        .string()
-        .email('Field Email wajib berformat email')
-        .required('Field Email wajib diisi'),
-});
+import { ZodUserForgotPasswordSchema } from '../../../../apps/backoffice/src/modules/auth/requests/zod-user-forgot-password.schema';
+import { createSchemaFieldRule } from 'antd-zod';
 
 const ForgotPassword = (props: TInertiaProps): React.ReactNode => {
-    const yupSync = createYupSync(schema);
+    const zodSync = createSchemaFieldRule(ZodUserForgotPasswordSchema);
 
     const [form] = Form.useForm<TForgotPassword>();
 
@@ -76,7 +69,7 @@ const ForgotPassword = (props: TInertiaProps): React.ReactNode => {
                 style={{ backgroundColor: 'white', padding: '4rem' }}
                 onFinish={onSubmit}
             >
-                <Form.Item name="email" rules={[yupSync]}>
+                <Form.Item name="email" rules={[zodSync]}>
                     <Input placeholder="Email" prefix={<UserOutlined />} />
                 </Form.Item>
 
