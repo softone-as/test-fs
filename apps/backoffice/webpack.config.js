@@ -20,7 +20,7 @@ module.exports = (env) => {
                 },
                 {
                     test: /\.(js|jsx)$/,
-                    exclude: /(node_modules|bower_components)/,
+                    exclude: /(node_modules|bower_components|apps\/graphql)/,
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/env'],
@@ -33,7 +33,7 @@ module.exports = (env) => {
                 {
                     test: /\.tsx?$/,
                     use: 'ts-loader',
-                    exclude: /node_modules/,
+                    exclude: [/node_modules/, /apps\/graphql/],
                 },
             ],
         },

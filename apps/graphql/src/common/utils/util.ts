@@ -25,7 +25,7 @@ export class Utils {
         return await bcrypt.hash(contents, 10);
     }
 
-    static randStr(length: number) {
+    static randStr(length: number): string {
         let result = '';
         const characters =
             'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -248,7 +248,7 @@ export class Utils {
         return prefix == undefined ? rupiah : rupiah ? '(IDR) ' + rupiah : '';
     }
 
-    static formatDateISO8601(date: Date) {
+    static formatDateISO8601(date: Date): string {
         return (
             [
                 date.getFullYear(),
@@ -264,7 +264,7 @@ export class Utils {
         );
     }
 
-    static ucFirstChar(str: string) {
+    static ucFirstChar(str: string): string {
         return str[0].toUpperCase() + str.slice(1);
     }
 
@@ -324,7 +324,7 @@ export class Utils {
     }
 }
 
-export const fileFilter = (req, file, callback) => {
+export const fileFilter = (req, file, callback): any => {
     if (!file.originalname.match(/\.(jpg|jpeg|png|pdf)$/)) {
         return callback(
             new UnprocessableEntityException('This file type is not allowed!'),
@@ -335,7 +335,7 @@ export const fileFilter = (req, file, callback) => {
 
 export const photoFilter = (
     file: Express.Multer.File,
-): UnprocessableEntityException => {
+): UnprocessableEntityException | void => {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
         return new UnprocessableEntityException(
             'Wrong format! Please select photo with jpg|jpeg|png',

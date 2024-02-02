@@ -5,8 +5,15 @@ type TPropsModal = ModalFuncProps & {
     variant?: 'danger' | 'primary';
 };
 
-export const useModal = (props: TPropsModal) => {
-    const getStyleOnOkButton = (variant: TPropsModal['variant']) => {
+export const useModal = (
+    props: TPropsModal,
+): {
+    destroy: () => void;
+    update: (configUpdate) => void;
+} | void => {
+    const getStyleOnOkButton = (
+        variant: TPropsModal['variant'],
+    ): Record<string, any> | undefined => {
         switch (variant) {
             case 'primary':
                 return {
@@ -24,6 +31,10 @@ export const useModal = (props: TPropsModal) => {
                 break;
         }
     };
+
+    if (!props.type) {
+        return;
+    }
 
     return Modal[props.type]({
         ...props,

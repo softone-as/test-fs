@@ -151,12 +151,12 @@ export const config = {
             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
             defaultRegion: process.env.AWS_DEFAULT_REGION,
-            bucketName: process.env.AWS_BUCKET_NAME,
+            bucketName: process.env.AWS_BUCKET_NAME || 'bucket_name',
         },
         gcs: {
             projectId: process.env.GCS_PROJECT_ID,
             pathKeyFileJson: process.env.GCS_PATH_KEY_FILE_JSON,
-            bucketName: process.env.GCS_BUCKET_NAME,
+            bucketName: process.env.GCS_BUCKET_NAME || 'bucket_name',
         },
         path: './storages',
     },
@@ -221,18 +221,19 @@ export const config = {
          * 0.01%   = 0.0001   = 100
          * 0.0001% = 0.000001 = 1
          */
-        percentageWei: +process.env.MAX_FEE_PERCENTAGE / 100 || 10000,
+        percentageWei:
+            +(process.env.MAX_FEE_PERCENTAGE || 1000000) / 100 || 10000,
 
         /**
          * 100% in percentageWei based on percentageWei value
          */
-        maxPercentage: +process.env.MAX_FEE_PERCENTAGE || 1000000,
+        maxPercentage: +(process.env.MAX_FEE_PERCENTAGE || 1000000),
 
         /**
          * used to charge each user transaction on platform
          * value must in percentage wei as defined in percentageWei
          */
-        platformFee: +process.env.PLATFORM_FEE || 5000,
+        platformFee: +(process.env.PLATFORM_FEE || 5000),
     },
 
     scheduler: {

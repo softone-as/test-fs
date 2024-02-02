@@ -16,6 +16,6 @@ export const deleteUser = (userId: number): void => {
 
 export const deleteBatchUsers = (userIds: React.Key[]): void => {
     Inertia.post(Route.UserDeleteBatch, {
-        ids: userIds,
+        ids: userIds as string[],
     });
 };
