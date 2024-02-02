@@ -17,7 +17,7 @@ const schema: yup.SchemaOf<TForgotPassword> = yup.object().shape({
         .required('Field Email wajib diisi'),
 });
 
-const ForgotPassword = (props: TInertiaProps) => {
+const ForgotPassword = (props: TInertiaProps): React.ReactNode => {
     const yupSync = createYupSync(schema);
 
     const [form] = Form.useForm<TForgotPassword>();
@@ -43,7 +43,7 @@ const ForgotPassword = (props: TInertiaProps) => {
 
     // }
 
-    const onSubmit = (loginData: TForgotPassword) => {
+    const onSubmit = (loginData: TForgotPassword): void => {
         sendEmailForgotPassword(loginData);
     };
 

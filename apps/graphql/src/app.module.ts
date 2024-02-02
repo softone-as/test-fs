@@ -5,7 +5,7 @@ import { QueryFailedError } from 'typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { IAMModule } from './modules/iam/iam.module';
-import { CacheModule as CacheModuleManager } from '@nestjs/common';
+import { CacheModule as CacheModuleManager } from '@nestjs/cache-manager';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { connectionOption } from 'apps/graphql/src/infrastructure/databases';
 import { CacheModule } from './infrastructure/cache/cache.module';
@@ -56,12 +56,12 @@ import { QueryExceptionFilter } from './common/filters/query-failed-error.filter
                 filters: [
                     {
                         type: HttpException,
-                        filter: (exception: HttpException) =>
+                        filter: (exception: HttpException): boolean =>
                             500 > exception.getStatus(),
                     },
                     {
                         type: QueryFailedError,
-                        filter: () => false,
+                        filter: (): boolean => false,
                     },
                 ],
             }),

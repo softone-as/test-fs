@@ -19,7 +19,7 @@ import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { useTableFilter } from '../../../Utils/hooks';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
+import { TErrorProps, TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 
 type DataType = {
@@ -101,7 +101,7 @@ const prefixSelector = (
     </Form.Item>
 );
 
-const FormAdvanced = (props: TInertiaProps) => {
+const FormAdvanced = (props: TInertiaProps): React.ReactNode => {
     const { implementTableFilter } = useTableFilter();
 
     const [form] = Form.useForm();
@@ -110,18 +110,18 @@ const FormAdvanced = (props: TInertiaProps) => {
 
     const [data, setData] = useState(dataResource);
     const [editingKey, setEditingKey] = useState('');
-    const isEditing = (record: DataType) => record?.key === editingKey;
+    const isEditing = (record: DataType): boolean => record?.key === editingKey;
 
-    const edit = (record: Partial<DataType> & { key: React.Key }) => {
+    const edit = (record: Partial<DataType> & { key: React.Key }): void => {
         form.setFieldsValue({ name: '', age: '', address: '', ...record });
         setEditingKey(record?.key);
     };
 
-    const cancel = () => {
+    const cancel = (): void => {
         setEditingKey('');
     };
 
-    const save = async (key: React.Key) => {
+    const save = async (key: React.Key): Promise<void> => {
         try {
             const row = (await form.validateFields()) as DataType;
 
@@ -145,7 +145,7 @@ const FormAdvanced = (props: TInertiaProps) => {
         }
     };
 
-    const onDelete = async (key: React.Key) => {
+    const onDelete = async (key: React.Key): Promise<void> => {
         setData((data) => data.filter((item) => item.key != key));
         setEditingKey('');
     };
@@ -173,16 +173,20 @@ const FormAdvanced = (props: TInertiaProps) => {
         {
             title: 'Action',
             dataIndex: 'action',
-            render: (text: string, record: DataType) => {
+            render: (text: string, record: DataType): React.ReactNode => {
                 const editable = isEditing(record);
                 return editable ? (
                     <Space>
-                        <Typography.Link onClick={() => save(record?.key)}>
+                        <Typography.Link
+                            onClick={(): Promise<void> => save(record?.key)}
+                        >
                             Save
                         </Typography.Link>
                         <Popconfirm
                             title="Sure to delete?"
-                            onConfirm={() => onDelete(record?.key)}
+                            onConfirm={(): Promise<void> =>
+                                onDelete(record?.key)
+                            }
                         >
                             <Typography.Link>Delete</Typography.Link>
                         </Popconfirm>
@@ -193,7 +197,7 @@ const FormAdvanced = (props: TInertiaProps) => {
                 ) : (
                     <Typography.Link
                         disabled={editingKey !== ''}
-                        onClick={() => edit(record)}
+                        onClick={(): void => edit(record)}
                     >
                         Edit
                     </Typography.Link>
@@ -220,7 +224,7 @@ const FormAdvanced = (props: TInertiaProps) => {
         });
     }, [columns]);
 
-    const onFinish = async (values: any) => {
+    const onFinish = async (values: any): Promise<void> => {
         setIsLoading(true);
 
         try {
@@ -240,7 +244,7 @@ const FormAdvanced = (props: TInertiaProps) => {
                     onFinish={onFinish}
                     initialValues={{ prefix: '62' }}
                     form={form}
-                    errors={props.error}
+                    errors={props.error as TErrorProps}
                     layout="vertical"
                     requiredMark="optional"
                     buttonAction={[

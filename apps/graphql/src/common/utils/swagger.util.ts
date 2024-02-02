@@ -1,19 +1,20 @@
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export const ApiSuccessResponse = <TModel extends Type<unknown>>(
-    model: TModel = null,
+    model?: TModel,
     isArray = false,
 ): any => {
-    let ref: { $ref?: string; type?: string; items?: { $ref: string } };
+    let ref: { $ref?: string; type?: string; items?: { $ref: string } } | null;
     ref = model ? { $ref: getSchemaPath(model) } : null;
     if (isArray) {
         ref = {
             type: 'array',
-            items: {
-                $ref: getSchemaPath(model),
-            },
+            items: model
+                ? {
+                      $ref: getSchemaPath(model),
+                  }
+                : undefined,
         };
     }
     return applyDecorators(
@@ -22,7 +23,7 @@ export const ApiSuccessResponse = <TModel extends Type<unknown>>(
                 allOf: [
                     {
                         properties: {
-                            data: ref,
+                            data: ref || {},
                             message: {
                                 type: 'string',
                             },
@@ -34,9 +35,8 @@ export const ApiSuccessResponse = <TModel extends Type<unknown>>(
     );
 };
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export const PaginationSuccessResponse = <TModel extends Type<unknown>>(
-    model: TModel = null,
+    model?: TModel,
 ): any => {
     return applyDecorators(
         ApiOkResponse({
@@ -48,9 +48,11 @@ export const PaginationSuccessResponse = <TModel extends Type<unknown>>(
                                 properties: {
                                     items: {
                                         type: 'array',
-                                        items: {
-                                            $ref: getSchemaPath(model),
-                                        },
+                                        items: model
+                                            ? {
+                                                  $ref: getSchemaPath(model),
+                                              }
+                                            : undefined,
                                     },
                                     page: { type: 'number' },
                                     per_page: { type: 'number' },

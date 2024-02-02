@@ -50,7 +50,7 @@ export type ItemType =
 
 export type DataTableSorter<T extends Record<string, any>> = {
     column?: ColumnType<T>;
-    order?: 'DESC' | 'ASC' | null;
+    order?: 'DESC' | 'ASC';
     field?: React.Key | readonly React.Key[];
     sort?: string;
 };
@@ -61,7 +61,7 @@ export type DataTablePagination = {
     per_page?: number;
 };
 
-export type CustomFilter<X extends Record<string, any>> = X & {
+export type CustomFilter<X extends Record<string, any> | null> = X & {
     search?: string;
 };
 
@@ -71,7 +71,10 @@ export interface ITableCurrentDataSource<RecordType> {
     customContext?: TFilterItem[];
 }
 
-export type FilterState<T, X = Record<string, any>> = {
+export type FilterState<
+    T extends Record<string, any>,
+    X extends Record<string, any> | null,
+> = {
     custom?: CustomFilter<X>;
     sorter?: DataTableSorter<T>;
     filters?: Record<string, FilterValue>;
@@ -79,8 +82,10 @@ export type FilterState<T, X = Record<string, any>> = {
     extra?: ITableCurrentDataSource<T>;
 };
 
-export interface IDataTableProps<T, X = Record<string, any>>
-    extends Omit<TableProps<T>, 'onChange'> {
+export interface IDataTableProps<
+    T extends Record<string, any>,
+    X extends Record<string, any>,
+> extends Omit<TableProps<T>, 'onChange'> {
     defaultCurrent?: number;
     batchActionMenus?: ItemType[];
     filterComponents?: TFilterItem[];

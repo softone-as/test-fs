@@ -9,7 +9,7 @@ export class IndexRequest implements ISortRequest, IPaginateRequest {
     @Field({ nullable: true })
     @IsOptional()
     @IsString()
-    sort?: string;
+    sort = 'updatedAt';
 
     @Field({ nullable: true })
     @IsOptional()

@@ -17,11 +17,14 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Section } from '../../../Components/molecules/Section';
-import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
+import {
+    TErrorProps,
+    TInertiaProps,
+} from 'apps/backoffice/app/Modules/Inertia/Entities';
 
 const { Option } = Select;
 
-const normFile = (e: any) => {
+const normFile = (e: any): any[] => {
     console.log('Upload event:', e);
     if (Array.isArray(e)) {
         return e;
@@ -43,15 +46,15 @@ const FormStep: React.FC = (props: TInertiaProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [current, setCurrent] = useState(0);
 
-    const next = () => {
+    const next = (): void => {
         setCurrent(current + 1);
     };
 
-    const prev = () => {
+    const prev = (): void => {
         setCurrent(current - 1);
     };
 
-    const onFinish = async (values: any) => {
+    const onFinish = async (values: any): Promise<void> => {
         setIsLoading(true);
         await form.validateFields();
         setIsLoading(false);
@@ -94,7 +97,7 @@ const FormStep: React.FC = (props: TInertiaProps) => {
                             division: ['Industry'],
                             suffix: 'USD',
                         }}
-                        errors={props.error}
+                        errors={props.error as TErrorProps}
                         onFinish={onFinish}
                         form={form}
                         layout="vertical"
@@ -198,7 +201,7 @@ const FormStep: React.FC = (props: TInertiaProps) => {
 
                             <Button
                                 type="primary"
-                                onClick={() => setCurrent(0)}
+                                onClick={(): void => setCurrent(0)}
                             >
                                 Ok
                             </Button>

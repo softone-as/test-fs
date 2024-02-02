@@ -21,16 +21,17 @@ export const createYupSync = (schema: AnyObject): RuleObject | RuleRender => {
             const { getFieldsValue } = ctx;
             return {
                 // field using any type to avoid issue type from ant design
-                async validator({ field }: any) {
+                async validator({ field }: any): Promise<void> {
                     await schema.validateSyncAt(field, getFieldsValue());
                 },
-                required: schema.fields[fieldName]?.exclusiveTests?.required,
+                required:
+                    schema.fields[fieldName || '']?.exclusiveTests?.required,
             };
         };
 
     function rule(param: string): RuleRender;
     function rule(param: FormInstance): RuleObject;
-    function rule(param) {
+    function rule(param): RuleObject | RuleRender {
         if (typeof param === 'string') return ruleWithCtx(param) as RuleRender;
         else return ruleWithCtx(undefined)(param) as RuleObject;
     }
@@ -38,7 +39,7 @@ export const createYupSync = (schema: AnyObject): RuleObject | RuleRender => {
     return rule;
 };
 
-export const isMobileScreen = () => {
+export const isMobileScreen = (): boolean => {
     return useMediaQuery({ query: '(max-width: 767px)' });
 };
 
@@ -71,9 +72,12 @@ export const formatDate = (
     return format(new Date(date), pattern);
 };
 
-export const debounce = (fn: (...args: any[]) => any, delay: number) => {
+export const debounce = (
+    fn: (...args: any[]) => any,
+    delay: number,
+): ((...args: any[]) => void) => {
     let timer;
-    return (...args: any[]) => {
+    return (...args: any[]): void => {
         clearTimeout(timer);
         timer = setTimeout(() => fn(...args), delay);
     };
