@@ -54,7 +54,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
             request.session['error'] = {
                 errors: exceptionResponse.errors,
-                message: exception.message,
+                message: exceptionResponse.errors[0].message,
                 statusCode: exception.getStatus(),
             };
 
