@@ -3,8 +3,6 @@ import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapt
 import { AuthForgotPasswordService } from '../services/auth-forgot-password.service';
 import { UserConfirmForgotPasswordRequest } from '../requests/user-confirm-forgot-password.request';
 import { ZodUserForgotPasswordRequest } from '../requests/zod-user-forgot-password.request';
-import { ZodValidationException } from 'nestjs-zod';
-import { ZodError } from 'zod';
 
 @Controller('auth')
 export class ForgotPasswordController {
@@ -25,13 +23,8 @@ export class ForgotPasswordController {
 
     @Post('forgot-password')
     async forgotPassword(
-        // @Body() req: UserForgotPasswordRequest
-        @Body()
-        req: ZodUserForgotPasswordRequest,
+        @Body() req: ZodUserForgotPasswordRequest,
     ): Promise<void> {
-        const error = new ZodError([]);
-        throw new ZodValidationException(error);
-        console.log('berhasil tervalidasi');
         await this.authForgotPasswordService.forgotPassword(req);
         return this.inertiaAdapter.successResponse(
             '/auth/login',
