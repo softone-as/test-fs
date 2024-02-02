@@ -21,6 +21,7 @@ import { captureException } from '../../infrastructure/sentry/sentry-capture-exc
 import AccessLoginSSOAuthenticatedException from '../../infrastructure/error/access-login-sso-authenticated.exception';
 import { FailSafeService } from '../../infrastructure/fail-safe/services/fail-safe.service';
 import InternalOpenCircuitException from '../../infrastructure/error/internal-open-circuit-exception.exception';
+import { ZodValidationException } from 'nestjs-zod';
 
 @Injectable({ scope: Scope.REQUEST })
 @Catch(HttpException)
@@ -47,7 +48,18 @@ export class HttpExceptionFilter implements ExceptionFilter {
         // Capture exception to Sentry
         captureException(exception, request, traceIdFromFe, replayIdFromFe);
 
-        if (exception instanceof UnprocessableEntityException) {
+        // ZodValidationException
+        if (exception instanceof ZodValidationException) {
+            const exceptionResponse = exception.getZodError();
+
+            request.session['error'] = {
+                errors: exceptionResponse.errors,
+                message: exception.message,
+                statusCode: exception.getStatus(),
+            };
+
+            return response.redirect(Utils.pathToUrl(path));
+        } else if (exception instanceof UnprocessableEntityException) {
             const exceptionResponse = exception.getResponse();
             const data = exceptionResponse['data'] || null;
 
