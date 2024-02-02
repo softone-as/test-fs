@@ -27,8 +27,8 @@ export abstract class IndexApplication {
         return (page - 1) * perPage;
     }
 
-    getOrder(order: string): 'ASC' | 'DESC' {
-        return ['ASC', 'DESC'].indexOf(order) == 0 ? 'ASC' : 'DESC';
+    getOrder(order?: OrderDirectionType): OrderDirectionType {
+        return ['ASC', 'DESC'].indexOf(order || 'DESC') == 0 ? 'ASC' : 'DESC';
     }
 
     mapMeta(

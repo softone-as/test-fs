@@ -23,11 +23,14 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Section } from '../../../Components/molecules/Section';
 import { CheckboxDropdown } from 'apps/backoffice/app/Components/molecules/Dropdowns/CheckboxDropdown';
 import { Uploader } from 'apps/backoffice/app/Components/molecules/Form';
-import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
+import {
+    TErrorProps,
+    TInertiaProps,
+} from 'apps/backoffice/app/Modules/Inertia/Entities';
 
 const { Option } = Select;
 
-const normFile = (e: any) => {
+const normFile = (e: any): any[] => {
     if (Array.isArray(e)) {
         return e;
     }
@@ -56,7 +59,7 @@ const FormBasic: React.FC = (props: TInertiaProps) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
 
-    const onFinish = async (values: any) => {
+    const onFinish = async (values: any): Promise<void> => {
         setIsLoading(true);
         await form.validateFields();
         console.log(form.validateFields());
@@ -70,7 +73,7 @@ const FormBasic: React.FC = (props: TInertiaProps) => {
                 <FormContainer
                     form={form}
                     onFinish={onFinish}
-                    errors={props.error}
+                    errors={props.error as TErrorProps}
                     initialValues={{
                         prefix: '62',
                         quantity: 3,
@@ -129,7 +132,7 @@ const FormBasic: React.FC = (props: TInertiaProps) => {
                         required
                     >
                         <DateRangePicker
-                            onChange={() => {
+                            onChange={(): void => {
                                 return;
                             }}
                         />
@@ -242,7 +245,11 @@ const FormBasic: React.FC = (props: TInertiaProps) => {
                     </Form.Item>
 
                     <Form.List name="names">
-                        {(fields, { add, remove }, { errors }) => (
+                        {(
+                            fields,
+                            { add, remove },
+                            { errors },
+                        ): React.ReactNode => (
                             <>
                                 {fields.map((field) => (
                                     <Form.Item
@@ -274,7 +281,7 @@ const FormBasic: React.FC = (props: TInertiaProps) => {
                                         {fields.length > 1 ? (
                                             <MinusCircleOutlined
                                                 className="dynamic-delete-button"
-                                                onClick={() =>
+                                                onClick={(): void =>
                                                     remove(field.name)
                                                 }
                                                 style={{ marginLeft: 6 }}
@@ -285,7 +292,7 @@ const FormBasic: React.FC = (props: TInertiaProps) => {
                                 <Form.Item>
                                     <Button
                                         type="dashed"
-                                        onClick={() => add()}
+                                        onClick={(): void => add()}
                                         icon={<PlusOutlined />}
                                     >
                                         Add field

@@ -9,7 +9,7 @@ import {
 import { FilterValue } from 'antd/es/table/interface';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useDidUpdateEffect = (fn: () => void, inputs: any) => {
+export const useDidUpdateEffect = (fn: () => void, inputs: any): void => {
     const didMountRef = useRef(false);
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export type TPropsTableFilter<T> = Omit<IndexRequest, 'perPage' | 'order'> & {
 } & T;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useTableFilter = <T = { [key: string]: any }>() => {
+export const useTableFilter = <T = { [key: string]: any }>(): any => {
     const [status, setStatus] = useState({
         isFetching: false,
     });
@@ -52,16 +52,12 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
         [filters],
     ) as TPropsTableFilter<T>;
 
-    const setQueryParams = (propsParams: TPropsTableFilter<T>) => {
+    const setQueryParams = (propsParams: TPropsTableFilter<T>): void => {
         const data = Object.keys(propsParams).reduce((all, key) => {
             if (propsParams[key] === '') delete all[key];
             else return { ...all, [key]: propsParams[key] };
             return all;
         }, existingParams) as TPropsTableFilter<T>;
-
-        if (data.order === undefined) {
-            delete data.sort;
-        }
 
         const listPropsParams = Object.keys(propsParams) as string[];
 
@@ -107,10 +103,10 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
         filters?: Record<string, FilterValue>,
         pagination?: DataTablePagination,
         extra?: ITableCurrentDataSource<any>,
-    ) => {
+    ): void => {
         const newCustomFilter: T = { ...customFilter };
 
-        extra.customContext?.forEach((filter) => {
+        extra?.customContext?.forEach((filter) => {
             if (!newCustomFilter[filter.name]) return;
             switch (filter.type) {
                 case 'DateRangePicker': {
@@ -131,7 +127,7 @@ export const useTableFilter = <T = { [key: string]: any }>() => {
 
         const strictSorter = {
             order: sorter?.order,
-            sort: sorter?.sort,
+            sort: sorter?.sort || 'updatedAt',
         };
 
         setQueryParams({

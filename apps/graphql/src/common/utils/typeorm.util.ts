@@ -28,7 +28,7 @@ export const ColumnNumericTransformer: ValueTransformer = {
 
         return null;
     },
-    from(data: string): number {
+    from(data: string): number | null {
         if (!isNullOrUndefined(data)) {
             const num = Number(data);
             if (!Number.isNaN(num)) return num;
