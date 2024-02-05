@@ -12,8 +12,8 @@ import { CompanyLogo } from '../../atoms/Logos';
 interface IMainHeaderProps {
     setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
     collapsed: boolean;
-    userDetail: IUser;
-    notifications: TNotificationProps;
+    userDetail: IUser | null;
+    notifications: TNotificationProps | null;
 }
 
 const MainHeader: React.FC<IMainHeaderProps> = ({

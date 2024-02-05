@@ -42,7 +42,7 @@ const handleLogout = (
     event:
         | React.MouseEvent<HTMLAnchorElement, MouseEvent>
         | React.KeyboardEvent<HTMLAnchorElement>,
-) => {
+): void => {
     event.preventDefault();
     const isOk = confirm('Are you sure to logout? ');
 
@@ -165,9 +165,11 @@ export const MainLayout: React.FC<IProps> = ({
     const defaultOpenedKey = useMemo(
         () =>
             menuItems.find((item) => {
+                if (!item) return false;
+
                 if ('children' in item) {
                     const openedMenuItem = item.children?.find((chil) => {
-                        return chil.key === activeMenuKey;
+                        return chil?.key === activeMenuKey;
                     });
                     return openedMenuItem !== undefined;
                 }
@@ -188,7 +190,7 @@ export const MainLayout: React.FC<IProps> = ({
 
     // error notification
     useEffect(() => {
-        if (pageProps?.error?.message?.length > 0) {
+        if (pageProps?.error && pageProps?.error?.message?.length > 0) {
             'error' in pageProps.error
                 ? useNotification({
                       type: 'error',
@@ -197,7 +199,7 @@ export const MainLayout: React.FC<IProps> = ({
                 : debounce(() => {
                       useNotification({
                           type: 'error',
-                          message: pageProps.error.message,
+                          message: pageProps.error?.message,
                       });
                   }, 300);
         }
@@ -208,7 +210,7 @@ export const MainLayout: React.FC<IProps> = ({
         <Layout style={{ height: '100vh' }}>
             <Head title={title} />
 
-            {appState.isNavigating && <PageProgress />}
+            {appState?.isNavigating && <PageProgress />}
             <Sider
                 trigger={null}
                 collapsible
@@ -217,15 +219,15 @@ export const MainLayout: React.FC<IProps> = ({
                     backgroundColor: bgSiderLayoutColor,
                     minHeight: '100vh',
                     marginTop: isMobile ? '-60px' : 0,
-                    overflow: isMobile && 'auto',
+                    overflow: isMobile ? 'auto' : undefined,
                     position: isMobile ? 'fixed' : 'relative',
-                    left: isMobile && 0,
-                    top: isMobile && 0,
-                    bottom: isMobile && 0,
-                    zIndex: isMobile && 10,
-                    filter:
-                        isMobile &&
-                        'drop-shadow(16px 4px 52px rgba(0, 0, 0, 0.25))',
+                    left: isMobile ? 0 : undefined,
+                    top: isMobile ? 0 : undefined,
+                    bottom: isMobile ? 0 : undefined,
+                    zIndex: isMobile ? 10 : undefined,
+                    filter: isMobile
+                        ? 'drop-shadow(16px 4px 52px rgba(0, 0, 0, 0.25))'
+                        : undefined,
                 }}
                 width="222px"
                 breakpoint="lg"
@@ -285,7 +287,7 @@ export const MainLayout: React.FC<IProps> = ({
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'space-between',
-                                marginTop: isMobile && '80px',
+                                marginTop: isMobile ? '80px' : undefined,
                             }}
                         >
                             <Menu
@@ -349,7 +351,7 @@ export const MainLayout: React.FC<IProps> = ({
                 )}
 
                 {isMobile && !collapsed && (
-                    <Overlay onClick={() => setCollapsed(true)} />
+                    <Overlay onClick={(): void => setCollapsed(true)} />
                 )}
 
                 <Content

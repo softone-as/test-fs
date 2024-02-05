@@ -10,7 +10,7 @@ export interface IFormProps extends FormProps {
     centered?: boolean; //centered by form as point
     justifyButton?: 'start' | 'end';
     buttonAction?: React.ReactNode[];
-    errors: TErrorProps;
+    errors: TErrorProps | null;
 }
 
 const FormContainer = (props: IFormProps): JSX.Element => {
@@ -28,7 +28,7 @@ const FormContainer = (props: IFormProps): JSX.Element => {
     const checkIsFieldCentered = isMobile ? false : isFieldCentered;
 
     useEffect(() => {
-        setServerError(errors, rest.form.setFields);
+        errors && rest.form && setServerError(errors, rest.form.setFields);
     }, [errors]);
 
     return (
@@ -43,15 +43,17 @@ const FormContainer = (props: IFormProps): JSX.Element => {
                     {...rest}
                     layout={checkIsFieldCentered ? 'horizontal' : props.layout}
                     labelCol={
-                        checkIsFieldCentered && {
-                            span: 8,
-                            style: checkIsFieldCentered && {
-                                position: 'absolute',
-                                transform: 'translateX(-100%)',
-                            },
-                        }
+                        checkIsFieldCentered
+                            ? {
+                                  span: 8,
+                                  style: checkIsFieldCentered && {
+                                      position: 'absolute',
+                                      transform: 'translateX(-100%)',
+                                  },
+                              }
+                            : undefined
                     }
-                    wrapperCol={checkIsFieldCentered && { span: 18 }}
+                    wrapperCol={checkIsFieldCentered ? { span: 18 } : undefined}
                     style={{ ...props.style }}
                 >
                     <>
@@ -60,7 +62,9 @@ const FormContainer = (props: IFormProps): JSX.Element => {
                             justify={justifyButton}
                             buttonAction={buttonAction}
                             style={{
-                                marginInlineEnd: isFieldCentered && '25%',
+                                marginInlineEnd: isFieldCentered
+                                    ? '25%'
+                                    : undefined,
                             }}
                         />
                     </>

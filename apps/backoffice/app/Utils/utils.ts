@@ -66,9 +66,10 @@ export const setServerError = (
 };
 
 export const formatDate = (
-    date: string | Date,
+    date: string | Date | null | undefined,
     pattern = 'yyyy-MM-dd H:i:s',
 ): string => {
+    if (!date) return '';
     return format(new Date(date), pattern);
 };
 

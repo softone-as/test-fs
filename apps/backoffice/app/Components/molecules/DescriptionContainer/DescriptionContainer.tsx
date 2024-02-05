@@ -7,12 +7,12 @@ const DescriptionContainer = ({
     layout = 'horizontal',
     column = { lg: 2, md: 2, sm: 1, xs: 1 },
     ...props
-}: DescriptionsProps) => {
+}: DescriptionsProps): React.ReactElement => {
     const { sm, md, lg, xl, xs, xxl } = Grid?.useBreakpoint();
 
     const getWidthLabelOnOneColumn = (
         columns: Record<Breakpoint, number>,
-    ): string => {
+    ): string | undefined => {
         if (xxl && columns.xxl == 1) {
             return '4%';
         }
@@ -52,14 +52,17 @@ const DescriptionContainer = ({
                         ? md && (column as Record<Breakpoint, number>).md != 1
                             ? '15%'
                             : widthOneColumn
-                        : null,
+                        : undefined,
             }}
             contentStyle={{
                 ...props.contentStyle,
-                width:
-                    props.bordered && layout == 'horizontal'
-                        ? md && '30%'
-                        : null,
+                width: props.bordered
+                    ? layout == 'horizontal'
+                        ? md
+                            ? '30%'
+                            : undefined
+                        : undefined
+                    : undefined,
             }}
             column={column}
             {...props}

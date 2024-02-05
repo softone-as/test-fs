@@ -3,12 +3,12 @@ import dayjs from 'dayjs';
 
 import { DatePicker, DatePickerProps } from 'antd';
 
-export const BasicDatePicker = (props: DatePickerProps) => {
+export const BasicDatePicker = (props: DatePickerProps): React.ReactElement => {
     // convert from date or Date to DayJS
     const toDayJs = (
-        date: string | Date | dayjs.Dayjs,
+        date: string | Date | dayjs.Dayjs | null | undefined,
     ): dayjs.Dayjs | undefined => {
-        return date && dayjs(date);
+        return (date && dayjs(date)) as dayjs.Dayjs;
     };
 
     return (

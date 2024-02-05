@@ -50,14 +50,15 @@ const EditRolePage: React.FC = (props: IProps) => {
     const { id, key, name } = props.data;
     const dataPermission = props.permissions;
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
     const [dataSource, setDataSource] = useState(dataPermission);
 
     useEffect(() => {
-        setSelectedRowKeys(props.data.permissions.map((item) => item.id));
+        props.data.permissions &&
+            setSelectedRowKeys(props.data.permissions.map((item) => item.id));
     }, []);
 
     const rowSelection = {
@@ -71,7 +72,7 @@ const EditRolePage: React.FC = (props: IProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
 
-    const onFinish = async () => {
+    const onFinish = async (): Promise<void> => {
         setIsLoading(true);
         const data = form.getFieldsValue();
         data.permissionIds = selectedRowKeys as number[];
@@ -79,14 +80,14 @@ const EditRolePage: React.FC = (props: IProps) => {
         try {
             await form.validateFields();
             editRole(data, id);
-            notifyNavigating();
+            notifyNavigating && notifyNavigating();
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
         }
     };
 
-    const filterData = (value: string) => {
+    const filterData = (value: string): void => {
         if (value) {
             const filteredData = dataPermission.filter(
                 (entry) =>
@@ -97,7 +98,7 @@ const EditRolePage: React.FC = (props: IProps) => {
         }
     };
 
-    const onReset = () => {
+    const onReset = (): void => {
         form.resetFields();
     };
 
@@ -157,8 +158,8 @@ const EditRolePage: React.FC = (props: IProps) => {
                             dataSource={dataSource}
                             rowSelection={rowSelection}
                             rowKey={'id'}
-                            onChange={(e) => {
-                                filterData(e.search);
+                            onChange={(e): void => {
+                                e.search && filterData(e.search);
                             }}
                         />
                     </Section>

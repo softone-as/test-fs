@@ -17,10 +17,7 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Section } from '../../../Components/molecules/Section';
-import {
-    TErrorProps,
-    TInertiaProps,
-} from 'apps/backoffice/app/Modules/Inertia/Entities';
+import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
 
 const { Option } = Select;
 
@@ -97,7 +94,7 @@ const FormStep: React.FC = (props: TInertiaProps) => {
                             division: ['Industry'],
                             suffix: 'USD',
                         }}
-                        errors={props.error as TErrorProps}
+                        errors={props.error}
                         onFinish={onFinish}
                         form={form}
                         layout="vertical"

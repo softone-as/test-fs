@@ -61,8 +61,8 @@ const DetailRolePage: React.FC = (props: IProps) => {
     const [dataPermission, setDataPermission] = useState(permissions);
     const [dataUser, setDataUser] = useState(users);
 
-    const filterDataPermission = (value: string) => {
-        const filteredData = dataPermission.filter(
+    const filterDataPermission = (value: string): void => {
+        const filteredData = dataPermission?.filter(
             (entry) =>
                 entry.name.toLowerCase().includes(value.toLowerCase()) ||
                 entry.key.toLowerCase().includes(value.toLowerCase()),
@@ -70,7 +70,7 @@ const DetailRolePage: React.FC = (props: IProps) => {
         setDataPermission(filteredData);
     };
 
-    const filterDataUser = (value: string) => {
+    const filterDataUser = (value: string): void => {
         const filteredData = dataUser.filter(
             (entry) =>
                 entry.fullname.toLowerCase().includes(value.toLowerCase()) ||
@@ -101,8 +101,8 @@ const DetailRolePage: React.FC = (props: IProps) => {
                         columns={PermissionColumns}
                         dataSource={dataPermission}
                         rowKey="id"
-                        onChange={(e) => {
-                            filterDataPermission(e.search);
+                        onChange={(e): void => {
+                            e.search && filterDataPermission(e.search);
                         }}
                     />
                 </Section>
@@ -112,8 +112,8 @@ const DetailRolePage: React.FC = (props: IProps) => {
                         columns={UserColumn}
                         dataSource={dataUser}
                         rowKey="id"
-                        onChange={(e) => {
-                            filterDataUser(e.search);
+                        onChange={(e): void => {
+                            e.search && filterDataUser(e.search);
                         }}
                     />
                 </Section>

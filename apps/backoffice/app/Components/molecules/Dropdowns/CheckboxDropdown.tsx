@@ -62,12 +62,12 @@ export const CheckboxDropdown: React.FC<IPropsCheckboxDropdown> = (props) => {
     const [state, setState] = useState<CheckboxValueType[]>(
         value || defaultValue || [],
     );
-    const handleOnChange = (value: CheckboxValueType[]) => {
+    const handleOnChange = (value: CheckboxValueType[]): void => {
         setState(value);
-        onChange(value);
+        onChange && onChange(value);
     };
 
-    const handleOnClear = () => {
+    const handleOnClear = (): void => {
         handleOnChange([]);
     };
 
@@ -87,7 +87,7 @@ export const CheckboxDropdown: React.FC<IPropsCheckboxDropdown> = (props) => {
         <Dropdown
             open={open}
             onOpenChange={setOpen}
-            dropdownRender={() => (
+            dropdownRender={(): React.ReactElement => (
                 <CheckboxDropdownRender
                     options={options}
                     value={state}
