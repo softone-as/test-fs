@@ -48,7 +48,7 @@ export const FilterContext = React.createContext<IFilterContextValues>({
     isMobile: undefined,
 });
 
-const Filter = ({ filters, onChange }: IFilterProps) => {
+const Filter = ({ filters, onChange }: IFilterProps): React.ReactElement => {
     const [form] = Form.useForm();
     const isMobile = isMobileScreen();
     const [open, setOpen] = useState(false);
@@ -100,7 +100,7 @@ const Filter = ({ filters, onChange }: IFilterProps) => {
                     <Col xs={24} md={0}>
                         <Button
                             type={isFilterUsed ? 'primary' : undefined}
-                            onClick={() => setOpen(true)}
+                            onClick={(): void => setOpen(true)}
                             icon={
                                 <FilterOutlined
                                     style={{ display: 'inline-flex' }}
@@ -111,7 +111,7 @@ const Filter = ({ filters, onChange }: IFilterProps) => {
                             title="Filters"
                             placement="right"
                             closable
-                            onClose={() => setOpen(false)}
+                            onClose={(): void => setOpen(false)}
                             open={open}
                         >
                             <Row gutter={[8, 0]} align="middle">
@@ -127,16 +127,16 @@ const Filter = ({ filters, onChange }: IFilterProps) => {
     );
 };
 
-const FilterInputNotFound = () => <div></div>;
+const FilterInputNotFound = (): React.ReactElement => <div></div>;
 
-const FilterItem = (props: TFilterItem) => {
+const FilterItem = (props: TFilterItem): React.ReactElement => {
     const { name, type, label, ...rest } = props;
     const { isMobile } = useContext(FilterContext);
 
     const customFilterProps = props as CustomFilterProps;
 
     const Component =
-        InputCollection[type] ||
+        (type && InputCollection[type]) ||
         customFilterProps.render ||
         FilterInputNotFound;
 

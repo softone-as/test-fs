@@ -34,7 +34,7 @@ const DetailPermissionPage: React.FC = (props: IProps) => {
                         </Descriptions.Item>
                         <Descriptions.Item label="Key">{key}</Descriptions.Item>
                         <Descriptions.Item label="Roles">
-                            {roles.map((role) => role.name).join(', ')}
+                            {roles?.map((role) => role.name).join(', ')}
                         </Descriptions.Item>
                     </DescriptionContainer>
                 </Section>

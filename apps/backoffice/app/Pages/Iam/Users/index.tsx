@@ -95,7 +95,7 @@ const UsersPage: React.FC = (props: IProps) => {
             title: isMobile ? null : 'Action',
             key: 'action',
             width: '142px',
-            render: (text, record) => {
+            render: (text, record): React.ReactNode => {
                 return (
                     <RowActionButtons
                         actions={[
@@ -114,7 +114,7 @@ const UsersPage: React.FC = (props: IProps) => {
                             {
                                 type: 'delete',
                                 title: 'delete',
-                                onClick: () => {
+                                onClick: (): void => {
                                     useModal({
                                         title: 'Are You Sure? ',
                                         type: 'confirm',
@@ -144,7 +144,8 @@ const UsersPage: React.FC = (props: IProps) => {
                     title: 'Are You Sure?',
                     type: 'confirm',
                     variant: 'danger',
-                    onOk: () => deleteBatchUsers(selectedRowKeys),
+                    onOk: () =>
+                        selectedRowKeys && deleteBatchUsers(selectedRowKeys),
                 }),
             icon: <ShareAltOutlined />,
             style: { width: '151px' },

@@ -23,6 +23,8 @@ const FormProfilePage: React.FC = (props: TInertiaProps) => {
                 'isFormatValid',
                 'At least password has include 1 number and Alphabet',
                 (value) => {
+                    if (!value) return false;
+
                     const hasUpperCase = /[A-Z]/.test(value);
                     const hasNumber = /[0-9]/.test(value);
                     setPassword(value);
@@ -50,21 +52,21 @@ const FormProfilePage: React.FC = (props: TInertiaProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
 
-    const onFinish = async () => {
+    const onFinish = async (): Promise<void> => {
         setIsLoading(true);
         const data = form.getFieldsValue();
 
         try {
             await form.validateFields();
             editProfilePassword(data);
-            notifyNavigating();
+            notifyNavigating && notifyNavigating();
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
         }
     };
 
-    const onReset = () => {
+    const onReset = (): void => {
         form.resetFields();
     };
 

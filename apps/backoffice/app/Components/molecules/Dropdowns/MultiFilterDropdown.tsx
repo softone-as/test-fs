@@ -40,9 +40,9 @@ const MenuContainer: React.FC<IProps> = ({
     closeModal,
     ...rest
 }: IProps) => {
-    const handleCloseModal = () => {
+    const handleCloseModal = (): void => {
         closeModal();
-        rest.form.resetFields();
+        rest.form?.resetFields();
     };
 
     return (
@@ -53,7 +53,7 @@ const MenuContainer: React.FC<IProps> = ({
                 Filter by
             </Typography.Title>
             <Row gutter={[32, 0]}>
-                {fieldsForm.map((field, key) => (
+                {fieldsForm?.map((field, key) => (
                     <Col key={key} span={columnSpan}>
                         {field}
                     </Col>
@@ -83,9 +83,12 @@ export const MultiFilterDropdown: React.FC<Omit<IProps, 'closeModal'>> = (
     return (
         <Dropdown
             open={open}
-            onOpenChange={(flag) => setOpen(flag)}
-            dropdownRender={() => (
-                <MenuContainer {...props} closeModal={() => setOpen(false)} />
+            onOpenChange={(flag): void => setOpen(flag)}
+            dropdownRender={(): React.ReactElement => (
+                <MenuContainer
+                    {...props}
+                    closeModal={(): void => setOpen(false)}
+                />
             )}
         >
             <Button

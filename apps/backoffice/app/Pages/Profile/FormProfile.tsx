@@ -33,21 +33,21 @@ const FormProfilePage: React.FC = (props: IProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
 
-    const onFinish = async () => {
+    const onFinish = async (): Promise<void> => {
         setIsLoading(true);
         const data = form.getFieldsValue();
 
         try {
             await form.validateFields();
             editProfile(data);
-            notifyNavigating();
+            notifyNavigating && notifyNavigating();
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
         }
     };
 
-    const onReset = () => {
+    const onReset = (): void => {
         form.resetFields();
     };
 

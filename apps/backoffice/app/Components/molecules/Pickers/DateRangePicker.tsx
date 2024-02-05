@@ -31,11 +31,15 @@ export const DateRangePicker = ({
     defaultValue,
     disabledDate,
     ...rest
-}: TDateRangePicker) => {
-    const [dates, setDates] = useState<TRangeValue>(defaultValue);
-    const [value, setValue] = useState<TRangeValue>(defaultValue);
+}: TDateRangePicker): React.ReactElement => {
+    const [dates, setDates] = useState<TRangeValue>(
+        defaultValue ? defaultValue : [null, null],
+    );
+    const [value, setValue] = useState<TRangeValue>(
+        defaultValue ? defaultValue : [null, null],
+    );
 
-    const defaultDisabledDate = (current: Dayjs) => {
+    const defaultDisabledDate = (current: Dayjs): boolean => {
         if (!dates || !range) {
             return false;
         }
@@ -44,8 +48,8 @@ export const DateRangePicker = ({
         return !!tooEarly || !!tooLate;
     };
 
-    const handleChange = (val) => {
-        onChange(val);
+    const handleChange = (val): void => {
+        onChange && onChange(val);
         setValue(val);
     };
 
@@ -53,7 +57,7 @@ export const DateRangePicker = ({
         values: [dayjs.Dayjs, dayjs.Dayjs],
         formatString: [string, string],
         info,
-    ) => {
+    ): void => {
         if (rest.onCalendarChange) {
             rest.onCalendarChange(values, formatString, info);
         }

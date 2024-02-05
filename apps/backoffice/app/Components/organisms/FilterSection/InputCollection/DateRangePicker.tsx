@@ -10,7 +10,9 @@ export type StrictDateRangePickerProps = Pick<
     'value' | 'onChange' | 'defaultValue' | 'range'
 >;
 
-const FilterDateRangePicker = (props: StrictDateRangePickerProps) => {
+const FilterDateRangePicker = (
+    props: StrictDateRangePickerProps,
+): React.ReactElement => {
     const { isMobile } = useContext(FilterContext);
     const { value, onChange, defaultValue, range } = props;
     return (
@@ -19,7 +21,7 @@ const FilterDateRangePicker = (props: StrictDateRangePickerProps) => {
             onChange={onChange}
             defaultValue={defaultValue}
             range={range}
-            style={{ width: isMobile && '100%' }}
+            style={{ width: isMobile ? '100%' : undefined }}
             allowClear
         />
     );

@@ -12,7 +12,7 @@ interface IProps {
 export const PageHeader: React.FC<IProps> = (props: IProps) => {
     return (
         <>
-            {props?.breadcrumbs?.length > 0 && (
+            {props?.breadcrumbs && props?.breadcrumbs?.length > 0 && (
                 <Row>
                     <Breadcrumbs breadcrumbs={props.breadcrumbs} />
                 </Row>

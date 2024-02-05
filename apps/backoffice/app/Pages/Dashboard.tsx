@@ -81,7 +81,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                         {
                             type: 'delete',
                             title: 'delete',
-                            onClick: () => {
+                            onClick: (): void => {
                                 // TODO : handle delete function
                             },
                         },
@@ -106,13 +106,13 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
         },
     ];
 
-    const handleStatus = (data) => {
+    const handleStatus = (data): void => {
         console.log('DATa Status: ', data);
     };
 
     const [form] = Form.useForm<{ status: string }>();
 
-    const handleFinish = (values) => {
+    const handleFinish = (values): void => {
         console.log('FINSIH : ', values);
     };
 
@@ -151,7 +151,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
                                 title="Filter"
                                 initialValues={{ status: '' }}
                                 onFinish={handleFinish}
-                                onReset={() => console.log('Hello')}
+                                onReset={(): void => console.log('Hello')}
                                 fieldsForm={[
                                     <Form.Item
                                         label={

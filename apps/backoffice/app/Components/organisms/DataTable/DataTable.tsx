@@ -125,7 +125,7 @@ function DataTable<T extends object = any>(
             filters: {
                 ...(stateRef.current.filters || {}),
                 ...filters,
-            },
+            } as Record<string, FilterValue>,
             sorter: {
                 ...(stateRef.current.sorter || {}),
                 field: sorter.field,
