@@ -48,7 +48,7 @@ if (process.env.LOGROCKET_APP_ID) {
     });
 }
 createInertiaApp({
-    resolve: (name) => require(`./Pages/${name}`),
+    resolve: (name) => React.lazy(() => import(`./Pages/${name}`)),
     // eslint-disable-next-line @typescript-eslint/naming-convention
     setup({ el, App, props }) {
         createRoot(el).render(
