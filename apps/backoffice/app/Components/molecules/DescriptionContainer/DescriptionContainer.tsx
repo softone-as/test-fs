@@ -48,11 +48,12 @@ const DescriptionContainer = ({
             labelStyle={{
                 ...props.labelStyle,
                 width:
-                    props.bordered && layout == 'horizontal'
-                        ? md && (column as Record<Breakpoint, number>).md != 1
-                            ? '15%'
-                            : widthOneColumn
-                        : undefined,
+                    props.bordered &&
+                    layout == 'horizontal' &&
+                    md &&
+                    (column as Record<Breakpoint, number>).md != 1
+                        ? '15%'
+                        : widthOneColumn,
             }}
             contentStyle={{
                 ...props.contentStyle,

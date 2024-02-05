@@ -8,7 +8,8 @@ export const BasicDatePicker = (props: DatePickerProps): React.ReactElement => {
     const toDayJs = (
         date: string | Date | dayjs.Dayjs | null | undefined,
     ): dayjs.Dayjs | undefined => {
-        return (date && dayjs(date)) as dayjs.Dayjs;
+        if (date === null || date === undefined) return dayjs();
+        return dayjs(date);
     };
 
     return (
