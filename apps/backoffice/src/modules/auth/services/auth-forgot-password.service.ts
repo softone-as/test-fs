@@ -6,7 +6,7 @@ import { UserConfirmForgotPasswordRequest } from '../requests/user-confirm-forgo
 import { config } from 'apps/backoffice/src/config';
 import { EntityNotFoundError } from 'typeorm';
 import BadRequestAndRedirectException from 'apps/backoffice/src/infrastructure/error/bad-request-and-redirect.exception';
-import { ZodUserForgotPasswordRequest } from '../requests/zod-user-forgot-password.request';
+import { AuthForgotPasswordRequest } from '../../../../@contracts/auth/auth-forgot-password.request';
 
 @Injectable()
 export class AuthForgotPasswordService {
@@ -16,7 +16,7 @@ export class AuthForgotPasswordService {
         private readonly otpService: OtpService,
     ) {}
 
-    async forgotPassword(data: ZodUserForgotPasswordRequest): Promise<void> {
+    async forgotPassword(data: AuthForgotPasswordRequest): Promise<void> {
         const user = await this.authService.findByEmail(data.email);
         const generateCode = await this.otpService.createNewCodeByIdentifier(
             data.email,

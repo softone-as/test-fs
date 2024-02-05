@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { AuthForgotPasswordService } from '../services/auth-forgot-password.service';
 import { UserConfirmForgotPasswordRequest } from '../requests/user-confirm-forgot-password.request';
-import { ZodUserForgotPasswordRequest } from '../requests/zod-user-forgot-password.request';
+import { AuthForgotPasswordRequest } from '../../../../@contracts/auth/auth-forgot-password.request';
 
 @Controller('auth')
 export class ForgotPasswordController {
@@ -23,7 +23,7 @@ export class ForgotPasswordController {
 
     @Post('forgot-password')
     async forgotPassword(
-        @Body() req: ZodUserForgotPasswordRequest,
+        @Body() req: AuthForgotPasswordRequest,
     ): Promise<void> {
         await this.authForgotPasswordService.forgotPassword(req);
         return this.inertiaAdapter.successResponse(
