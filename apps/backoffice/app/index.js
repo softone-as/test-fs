@@ -1,15 +1,11 @@
 import React from 'react';
-import 'react-quill/dist/quill.snow.css';
+import { createRoot } from 'react-dom/client';
+import App from './App';
 import '../public/unity/css/unity.css';
 import '../public/css/app.css';
 
 import LogRocket from 'logrocket';
 import * as Sentry from '@sentry/react';
-import { createInertiaApp } from '@inertiajs/inertia-react';
-import { createRoot } from 'react-dom/client';
-import { AppProvider } from './Contexts/App';
-import { ThemeProvider } from './Contexts/Theme';
-import { CookiesProvider } from 'react-cookie';
 
 if (process.env.SENTRY_DSN) {
     const replay = new Sentry.Replay({
@@ -47,18 +43,8 @@ if (process.env.LOGROCKET_APP_ID) {
         });
     });
 }
-createInertiaApp({
-    resolve: (name) => React.lazy(() => import(`./Pages/${name}`)),
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    setup({ el, App, props }) {
-        createRoot(el).render(
-            <CookiesProvider>
-                <ThemeProvider>
-                    <AppProvider>
-                        <App {...props} />
-                    </AppProvider>
-                </ThemeProvider>
-            </CookiesProvider>,
-        );
-    },
-});
+
+// After
+const container = document.getElementById('app');
+const root = createRoot(container);
+root.render(<App />);
