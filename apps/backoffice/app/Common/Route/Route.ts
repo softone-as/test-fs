@@ -1,6 +1,6 @@
 export const route = (
     url: Route,
-    propsParams: Record<string, string | number>,
+    propsParams: Record<string, string | number | undefined>,
 ): string => {
     let newUrl: string = url;
     Object.keys(propsParams).forEach((param) => {

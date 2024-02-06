@@ -2,12 +2,14 @@ import { Row, Space } from 'antd';
 import React, { CSSProperties } from 'react';
 
 export interface IButtonFormActionProps {
-    buttonAction: React.ReactNode[];
+    buttonAction: React.ReactNode[] | undefined;
     justify: 'start' | 'end';
     style?: CSSProperties;
 }
 
-const ButtonFormAction = (props: IButtonFormActionProps) => {
+const ButtonFormAction = (
+    props: IButtonFormActionProps,
+): React.ReactElement => {
     return (
         <Row
             justify={props.justify}

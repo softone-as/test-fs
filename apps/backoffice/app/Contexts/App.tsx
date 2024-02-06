@@ -27,11 +27,11 @@ export const AppProvider: React.FunctionComponent<IAppProviderProps> = (
 
     const currentPathRef = useRef(window.location.pathname);
 
-    const handleSetState = (newState: Partial<IAppContextState>) => {
+    const handleSetState = (newState: Partial<IAppContextState>): void => {
         setState((oldState) => ({ ...oldState, ...newState }));
     };
 
-    const notifyNavigating = () => {
+    const notifyNavigating = (): void => {
         handleSetState({ isNavigating: true });
     };
 

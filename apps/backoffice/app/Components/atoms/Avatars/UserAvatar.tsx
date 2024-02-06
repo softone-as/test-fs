@@ -7,7 +7,7 @@ import { isMobileScreen } from 'apps/backoffice/app/Utils/utils';
 import React from 'react';
 
 interface IUserAvatarProps {
-    userDetail: IUser;
+    userDetail: IUser | null;
 }
 
 const { Text } = Typography;
@@ -40,7 +40,7 @@ const UserAvatar: React.FC<IUserAvatarProps> = ({ userDetail }) => {
                                 color: '#B5F5EC',
                             }}
                         >
-                            {userDetail.roles?.map((r) => r.name).join(', ')}
+                            {userDetail?.roles?.map((r) => r.name).join(', ')}
                         </Text>
                     </Space.Compact>
                 )}

@@ -23,10 +23,7 @@ import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { Section } from '../../../Components/molecules/Section';
 import { CheckboxDropdown } from 'apps/backoffice/app/Components/molecules/Dropdowns/CheckboxDropdown';
 import { Uploader } from 'apps/backoffice/app/Components/molecules/Form';
-import {
-    TErrorProps,
-    TInertiaProps,
-} from 'apps/backoffice/app/Modules/Inertia/Entities';
+import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
 
 const { Option } = Select;
 
@@ -73,7 +70,7 @@ const FormBasic: React.FC = (props: TInertiaProps) => {
                 <FormContainer
                     form={form}
                     onFinish={onFinish}
-                    errors={props.error as TErrorProps}
+                    errors={props.error}
                     initialValues={{
                         prefix: '62',
                         quantity: 3,

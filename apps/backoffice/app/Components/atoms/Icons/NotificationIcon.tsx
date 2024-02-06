@@ -7,7 +7,7 @@ import { Route } from 'apps/backoffice/app/Common/Route/Route';
 import { TNotificationProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
 
 interface INotificationIconProps {
-    notifications: TNotificationProps;
+    notifications: TNotificationProps | null;
 }
 
 const NotificationIcon: React.FC<INotificationIconProps> = ({
@@ -16,7 +16,13 @@ const NotificationIcon: React.FC<INotificationIconProps> = ({
     return (
         <Tooltip title="Notifications" placement="right">
             <Link href={Route.Notification}>
-                <Badge dot={notifications?.notificationUnread > 0}>
+                <Badge
+                    dot={
+                        notifications
+                            ? notifications?.notificationUnread > 0
+                            : undefined
+                    }
+                >
                     <BellOutlined
                         style={{
                             display: 'block',

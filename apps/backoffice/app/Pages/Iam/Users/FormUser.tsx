@@ -26,6 +26,8 @@ const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
             'isFormatValid',
             'At least password has include 1 number and Alphabet',
             (value) => {
+                if (!value) return false;
+
                 const hasUpperCase = /[A-Z]/.test(value);
                 const hasNumber = /[0-9]/.test(value);
 
@@ -53,21 +55,23 @@ const FormUserPage: React.FC = (props: IProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
 
-    const onFinish = async () => {
+    const onFinish = async (): Promise<void> => {
         setIsLoading(true);
         const data = form.getFieldsValue();
 
         try {
             await form.validateFields();
-            props.isUpdate ? editUser(props.data.id, data) : createUser(data);
-            notifyNavigating();
+            props.isUpdate && props.data?.id
+                ? editUser(props.data.id, data)
+                : createUser(data);
+            notifyNavigating && notifyNavigating();
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
         }
     };
 
-    const onReset = () => {
+    const onReset = (): void => {
         form.resetFields();
     };
 

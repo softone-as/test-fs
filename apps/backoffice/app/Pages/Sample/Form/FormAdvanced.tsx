@@ -19,7 +19,7 @@ import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
 import { useTableFilter } from '../../../Utils/hooks';
-import { TErrorProps, TInertiaProps } from '../../../Modules/Inertia/Entities';
+import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 
 type DataType = {
@@ -244,7 +244,7 @@ const FormAdvanced = (props: TInertiaProps): React.ReactNode => {
                     onFinish={onFinish}
                     initialValues={{ prefix: '62' }}
                     form={form}
-                    errors={props.error as TErrorProps}
+                    errors={props.error}
                     layout="vertical"
                     requiredMark="optional"
                     buttonAction={[

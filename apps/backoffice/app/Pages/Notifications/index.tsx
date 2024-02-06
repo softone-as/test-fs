@@ -47,7 +47,7 @@ const NotificationPage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '1px',
-            render: (data: NotifciationType) => {
+            render: (data: NotifciationType): React.ReactNode => {
                 return (
                     <>
                         <RowActionButtons
@@ -66,7 +66,7 @@ const NotificationPage: React.FC = (props: IProps) => {
         },
     ];
 
-    const handleMarkRead = () => {
+    const handleMarkRead = (): void => {
         markReadAllNotification();
     };
 

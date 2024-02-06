@@ -21,7 +21,7 @@ export const ThemeProvider: React.FunctionComponent<IThemeProviderProps> = (
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
     const [cookies, setCookie] = useCookies(['darkMode']);
 
-    const handleSwitchTheme = (isDarkMode: boolean) => {
+    const handleSwitchTheme = (isDarkMode: boolean): void => {
         setIsDarkMode(isDarkMode);
         setCookie('darkMode', isDarkMode, { path: '/' });
     };
@@ -34,7 +34,7 @@ export const ThemeProvider: React.FunctionComponent<IThemeProviderProps> = (
               controlItemBgActive: undefined,
               controlItemBgActiveHover: undefined,
           }
-        : globalThemeConfig['components']['Table'];
+        : globalThemeConfig['components']?.['Table'];
 
     const customThemeConfig: ThemeConfig = {
         ...globalThemeConfig,
