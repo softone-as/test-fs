@@ -6,14 +6,16 @@ import { LoginLayout } from '../Layouts';
 import { Link } from '@inertiajs/inertia-react';
 import { sendEmailForgotPassword } from '../Modules/Auth/ForgotPassword/Action';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
-import { AuthForgotPasswordSchema } from '../../@contracts/auth/auth-forgot-password.schema';
+import {
+    AuthForgotPasswordSchema,
+    TAuthForgotPasswordSchema,
+} from '../../@contracts/auth/auth-forgot-password.schema';
 import { createSchemaFieldRule } from 'antd-zod';
-import { AuthForgotPasswordRequest } from 'apps/backoffice/@contracts/auth/auth-forgot-password.request';
 
 const ForgotPassword = (props: TInertiaProps): React.ReactNode => {
     const zodSync = createSchemaFieldRule(AuthForgotPasswordSchema);
 
-    const [form] = Form.useForm<AuthForgotPasswordRequest>();
+    const [form] = Form.useForm<TAuthForgotPasswordSchema>();
 
     //TODO Open notification when success / failed request new password
     // const [api, contextHolder] = notification.useNotification();
@@ -36,7 +38,7 @@ const ForgotPassword = (props: TInertiaProps): React.ReactNode => {
 
     // }
 
-    const onSubmit = (loginData: AuthForgotPasswordRequest): void => {
+    const onSubmit = (loginData: TAuthForgotPasswordSchema): void => {
         sendEmailForgotPassword(loginData);
     };
 
