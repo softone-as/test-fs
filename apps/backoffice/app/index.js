@@ -9,7 +9,7 @@ import * as Sentry from '@sentry/react';
 
 if (process.env.SENTRY_DSN) {
     const replay = new Sentry.Replay({
-        maskAllText: false,
+        maskAllText: false, 
         maxReplayDuration: 1000 * 60 * 5, // 5 minutes
     });
 
