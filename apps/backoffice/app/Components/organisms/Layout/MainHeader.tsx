@@ -2,17 +2,17 @@ import { MenuOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import { TNotificationProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
-import { IUser } from 'apps/backoffice/app/Modules/Profile/Entities';
 import { themeColors } from 'apps/backoffice/app/Utils/theme';
 import React from 'react';
 import { UserAvatar } from '../../atoms/Avatars';
 import NotificationIcon from '../../atoms/Icons/NotificationIcon';
 import { CompanyLogo } from '../../atoms/Logos';
+import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
 
 interface IMainHeaderProps {
     setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
     collapsed: boolean;
-    userDetail: IUser | null;
+    userDetail: TUserResponse | null;
     notifications: TNotificationProps | null;
 }
 

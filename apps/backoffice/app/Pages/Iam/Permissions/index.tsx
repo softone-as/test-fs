@@ -1,13 +1,11 @@
 import React from 'react';
 import { DataTable, sortOrder } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { Tag } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
 import { useModal } from '../../../Utils/modal';
 
-import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
-import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
+import { TRoleResponse } from '../../../../@contracts/iam/role/role.response.contract';
 import type { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../../../Utils/hooks';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
@@ -16,23 +14,19 @@ import { ItemType } from '../../../Components/organisms/DataTable/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 import { Route } from 'apps/backoffice/app/Common/Route/Route';
 import { Inertia } from '@inertiajs/inertia';
+import { TCPermissionIndexProps } from 'apps/backoffice/@contracts/iam/permission/permission-index.contract';
+import { TPermissionResponse } from 'apps/backoffice/@contracts/iam/permission/permission-response.contract';
 
-interface IProps extends TInertiaProps {
-    data: PermissionResponse[];
-}
+type TProps = TCPermissionIndexProps;
 
-const PermissionPage: React.FC = (props: IProps) => {
+const PermissionPage: React.FC = (props: TProps) => {
     const {
         implementTableFilter,
         filters,
         status: { isFetching },
     } = useTableFilter();
 
-    const handleDetail = (id: number) => {
-        return Inertia.get(`${Route.Permissions}/${id}`);
-    };
-
-    const columns: ColumnsType<PermissionResponse> = [
+    const columns: ColumnsType<TPermissionResponse> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -59,7 +53,7 @@ const PermissionPage: React.FC = (props: IProps) => {
                 order: filters.order,
                 sort: filters.sort,
             }),
-            render: (roles: RoleResponse[]) =>
+            render: (roles: TRoleResponse[]) =>
                 roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>),
         },
         {
@@ -72,16 +66,15 @@ const PermissionPage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: (text, record) => {
+            render: (text, record): React.ReactElement => {
                 const id = record.id;
                 return (
                     <RowActionButtons
                         actions={[
                             {
                                 type: 'view',
-                                href: `#`,
+                                href: `${Route.Permissions}/${id}`,
                                 title: 'view',
-                                onClick: () => handleDetail(id),
                             },
                         ]}
                     />
@@ -90,13 +83,13 @@ const PermissionPage: React.FC = (props: IProps) => {
         },
     ];
 
-    const handleBatchDelete = (selectedRowKeys) => {
+    const handleBatchDelete = (selectedRowKeys): void => {
         Inertia.post(`/permissions/deletes`, {
             ids: selectedRowKeys,
         });
     };
 
-    const handleCancel = () => {
+    const handleCancel = (): void => {
         // TODO: Replace with actual cancel logic
         console.log('cancel');
     };

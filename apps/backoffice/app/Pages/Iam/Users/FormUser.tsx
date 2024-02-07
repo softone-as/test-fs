@@ -11,10 +11,9 @@ import { createUser, editUser } from '../../../Modules/User/Action';
 
 import { IUserForm } from '../../../Modules/User/Entities';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
-import { IRole } from 'interface-models/iam/role.interface';
 import { Section } from '../../../Components/molecules/Section';
 import { AppContext } from '../../../Contexts/App';
-import { IUser } from 'apps/backoffice/app/Modules/Profile/Entities';
+import { TCUserEditProps } from 'apps/backoffice/@contracts/iam/user/user-edit.contract';
 
 const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
     fullname: yup.string().required('Field fullname is required'),
@@ -43,13 +42,9 @@ const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
     roles: yup.array().of(yup.number().required('Field roles is required')),
 });
 
-interface IProps extends TInertiaProps {
-    roles: IRole[];
-    data?: IUser;
-    isUpdate: boolean;
-}
+type TProps = TInertiaProps & TCUserEditProps;
 
-const FormUserPage: React.FC = (props: IProps) => {
+const FormUserPage: React.FC = (props: TProps) => {
     const yupSync = createYupSync(schema);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);

@@ -7,15 +7,11 @@ import { useTableFilter } from '../../../Utils/hooks';
 import { useModal } from '../../../Utils/modal';
 import { Input, Tag } from 'antd';
 import dayjs from 'dayjs';
-
 import { ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
-import { UserResponse } from '../../../../src/modules/iam/responses/user.response';
-import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
-
+import { TUserResponse } from '../../../../@contracts/iam/user/user.response.contract';
+import { TRoleResponse } from '../../../../@contracts/iam/role/role.response.contract';
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
-
-import { IUser } from '../../../Modules/User/Entities';
 import { isMobileScreen } from '../../../Utils/utils';
 import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
 import { ItemType } from '../../../Components/organisms/DataTable/Entities';
@@ -25,10 +21,9 @@ import {
     deleteBatchUsers,
     deleteUser,
 } from 'apps/backoffice/app/Modules/User/Action';
+import { TCUserIndexProps } from 'apps/backoffice/@contracts/iam/user/user-index.contract';
 
-interface IProps extends TInertiaProps {
-    data: UserResponse[];
-}
+type TProps = TInertiaProps & TCUserIndexProps;
 
 type TFilters = {
     email?: string;
@@ -37,7 +32,7 @@ type TFilters = {
     checkbox?: string;
 };
 
-const UsersPage: React.FC = (props: IProps) => {
+const UsersPage: React.FC = (props: TProps) => {
     const {
         implementTableFilter,
         filters,
@@ -45,7 +40,7 @@ const UsersPage: React.FC = (props: IProps) => {
     } = useTableFilter<TFilters>();
     const isMobile = isMobileScreen();
 
-    const columns: ColumnsType<IUser> = [
+    const columns: ColumnsType<TUserResponse> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -88,7 +83,7 @@ const UsersPage: React.FC = (props: IProps) => {
             title: 'Roles',
             dataIndex: 'roles',
             key: 'roles',
-            render: (roles: RoleResponse[]) =>
+            render: (roles: TRoleResponse[]) =>
                 roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>),
         },
         {

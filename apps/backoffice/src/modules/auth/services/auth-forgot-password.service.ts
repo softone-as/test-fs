@@ -6,7 +6,7 @@ import { UserConfirmForgotPasswordRequest } from '../requests/user-confirm-forgo
 import { config } from 'apps/backoffice/src/config';
 import { EntityNotFoundError } from 'typeorm';
 import BadRequestAndRedirectException from 'apps/backoffice/src/infrastructure/error/bad-request-and-redirect.exception';
-import { AuthForgotPasswordRequest } from '../../../../@contracts/auth/auth-forgot-password.request';
+import { AuthForgotPasswordRequest } from '../requests/auth-forgot-password.request';
 
 @Injectable()
 export class AuthForgotPasswordService {

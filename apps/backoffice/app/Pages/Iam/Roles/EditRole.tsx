@@ -13,7 +13,7 @@ import { editRole } from 'apps/backoffice/app/Modules/Role/Action';
 import { createYupSync } from 'apps/backoffice/app/Utils/utils';
 import { IRoleForm } from 'apps/backoffice/app/Modules/Role/Entities';
 import * as yup from 'yup';
-import { IRole } from 'interface-models/iam/role.interface';
+import { TCRoleEditProps } from 'apps/backoffice/@contracts/iam/role/role-edit.contract';
 
 const schema: yup.SchemaOf<IRoleForm> = yup.object().shape({
     name: yup.string().required('Field role name is required'),
@@ -23,10 +23,7 @@ const schema: yup.SchemaOf<IRoleForm> = yup.object().shape({
         .of(yup.number().required('Field permissions is required')),
 });
 
-interface IProps extends TInertiaProps {
-    data: IRole;
-    permissions: IPermission[];
-}
+type TProps = TInertiaProps & TCRoleEditProps;
 
 const columns: ColumnsType<IPermission> = [
     {
@@ -46,7 +43,7 @@ const columns: ColumnsType<IPermission> = [
     },
 ];
 
-const EditRolePage: React.FC = (props: IProps) => {
+const EditRolePage: React.FC = (props: TProps) => {
     const { id, key, name } = props.data;
     const dataPermission = props.permissions;
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);

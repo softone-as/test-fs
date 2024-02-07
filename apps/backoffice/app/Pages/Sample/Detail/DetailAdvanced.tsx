@@ -19,8 +19,6 @@ import {
     Typography,
 } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-
-import { IUser } from '../../../Modules/User/Entities';
 import {
     defaultGutter,
     defaultSizeSpace,
@@ -37,8 +35,9 @@ import { Link } from '@inertiajs/inertia-react';
 import { Button } from '../../../Components/atoms/Button';
 import { DescriptionContainer } from '../../../Components/molecules/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
+import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
 
-const columns: ColumnsType<IUser> = [
+const columns: ColumnsType<TUserResponse> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -79,7 +78,7 @@ const columns: ColumnsType<IUser> = [
     },
 ];
 
-const data: IUser[] = [
+const data: TUserResponse[] = [
     {
         id: 1,
         fullname: 'John Cena',
@@ -108,7 +107,7 @@ const tabItems: TabsProps['items'] = [
         key: '1',
         label: `Tab 1`,
         children: (
-            <DataTable<IUser>
+            <DataTable<TUserResponse>
                 columns={columns}
                 dataSource={data}
                 rowKey="id"

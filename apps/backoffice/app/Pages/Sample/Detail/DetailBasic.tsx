@@ -9,11 +9,7 @@ import {
 import { Link } from '@inertiajs/inertia-react';
 import { Descriptions, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-
-import { IUser } from '../../../Modules/User/Entities';
-
 import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
-
 import { Button } from '../../../Components/atoms/Button';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
@@ -22,8 +18,9 @@ import DescriptionContainer from '../../../Components/molecules/DescriptionConta
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
+import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
 
-const columns: ColumnsType<IUser> = [
+const columns: ColumnsType<TUserResponse> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -64,7 +61,7 @@ const columns: ColumnsType<IUser> = [
     },
 ];
 
-const data: IUser[] = [
+const data: TUserResponse[] = [
     {
         id: 1,
         fullname: 'John Cena',
@@ -138,7 +135,7 @@ const DetailBasicPage: React.FC = (props: TInertiaProps) => {
                         actions={<Button type="primary">Add Data</Button>}
                     />
 
-                    <DataTable<IUser>
+                    <DataTable<TUserResponse>
                         columns={columns}
                         dataSource={data}
                         rowKey="id"
