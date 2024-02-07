@@ -11,10 +11,11 @@ import inertia from 'inertia-node';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { intertiaHtml } from './infrastructure/inertia/template/inertia.html';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 const ASSET_VERSION = '1';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
     initializeTransactionalContext();
     patchTypeORMRepositoryWithBaseRepository();
 
@@ -26,6 +27,7 @@ async function bootstrap() {
     app.use(inertia(intertiaHtml, ASSET_VERSION));
     app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
     app.enableCors();
+    app.useGlobalPipes(new ZodValidationPipe());
 
     const host = config.host;
     const port = config.port;

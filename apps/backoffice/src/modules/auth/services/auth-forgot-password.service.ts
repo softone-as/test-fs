@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UserForgotPasswordRequest } from '../requests/user-forgot-password.request';
 import { EmailNotificationService } from '../../../infrastructure/notification/services/email-notification.service';
 import { AdminAuthService } from './auth-admin.service';
 import { OtpService } from './otp.service';
@@ -7,6 +6,7 @@ import { UserConfirmForgotPasswordRequest } from '../requests/user-confirm-forgo
 import { config } from 'apps/backoffice/src/config';
 import { EntityNotFoundError } from 'typeorm';
 import BadRequestAndRedirectException from 'apps/backoffice/src/infrastructure/error/bad-request-and-redirect.exception';
+import { AuthForgotPasswordRequest } from '../../../../@contracts/auth/auth-forgot-password.request';
 
 @Injectable()
 export class AuthForgotPasswordService {
@@ -16,7 +16,7 @@ export class AuthForgotPasswordService {
         private readonly otpService: OtpService,
     ) {}
 
-    async forgotPassword(data: UserForgotPasswordRequest): Promise<void> {
+    async forgotPassword(data: AuthForgotPasswordRequest): Promise<void> {
         const user = await this.authService.findByEmail(data.email);
         const generateCode = await this.otpService.createNewCodeByIdentifier(
             data.email,
