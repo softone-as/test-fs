@@ -1,6 +1,6 @@
 # Requirements:
 
--   NodeJS LTS v20.11.0
+-   NodeJS LTS v20.11.0-alpine
 -   NestJS v10
 -   MySQL 8
 -   Yarn v4

@@ -9,7 +9,7 @@ variables:
 
 build:storybook:
     stage: build
-    image: node:20.11.0
+    image: node:20.11.0-alpine
     tags: [dot-highcpu]
     cache:
         key: '$CI_JOB_NAME'
