@@ -1,8 +1,9 @@
 # Requirements:
 
--   NodeJS LTS v20.11.0
+-   NodeJS LTS v20.11.0 (recommended to install NVM)
 -   NestJS v10
 -   MySQL 8
+-   Yarn v4
 -   RabbitMQ with Delayed Message Plugins
 -   Redis
 
@@ -32,7 +33,7 @@
 # Quick Start GraphQL:
 
 -   Create Database
--   Run Redis (by docker : `docker run --name redisdock -p6379:6379 -d redis`)
+-   Run Redis (by docker : `docker run --name redisdock -p 6379:6379 -d redis`)
 -   Copy file `.env.example` ubah ke `.env` kemudian setting konfigurasinya
 -   Run `yarn install`
 -   Run `yarn migrate`
@@ -156,6 +157,10 @@ yarn schema:drop && yarn migrate && yarn seed:run
 │   │           └── services
 │   └── storages
 ├── backoffice
+│   ├── @contracts
+│   │   └── auth
+│   │        ├── request
+│   │        └── schema
 │   ├── app
 │   │   ├── Components
 │   │   │   ├── atoms
