@@ -3,6 +3,7 @@
 -   NodeJS LTS v20.11.0
 -   NestJS v10
 -   MySQL 8
+-   Yarn v4
 -   RabbitMQ with Delayed Message Plugins
 -   Redis
 
