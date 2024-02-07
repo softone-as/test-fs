@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import '../public/unity/css/unity.css';
 import '../public/css/app.css';
@@ -46,4 +46,6 @@ if (process.env.LOGROCKET_APP_ID) {
 }
 
 // After
-ReactDOM.render(<App />, document.getElementById('app'));
+const container = document.getElementById('app');
+const root = createRoot(container);
+root.render(<App />);
