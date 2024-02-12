@@ -45,8 +45,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 Utils.splitBaggageHeader(baggageHeader);
         }
 
-        console.log('Exception', exception.getResponse());
-
         // Capture exception to Sentry
         captureException(exception, request, traceIdFromFe, replayIdFromFe);
 
