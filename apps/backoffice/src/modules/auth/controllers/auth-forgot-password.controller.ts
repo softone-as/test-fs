@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AuthForgotPasswordService } from '../services/auth-forgot-password.service';
-import { UserConfirmForgotPasswordRequest } from '../requests/user-confirm-forgot-password.request';
 import { AuthForgotPasswordRequest } from '../../../../@contracts/auth/auth-forgot-password.request';
 import { InertiaAdapter } from '../../../infrastructure/inertia/adapter/inertia.adapter';
+import { UserConfirmForgotPasswordRequest } from '../../../../@contracts/auth/user-confirm-forgot-password.request';
 
 @Controller('auth')
 export class ForgotPasswordController {

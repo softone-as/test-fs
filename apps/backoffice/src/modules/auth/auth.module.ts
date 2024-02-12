@@ -1,7 +1,7 @@
 import { LdapService } from './services/ldap.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'entities/iam/user.entity';
+import { User } from '../../../../../entities/iam/user.entity';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
 import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
@@ -16,11 +16,11 @@ import { EmailNotificationService } from '../../infrastructure/notification/serv
 import { ForgotPasswordController } from '../auth/controllers/auth-forgot-password.controller';
 import { AuthForgotPasswordService } from './services/auth-forgot-password.service';
 import { OtpService } from './services/otp.service';
-import { Otp } from 'entities/otp/otp.entity';
+import { Otp } from '../../../../../entities/otp/otp.entity';
 import { CacheModule } from '../../infrastructure/cache/cache.module';
-import { Role } from 'entities/iam/role.entity';
+import { Role } from '../../../../../entities/iam/role.entity';
 import { RoleRepository } from '../iam/repositories/role.repository';
-import { LogActivity } from 'entities/log-activity/log-activity.entity';
+import { LogActivity } from '../../../../../entities/log-activity/log-activity.entity';
 import { DataSource } from 'typeorm';
 import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
 import { RedisModule } from '../../infrastructure/redis';
