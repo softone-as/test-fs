@@ -1,7 +1,5 @@
 import { Button, Form, Input, Select } from 'antd';
 import React, { useContext, useState } from 'react';
-import * as yup from 'yup';
-import { createYupSync } from '../../../Utils/utils';
 
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
@@ -9,39 +7,40 @@ import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 
 import { createUser, editUser } from '../../../Modules/User/Action';
 
-import { IUserForm } from '../../../Modules/User/Entities';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
-import { IRole } from 'interface-models/iam/role.interface';
 import { Section } from '../../../Components/molecules/Section';
 import { AppContext } from '../../../Contexts/App';
-import { IUser } from 'apps/backoffice/app/Modules/Profile/Entities';
+import { IRole } from '../../../../../../interface-models/iam/role.interface';
+import { IUser } from '../../../Modules/Profile/Entities';
+import { createSchemaFieldRule } from 'antd-zod';
+import { UserCreateSchema } from '../../../../@contracts/iam/create-user.schema';
 
-const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
-    fullname: yup.string().required('Field fullname is required'),
-    password: yup
-        .string()
-        .required('Field password is required')
-        .min(8, 'Password at least have 8 character')
-        .test(
-            'isFormatValid',
-            'At least password has include 1 number and Alphabet',
-            (value) => {
-                if (!value) return false;
+// const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
+//     fullname: yup.string().required('Field fullname is required'),
+//     password: yup
+//         .string()
+//         .required('Field password is required')
+//         .min(8, 'Password at least have 8 character')
+//         .test(
+//             'isFormatValid',
+//             'At least password has include 1 number and Alphabet',
+//             (value) => {
+//                 if (!value) return false;
 
-                const hasUpperCase = /[A-Z]/.test(value);
-                const hasNumber = /[0-9]/.test(value);
+//                 const hasUpperCase = /[A-Z]/.test(value);
+//                 const hasNumber = /[0-9]/.test(value);
 
-                if (hasNumber && hasUpperCase) {
-                    return true;
-                }
+//                 if (hasNumber && hasUpperCase) {
+//                     return true;
+//                 }
 
-                return false;
-            },
-        ),
-    email: yup.string().email().required('Field email is required'),
-    phoneNumber: yup.string().required('Field phone number is required'),
-    roles: yup.array().of(yup.number().required('Field roles is required')),
-});
+//                 return false;
+//             },
+//         ),
+//     email: yup.string().email().required('Field email is required'),
+//     phoneNumber: yup.string().required('Field phone number is required'),
+//     roles: yup.array().of(yup.number().required('Field roles is required')),
+// });
 
 interface IProps extends TInertiaProps {
     roles: IRole[];
@@ -50,7 +49,7 @@ interface IProps extends TInertiaProps {
 }
 
 const FormUserPage: React.FC = (props: IProps) => {
-    const yupSync = createYupSync(schema);
+    const zodSync = createSchemaFieldRule(UserCreateSchema);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
@@ -111,7 +110,7 @@ const FormUserPage: React.FC = (props: IProps) => {
                     <Form.Item
                         label="Full Name"
                         name="fullname"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input placeholder="Input" />
@@ -120,7 +119,7 @@ const FormUserPage: React.FC = (props: IProps) => {
                     <Form.Item
                         label="Email"
                         name="email"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input type="email" placeholder="Input" />
@@ -129,7 +128,7 @@ const FormUserPage: React.FC = (props: IProps) => {
                     <Form.Item
                         label="Password"
                         name="password"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input.Password placeholder="Input" />
@@ -138,7 +137,7 @@ const FormUserPage: React.FC = (props: IProps) => {
                     <Form.Item
                         label="Phone Number"
                         name="phoneNumber"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input style={{ width: '100%' }} placeholder="Input" />
@@ -147,7 +146,7 @@ const FormUserPage: React.FC = (props: IProps) => {
                     <Form.Item
                         label="Roles"
                         name="roles"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Select placeholder="Select" mode="multiple">
