@@ -1,6 +1,6 @@
 ## Change Logs
 
-<!-- #GitlabIssueNumber / Issue Link / Describe what has changed  -->
+<!-- #GitlabIssueNumber / Issue Link / Describe what have changed  -->
 
 ## Note for Deployment
 
