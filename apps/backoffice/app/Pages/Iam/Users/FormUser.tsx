@@ -15,33 +15,6 @@ import { IUser } from '../../../Modules/Profile/Entities';
 import { createSchemaFieldRule } from 'antd-zod';
 import { UserCreateSchema } from '../../../../@contracts/iam/create-user.schema';
 
-// const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
-//     fullname: yup.string().required('Field fullname is required'),
-//     password: yup
-//         .string()
-//         .required('Field password is required')
-//         .min(8, 'Password at least have 8 character')
-//         .test(
-//             'isFormatValid',
-//             'At least password has include 1 number and Alphabet',
-//             (value) => {
-//                 if (!value) return false;
-
-//                 const hasUpperCase = /[A-Z]/.test(value);
-//                 const hasNumber = /[0-9]/.test(value);
-
-//                 if (hasNumber && hasUpperCase) {
-//                     return true;
-//                 }
-
-//                 return false;
-//             },
-//         ),
-//     email: yup.string().email().required('Field email is required'),
-//     phoneNumber: yup.string().required('Field phone number is required'),
-//     roles: yup.array().of(yup.number().required('Field roles is required')),
-// });
-
 interface IProps extends TInertiaProps {
     roles: IRole[];
     data?: IUser;
