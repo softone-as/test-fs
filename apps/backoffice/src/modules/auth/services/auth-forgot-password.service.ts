@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { EmailNotificationService } from '../../../infrastructure/notification/services/email-notification.service';
 import { AdminAuthService } from './auth-admin.service';
 import { OtpService } from './otp.service';
-import { UserConfirmForgotPasswordRequest } from '../requests/user-confirm-forgot-password.request';
-import { config } from 'apps/backoffice/src/config';
 import { EntityNotFoundError } from 'typeorm';
-import BadRequestAndRedirectException from 'apps/backoffice/src/infrastructure/error/bad-request-and-redirect.exception';
-import { AuthForgotPasswordRequest } from '../../../../@contracts/auth/auth-forgot-password.request';
+import BadRequestAndRedirectException from '../../../infrastructure/error/bad-request-and-redirect.exception';
+import { config } from '../../../config';
+import { AuthConfirmForgotPasswordRequest } from '../requests/auth-confirm-forgot-password.request';
+import { AuthForgotPasswordRequest } from '../requests/auth-forgot-password.request';
 
 @Injectable()
 export class AuthForgotPasswordService {
@@ -43,7 +43,7 @@ export class AuthForgotPasswordService {
     async changePassword(
         email: string,
         otpCode: string,
-        data: UserConfirmForgotPasswordRequest,
+        data: AuthConfirmForgotPasswordRequest,
     ): Promise<void> {
         try {
             const otp = await this.otpService.findByIdentifierAndCode(

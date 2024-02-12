@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { AuthForgotPasswordService } from '../services/auth-forgot-password.service';
-import { UserConfirmForgotPasswordRequest } from '../requests/user-confirm-forgot-password.request';
-import { AuthForgotPasswordRequest } from '../../../../@contracts/auth/auth-forgot-password.request';
+import { InertiaAdapter } from '../../../infrastructure/inertia/adapter/inertia.adapter';
+import { AuthConfirmForgotPasswordRequest } from '../requests/auth-confirm-forgot-password.request';
+import { AuthForgotPasswordRequest } from '../requests/auth-forgot-password.request';
 
 @Controller('auth')
 export class ForgotPasswordController {
@@ -36,7 +36,7 @@ export class ForgotPasswordController {
     async confirmForgotPassword(
         @Query('email') email: string,
         @Query('otp_code') otpCode: string,
-        @Body() req: UserConfirmForgotPasswordRequest,
+        @Body() req: AuthConfirmForgotPasswordRequest,
     ): Promise<void> {
         await this.authForgotPasswordService.changePassword(
             email,

@@ -1,12 +1,12 @@
-import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
+import { LogActivityMenuEnum } from '../../../common/enums/log-activity.enum';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { EmailNotificationService } from 'apps/backoffice/src/infrastructure/notification/services/email-notification.service';
+import { EmailNotificationService } from '../../../../src/infrastructure/notification/services/email-notification.service';
 import { OneSignalPushNotificationService } from '../../../infrastructure/notification/services/one-signal-push-notification.service';
 import { AdminAuthService } from './auth-admin.service';
 import { Request } from 'express';
 import { LogActivityService } from '../../log-activity/services/log-activity.service';
-import { IUser } from 'interface-models/iam/user.interface';
+import { IUser } from '../../../../../../interface-models/iam/user.interface';
 
 @Injectable()
 export class AuthService {

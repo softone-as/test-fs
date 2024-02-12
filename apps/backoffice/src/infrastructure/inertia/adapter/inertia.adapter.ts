@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { Utils } from 'apps/backoffice/src/common/utils/util';
-import { config } from 'apps/backoffice/src/config';
 import { IRenderInertia } from '../entities/render.inertia';
+import { config } from '../../../config';
+import { Utils } from '../../../common/utils/util';
 
 @Injectable()
 export class InertiaAdapter {

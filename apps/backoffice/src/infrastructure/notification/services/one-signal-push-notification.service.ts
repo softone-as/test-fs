@@ -1,5 +1,6 @@
 import * as OneSignal from 'onesignal-node';
 import { config } from '../../../config';
+import { Logger } from '@nestjs/common';
 
 export enum AppTypeNotification {
     Api = 'api',
@@ -14,9 +15,11 @@ export class OneSignalPushNotificationService {
         );
     }
 
+    private readonly logger = new Logger(OneSignalPushNotificationService.name);
+
     async removePlayerId(playerId: string): Promise<void> {
         await this.client.deleteDevice(playerId).catch((e) => {
-            console.log('[One Signal] - Error  ' + e.message);
+            this.logger.error('One Signal Error ' + e.message);
         });
     }
 
@@ -29,7 +32,7 @@ export class OneSignalPushNotificationService {
                 },
             })
             .catch((e) => {
-                console.log('[One Signal] - Error  ' + e.message);
+                this.logger.error('One Signal Error ' + e.message);
             });
     }
 
