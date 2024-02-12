@@ -1,70 +1,84 @@
-# Requirements:
+# Nest Inertia Boilerplate
 
--   NodeJS LTS v20.11.0 (recommended to install NVM)
--   NestJS v10
--   MySQL 8
+Boilerplate using NestJS, Inertia, and ReactJS
+
+# Table of Contents
+
+-   [Tech Stack](#tech-stack)
+-   [Project Installation](#project-installation)
+    -   [Quick Start Backoffice](#quick-start-backoffice)
+    -   [Quick Start API](#quick-start-api)
+    -   [Quick Start GraphQL](#quick-start-graphql)
+    -   [Setup Sentry and Logrocket](#setup-sentry-and-logrocket)
+    -   [VSCode Extension](#vscode-extentions)
+    -   [Storybook](#storybook)
+-   [Database](#database)
+    -   [Database Commands](#database-commands)
+    -   [DB Schema ERD](#db-schema-erd)
+    -   [Published Edited DBDOCS Commands](#published-edited-dbdocs-commands)
+-   [Project Anatomy](#project-anatomy)
+
+# Tech Stack:
+
+-   Docker
+-   NodeJS LTS v20
 -   Yarn v4
+-   NestJS v10
+-   React v18
+-   MySQL 8
 -   RabbitMQ with Delayed Message Plugins
 -   Redis
 
-# Quick Start Backoffice:
+# Project Installation
 
+-   Install NodeJS LTS v20 (recommended to install [NVM](https://github.com/nvm-sh/nvm))
+-   Run Docker Compose `docker compose up -d`
 -   Create Database
--   Run RabbitMQ (by docker : `docker run --name rabbitdock -p5672:5672 heidiks/rabbitmq-delayed-message-exchange:latest`)
--   Run Redis (by docker : `docker run --name redisdock -p6379:6379 -d redis`)
--   Copy file `.env.example` ubah ke `.env` kemudian setting konfigurasinya
+-   Copy file `.env.example` ubah ke `.env` kemudian sesuaikan konfigurasinya `cp .env.example .env`
 -   Run `yarn install`
 -   Run `yarn migrate`
 -   Run `yarn seed:run`
--   Run `yarn webpack:backoffice:dev` for FE
--   Run `yarn start:dev backoffice` for BE
 
-# Quick Start API:
+## Quick Start Backoffice:
 
--   Create Database
--   Run RabbitMQ (by docker : `docker run --name rabbitdock -p5672:5672 heidiks/rabbitmq-delayed-message-exchange:latest`)
--   Run Redis (by docker : `docker run --name redisdock -p6379:6379 -d redis`)
--   Copy file `.env.example` ubah ke `.env` kemudian setting konfigurasinya
--   Run `yarn install`
--   Run `yarn migrate`
--   Run `yarn seed:run`
--   Run `yarn start:dev api` for BE
-
-# Quick Start GraphQL:
-
--   Create Database
--   Run Redis (by docker : `docker run --name redisdock -p 6379:6379 -d redis`)
--   Copy file `.env.example` ubah ke `.env` kemudian setting konfigurasinya
--   Run `yarn install`
--   Run `yarn migrate`
--   Run `yarn seed:run`
--   Run `yarn start:dev graphql` for BE
-
-# Install and run Backoffice:
-
--   Copy file `.env.example` ubah ke `.env` kemudian setting konfigurasinya
--   Run `yarn install`
--   Run `yarn webpack:backoffice:prod`
--   Run `yarn build`
 -   Run `cp -r apps/backoffice/public dist/apps/backoffice` - untuk running UI
 -   Run `cp -r apps/backoffice/assets dist/apps/backoffice` - untuk running UI
--   Run `yarn start:prod:backoffice` or `yarn start:dev backoffice` (local)
+-   Run `yarn webpack:backoffice:dev` (local) or `yarn webpack:backoffice:prod` (production) for FE
+-   Run `yarn start:dev backoffice` (local) or `yarn start:prod backoffice` (production) for BE
 
-# Install and run Api:
+## Quick Start API:
 
--   Copy file `.env.example` ubah ke `.env` kemudian setting konfigurasinya
--   Run `yarn install`
 -   Run `yarn build`
 -   Run `cp -r apps/api/assets dist/apps/api`
 -   Run `cp -r apps/api/src/infrastructure/mail dist/apps/api/src/infrastructure`
--   Run `yarn start:prod:api` or `yarn start:dev api` (local)
+-   Run `yarn start:dev api` (local) or `yarn start:prod:api` (production)
 
-# Setup Sentry and Logrocket
+## Quick Start GraphQL:
+
+-   Run `yarn start:dev graphql`
+
+## Setup Sentry and Logrocket
 
 -   set `SENTRY_DSN` and `TRACES_SAMPLE_RATE` in `.env` for sentry DSN & traces sample rate.
 -   set `LOGROCKET_APP_ID` in `.env` for logrocket APP_ID
 
-# Database Commands:
+## VSCode Extentions
+
+-   [Prettier - Code Formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+-   [Eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+
+## Storybook
+
+-   Join to Project with this [Invitation](https://www.chromatic.com/start?inviteToken=bef9eace42194e5b946ce262cfcdc114&appId=63e99a087b83cb54af1a7d25)
+-   Storybook link. [Learn more](https://www.chromatic.com/docs/permalinks)
+
+```
+https://<branch>--63e99a087b83cb54af1a7d25.chromatic.com
+```
+
+# Database
+
+## Database Commands:
 
 | Command                                  | Description                                              |
 | ---------------------------------------- | -------------------------------------------------------- |
@@ -74,11 +88,11 @@
 | `yarn seed:run`                          | Run the seeder                                           |
 | `yarn schema:drop`                       | Drop all tables                                          |
 
-### DB Schema ERD:
+## DB Schema ERD:
 
 We use DBML to create and publish the ERD documentation. Visit [here](https://www.dbml.org/home/#dbdiagram) to show you how to (official documentation)
 
-### Published Edited DBDOCS Commands:
+## Published Edited DBDOCS Commands:
 
 -   Run `yarn dbdocs:publish`
 
@@ -95,7 +109,7 @@ yarn seed:run -s CreateAppCitySeeder
 yarn schema:drop && yarn migrate && yarn seed:run
 ```
 
-## Project anatomy
+# Project Anatomy
 
 ```
 ├── api
@@ -352,18 +366,4 @@ yarn schema:drop && yarn migrate && yarn seed:run
                 ├── resolvers
                 ├── services
                 └── types
-```
-
-# VSCode Extentions
-
--   [Prettier - Code Formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
--   [Eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-
-# Storybook
-
--   Join to Project with this [Invitation](https://www.chromatic.com/start?inviteToken=bef9eace42194e5b946ce262cfcdc114&appId=63e99a087b83cb54af1a7d25)
--   Storybook link. [Learn more](https://www.chromatic.com/docs/permalinks)
-
-```
-https://<branch>--63e99a087b83cb54af1a7d25.chromatic.com
 ```
