@@ -1,8 +1,8 @@
-import { UserResponse } from 'apps/backoffice/src/modules/iam/responses/user.response';
-import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { OmitType } from '@nestjs/swagger';
-import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
 import { UserMapper } from '../../iam/mappers/user.mapper';
+import { LogActivity } from '../../../../../../entities/log-activity/log-activity.entity';
+import { UserResponse } from '../../iam/responses/user.response';
+import { ILogActivity } from '../../../../../../interface-models/log-activity/log-activity.interface';
 
 export class LogActivityResponse extends OmitType(LogActivity, ['user']) {
     user: UserResponse | null;

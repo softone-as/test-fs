@@ -1,4 +1,4 @@
-import { IUser } from 'interface-models/iam/user.interface';
+import { IUser } from '../../../../../../interface-models/iam/user.interface';
 import { UserResponse } from '../responses/user.response';
 
 export class UserMapper {

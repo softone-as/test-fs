@@ -26,7 +26,8 @@ import { UserMapper } from '../mappers/user.mapper';
 import { UserResponse } from '../responses/user.response';
 import { IPaginationMeta } from '../../../../src/common/interface/index.interface';
 import { IRole } from '../../../../../../interface-models/iam/role.interface';
-import { IUser } from '../../../../app/Modules/Profile/Entities';
+import { IUser } from '../../../../app/Modules/User/Entities';
+// import { IUser } from '../../../../app/Modules/Profile/Entities';
 
 @Controller('users')
 export class UserController {

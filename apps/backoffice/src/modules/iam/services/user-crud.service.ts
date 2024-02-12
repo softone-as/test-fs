@@ -10,6 +10,7 @@ import { IUser } from '../../../../app/Modules/Profile/Entities';
 import { config } from '../../../config';
 import { User } from '../../../../../../entities/iam/user.entity';
 import { Utils } from '../../../common/utils/util';
+import { In } from 'typeorm';
 
 @Injectable()
 export class UserCrudService {
@@ -36,7 +37,9 @@ export class UserCrudService {
             );
         }
 
-        const roles = await this.roleRepository.findByIds(userRequest.roles);
+        const roles = await this.roleRepository.findBy({
+            id: In(userRequest.roles),
+        });
 
         const userCreate = new User();
 
