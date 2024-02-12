@@ -1,6 +1,5 @@
 import * as crypto from 'crypto';
 import BN from 'bn.js';
-import { config } from 'apps/backoffice/src/config';
 import BigNumber from 'bignumber.js';
 import { Request } from 'express';
 import * as fs from 'fs';
@@ -11,6 +10,7 @@ import * as AWS from 'aws-sdk';
 import { Storage } from '@google-cloud/storage';
 import { snakeCase } from 'snake-case';
 import { format } from 'date-fns';
+import { config } from '../../config';
 
 export class Utils {
     static md5(contents: string): string {
