@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const UserConfirmForgotPasswordSchema = z.object({
+export const AuthConfirmForgotPasswordSchema = z.object({
     password: z
         .string()
         .min(8)
@@ -9,6 +9,6 @@ export const UserConfirmForgotPasswordSchema = z.object({
         }),
 });
 
-export type TUserConfirmForgotPasswordSchema = z.infer<
-    typeof UserConfirmForgotPasswordSchema
+export type TAuthConfirmForgotPasswordSchema = z.infer<
+    typeof AuthConfirmForgotPasswordSchema
 >;
