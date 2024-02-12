@@ -1,5 +1,5 @@
-import { TRoleResponse } from './role.response.contract';
+import { IRole } from 'interface-models/iam/role.interface';
 
 export type TCRoleDetailProps = {
-    data: TRoleResponse;
+    data: IRole;
 };

@@ -16,7 +16,6 @@ import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
 import { Inertia } from '@inertiajs/inertia';
 import { Link } from '@inertiajs/inertia-react';
 import { deleteRole } from 'apps/backoffice/app/Modules/Role/Action';
-import { TPermissionResponse } from 'apps/backoffice/@contracts/iam/permission/permission-response.contract';
 import { TCRoleIndexProps } from 'apps/backoffice/@contracts/iam/role/role-index.contract';
 
 type TProps = TInertiaProps & TCRoleIndexProps;
@@ -28,7 +27,7 @@ const RolePage: React.FC = (props: TProps) => {
         status: { isFetching },
     } = useTableFilter();
 
-    const columns: ColumnsType<TPermissionResponse> = [
+    const columns: ColumnsType<TProps['data'][number]> = [
         {
             title: 'ID',
             dataIndex: 'id',

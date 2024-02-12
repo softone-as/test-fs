@@ -5,7 +5,6 @@ import { Tag } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
 import { useModal } from '../../../Utils/modal';
 
-import { TRoleResponse } from '../../../../@contracts/iam/role/role.response.contract';
 import type { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../../../Utils/hooks';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
@@ -15,7 +14,6 @@ import { paginationTransform } from '../../../Components/organisms/DataTable/Dat
 import { Route } from 'apps/backoffice/app/Common/Route/Route';
 import { Inertia } from '@inertiajs/inertia';
 import { TCPermissionIndexProps } from 'apps/backoffice/@contracts/iam/permission/permission-index.contract';
-import { TPermissionResponse } from 'apps/backoffice/@contracts/iam/permission/permission-response.contract';
 
 type TProps = TCPermissionIndexProps;
 
@@ -26,7 +24,7 @@ const PermissionPage: React.FC = (props: TProps) => {
         status: { isFetching },
     } = useTableFilter();
 
-    const columns: ColumnsType<TPermissionResponse> = [
+    const columns: ColumnsType<TProps['data'][number]> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -53,8 +51,10 @@ const PermissionPage: React.FC = (props: TProps) => {
                 order: filters.order,
                 sort: filters.sort,
             }),
-            render: (roles: TRoleResponse[]) =>
-                roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>),
+            render: (_, record) =>
+                record.roles?.map((role, index) => (
+                    <Tag key={index}>{role.name}</Tag>
+                )),
         },
         {
             title: 'Key',

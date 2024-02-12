@@ -9,8 +9,6 @@ import { Input, Tag } from 'antd';
 import dayjs from 'dayjs';
 import { ShareAltOutlined } from '@ant-design/icons';
 import { GenderEnum } from '../../../../../../interface-models/iam/user.interface';
-import { TUserResponse } from '../../../../@contracts/iam/user/user.response.contract';
-import { TRoleResponse } from '../../../../@contracts/iam/role/role.response.contract';
 import { RowActionButtons } from '../../../Components/molecules/RowActionButtons';
 import { isMobileScreen } from '../../../Utils/utils';
 import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
@@ -40,7 +38,7 @@ const UsersPage: React.FC = (props: TProps) => {
     } = useTableFilter<TFilters>();
     const isMobile = isMobileScreen();
 
-    const columns: ColumnsType<TUserResponse> = [
+    const columns: ColumnsType<TProps['data'][number]> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -81,10 +79,11 @@ const UsersPage: React.FC = (props: TProps) => {
         },
         {
             title: 'Roles',
-            dataIndex: 'roles',
             key: 'roles',
-            render: (roles: TRoleResponse[]) =>
-                roles?.map((role, index) => <Tag key={index}>{role.name}</Tag>),
+            render: (_, record) =>
+                record.roles?.map((role, index) => (
+                    <Tag key={index}>{role.name}</Tag>
+                )),
         },
         {
             title: isMobile ? null : 'Action',

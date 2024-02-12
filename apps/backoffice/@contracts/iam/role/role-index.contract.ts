@@ -1,4 +1,4 @@
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { TRoleResponse } from './role.response.contract';
+import { IRole } from 'interface-models/iam/role.interface';
 
-export type TCRoleIndexProps = IPaginateResponse<TRoleResponse>;
+export type TCRoleIndexProps = IPaginateResponse<IRole>;

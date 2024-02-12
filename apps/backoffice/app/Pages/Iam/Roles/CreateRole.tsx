@@ -13,7 +13,6 @@ import { createYupSync } from 'apps/backoffice/app/Utils/utils';
 import { IRoleForm } from 'apps/backoffice/app/Modules/Role/Entities';
 import * as yup from 'yup';
 import { TCRoleCreateProps } from 'apps/backoffice/@contracts/iam/role/role-create.contract';
-import { TPermissionResponse } from 'apps/backoffice/@contracts/iam/permission/permission-response.contract';
 
 const schema: yup.SchemaOf<IRoleForm> = yup.object().shape({
     name: yup.string().required('Field role name is required'),
@@ -25,7 +24,7 @@ const schema: yup.SchemaOf<IRoleForm> = yup.object().shape({
 
 type TProps = TInertiaProps & TCRoleCreateProps;
 
-const columns: ColumnsType<TPermissionResponse> = [
+const columns: ColumnsType<TProps['permissions'][number]> = [
     {
         title: 'ID',
         dataIndex: 'id',

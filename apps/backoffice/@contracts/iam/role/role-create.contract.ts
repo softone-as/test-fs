@@ -1,5 +1,5 @@
-import { TPermissionResponse } from '../permission/permission-response.contract';
+import { IPermission } from 'interface-models/iam/permission.interface';
 
 export type TCRoleCreateProps = {
-    permissions: TPermissionResponse[];
+    permissions: IPermission[];
 };

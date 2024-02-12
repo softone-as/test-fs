@@ -11,11 +11,10 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { defaultSizeSpace } from '../../../Utils/theme';
 import { TCRoleDetailProps } from 'apps/backoffice/@contracts/iam/role/role-detail.contract';
 import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
-import { TPermissionResponse } from 'apps/backoffice/@contracts/iam/permission/permission-response.contract';
 
 type TProps = TInertiaProps & TCRoleDetailProps;
 
-const PermissionColumns: ColumnsType<TPermissionResponse> = [
+const PermissionColumns: ColumnsType<TProps['data']> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -93,7 +92,7 @@ const DetailRolePage: React.FC = (props: TProps) => {
                 </Section>
 
                 <Section title="Permissions">
-                    <DataTable<TPermissionResponse>
+                    <DataTable
                         columns={PermissionColumns}
                         dataSource={dataPermission}
                         rowKey="id"
