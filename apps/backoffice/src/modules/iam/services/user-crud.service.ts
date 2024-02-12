@@ -1,15 +1,15 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
-import { IUser } from 'interface-models/iam/user.interface';
 import { UserCreateRequest } from '../requests/user-create.request';
 import { UserRepository } from '../repositories/user.repository';
 import { UserUpdateRequest } from '../requests/user-update.request';
-import { config } from 'apps/backoffice/src/config';
-import { CacheClear } from 'apps/backoffice/src/infrastructure/cache/decorators/cache-clear.decorator';
-import { Utils } from 'apps/backoffice/src/common/utils/util';
-import { User } from 'entities/iam/user.entity';
+import { CacheClear } from '../../../../src/infrastructure/cache/decorators/cache-clear.decorator';
 import { RoleIndexRequest } from '../requests/role-index.request';
-import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
 import { RoleRepository } from '../repositories/role.repository';
+import { IPaginateResponse } from '../../../common/interface/index.interface';
+import { IUser } from '../../../../app/Modules/Profile/Entities';
+import { config } from '../../../config';
+import { User } from '../../../../../../entities/iam/user.entity';
+import { Utils } from '../../../common/utils/util';
 
 @Injectable()
 export class UserCrudService {

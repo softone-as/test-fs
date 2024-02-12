@@ -11,22 +11,22 @@ import {
 import { UserCrudService } from '../services/user-crud.service';
 import { RoleCrudService } from '../services/role-crud.service';
 import { UserCreateRequest } from '../requests/user-create.request';
-import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
+import { InertiaAdapter } from '../../../infrastructure/inertia/adapter/inertia.adapter';
 import { UserIndexRequest } from '../requests/user-index.request';
 import {
     PERMISSION_BACKOFFICE_CREATE_USER,
     PERMISSION_BACKOFFICE_DELETE_USER,
     PERMISSION_BACKOFFICE_SHOW_USER,
     PERMISSION_BACKOFFICE_UPDATE_USER,
-} from 'constants/permission.constant';
+} from '../../../../../../constants/permission.constant';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { UserUpdateRequest } from '../requests/user-update.request';
 import { UserBulkDeleteRequest } from '../requests/user-bulk-delete.request';
 import { UserMapper } from '../mappers/user.mapper';
 import { UserResponse } from '../responses/user.response';
-import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
-import { IRole } from 'apps/backoffice/app/Modules/Role/Entities';
-import { IUser } from 'apps/backoffice/app/Modules/Profile/Entities';
+import { IPaginationMeta } from '../../../../src/common/interface/index.interface';
+import { IRole } from '../../../../../../interface-models/iam/role.interface';
+import { IUser } from '../../../../app/Modules/Profile/Entities';
 
 @Controller('users')
 export class UserController {
