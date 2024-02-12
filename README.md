@@ -25,6 +25,7 @@ Boilerplate using NestJS, Inertia, and ReactJS
 -   Yarn v4
 -   NestJS v10
 -   React v18
+-   AntDesign
 -   MySQL 8
 -   RabbitMQ with Delayed Message Plugins
 -   Redis
