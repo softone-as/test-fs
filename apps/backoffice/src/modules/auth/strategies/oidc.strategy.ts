@@ -6,13 +6,15 @@ import {
     UserinfoResponse,
     TokenSet,
     Issuer,
+    BaseClient,
 } from 'openid-client';
-import { config } from 'apps/backoffice/src/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'entities/iam/user.entity';
 import { Repository } from 'typeorm';
-import { ROLE_ADMIN, Role } from 'entities/iam/role.entity';
-export const buildOpenIdClient = async () => {
+import { config } from '../../../config';
+import { ROLE_ADMIN, Role } from '../../../../../../entities/iam/role.entity';
+import { User } from '../../../../../../entities/iam/user.entity';
+
+export const buildOpenIdClient = async (): Promise<BaseClient> => {
     const TrustIssuer = await Issuer.discover(
         `${config.auth.sso.oidc.wellKnownConfigurationUrl}`,
     );
