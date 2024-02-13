@@ -1,21 +1,24 @@
 import { MenuOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 import { Header } from 'antd/es/layout/layout';
-import { TNotificationProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
+import {
+    TInertiaProps,
+    TNotificationProps,
+} from 'apps/backoffice/app/Modules/Inertia/Entities';
 import { themeColors } from 'apps/backoffice/app/Utils/theme';
 import React from 'react';
 import { UserAvatar } from '../../atoms/Avatars';
 import NotificationIcon from '../../atoms/Icons/NotificationIcon';
 import { CompanyLogo } from '../../atoms/Logos';
-import { TInertiaPage } from 'apps/backoffice/app/Modules/Common/Entities';
 
 interface IMainHeaderProps {
     setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
     collapsed: boolean;
+    userDetail: TInertiaProps['userDetail'];
     notifications: TNotificationProps | null;
 }
 
-const MainHeader: TInertiaPage<IMainHeaderProps> = ({
+const MainHeader: React.FC<IMainHeaderProps> = ({
     setCollapsed,
     collapsed,
     userDetail,
