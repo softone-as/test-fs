@@ -16,11 +16,12 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
-import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
+import { TInertiaPage } from 'apps/backoffice/app/Modules/Common/Entities';
+import { TCUserDetailProps } from 'apps/backoffice/@contracts/iam/user/user-detail.contract';
+import { TCUserIndexProps } from 'apps/backoffice/@contracts/iam/user/user-index.contract';
 
-const columns: ColumnsType<TUserResponse> = [
+const columns: ColumnsType<TCUserIndexProps['data'][number]> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -61,7 +62,7 @@ const columns: ColumnsType<TUserResponse> = [
     },
 ];
 
-const data: TUserResponse[] = [
+const data: TCUserIndexProps['data'] = [
     {
         id: 1,
         fullname: 'John Cena',
@@ -85,7 +86,7 @@ const data: TUserResponse[] = [
     },
 ];
 
-const DetailBasicPage: React.FC = (props: TInertiaProps) => {
+const DetailBasicPage: TInertiaPage<TCUserDetailProps> = (props) => {
     return (
         <MainLayout
             title="Detail User"
@@ -135,7 +136,7 @@ const DetailBasicPage: React.FC = (props: TInertiaProps) => {
                         actions={<Button type="primary">Add Data</Button>}
                     />
 
-                    <DataTable<TUserResponse>
+                    <DataTable
                         columns={columns}
                         dataSource={data}
                         rowKey="id"

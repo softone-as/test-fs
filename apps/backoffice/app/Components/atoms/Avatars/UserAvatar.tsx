@@ -1,13 +1,13 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Link } from '@inertiajs/inertia-react';
 import { Avatar, Space, Typography } from 'antd';
-import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
 import { Route } from 'apps/backoffice/app/Common/Route/Route';
 import { isMobileScreen } from 'apps/backoffice/app/Utils/utils';
+import { IUser } from 'interface-models/iam/user.interface';
 import React from 'react';
 
 interface IUserAvatarProps {
-    userDetail: TUserResponse | null;
+    userDetail: Omit<IUser, 'password'> | null;
 }
 
 const { Text } = Typography;

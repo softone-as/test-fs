@@ -1,5 +1,5 @@
-import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
+import { IUser } from 'interface-models/iam/user.interface';
 
 export type TCUserDetailProps = {
-    data: TUserResponse;
+    data: Omit<IUser, 'password'>;
 };

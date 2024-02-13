@@ -7,14 +7,13 @@ import DescriptionContainer from '../../../Components/molecules/DescriptionConta
 import { Section } from '../../../Components/molecules/Section';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { MainLayout } from '../../../Layouts/MainLayout';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { defaultSizeSpace } from '../../../Utils/theme';
 import { TCRoleDetailProps } from 'apps/backoffice/@contracts/iam/role/role-detail.contract';
-import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
+import { TInertiaPage } from 'apps/backoffice/app/Modules/Common/Entities';
+import { TCUserIndexProps } from 'apps/backoffice/@contracts/iam/user/user-index.contract';
+import { TCRoleIndexProps } from 'apps/backoffice/@contracts/iam/role/role-index.contract';
 
-type TProps = TInertiaProps & TCRoleDetailProps;
-
-const PermissionColumns: ColumnsType<TProps['data']> = [
+const PermissionColumns: ColumnsType<TCRoleIndexProps['data'][number]> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -32,7 +31,7 @@ const PermissionColumns: ColumnsType<TProps['data']> = [
     },
 ];
 
-const UserColumn: ColumnsType<TUserResponse> = [
+const UserColumn: ColumnsType<TCUserIndexProps['data'][number]> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -50,7 +49,7 @@ const UserColumn: ColumnsType<TUserResponse> = [
     },
 ];
 
-const DetailRolePage: React.FC = (props: TProps) => {
+const DetailRolePage: TInertiaPage<TCRoleDetailProps> = (props) => {
     const { key, name, id, permissions } = props.data;
 
     const [dataPermission, setDataPermission] = useState(permissions);
@@ -103,7 +102,7 @@ const DetailRolePage: React.FC = (props: TProps) => {
                 </Section>
 
                 <Section title="Users">
-                    <DataTable<TUserResponse>
+                    <DataTable
                         columns={UserColumn}
                         dataSource={dataUser}
                         rowKey="id"

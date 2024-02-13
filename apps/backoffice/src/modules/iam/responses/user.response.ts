@@ -1,8 +1,8 @@
+import { TCUserDetailProps } from 'apps/backoffice/@contracts/iam/user/user-detail.contract';
 import { IUser } from 'interface-models/iam/user.interface';
-import { TUserResponse } from '../../../../@contracts/iam/user/user.response.contract';
 
 export class UserResponse {
-    public static fromEntity = (user: IUser): TUserResponse => ({
+    public static fromEntity = (user: IUser): TCUserDetailProps['data'] => ({
         id: user.id,
         fullname: user.fullname,
         email: user.email,

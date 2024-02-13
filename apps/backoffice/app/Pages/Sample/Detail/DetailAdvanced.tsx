@@ -35,9 +35,11 @@ import { Link } from '@inertiajs/inertia-react';
 import { Button } from '../../../Components/atoms/Button';
 import { DescriptionContainer } from '../../../Components/molecules/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
-import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
+import { TCUserIndexProps } from 'apps/backoffice/@contracts/iam/user/user-index.contract';
+import { TInertiaPage } from 'apps/backoffice/app/Modules/Common/Entities';
+import { TCUserDetailProps } from 'apps/backoffice/@contracts/iam/user/user-detail.contract';
 
-const columns: ColumnsType<TUserResponse> = [
+const columns: ColumnsType<TCUserIndexProps['data'][number]> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -78,7 +80,7 @@ const columns: ColumnsType<TUserResponse> = [
     },
 ];
 
-const data: TUserResponse[] = [
+const data: TCUserIndexProps['data'] = [
     {
         id: 1,
         fullname: 'John Cena',
@@ -107,7 +109,7 @@ const tabItems: TabsProps['items'] = [
         key: '1',
         label: `Tab 1`,
         children: (
-            <DataTable<TUserResponse>
+            <DataTable
                 columns={columns}
                 dataSource={data}
                 rowKey="id"
@@ -131,7 +133,7 @@ const tabItems: TabsProps['items'] = [
     },
 ];
 
-const DetailAdvancedPage: React.FC = () => {
+const DetailAdvancedPage: TInertiaPage<TCUserDetailProps> = () => {
     return (
         <Layout
             title="Detail Advanced"

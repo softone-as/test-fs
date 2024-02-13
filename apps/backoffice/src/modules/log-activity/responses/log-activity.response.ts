@@ -1,11 +1,11 @@
-import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { OmitType } from '@nestjs/swagger';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
 import { UserResponse } from '../../iam/responses/user.response';
+import { TCUserDetailProps } from 'apps/backoffice/@contracts/iam/user/user-detail.contract';
 
 export class LogActivityResponse extends OmitType(LogActivity, ['user']) {
-    user: TUserResponse | null;
+    user: TCUserDetailProps['data'] | null;
 
     static fromEntity(entity: ILogActivity): LogActivityResponse {
         const response = new LogActivityResponse();
