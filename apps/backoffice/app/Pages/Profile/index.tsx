@@ -2,7 +2,6 @@ import React from 'react';
 import { Descriptions, Space } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { MainLayout } from '../../Layouts/MainLayout';
-import { IUser } from '../../Modules/User/Entities';
 import { defaultSizeSpace } from '../../Utils/theme';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
@@ -10,9 +9,10 @@ import { Button } from '../../Components/atoms/Button';
 import DescriptionContainer from '../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../Components/molecules/Section';
 import { Route } from '../../Common/Route/Route';
+import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
 
 interface IProps extends TInertiaProps {
-    data: IUser;
+    data: TUserResponse;
 }
 
 const UserDetailPage: React.FC = (props: IProps) => {

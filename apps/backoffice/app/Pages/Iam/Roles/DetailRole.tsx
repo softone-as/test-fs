@@ -1,9 +1,6 @@
 import { Descriptions, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { DataTable } from 'apps/backoffice/app/Components/organisms/DataTable';
-import { IPermission } from 'interface-models/iam/permission.interface';
-import { IRole } from 'interface-models/iam/role.interface';
-import { IUser } from 'interface-models/iam/user.interface';
 import React, { useState } from 'react';
 
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
@@ -12,13 +9,12 @@ import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { defaultSizeSpace } from '../../../Utils/theme';
+import { TCRoleDetailProps } from 'apps/backoffice/@contracts/iam/role/role-detail.contract';
+import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
 
-interface IProps extends TInertiaProps {
-    data: IRole;
-    users: IUser[];
-}
+type TProps = TInertiaProps & TCRoleDetailProps;
 
-const PermissionColumns: ColumnsType<IPermission> = [
+const PermissionColumns: ColumnsType<TProps['data']> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -36,7 +32,7 @@ const PermissionColumns: ColumnsType<IPermission> = [
     },
 ];
 
-const UserColumn: ColumnsType<IUser> = [
+const UserColumn: ColumnsType<TUserResponse> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -54,12 +50,11 @@ const UserColumn: ColumnsType<IUser> = [
     },
 ];
 
-const DetailRolePage: React.FC = (props: IProps) => {
+const DetailRolePage: React.FC = (props: TProps) => {
     const { key, name, id, permissions } = props.data;
-    const users = props.users;
 
     const [dataPermission, setDataPermission] = useState(permissions);
-    const [dataUser, setDataUser] = useState(users);
+    const [dataUser, setDataUser] = useState(props.data.users);
 
     const filterDataPermission = (value: string): void => {
         const filteredData = dataPermission?.filter(
@@ -71,7 +66,7 @@ const DetailRolePage: React.FC = (props: IProps) => {
     };
 
     const filterDataUser = (value: string): void => {
-        const filteredData = dataUser.filter(
+        const filteredData = dataUser?.filter(
             (entry) =>
                 entry.fullname.toLowerCase().includes(value.toLowerCase()) ||
                 entry.email.toLowerCase().includes(value.toLowerCase()),
@@ -97,7 +92,7 @@ const DetailRolePage: React.FC = (props: IProps) => {
                 </Section>
 
                 <Section title="Permissions">
-                    <DataTable<IPermission>
+                    <DataTable
                         columns={PermissionColumns}
                         dataSource={dataPermission}
                         rowKey="id"
@@ -108,7 +103,7 @@ const DetailRolePage: React.FC = (props: IProps) => {
                 </Section>
 
                 <Section title="Users">
-                    <DataTable<IUser>
+                    <DataTable<TUserResponse>
                         columns={UserColumn}
                         dataSource={dataUser}
                         rowKey="id"

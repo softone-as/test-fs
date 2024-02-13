@@ -21,42 +21,36 @@ import {
     PERMISSION_BACKOFFICE_SHOW_ROLE,
     PERMISSION_BACKOFFICE_UPDATE_ROLE,
 } from 'constants/permission.constant';
-import { RoleMapper } from '../mappers/role.mapper';
-import { UserCrudService } from '../services/user-crud.service';
-import { PermissionCrudService } from '../services/permission-crud.service';
 import { RoleResponse } from '../responses/role.response';
-import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
-import { IPermission } from 'interface-models/iam/permission.interface';
-import { IRole } from 'apps/backoffice/app/Modules/Role/Entities';
-import { IUser } from 'apps/backoffice/app/Modules/Profile/Entities';
+import { PermissionCrudService } from '../services/permission-crud.service';
+import { TCRoleIndexProps } from 'apps/backoffice/@contracts/iam/role/role-index.contract';
+import { TCRoleCreateProps } from 'apps/backoffice/@contracts/iam/role/role-create.contract';
+import { TCRoleDetailProps } from 'apps/backoffice/@contracts/iam/role/role-detail.contract';
+import { TCRoleEditProps } from 'apps/backoffice/@contracts/iam/role/role-edit.contract';
 
 @Controller('roles')
 export class RoleController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
         private readonly roleCrudService: RoleCrudService,
-        private readonly userCrudService: UserCrudService,
         private readonly permissionCrudService: PermissionCrudService,
     ) {}
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_ROLE))
     @Get()
-    async indexPage(@Query() indexRequest: RoleIndexRequest): Promise<{
-        data: RoleResponse[];
-        meta: IPaginationMeta;
-    }> {
+    async indexPage(
+        @Query() indexRequest: RoleIndexRequest,
+    ): Promise<TCRoleIndexProps> {
         const props = await this.roleCrudService.pagination(indexRequest);
         return this.inertiaAdapter.render('Iam/Roles', {
-            data: props.data.map((role) => RoleMapper.fromEntity(role)),
+            data: props.data.map((role) => RoleResponse.fromEntity(role)),
             meta: props.meta,
         });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_ROLE))
     @Get('create')
-    async createPage(): Promise<{
-        permissions: IPermission[];
-    }> {
+    async createPage(): Promise<TCRoleCreateProps> {
         const permissions = await this.permissionCrudService.findAll();
         return this.inertiaAdapter.render('Iam/Roles/CreateRole', {
             permissions,
@@ -65,21 +59,16 @@ export class RoleController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_ROLE))
     @Get(':id')
-    async detailPage(@Param('id') id: number): Promise<{
-        data: IUser[];
-    }> {
-        const users = await this.userCrudService.findAllWithRole(id);
+    async detailPage(@Param('id') id: number): Promise<TCRoleDetailProps> {
+        const data = await this.roleCrudService.findById(id);
         return this.inertiaAdapter.render('Iam/Roles/DetailRole', {
-            data: users,
+            data,
         });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_ROLE))
     @Get('edit/:id')
-    async editPage(@Param('id') id: number): Promise<{
-        data: IRole;
-        permissions: IPermission[];
-    }> {
+    async editPage(@Param('id') id: number): Promise<TCRoleEditProps> {
         const data = await this.roleCrudService.findById(id);
         const permissions = await this.permissionCrudService.findAll();
 
