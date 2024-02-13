@@ -1,4 +1,4 @@
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
-import { TUserResponse } from './user.response.contract';
+import { IUser } from 'interface-models/iam/user.interface';
 
-export type TCUserIndexProps = IPaginateResponse<TUserResponse>;
+export type TCUserIndexProps = IPaginateResponse<Omit<IUser, 'password'>>;

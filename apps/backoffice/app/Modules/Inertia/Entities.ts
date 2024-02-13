@@ -32,7 +32,7 @@ export type TInertiaProps = {
     meta: TMeta | null;
     playerId: string | null;
     success: TSuccessProps;
-    userDetail: IUser | null;
+    userDetail: Omit<IUser, 'password'> | null;
     notifications: TNotificationProps | null;
 };
 

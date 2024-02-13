@@ -7,16 +7,15 @@ import React from 'react';
 import { UserAvatar } from '../../atoms/Avatars';
 import NotificationIcon from '../../atoms/Icons/NotificationIcon';
 import { CompanyLogo } from '../../atoms/Logos';
-import { TUserResponse } from 'apps/backoffice/@contracts/iam/user/user.response.contract';
+import { TInertiaPage } from 'apps/backoffice/app/Modules/Common/Entities';
 
 interface IMainHeaderProps {
     setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
     collapsed: boolean;
-    userDetail: TUserResponse | null;
     notifications: TNotificationProps | null;
 }
 
-const MainHeader: React.FC<IMainHeaderProps> = ({
+const MainHeader: TInertiaPage<IMainHeaderProps> = ({
     setCollapsed,
     collapsed,
     userDetail,
