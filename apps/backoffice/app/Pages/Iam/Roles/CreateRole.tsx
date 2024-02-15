@@ -58,7 +58,7 @@ const CreateRolePage: React.FC = (props: TProps) => {
     const onFinish = async (): Promise<void> => {
         setIsLoading(true);
         const data = form.getFieldsValue();
-        data.permissions = selectedRowKeys as number[];
+        data.permissionIds = selectedRowKeys as number[];
 
         try {
             await form.validateFields();
