@@ -1,14 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { RoleEditSchema } from 'apps/backoffice/@contracts/iam/role/role-edit.contract';
+import { createZodDto } from 'nestjs-zod';
 
-export class RoleEditRequest {
-    @IsNotEmpty({ message: 'Field wajib diisi' })
-    @IsString()
-    name: string;
-
-    @IsNotEmpty({ message: 'Field wajib diisi' })
-    @IsString()
-    key: string;
-
-    @IsNotEmpty({ message: 'Field wajib diisi' })
-    permissionIds: number[];
-}
+export class RoleEditRequest extends createZodDto(RoleEditSchema) {}

@@ -10,18 +10,9 @@ import { ColumnsType } from 'antd/es/table';
 import { IPermission } from 'interface-models/iam/permission.interface';
 import { AppContext } from '../../../Contexts/App';
 import { editRole } from 'apps/backoffice/app/Modules/Role/Action';
-import { createYupSync } from 'apps/backoffice/app/Utils/utils';
-import { IRoleForm } from 'apps/backoffice/app/Modules/Role/Entities';
-import * as yup from 'yup';
 import { TCRoleEditProps } from 'apps/backoffice/@contracts/iam/role/role-edit.contract';
-
-const schema: yup.SchemaOf<IRoleForm> = yup.object().shape({
-    name: yup.string().required('Field role name is required'),
-    key: yup.string().required('Field key is required'),
-    permissions: yup
-        .array()
-        .of(yup.number().required('Field permissions is required')),
-});
+import { createSchemaFieldRule } from 'antd-zod';
+import { RoleCreateSchema } from 'apps/backoffice/@contracts/iam/role/role-create.contract';
 
 type TProps = TInertiaProps & TCRoleEditProps;
 
@@ -44,6 +35,7 @@ const columns: ColumnsType<IPermission> = [
 ];
 
 const EditRolePage: React.FC = (props: TProps) => {
+    const zodSync = createSchemaFieldRule(RoleCreateSchema);
     const { id, key, name } = props.data;
     const dataPermission = props.permissions;
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -64,7 +56,6 @@ const EditRolePage: React.FC = (props: TProps) => {
     };
     const hasSelected = selectedRowKeys.length > 0;
 
-    const yupSync = createYupSync(schema);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
@@ -119,10 +110,11 @@ const EditRolePage: React.FC = (props: TProps) => {
                     ]}
                 >
                     <Row gutter={32}>
+                        permissionIds
                         {/* Row 1 */}
                         <Col sm={24} md={12} lg={8}>
                             <Form.Item
-                                rules={[yupSync]}
+                                rules={[zodSync]}
                                 required
                                 label="Role Name"
                                 name="name"
@@ -133,7 +125,7 @@ const EditRolePage: React.FC = (props: TProps) => {
                         </Col>
                         <Col sm={24} md={12} lg={8}>
                             <Form.Item
-                                rules={[yupSync]}
+                                rules={[zodSync]}
                                 required
                                 label="Key"
                                 name="key"

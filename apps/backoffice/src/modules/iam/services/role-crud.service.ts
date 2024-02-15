@@ -38,7 +38,7 @@ export class RoleCrudService {
         }
 
         const permissions = await this.permissionRepository.findByIds(
-            roleRequest.permissions,
+            roleRequest.permissionIds,
         );
 
         const roleCreate = new Role();

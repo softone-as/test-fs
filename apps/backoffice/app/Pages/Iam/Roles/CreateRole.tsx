@@ -9,18 +9,11 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { ColumnsType } from 'antd/es/table';
 import { AppContext } from '../../../Contexts/App';
 import { createRole } from 'apps/backoffice/app/Modules/Role/Action';
-import { createYupSync } from 'apps/backoffice/app/Utils/utils';
-import { IRoleForm } from 'apps/backoffice/app/Modules/Role/Entities';
-import * as yup from 'yup';
-import { TCRoleCreateProps } from 'apps/backoffice/@contracts/iam/role/role-create.contract';
-
-const schema: yup.SchemaOf<IRoleForm> = yup.object().shape({
-    name: yup.string().required('Field role name is required'),
-    key: yup.string().required('Field key is required'),
-    permissions: yup
-        .array()
-        .of(yup.number().required('Field permissions is required')),
-});
+import {
+    RoleCreateSchema,
+    TCRoleCreateProps,
+} from 'apps/backoffice/@contracts/iam/role/role-create.contract';
+import { createSchemaFieldRule } from 'antd-zod';
 
 type TProps = TInertiaProps & TCRoleCreateProps;
 
@@ -43,6 +36,7 @@ const columns: ColumnsType<TProps['permissions'][number]> = [
 ];
 
 const CreateRolePage: React.FC = (props: TProps) => {
+    const zodSync = createSchemaFieldRule(RoleCreateSchema);
     const dataPermission = props.permissions;
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const onSelectChange = (newSelectedRowKeys: React.Key[]): void => {
@@ -57,7 +51,6 @@ const CreateRolePage: React.FC = (props: TProps) => {
     };
     const hasSelected = selectedRowKeys.length > 0;
 
-    const yupSync = createYupSync(schema);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
@@ -65,7 +58,7 @@ const CreateRolePage: React.FC = (props: TProps) => {
     const onFinish = async (): Promise<void> => {
         setIsLoading(true);
         const data = form.getFieldsValue();
-        data.permissions = selectedRowKeys as number[];
+        data.permissionIds = selectedRowKeys as number[];
 
         try {
             await form.validateFields();
@@ -115,7 +108,7 @@ const CreateRolePage: React.FC = (props: TProps) => {
                         {/* Row 1 */}
                         <Col sm={24} md={12} lg={8}>
                             <Form.Item
-                                rules={[yupSync]}
+                                rules={[zodSync]}
                                 required
                                 label="Role Name"
                                 name="name"
@@ -125,7 +118,7 @@ const CreateRolePage: React.FC = (props: TProps) => {
                         </Col>
                         <Col sm={24} md={12} lg={8}>
                             <Form.Item
-                                rules={[yupSync]}
+                                rules={[zodSync]}
                                 required
                                 label="Key"
                                 name="key"
