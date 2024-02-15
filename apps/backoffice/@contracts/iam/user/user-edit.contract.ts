@@ -1,5 +1,7 @@
 import { IUser } from 'interface-models/iam/user.interface';
-import { TCUserCreateProps } from './user-create.contract';
+import { TCUserCreateProps, UserCreateSchema } from './user-create.contract';
+
+export const UserEditSchema = UserCreateSchema.extend({});
 
 export type TCUserEditProps = TCUserCreateProps & {
     id: number;
