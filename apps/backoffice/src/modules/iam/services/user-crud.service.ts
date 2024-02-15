@@ -6,7 +6,7 @@ import { CacheClear } from '../../../../src/infrastructure/cache/decorators/cach
 import { RoleIndexRequest } from '../requests/role-index.request';
 import { RoleRepository } from '../repositories/role.repository';
 import { IPaginateResponse } from '../../../common/interface/index.interface';
-import { IUser } from '../../../../app/Modules/Profile/Entities';
+import { IUser } from 'interface-models/iam/user.interface';
 import { config } from '../../../config';
 import { User } from '../../../../../../entities/iam/user.entity';
 import { Utils } from '../../../common/utils/util';

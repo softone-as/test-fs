@@ -15,7 +15,7 @@ export interface IUser extends IBaseEntity {
 
     email: string;
 
-    password?: string;
+    password: string;
 
     identityNumber: string;
 
