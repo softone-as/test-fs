@@ -1,17 +1,17 @@
+import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { OmitType } from '@nestjs/swagger';
-import { UserMapper } from '../../iam/mappers/user.mapper';
-import { LogActivity } from '../../../../../../entities/log-activity/log-activity.entity';
+import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
 import { UserResponse } from '../../iam/responses/user.response';
-import { ILogActivity } from '../../../../../../interface-models/log-activity/log-activity.interface';
+import { TCUserDetailProps } from 'apps/backoffice/@contracts/iam/user/user-detail.contract';
 
 export class LogActivityResponse extends OmitType(LogActivity, ['user']) {
-    user: UserResponse | null;
+    user: TCUserDetailProps['data'] | null;
 
     static fromEntity(entity: ILogActivity): LogActivityResponse {
         const response = new LogActivityResponse();
 
         response.id = entity.id;
-        response.user = entity.user && UserMapper.fromEntity(entity.user);
+        response.user = entity.user && UserResponse.fromEntity(entity.user);
         response.metaData = entity?.metaData;
         response.source = entity?.source;
         response.activity = entity?.activity;

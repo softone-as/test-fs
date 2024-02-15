@@ -4,9 +4,7 @@ import { Descriptions, Space } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 import { MainLayout } from '../../../Layouts/MainLayout';
-import { IUser } from '../../../Modules/User/Entities';
 import { defaultSizeSpace } from '../../../Utils/theme';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { Button } from '../../../Components/atoms/Button';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
@@ -14,15 +12,15 @@ import { Section } from '../../../Components/molecules/Section';
 import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
 import { useModal } from 'apps/backoffice/app/Utils/modal';
 import { deleteUser } from 'apps/backoffice/app/Modules/User/Action';
-interface IProps extends TInertiaProps {
-    data: IUser;
-}
+import { TCUserDetailProps } from 'apps/backoffice/@contracts/iam/user/user-detail.contract';
 
-const UserDetailPage: React.FC = (props: IProps) => {
+type TProps = TCUserDetailProps;
+
+const UserDetailPage: React.FC = (props: TProps) => {
     const { id, identityNumber, email, fullname, phoneNumber, gender } =
         props.data;
 
-    const handleDelete = () => {
+    const handleDelete = (): void => {
         useModal({
             title: 'Are You Sure? ',
             type: 'confirm',

@@ -6,8 +6,6 @@ import { Button } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
 import { useModal } from '../../../Utils/modal';
 
-import { PermissionResponse } from '../../../../src/modules/iam/responses/permission.response';
-import { RoleResponse } from '../../../../src/modules/iam/responses/role.response';
 import type { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../../../Utils/hooks';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
@@ -18,19 +16,18 @@ import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
 import { Inertia } from '@inertiajs/inertia';
 import { Link } from '@inertiajs/inertia-react';
 import { deleteRole } from 'apps/backoffice/app/Modules/Role/Action';
+import { TCRoleIndexProps } from 'apps/backoffice/@contracts/iam/role/role-index.contract';
 
-interface IProps extends TInertiaProps {
-    data: RoleResponse[];
-}
+type TProps = TInertiaProps & TCRoleIndexProps;
 
-const RolePage: React.FC = (props: IProps) => {
+const RolePage: React.FC = (props: TProps) => {
     const {
         setQueryParams,
         filters,
         status: { isFetching },
     } = useTableFilter();
 
-    const columns: ColumnsType<PermissionResponse> = [
+    const columns: ColumnsType<TProps['data'][number]> = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -63,7 +60,7 @@ const RolePage: React.FC = (props: IProps) => {
             title: 'Action',
             key: 'action',
             width: '142px',
-            render: (text, record) => {
+            render: (text, record): React.ReactElement => {
                 return (
                     <RowActionButtons
                         actions={[
@@ -96,7 +93,7 @@ const RolePage: React.FC = (props: IProps) => {
         },
     ];
 
-    const handleBatchDelete = (selectedRowKeys) => {
+    const handleBatchDelete = (selectedRowKeys): void => {
         Inertia.post(`/permissions/deletes`, {
             ids: selectedRowKeys,
         });

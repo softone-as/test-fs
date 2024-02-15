@@ -9,21 +9,19 @@ import {
 import { Link } from '@inertiajs/inertia-react';
 import { Descriptions, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-
-import { IUser } from '../../../Modules/User/Entities';
-
 import { defaultSizeSpace, iconActionTableStyle } from '../../../Utils/theme';
-
 import { Button } from '../../../Components/atoms/Button';
 import { DataTable } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section, SectionHeader } from '../../../Components/molecules/Section';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
+import { TInertiaPage } from 'apps/backoffice/app/Modules/Common/Entities';
+import { TCUserDetailProps } from 'apps/backoffice/@contracts/iam/user/user-detail.contract';
+import { TCUserIndexProps } from 'apps/backoffice/@contracts/iam/user/user-index.contract';
 
-const columns: ColumnsType<IUser> = [
+const columns: ColumnsType<TCUserIndexProps['data'][number]> = [
     {
         title: 'ID',
         dataIndex: 'id',
@@ -64,7 +62,7 @@ const columns: ColumnsType<IUser> = [
     },
 ];
 
-const data: IUser[] = [
+const data: TCUserIndexProps['data'] = [
     {
         id: 1,
         fullname: 'John Cena',
@@ -88,7 +86,7 @@ const data: IUser[] = [
     },
 ];
 
-const DetailBasicPage: React.FC = (props: TInertiaProps) => {
+const DetailBasicPage: TInertiaPage<TCUserDetailProps> = (props) => {
     return (
         <MainLayout
             title="Detail User"
@@ -138,7 +136,7 @@ const DetailBasicPage: React.FC = (props: TInertiaProps) => {
                         actions={<Button type="primary">Add Data</Button>}
                     />
 
-                    <DataTable<IUser>
+                    <DataTable
                         columns={columns}
                         dataSource={data}
                         rowKey="id"

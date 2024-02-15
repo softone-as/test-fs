@@ -10,18 +10,13 @@ import { createUser, editUser } from '../../../Modules/User/Action';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { Section } from '../../../Components/molecules/Section';
 import { AppContext } from '../../../Contexts/App';
-import { IRole } from '../../../../../../interface-models/iam/role.interface';
-import { IUser } from '../../../Modules/Profile/Entities';
 import { createSchemaFieldRule } from 'antd-zod';
 import { UserCreateSchema } from '../../../../@contracts/iam/create-user.schema';
+import { TCUserEditProps } from 'apps/backoffice/@contracts/iam/user/user-edit.contract';
 
-interface IProps extends TInertiaProps {
-    roles: IRole[];
-    data?: IUser;
-    isUpdate: boolean;
-}
+type TProps = TInertiaProps & TCUserEditProps;
 
-const FormUserPage: React.FC = (props: IProps) => {
+const FormUserPage: React.FC = (props: TProps) => {
     const zodSync = createSchemaFieldRule(UserCreateSchema);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);

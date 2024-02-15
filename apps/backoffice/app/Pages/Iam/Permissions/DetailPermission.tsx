@@ -1,19 +1,16 @@
 import { Descriptions, Space } from 'antd';
-import { IPermission } from 'interface-models/iam/permission.interface';
 import React from 'react';
 
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
 import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 import { MainLayout } from '../../../Layouts/MainLayout';
-import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { defaultSizeSpace } from '../../../Utils/theme';
+import { TCPermissionDetailProps } from 'apps/backoffice/@contracts/iam/permission/permission-detail.contract';
 
-interface IProps extends TInertiaProps {
-    data: IPermission;
-}
+type TProps = TCPermissionDetailProps;
 
-const DetailPermissionPage: React.FC = (props: IProps) => {
+const DetailPermissionPage: React.FC = (props: TProps) => {
     const { key, name, roles, id } = props.data;
 
     return (

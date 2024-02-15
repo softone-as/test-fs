@@ -3,11 +3,10 @@ import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapt
 import { PERMISSION_BACKOFFICE_SHOW_PERMISSION } from 'constants/permission.constant';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { PermissionCrudService } from '../services/permission-crud.service';
-import { PermissionMapper } from '../mappers/permission.mapper';
-import { PermissionIndexRequest } from '../requests/permission-index.request';
 import { PermissionResponse } from '../responses/permission.response';
-import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
-import { IPermission } from 'interface-models/iam/permission.interface';
+import { PermissionIndexRequest } from '../requests/permission-index.request';
+import { TCPermissionIndexProps } from 'apps/backoffice/@contracts/iam/permission/permission-index.contract';
+import { TCPermissionDetailProps } from 'apps/backoffice/@contracts/iam/permission/permission-detail.contract';
 
 @Controller('permissions')
 export class PermissionController {
@@ -18,17 +17,16 @@ export class PermissionController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_PERMISSION))
     @Get()
-    async indexPage(@Query() indexRequest: PermissionIndexRequest): Promise<{
-        data: PermissionResponse[];
-        meta: IPaginationMeta;
-    }> {
+    async indexPage(
+        @Query() indexRequest: PermissionIndexRequest,
+    ): Promise<TCPermissionIndexProps> {
         const pagination = await this.permissionCrudService.pagination(
             indexRequest,
         );
 
         return this.inertiaAdapter.render('Iam/Permissions', {
             data: pagination.data.map((permission) =>
-                PermissionMapper.fromEntity(permission),
+                PermissionResponse.fromEntity(permission),
             ),
             meta: pagination.meta,
         });
@@ -36,9 +34,9 @@ export class PermissionController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_PERMISSION))
     @Get(':id')
-    async detailPage(@Param('id') id: number): Promise<{
-        data: IPermission;
-    }> {
+    async detailPage(
+        @Param('id') id: number,
+    ): Promise<TCPermissionDetailProps> {
         const data = await this.permissionCrudService.findById(id);
         return this.inertiaAdapter.render('Iam/Permissions/DetailPermission', {
             data,

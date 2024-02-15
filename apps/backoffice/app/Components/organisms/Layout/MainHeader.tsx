@@ -1,8 +1,10 @@
 import { MenuOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 import { Header } from 'antd/es/layout/layout';
-import { TNotificationProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
-import { IUser } from 'apps/backoffice/app/Modules/Profile/Entities';
+import {
+    TInertiaProps,
+    TNotificationProps,
+} from 'apps/backoffice/app/Modules/Inertia/Entities';
 import { themeColors } from 'apps/backoffice/app/Utils/theme';
 import React from 'react';
 import { UserAvatar } from '../../atoms/Avatars';
@@ -12,7 +14,7 @@ import { CompanyLogo } from '../../atoms/Logos';
 interface IMainHeaderProps {
     setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
     collapsed: boolean;
-    userDetail: IUser | null;
+    userDetail: TInertiaProps['userDetail'];
     notifications: TNotificationProps | null;
 }
 

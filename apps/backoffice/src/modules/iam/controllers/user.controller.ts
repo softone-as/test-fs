@@ -22,11 +22,11 @@ import {
 import { PermissionGuard } from '../../auth/guards/permission.guard';
 import { UserUpdateRequest } from '../requests/user-update.request';
 import { UserBulkDeleteRequest } from '../requests/user-bulk-delete.request';
-import { UserMapper } from '../mappers/user.mapper';
 import { UserResponse } from '../responses/user.response';
-import { IPaginationMeta } from '../../../../src/common/interface/index.interface';
-import { IRole } from '../../../../../../interface-models/iam/role.interface';
-import { IUser } from '../../../../app/Modules/User/Entities';
+import { TCUserDetailProps } from 'apps/backoffice/@contracts/iam/user/user-detail.contract';
+import { TCUserEditProps } from 'apps/backoffice/@contracts/iam/user/user-edit.contract';
+import { TCUserIndexProps } from 'apps/backoffice/@contracts/iam/user/user-index.contract';
+import { TCUserCreateProps } from 'apps/backoffice/@contracts/iam/user/user-create.contract';
 
 @Controller('users')
 export class UserController {
@@ -38,21 +38,20 @@ export class UserController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get()
-    async indexPage(@Query() indexRequest: UserIndexRequest): Promise<{
-        data: UserResponse[];
-        meta: IPaginationMeta;
-    }> {
+    async indexPage(
+        @Query() indexRequest: UserIndexRequest,
+    ): Promise<TCUserIndexProps> {
         const users = await this.userCrudService.pagination(indexRequest);
 
         return this.inertiaAdapter.render('Iam/Users', {
-            data: users.data.map((user) => UserMapper.fromEntity(user)),
+            data: users.data.map((user) => UserResponse.fromEntity(user)),
             meta: users.meta,
         });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get('create')
-    async createPage(): Promise<{ roles: IRole[] }> {
+    async createPage(): Promise<TCUserCreateProps> {
         const roles = await this.roleCrudApplication.findAll();
 
         return this.inertiaAdapter.render('Iam/Users/FormUser', {
@@ -62,19 +61,14 @@ export class UserController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_USER))
     @Get(':id')
-    async detailPage(@Param('id') id: number): Promise<{ data: IUser }> {
+    async detailPage(@Param('id') id: number): Promise<TCUserDetailProps> {
         const data = await this.userCrudService.findById(id);
         return this.inertiaAdapter.render('Iam/Users/DetailUser', { data });
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_USER))
     @Get('edit/:id')
-    async editPage(@Param('id') id: number): Promise<{
-        id: number;
-        data: IUser;
-        roles: IRole[];
-        isUpdate: boolean;
-    }> {
+    async editPage(@Param('id') id: number): Promise<TCUserEditProps> {
         const data = await this.userCrudService.findById(id);
         const roles = await this.roleCrudApplication.findAll();
         return this.inertiaAdapter.render('Iam/Users/FormUser', {
