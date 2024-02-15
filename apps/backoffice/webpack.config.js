@@ -65,7 +65,7 @@ module.exports = (env) => {
             }),
         ],
         performance: {
-            hints: 'error',
+            hints: 'warning',
             maxEntrypointSize: 10240000,
             maxAssetSize: 10240000,
         },

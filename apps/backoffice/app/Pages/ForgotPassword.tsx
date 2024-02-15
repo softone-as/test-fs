@@ -9,7 +9,7 @@ import { TInertiaProps } from '../Modules/Inertia/Entities';
 import {
     AuthForgotPasswordSchema,
     TAuthForgotPasswordSchema,
-} from '../../@contracts/auth/auth-forgot-password.schema';
+} from 'apps/backoffice/@contracts/auth/auth-forgot-password.contract';
 import { createSchemaFieldRule } from 'antd-zod';
 
 const ForgotPassword = (props: TInertiaProps): React.ReactNode => {
