@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { IUser } from 'interface-models/iam/user.interface';
+import { IUser } from '../../../../../../interface-models/iam/user.interface';
 import { Strategy } from 'passport-local';
 import { UserRepository } from '../../iam/repositories/user.repository';
 

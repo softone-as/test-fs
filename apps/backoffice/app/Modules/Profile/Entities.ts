@@ -1,4 +1,4 @@
-import { UserCreateRequest } from 'apps/backoffice/src/modules/iam/requests/user-create.request';
+import { UserCreateRequest } from '../../../src/modules/iam/requests/user-create.request';
 
 type IProfileForm = Omit<UserCreateRequest, 'roles' | 'password'>;
 

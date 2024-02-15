@@ -1,4 +1,4 @@
-import { IBaseEntity } from 'interface-models/base-entity.interface';
+import { IBaseEntity } from '../base-entity.interface';
 import { IRole } from './role.interface';
 
 export enum GenderEnum {

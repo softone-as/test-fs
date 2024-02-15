@@ -1,14 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { UserCreateSchema } from 'apps/backoffice/@contracts/iam/user/user-create.contract';
+import { createZodDto } from 'nestjs-zod';
 
-export class UserCreateRequest {
-    @IsNotEmpty({ message: 'Field wajib diisi' })
-    @IsString()
-    name: string;
-
-    @IsNotEmpty({ message: 'Field wajib diisi' })
-    @IsEmail()
-    email: string;
-
-    @IsNotEmpty({ message: 'Field wajib diisi' })
-    password: string;
-}
+export class UserCreateRequest extends createZodDto(UserCreateSchema) {}

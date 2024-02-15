@@ -4,7 +4,7 @@ import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { FailSafeService } from '../services/fail-safe.service';
 import InternalOpenCircuitException from '../../error/internal-open-circuit-exception.exception';
-import { config } from 'apps/backoffice/src/config';
+import { config } from '../../../config';
 
 // decorator for get cache if exist or set cache if no exist
 export const FailSafeCheck = (): any => {

@@ -1,5 +1,5 @@
+import { AuthConfirmForgotPasswordSchema } from 'apps/backoffice/@contracts/auth/auth-confirm-forgot-password.contract';
 import { createZodDto } from 'nestjs-zod';
-import { AuthConfirmForgotPasswordSchema } from '../../../../@contracts/auth/auth-confirm-forgot-password.schema';
 
 export class AuthConfirmForgotPasswordRequest extends createZodDto(
     AuthConfirmForgotPasswordSchema,

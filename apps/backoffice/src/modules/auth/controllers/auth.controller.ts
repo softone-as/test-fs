@@ -8,14 +8,14 @@ import {
     Res,
     UseGuards,
 } from '@nestjs/common';
-import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { Request, Response } from 'express';
 import { AuthService } from '../services/auth.service';
 import { LocalGuard } from '../guards/local.guard';
 import { LoggedInGuard } from '../guards/logged-in.guard';
 import { LoggedOutGuard } from '../guards/logged-out.guard';
 import { OidcGuard } from '../guards/oidc.guard';
-import { FailSafeCheck } from 'apps/backoffice/src/infrastructure/fail-safe/decorators/fail-safe.decorator';
+import { FailSafeCheck } from '../../../infrastructure/fail-safe/decorators/fail-safe.decorator';
+import { InertiaAdapter } from '../../../infrastructure/inertia/adapter/inertia.adapter';
 
 @Controller('auth')
 export class AuthController {

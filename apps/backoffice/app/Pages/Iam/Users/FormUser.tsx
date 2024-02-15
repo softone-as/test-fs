@@ -1,7 +1,5 @@
 import { Button, Form, Input, Select } from 'antd';
 import React, { useContext, useState } from 'react';
-import * as yup from 'yup';
-import { createYupSync } from '../../../Utils/utils';
 
 import { FormContainer } from '../../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../../Layouts/MainLayout';
@@ -9,43 +7,17 @@ import { Breadcrumbs } from '../../../Common/Enums/Breadcrumb';
 
 import { createUser, editUser } from '../../../Modules/User/Action';
 
-import { IUserForm } from '../../../Modules/User/Entities';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { Section } from '../../../Components/molecules/Section';
 import { AppContext } from '../../../Contexts/App';
+import { createSchemaFieldRule } from 'antd-zod';
 import { TCUserEditProps } from 'apps/backoffice/@contracts/iam/user/user-edit.contract';
-
-const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
-    fullname: yup.string().required('Field fullname is required'),
-    password: yup
-        .string()
-        .required('Field password is required')
-        .min(8, 'Password at least have 8 character')
-        .test(
-            'isFormatValid',
-            'At least password has include 1 number and Alphabet',
-            (value) => {
-                if (!value) return false;
-
-                const hasUpperCase = /[A-Z]/.test(value);
-                const hasNumber = /[0-9]/.test(value);
-
-                if (hasNumber && hasUpperCase) {
-                    return true;
-                }
-
-                return false;
-            },
-        ),
-    email: yup.string().email().required('Field email is required'),
-    phoneNumber: yup.string().required('Field phone number is required'),
-    roles: yup.array().of(yup.number().required('Field roles is required')),
-});
+import { UserCreateSchema } from 'apps/backoffice/@contracts/iam/user/user-create.contract';
 
 type TProps = TInertiaProps & TCUserEditProps;
 
 const FormUserPage: React.FC = (props: TProps) => {
-    const yupSync = createYupSync(schema);
+    const zodSync = createSchemaFieldRule(UserCreateSchema);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
@@ -106,7 +78,7 @@ const FormUserPage: React.FC = (props: TProps) => {
                     <Form.Item
                         label="Full Name"
                         name="fullname"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input placeholder="Input" />
@@ -115,7 +87,7 @@ const FormUserPage: React.FC = (props: TProps) => {
                     <Form.Item
                         label="Email"
                         name="email"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input type="email" placeholder="Input" />
@@ -124,7 +96,7 @@ const FormUserPage: React.FC = (props: TProps) => {
                     <Form.Item
                         label="Password"
                         name="password"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input.Password placeholder="Input" />
@@ -133,7 +105,7 @@ const FormUserPage: React.FC = (props: TProps) => {
                     <Form.Item
                         label="Phone Number"
                         name="phoneNumber"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input style={{ width: '100%' }} placeholder="Input" />
@@ -142,7 +114,7 @@ const FormUserPage: React.FC = (props: TProps) => {
                     <Form.Item
                         label="Roles"
                         name="roles"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Select placeholder="Select" mode="multiple">
