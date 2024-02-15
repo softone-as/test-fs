@@ -1,4 +1,4 @@
+import { UserCreateSchema } from 'apps/backoffice/@contracts/iam/user/user-create.contract';
 import { createZodDto } from 'nestjs-zod';
-import { UserCreateSchema } from '../../../../@contracts/iam/create-user.schema';
 
 export class UserCreateRequest extends createZodDto(UserCreateSchema) {}

@@ -11,8 +11,8 @@ import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { Section } from '../../../Components/molecules/Section';
 import { AppContext } from '../../../Contexts/App';
 import { createSchemaFieldRule } from 'antd-zod';
-import { UserCreateSchema } from '../../../../@contracts/iam/create-user.schema';
 import { TCUserEditProps } from 'apps/backoffice/@contracts/iam/user/user-edit.contract';
+import { UserCreateSchema } from 'apps/backoffice/@contracts/iam/user/user-create.contract';
 
 type TProps = TInertiaProps & TCUserEditProps;
 
