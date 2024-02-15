@@ -10,7 +10,6 @@ export const RoleCreateSchema = z.object({
         required_error: 'Field wajib diisi',
         invalid_type_error: 'Harus berupa string',
     }),
-    //TODO refactor to permissionIds
     permissionIds: z
         .number({
             required_error: 'Field wajib diisi',

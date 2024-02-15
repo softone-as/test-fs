@@ -1,5 +1,4 @@
-import { RoleCreateSchema } from 'apps/backoffice/@contracts/iam/role/role-create.contract';
+import { RoleEditSchema } from 'apps/backoffice/@contracts/iam/role/role-edit.contract';
 import { createZodDto } from 'nestjs-zod';
 
-//TODO TODO: pick type from create role contract
-export class RoleEditRequest extends createZodDto(RoleCreateSchema) {}
+export class RoleEditRequest extends createZodDto(RoleEditSchema) {}
