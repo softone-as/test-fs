@@ -36,6 +36,7 @@ const Login = (props: TInertiaProps): React.ReactNode => {
 
     const isMobile = isMobileScreen();
 
+    // warning value never used
     // const [api, contextHolder] = notification.useNotification();
 
     // const openNotification = (type: string) => {
