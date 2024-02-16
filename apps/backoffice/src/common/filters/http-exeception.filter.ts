@@ -32,7 +32,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
-        console.log('exception', exception);
 
         const path = request.path.slice(1);
 
