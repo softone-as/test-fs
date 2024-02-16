@@ -5,6 +5,7 @@ import { LoggedInGuard } from '../../auth/guards/logged-in.guard';
 import { GetUserLogged } from '../../iam/decorators/get-user.decorator';
 import { ProfileEditRequest } from '../requests/profile-edit.request';
 import { ProfileService } from '../services/profile.service';
+import { TCProfileDetailProps } from 'apps/backoffice/@contracts/profile/profile-detail.contract';
 
 @Controller('profile')
 @UseGuards(LoggedInGuard)
@@ -15,9 +16,9 @@ export class ProfileController {
     ) {}
 
     @Get()
-    async detailPage(@GetUserLogged() user: IUser): Promise<{
-        data: IUser;
-    }> {
+    async detailPage(
+        @GetUserLogged() user: IUser,
+    ): Promise<TCProfileDetailProps> {
         const data = await this.profileService.findOneById(user.id);
         return this.inertiaAdapter.render('Profile', {
             data,
@@ -25,9 +26,9 @@ export class ProfileController {
     }
 
     @Get('edit')
-    async editPage(@GetUserLogged() user: IUser): Promise<{
-        data: IUser;
-    }> {
+    async editPage(
+        @GetUserLogged() user: IUser,
+    ): Promise<TCProfileDetailProps> {
         const data = await this.profileService.findOneById(user.id);
         return this.inertiaAdapter.render('Profile/FormProfile', {
             data,

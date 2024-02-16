@@ -1,35 +1,26 @@
 import { Button, Form, Input, Radio } from 'antd';
 import React, { useContext, useState } from 'react';
-import * as yup from 'yup';
-import { createYupSync } from '../../Utils/utils';
 import { FormContainer } from '../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { Section } from '../../Components/molecules/Section';
 import { AppContext } from '../../Contexts/App';
-import { IProfileForm } from '../../Modules/Profile/Entities';
 import { editProfile } from '../../Modules/Profile/Action';
-import { IProfile } from '../../Modules/User/Entities';
 import { GenderEnum } from '../../../../../interface-models/iam/user.interface';
 import { BasicDatePicker } from '../../Components/molecules/Pickers/BasicDatePicker';
+import { createSchemaFieldRule } from 'antd-zod';
+import {
+    ProfileEditSchema,
+    TProfileEditSchema,
+} from 'apps/backoffice/@contracts/profile/profile-edit.contract';
+import { TCProfileDetailProps } from 'apps/backoffice/@contracts/profile/profile-detail.contract';
 
-const schema: yup.SchemaOf<IProfileForm> = yup.object().shape({
-    fullname: yup.string().required('Field fullname is required'),
-    email: yup.string().email().required('Field email is required'),
-    phoneNumber: yup.string().required('Field phone number is required'),
-    identityNumber: yup.string().required('Field identityNumber is required'),
-    gender: yup.string().nullable(),
-    birthDate: yup.string().nullable(),
-});
+type TProps = TInertiaProps & TCProfileDetailProps;
 
-interface IProps extends TInertiaProps {
-    data: IProfile;
-}
-
-const FormProfilePage: React.FC = (props: IProps) => {
-    const yupSync = createYupSync(schema);
-    const [form] = Form.useForm();
+const FormProfilePage: React.FC = (props: TProps) => {
+    const zodSync = createSchemaFieldRule(ProfileEditSchema);
+    const [form] = Form.useForm<TProfileEditSchema>();
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
 
@@ -80,7 +71,7 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     <Form.Item
                         label="Full Name"
                         name="fullname"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input placeholder="Input" />
@@ -88,7 +79,7 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     <Form.Item
                         label="Email"
                         name="email"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input type="email" placeholder="Input" />
@@ -96,7 +87,7 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     <Form.Item
                         label="Phone Number"
                         name="phoneNumber"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input placeholder="Input" />
@@ -104,7 +95,7 @@ const FormProfilePage: React.FC = (props: IProps) => {
                     <Form.Item
                         label="Identity Number"
                         name="identityNumber"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input placeholder="Input" />
@@ -119,11 +110,10 @@ const FormProfilePage: React.FC = (props: IProps) => {
                             </Radio.Button>
                         </Radio.Group>
                     </Form.Item>
-
                     <Form.Item
                         label="Birth Date"
                         name="birthDate"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                     >
                         <BasicDatePicker />
                     </Form.Item>
