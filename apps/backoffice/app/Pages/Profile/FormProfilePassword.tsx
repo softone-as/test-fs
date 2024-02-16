@@ -1,53 +1,17 @@
 import { Button, Form, Input } from 'antd';
 import React, { useContext, useState } from 'react';
-import * as yup from 'yup';
-import { createYupSync } from '../../Utils/utils';
 import { FormContainer } from '../../Components/organisms/FormContainer';
 import { MainLayout as Layout } from '../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import { Section } from '../../Components/molecules/Section';
 import { AppContext } from '../../Contexts/App';
-import { IProfileFormPassword } from '../../Modules/Profile/Entities';
 import { editProfilePassword } from '../../Modules/Profile/Action';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
+import { createSchemaFieldRule } from 'antd-zod';
+import { ProfileEditPasswordSchema } from 'apps/backoffice/@contracts/profile/profile-edit-password.contract';
 
 const FormProfilePage: React.FC = (props: TInertiaProps) => {
-    const [password, setPassword] = useState<string>();
-
-    const schema: yup.SchemaOf<IProfileFormPassword> = yup.object().shape({
-        password: yup
-            .string()
-            .required('Field password is required')
-            .min(8, 'Password at least have 8 character')
-            .test(
-                'isFormatValid',
-                'At least password has include 1 number and Alphabet',
-                (value) => {
-                    if (!value) return false;
-
-                    const hasUpperCase = /[A-Z]/.test(value);
-                    const hasNumber = /[0-9]/.test(value);
-                    setPassword(value);
-
-                    if (hasNumber && hasUpperCase) {
-                        return true;
-                    }
-
-                    return false;
-                },
-            ),
-        passwordConfirm: yup
-            .string()
-            .required('Field password is required')
-            .min(8, 'Password at least have 8 character')
-            .test(
-                'isFormatValid',
-                'Password confirmation must match with password',
-                (value) => password == value,
-            ),
-    });
-
-    const yupSync = createYupSync(schema);
+    const zodSync = createSchemaFieldRule(ProfileEditPasswordSchema);
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
@@ -101,7 +65,7 @@ const FormProfilePage: React.FC = (props: TInertiaProps) => {
                     <Form.Item
                         label="Password"
                         name="password"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input.Password type="password" placeholder="Input" />
@@ -110,7 +74,7 @@ const FormProfilePage: React.FC = (props: TInertiaProps) => {
                     <Form.Item
                         label="Password Confirmation"
                         name="passwordConfirm"
-                        rules={[yupSync]}
+                        rules={[zodSync]}
                         required
                     >
                         <Input.Password type="password" placeholder="Input" />
