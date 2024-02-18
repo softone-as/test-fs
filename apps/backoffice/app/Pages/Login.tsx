@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
-import * as yup from 'yup';
 import React from 'react';
 import {
     Form,
@@ -9,7 +8,6 @@ import {
     Input,
     Typography,
     Space,
-    notification,
     Row,
     Col,
 } from 'antd';
@@ -18,57 +16,52 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import { Link } from '@inertiajs/inertia-react';
 import { doLogin } from '../Modules/Auth/Login/Actions';
-import { TLogin } from '../Modules/Auth/Login/Entities';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
-import { createYupSync, isMobileScreen } from '../Utils/utils';
+import { isMobileScreen } from '../Utils/utils';
 import { themeColors } from '../Utils/theme';
 import { FormContainer } from '../Components/organisms/FormContainer';
-
-const schema: yup.SchemaOf<TLogin> = yup.object().shape({
-    email: yup
-        .string()
-        .email('Field Email wajib berformat email')
-        .required('Field Email wajib diisi'),
-    password: yup.string().required('Field Password wajib diisi'),
-});
+import { createSchemaFieldRule } from 'antd-zod';
+import {
+    AuthLoginSchema,
+    TAuthLoginSchema,
+} from 'apps/backoffice/@contracts/auth/auth-login.contract';
 
 const formItemSpacingStyle = {
     marginBottom: '16px',
 };
 
-const Login = (props: TInertiaProps) => {
-    const yupSync = createYupSync(schema);
-    const [form] = Form.useForm<TLogin>();
+const Login = (props: TInertiaProps): React.ReactNode => {
+    const zodSync = createSchemaFieldRule(AuthLoginSchema);
+    const [form] = Form.useForm<TAuthLoginSchema>();
 
     const isMobile = isMobileScreen();
 
-    const [api, contextHolder] = notification.useNotification();
+    // warning value never used
+    // const [api, contextHolder] = notification.useNotification();
 
-    const openNotification = (type: string) => {
-        if (type === 'error') {
-            api.error({
-                message: 'Error',
-                description: 'Terjadi Kesalahan',
-                placement: 'topRight',
-            });
-        }
-        if (type === 'success') {
-            api.success({
-                message: 'Success',
-                description: 'Welcome Joen Doe',
-                placement: 'topRight',
-            });
-        }
-    };
+    // const openNotification = (type: string) => {
+    //     if (type === 'error') {
+    //         api.error({
+    //             message: 'Error',
+    //             description: 'Terjadi Kesalahan',
+    //             placement: 'topRight',
+    //         });
+    //     }
+    //     if (type === 'success') {
+    //         api.success({
+    //             message: 'Success',
+    //             description: 'Welcome Joen Doe',
+    //             placement: 'topRight',
+    //         });
+    //     }
+    // };
 
-    const onSubmit = (loginData: TLogin): void => {
+    const onSubmit = (loginData: TAuthLoginSchema): void => {
         doLogin(loginData);
     };
 
     return (
         <LoginLayout title="Login">
-            {contextHolder}
-
             <Row align="middle" justify="center" style={{ height: '80%' }}>
                 <Col
                     span={24}
@@ -104,7 +97,7 @@ const Login = (props: TInertiaProps) => {
                     >
                         <Form.Item
                             name="email"
-                            rules={[yupSync]}
+                            rules={[zodSync]}
                             style={formItemSpacingStyle}
                         >
                             <Input
@@ -114,7 +107,7 @@ const Login = (props: TInertiaProps) => {
                         </Form.Item>
                         <Form.Item
                             name="password"
-                            rules={[yupSync]}
+                            rules={[zodSync]}
                             style={formItemSpacingStyle}
                         >
                             <Input.Password
