@@ -40,24 +40,24 @@ export class Role extends BaseEntity implements IRole {
     @AfterUpdate()
     createLogActivityUpdate(): void {
         GlobalService.createLogActivity({
+            userId: null,
             menu: LogActivityMenuEnum.ROLE,
             path: __filename,
             metaData: this,
             source: this.id.toString(),
             activity: 'Update Role',
-            createdAt: new Date(),
         });
     }
 
     @AfterInsert()
     createLogActivityInsert(): void {
         GlobalService.createLogActivity({
+            userId: null,
             menu: LogActivityMenuEnum.ROLE,
             path: __filename,
             metaData: this,
             source: this.id.toString(),
             activity: 'Create new role',
-            createdAt: new Date(),
         });
     }
 }

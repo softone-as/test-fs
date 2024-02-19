@@ -19,6 +19,9 @@ export class LogActivity implements ILogActivity {
     @JoinColumn()
     user?: Omit<IUser, 'password'>;
 
+    @Column({ nullable: true })
+    userId: number | null;
+
     @Column({ type: 'json', nullable: true })
     metaData: any;
 

@@ -59,24 +59,24 @@ export class User extends BaseEntity implements IUser {
     @AfterUpdate()
     createLogActivityUpdate(): void {
         GlobalService.createLogActivity({
+            userId: null,
             menu: LogActivityMenuEnum.USER,
             path: __filename,
             metaData: this,
             source: this.id.toString(),
             activity: 'Update user',
-            createdAt: new Date(),
         });
     }
 
     @AfterInsert()
     createLogActivityInsert(): void {
         GlobalService.createLogActivity({
+            userId: null,
             menu: LogActivityMenuEnum.USER,
             path: __filename,
             metaData: this,
             source: this.id.toString(),
             activity: 'Create new user',
-            createdAt: new Date(),
         });
     }
 }

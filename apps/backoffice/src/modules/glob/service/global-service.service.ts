@@ -1,25 +1,25 @@
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
-import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
 import { getManager } from 'typeorm';
+import { LogActivityCreateRequest } from '../../log-activity/requests/log-activity-create.request';
 
 export class GlobalService {
-    static createLogActivity(data: ILogActivity): void {
+    static createLogActivity(data: LogActivityCreateRequest): void {
         this.prototype.createLogActivity(data);
     }
 
-    async createLogActivity(logActivity: ILogActivity): Promise<void> {
+    async createLogActivity(request: LogActivityCreateRequest): Promise<void> {
         const repository = getManager().getRepository(LogActivity);
         await repository
             .createQueryBuilder()
             .insert()
             .into(LogActivity)
             .values({
-                user: logActivity.user,
-                source: logActivity.source,
-                activity: logActivity.activity,
-                menu: logActivity.menu,
-                path: logActivity.path,
-                metaData: logActivity.metaData,
+                userId: request.userId ?? null,
+                source: request.source,
+                activity: request.activity,
+                menu: request.menu,
+                path: request.path,
+                metaData: request.metaData,
             })
             .execute();
     }

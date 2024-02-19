@@ -31,24 +31,24 @@ export class Permission extends BaseEntity implements IPermission {
     @AfterUpdate()
     createLogActivityUpdate(): void {
         GlobalService.createLogActivity({
+            userId: null,
             menu: LogActivityMenuEnum.PERMISSION,
             path: __filename,
             metaData: this,
             source: this.id.toString(),
             activity: 'Update permission',
-            createdAt: new Date(),
         });
     }
 
     @AfterInsert()
     createLogActivityInsert(): void {
         GlobalService.createLogActivity({
+            userId: null,
             menu: LogActivityMenuEnum.PERMISSION,
             path: __filename,
             metaData: this,
             source: this.id.toString(),
             activity: 'Create new permission',
-            createdAt: new Date(),
         });
     }
 }

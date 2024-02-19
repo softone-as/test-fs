@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const LogActivityCreateSchema = z.object({
-    user_id: z.number(),
+    userId: z.number().nullable(),
     source: z.string(),
     activity: z.string(),
     menu: z.string(),
