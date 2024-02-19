@@ -16,9 +16,11 @@ export const AuthLoginSchema = z.object({
 export type TAuthLoginSchema = z.infer<typeof AuthLoginSchema>;
 
 export type TCAuthLoginProps = {
-    id?: number;
-    fullname?: string;
-    email: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    data: {
+        id?: number;
+        fullname?: string;
+        email: string;
+        createdAt?: Date;
+        updatedAt?: Date;
+    };
 };
