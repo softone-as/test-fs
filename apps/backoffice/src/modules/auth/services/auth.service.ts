@@ -6,7 +6,6 @@ import { OneSignalPushNotificationService } from '../../../infrastructure/notifi
 import { AdminAuthService } from './auth-admin.service';
 import { Request } from 'express';
 import { LogActivityService } from '../../log-activity/services/log-activity.service';
-import { IUser } from '../../../../../../interface-models/iam/user.interface';
 
 @Injectable()
 export class AuthService {
@@ -54,7 +53,7 @@ export class AuthService {
             metaData: {
                 email: this.request.user?.['email'],
             },
-            user: this.request.user as IUser,
+            userId: id,
             source: id.toString(),
             menu: LogActivityMenuEnum.AUTH,
             path: __filename,
@@ -69,7 +68,7 @@ export class AuthService {
                 username: this.request.user?.['email'],
                 password: this.request.user?.['password'],
             },
-            user: this.request.user as IUser,
+            userId: this.request.user?.['id'].toString(),
             source: this.request.user?.['id'].toString(),
             menu: LogActivityMenuEnum.AUTH,
             path: __filename,

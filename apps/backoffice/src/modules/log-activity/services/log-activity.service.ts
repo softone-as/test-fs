@@ -21,7 +21,7 @@ export class LogActivityService {
 
     async create(data: LogActivityCreateRequest): Promise<void> {
         await this.logActivityRepo.createLog({
-            user: data.user,
+            userId: data.userId,
             source: data.source,
             activity: data.activity,
             menu: data.menu,

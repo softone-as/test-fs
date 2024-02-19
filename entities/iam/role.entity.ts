@@ -12,7 +12,6 @@ import { Permission } from './permission.entity';
 import { IPermission } from 'interface-models/iam/permission.interface';
 import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
 import { GlobalService } from 'apps/backoffice/src/modules/glob/service/global-service.service';
-import { LogActivityDto } from 'entities/log-activity/dto/log-activity.dto';
 import { BaseEntity } from 'entities/base.entity';
 import { User } from './user.entity';
 
@@ -40,29 +39,25 @@ export class Role extends BaseEntity implements IRole {
 
     @AfterUpdate()
     createLogActivityUpdate(): void {
-        const logActivity: LogActivityDto = {
+        GlobalService.createLogActivity({
+            userId: null,
             menu: LogActivityMenuEnum.ROLE,
             path: __filename,
-            user: null, // get user from jwt
             metaData: this,
             source: this.id.toString(),
             activity: 'Update Role',
-        };
-
-        GlobalService.createLogActivity(logActivity);
+        });
     }
 
     @AfterInsert()
     createLogActivityInsert(): void {
-        const logActivity: LogActivityDto = {
+        GlobalService.createLogActivity({
+            userId: null,
             menu: LogActivityMenuEnum.ROLE,
             path: __filename,
-            user: null, // get user from jwt
             metaData: this,
             source: this.id.toString(),
             activity: 'Create new role',
-        };
-
-        GlobalService.createLogActivity(logActivity);
+        });
     }
 }

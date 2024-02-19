@@ -1,9 +1,9 @@
 import { IUser } from '../iam/user.interface';
 
 export interface ILogActivity {
-    id: number;
+    id?: number;
 
-    user: IUser | null;
+    user?: Omit<IUser, 'password'>;
 
     source: string;
 
@@ -15,5 +15,5 @@ export interface ILogActivity {
 
     path: string;
 
-    createdAt?: Date;
+    createdAt: Date;
 }

@@ -1,6 +1,6 @@
-import { OmitType } from '@nestjs/swagger';
-import { LogActivity } from 'entities/log-activity/log-activity.entity';
+import { LogActivityCreateSchema } from 'apps/backoffice/@contracts/log-activity/log-activity-create.contract';
+import { createZodDto } from 'nestjs-zod';
 
-export class LogActivityCreateRequest extends OmitType(LogActivity, ['id']) {
-    search?: string;
-}
+export class LogActivityCreateRequest extends createZodDto(
+    LogActivityCreateSchema,
+) {}

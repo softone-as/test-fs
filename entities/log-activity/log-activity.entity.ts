@@ -17,7 +17,10 @@ export class LogActivity implements ILogActivity {
 
     @ManyToOne(() => User)
     @JoinColumn()
-    user: IUser | null;
+    user?: Omit<IUser, 'password'>;
+
+    @Column({ nullable: true })
+    userId: number | null;
 
     @Column({ type: 'json', nullable: true })
     metaData: any;
@@ -35,5 +38,5 @@ export class LogActivity implements ILogActivity {
     path: string;
 
     @CreateDateColumn()
-    createdAt?: Date;
+    createdAt: Date;
 }
