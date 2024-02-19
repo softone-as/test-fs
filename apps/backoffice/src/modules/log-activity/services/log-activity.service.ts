@@ -3,6 +3,7 @@ import { ILogActivity } from 'interface-models/log-activity/log-activity.interfa
 import { LogActivityRepository } from '../repositories/log-activity.repository';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
 import { LogActivityIndexRequest } from '../requests/log-activity-index.request';
+import { LogActivityCreateRequest } from '../requests/log-activity-create.request';
 
 @Injectable()
 export class LogActivityService {
@@ -18,15 +19,14 @@ export class LogActivityService {
         return await this.logActivityRepo.findOneByOrFail({ id });
     }
 
-    async create(data: ILogActivity): Promise<void> {
+    async create(data: LogActivityCreateRequest): Promise<void> {
         await this.logActivityRepo.createLog({
-            user: data.user,
+            userId: data.userId,
             source: data.source,
             activity: data.activity,
             menu: data.menu,
             path: data.path,
             metaData: data.metaData,
-            createdAt: new Date(),
         });
     }
 }
