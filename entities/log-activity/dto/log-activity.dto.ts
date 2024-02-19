@@ -1,20 +1,20 @@
-import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
-import { IsNotEmpty } from 'class-validator';
-import { User } from 'entities/iam/user.entity';
+// import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
+// import { IsNotEmpty } from 'class-validator';
+// import { User } from 'entities/iam/user.entity';
 
-export class LogActivityDto {
-    @IsNotEmpty()
-    user: User | null;
+// export class LogActivityDto {
+//     @IsNotEmpty()
+//     user: User;
 
-    @IsNotEmpty()
-    path: string;
+//     @IsNotEmpty()
+//     path: string;
 
-    metaData: any;
+//     metaData: any;
 
-    source: string;
+//     source: string;
 
-    activity: string;
+//     activity: string;
 
-    @IsNotEmpty()
-    menu: LogActivityMenuEnum;
-}
+//     @IsNotEmpty()
+//     menu: LogActivityMenuEnum;
+// }

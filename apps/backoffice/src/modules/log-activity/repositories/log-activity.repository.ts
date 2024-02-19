@@ -6,7 +6,6 @@ import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.in
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { LogActivityIndexRequest } from '../requests/log-activity-index.request';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
-import { LogActivityCreateRequest } from '../requests/log-activity-create.request';
 
 @Injectable()
 export class LogActivityRepository extends Repository<LogActivity> {
@@ -80,7 +79,7 @@ export class LogActivityRepository extends Repository<LogActivity> {
         return results;
     }
 
-    async createLog(data: LogActivityCreateRequest): Promise<void> {
+    async createLog(data: ILogActivity): Promise<void> {
         const newLog = this.create(data);
         await this.save(newLog);
     }

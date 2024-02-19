@@ -58,6 +58,7 @@ export class AuthService {
             source: id.toString(),
             menu: LogActivityMenuEnum.AUTH,
             path: __filename,
+            createdAt: new Date(),
         });
     }
 
@@ -73,6 +74,7 @@ export class AuthService {
             source: this.request.user?.['id'].toString(),
             menu: LogActivityMenuEnum.AUTH,
             path: __filename,
+            createdAt: new Date(),
         });
 
         const id = this.request.user?.['id'];
