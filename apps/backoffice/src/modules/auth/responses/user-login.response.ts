@@ -1,7 +1,12 @@
+import { TCAuthLoginProps } from 'apps/backoffice/@contracts/auth/auth-login.contract';
+import { IUser } from 'interface-models/iam/user.interface';
+
 export class UserLoginResponse {
-    id?: number;
-    fullname?: string;
-    email: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    public static fromEntity = (user: IUser): TCAuthLoginProps => ({
+        id: user.id,
+        fullname: user.fullname,
+        email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+    });
 }
