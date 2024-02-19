@@ -1,6 +1,6 @@
-import dataSource from 'databases/data-source';
 import { LogActivity } from 'entities/log-activity/log-activity.entity';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
+import { getManager } from 'typeorm';
 
 export class GlobalService {
     static createLogActivity(data: ILogActivity): void {
@@ -8,7 +8,7 @@ export class GlobalService {
     }
 
     async createLogActivity(logActivity: ILogActivity): Promise<void> {
-        const repository = dataSource.getRepository(LogActivity);
+        const repository = getManager().getRepository(LogActivity);
         await repository
             .createQueryBuilder()
             .insert()
