@@ -5,15 +5,13 @@ import { MainLayout } from '../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import { Section } from '../../Components/molecules/Section';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
-import { IInAppNotification } from 'interface-models/notification/in-app-notification.interface';
 import { DescriptionContainer } from '../../Components/molecules/DescriptionContainer';
 import { formatDate } from '../../Utils/utils';
+import { TCNotificationDetailProps } from 'apps/backoffice/@contracts/notification/notification-detail.contract';
 
-interface IProps extends TInertiaProps {
-    data: IInAppNotification;
-}
+type TProps = TInertiaProps & TCNotificationDetailProps;
 
-const DetailNotification: React.FC = (props: IProps) => {
+const DetailNotification: React.FC = (props: TProps) => {
     return (
         <MainLayout
             title="Detail Notification"
@@ -31,7 +29,7 @@ const DetailNotification: React.FC = (props: IProps) => {
                         column={{ md: 1, xs: 1 }}
                     >
                         <Descriptions.Item label="Title">
-                            {props.data.title}
+                            Detail Notification
                         </Descriptions.Item>
                         <Descriptions.Item label="Message">
                             {props.data.message}

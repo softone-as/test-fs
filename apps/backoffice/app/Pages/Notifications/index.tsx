@@ -6,19 +6,16 @@ import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../Utils/hooks';
 import { Badge, Button } from 'antd';
 import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
-import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { route, Route } from '../../Common/Route/Route';
 import { markReadAllNotification } from '../../Modules/Notification/Action';
 import { NotifciationType } from '../../Modules/Notification/Entities';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
+import { TCNotificationIndexProps } from 'apps/backoffice/@contracts/notification/notification-index.contract';
 
-interface IProps extends TInertiaProps {
-    data: NotifciationType[];
-    meta: IPaginationMeta;
-}
+type TProps = TInertiaProps & TCNotificationIndexProps;
 
-const NotificationPage: React.FC = (props: IProps) => {
+const NotificationPage: React.FC = (props: TProps) => {
     const {
         implementTableFilter,
         filters,
