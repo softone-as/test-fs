@@ -39,7 +39,7 @@ export class LogActivityController {
     ): Promise<TCLogActivityDetailProps> {
         const data = await this.logActivityService.findOneById(id);
 
-        return this.inertiaAdapter.render('LogActivities/DetailLogActivity', {
+        return this.inertiaAdapter.render('LogActivities/Detail-LogActivity', {
             data: LogActivityResponse.fromEntity(data),
         });
     }
