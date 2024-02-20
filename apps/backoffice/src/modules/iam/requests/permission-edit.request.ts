@@ -1,11 +1,6 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { PermissionsEditSchema } from 'apps/backoffice/@contracts/iam/permission/permission-edit.contract';
+import { createZodDto } from 'nestjs-zod';
 
-export class PermissionEditRequest {
-    @IsNotEmpty({ message: 'Field wajib diisi' })
-    @IsString()
-    name: string;
-
-    @IsNotEmpty({ message: 'Field wajib diisi' })
-    @IsString()
-    key: string;
-}
+export class PermissionEditRequest extends createZodDto(
+    PermissionsEditSchema,
+) {}

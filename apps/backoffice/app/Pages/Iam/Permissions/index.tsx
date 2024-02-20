@@ -13,16 +13,21 @@ import { ItemType } from '../../../Components/organisms/DataTable/Entities';
 import { paginationTransform } from '../../../Components/organisms/DataTable/DataTable';
 import { Route } from 'apps/backoffice/app/Common/Route/Route';
 import { Inertia } from '@inertiajs/inertia';
-import { TCPermissionIndexProps } from 'apps/backoffice/@contracts/iam/permission/permission-index.contract';
+import {
+    TCPermissionIndexProps,
+    TPermissionIndexSchema,
+} from 'apps/backoffice/@contracts/iam/permission/permission-index.contract';
 
 type TProps = TCPermissionIndexProps;
+
+type TFilter = TPermissionIndexSchema;
 
 const PermissionPage: React.FC = (props: TProps) => {
     const {
         implementTableFilter,
         filters,
         status: { isFetching },
-    } = useTableFilter();
+    } = useTableFilter<TFilter>();
 
     const columns: ColumnsType<TProps['data'][number]> = [
         {
