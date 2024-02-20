@@ -7,25 +7,21 @@ import { useTableFilter } from '../../Utils/hooks';
 import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { ILogActivity } from 'interface-models/log-activity/log-activity.interface';
-import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { route, Route } from '../../Common/Route/Route';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
 import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
 import { formatDate } from '../../Utils/utils';
 import dayjs from 'dayjs';
+import {
+    TCLogActivityIndexProps,
+    TLogActivityIndexSchema,
+} from 'apps/backoffice/@contracts/log-activity/log-activity-index.contract';
 
-interface IProps extends TInertiaProps {
-    data: ILogActivity[];
-    meta: IPaginationMeta;
-}
+type TProps = TInertiaProps & TCLogActivityIndexProps;
 
-type TFilters = {
-    menu?: LogActivityMenuEnum;
-    start_at?: string;
-    end_at?: string;
-};
+type TFilters = TLogActivityIndexSchema;
 
-const LogActivityPage: React.FC = (props: IProps) => {
+const LogActivityPage: React.FC = (props: TProps) => {
     const {
         implementTableFilter,
         filters,
@@ -106,8 +102,8 @@ const LogActivityPage: React.FC = (props: IProps) => {
                         name: 'rangeCreateAt',
                         range: 10,
                         defaultValue: [
-                            filters.start_at && dayjs(filters.start_at),
-                            filters.end_at && dayjs(filters.end_at),
+                            filters.startAt && dayjs(filters.startAt),
+                            filters.endAt && dayjs(filters.endAt),
                         ],
                     },
                 ]}

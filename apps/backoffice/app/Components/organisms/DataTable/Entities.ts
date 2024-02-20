@@ -58,7 +58,7 @@ export type DataTableSorter<T extends Record<string, any>> = {
 export type DataTablePagination = {
     total?: number;
     page?: number;
-    per_page?: number;
+    perPage?: number;
 };
 
 export type CustomFilter<X extends Record<string, any> | null> = X & {

@@ -24,7 +24,7 @@ export const useDidUpdateEffect = (fn: () => void, inputs: any): void => {
 type TOrderAntD = 'ASC' | 'DESC' | undefined;
 
 export type TPropsTableFilter<T> = Omit<IndexRequest, 'perPage' | 'order'> & {
-    per_page?: number;
+    perPage?: number;
     order?: TOrderAntD;
 } & T;
 
@@ -64,7 +64,7 @@ export const useTableFilter = <T = { [key: string]: any }>(): any => {
         if (
             !(
                 listPropsParams.includes('page') &&
-                listPropsParams.includes('per_page')
+                listPropsParams.includes('perPage')
             )
         ) {
             if (
