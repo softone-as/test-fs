@@ -1,8 +1,6 @@
-import { IndexRequest } from 'apps/backoffice/src/common/request/index.request';
-import { IsOptional, IsString } from 'class-validator';
+import { PermissionIndexSchema } from 'apps/backoffice/@contracts/iam/permission/permission-index.contract';
+import { createZodDto } from 'nestjs-zod';
 
-export class PermissionIndexRequest extends IndexRequest {
-    @IsString()
-    @IsOptional()
-    search?: string;
-}
+export class PermissionIndexRequest extends createZodDto(
+    PermissionIndexSchema,
+) {}
