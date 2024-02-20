@@ -16,16 +16,21 @@ import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
 import { Inertia } from '@inertiajs/inertia';
 import { Link } from '@inertiajs/inertia-react';
 import { deleteRole } from 'apps/backoffice/app/Modules/Role/Action';
-import { TCRoleIndexProps } from 'apps/backoffice/@contracts/iam/role/role-index.contract';
+import {
+    TCRoleIndexProps,
+    TRoleIndexSchema,
+} from 'apps/backoffice/@contracts/iam/role/role-index.contract';
 
 type TProps = TInertiaProps & TCRoleIndexProps;
+
+type TFilters = TRoleIndexSchema;
 
 const RolePage: React.FC = (props: TProps) => {
     const {
         setQueryParams,
         filters,
         status: { isFetching },
-    } = useTableFilter();
+    } = useTableFilter<TFilters>();
 
     const columns: ColumnsType<TProps['data'][number]> = [
         {

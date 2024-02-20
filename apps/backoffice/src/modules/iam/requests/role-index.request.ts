@@ -1,8 +1,4 @@
-import { IndexRequest } from 'apps/backoffice/src/common/request/index.request';
-import { IsOptional, IsString } from 'class-validator';
+import { RoleIndexSchema } from 'apps/backoffice/@contracts/iam/role/role-index.contract';
+import { createZodDto } from 'nestjs-zod';
 
-export class RoleIndexRequest extends IndexRequest {
-    @IsString()
-    @IsOptional()
-    search?: string;
-}
+export class RoleIndexRequest extends createZodDto(RoleIndexSchema) {}
