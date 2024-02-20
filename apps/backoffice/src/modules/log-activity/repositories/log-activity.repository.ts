@@ -36,12 +36,12 @@ export class LogActivityRepository extends Repository<LogActivity> {
             );
         }
 
-        if (request.start_at && request.end_at) {
+        if (request.startAt && request.endAt) {
             query.andWhere(
                 `CAST(logActivity.createdAt as DATE) BETWEEN CAST(:startAt AS DATE) AND CAST(:endAt AS DATE)`,
                 {
-                    startAt: request.start_at,
-                    endAt: request.end_at,
+                    startAt: request.startAt,
+                    endAt: request.endAt,
                 },
             );
         }

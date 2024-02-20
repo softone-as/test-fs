@@ -1,29 +1,13 @@
-import { Expose } from 'class-transformer';
-import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
-import { OrderDirectionEnum, OrderDirectionType } from '../enums/index.enum';
-import { IPaginateRequest, ISortRequest } from '../interface/index.interface';
+import { OrderDirectionEnum } from '../enums/index.enum';
+import { z } from 'zod';
+import { createZodDto } from 'nestjs-zod';
 
-export class IndexRequest implements ISortRequest, IPaginateRequest {
-    @IsOptional()
-    @IsString()
-    sort = 'updatedAt';
+export const IndexRequestSchema = z.object({
+    sort: z.string().optional().default('updatedAt'),
+    order: z.nativeEnum(OrderDirectionEnum).optional(),
+    perPage: z.number().min(1).optional().default(15),
+    page: z.number().min(1).optional(),
+    search: z.string().optional(),
+});
 
-    @IsOptional()
-    @IsEnum(OrderDirectionEnum)
-    order?: OrderDirectionType;
-
-    @IsOptional()
-    @IsNumber()
-    @Min(1)
-    @Expose({ name: 'per_page' })
-    perPage?: number = 15;
-
-    @IsOptional()
-    @IsNumber()
-    @Min(1)
-    page?: number = 1;
-
-    @IsString()
-    @IsOptional()
-    search?: string;
-}
+export class IndexRequest extends createZodDto(IndexRequestSchema) {}
