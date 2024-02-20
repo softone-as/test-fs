@@ -19,16 +19,14 @@ import {
     deleteBatchUsers,
     deleteUser,
 } from 'apps/backoffice/app/Modules/User/Action';
-import { TCUserIndexProps } from 'apps/backoffice/@contracts/iam/user/user-index.contract';
+import {
+    TCUserIndexProps,
+    TUserIndexSchema,
+} from 'apps/backoffice/@contracts/iam/user/user-index.contract';
 
 type TProps = TInertiaProps & TCUserIndexProps;
 
-type TFilters = {
-    email?: string;
-    gender?: string;
-    created_at?: string;
-    checkbox?: string;
-};
+type TFilters = TUserIndexSchema;
 
 const UsersPage: React.FC = (props: TProps) => {
     const {
@@ -146,7 +144,7 @@ const UsersPage: React.FC = (props: TProps) => {
         },
     ];
 
-    const defaultValueCreatedAt = filters.created_at
+    const defaultValueCreatedAt = filters.createdAt
         ?.split(',')
         .map((date) => dayjs(date)) as [dayjs.Dayjs, dayjs.Dayjs];
 
@@ -190,7 +188,7 @@ const UsersPage: React.FC = (props: TProps) => {
                     {
                         label: 'Created At',
                         type: 'DateRangePicker',
-                        name: 'created_at',
+                        name: 'createdAt',
                         range: 10,
                         defaultValue: defaultValueCreatedAt,
                     },

@@ -41,8 +41,8 @@ export class UserRepository extends Repository<User> {
             );
         }
 
-        if (request.created_at) {
-            const [startAt, endAt] = request.created_at.split(',');
+        if (request.createdAt) {
+            const [startAt, endAt] = request.createdAt.split(',');
             query
                 .where(`user.createdAt >= :startAt`, {
                     startAt,
