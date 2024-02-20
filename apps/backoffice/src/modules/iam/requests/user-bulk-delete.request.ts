@@ -1,9 +1,4 @@
-import { ArrayNotEmpty, IsArray, IsNumber } from 'class-validator';
+import { UserBulkDeleteSchema } from 'apps/backoffice/@contracts/iam/user/user-delete.contract';
+import { createZodDto } from 'nestjs-zod';
 
-export class UserBulkDeleteRequest {
-    @IsArray()
-    @ArrayNotEmpty()
-    // check if every array item is number
-    @IsNumber({}, { each: true })
-    ids: number[];
-}
+export class UserBulkDeleteRequest extends createZodDto(UserBulkDeleteSchema) {}
