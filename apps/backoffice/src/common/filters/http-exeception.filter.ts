@@ -51,16 +51,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
         // ZodValidationException
         if (exception instanceof ZodValidationException) {
             const exceptionResponse = exception.getZodError();
-            // console.log(request);
-            // console.log('exceptionResponse', exceptionResponse);
 
             request.session['error'] = {
                 errors: exceptionResponse.errors,
                 message: exceptionResponse.errors[0].message,
                 statusCode: exception.getStatus(),
             };
-
-            // console.log(request.session['error']);
 
             return response.redirect(Utils.pathToUrl(path));
         } else if (exception instanceof UnprocessableEntityException) {
