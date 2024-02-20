@@ -55,7 +55,7 @@ export const PaginationSuccessResponse = <TModel extends Type<unknown>>(
                                             : undefined,
                                     },
                                     page: { type: 'number' },
-                                    per_page: { type: 'number' },
+                                    perPage: { type: 'number' },
                                     total_items: { type: 'number' },
                                     total_pages: { type: 'number' },
                                     next_page_link: { type: 'string' },

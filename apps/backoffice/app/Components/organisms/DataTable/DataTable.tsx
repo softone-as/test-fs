@@ -75,7 +75,7 @@ function DataTable<T extends object = any>(
             pagination: {
                 ...(stateRef.current.pagination || {}),
                 page,
-                per_page: pageSize,
+                perPage: pageSize,
             },
             extra: {
                 action: 'paginate',

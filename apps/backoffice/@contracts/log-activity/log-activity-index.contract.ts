@@ -9,4 +9,6 @@ export const LogActivityIndexSchema = IndexRequestSchema.extend({
     menu: z.string().optional(),
 });
 
+export type TLogActivityIndexSchema = z.infer<typeof LogActivityIndexSchema>;
+
 export type TCLogActivityIndexProps = IPaginateResponse<ILogActivity>;
