@@ -102,8 +102,8 @@ const LogActivityPage: React.FC = (props: TProps) => {
                         name: 'rangeCreateAt',
                         range: 10,
                         defaultValue: [
-                            filters.start_at && dayjs(filters.start_at),
-                            filters.end_at && dayjs(filters.end_at),
+                            filters.startAt && dayjs(filters.startAt),
+                            filters.endAt && dayjs(filters.endAt),
                         ],
                     },
                 ]}
