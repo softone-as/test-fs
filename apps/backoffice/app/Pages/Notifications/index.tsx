@@ -73,8 +73,8 @@ const NotificationPage: React.FC = (props: TProps) => {
     };
 
     const isReadOptions = [
-        { label: 'Read', value: 'Read' },
-        { label: 'Unread', value: 'Unread' },
+        { label: 'Read', value: 1 },
+        { label: 'Unread', value: 0 },
     ];
 
     return (

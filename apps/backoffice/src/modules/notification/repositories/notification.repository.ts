@@ -39,7 +39,7 @@ export class NotificationRepository extends Repository<InAppNotification> {
 
         if (request.isRead) {
             query.andWhere('notification.isRead = :isRead', {
-                isRead: request.isRead == 'Read' ? true : false,
+                isRead: request.isRead,
             });
         }
 
