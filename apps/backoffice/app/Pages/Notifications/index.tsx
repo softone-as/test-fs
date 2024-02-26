@@ -11,16 +11,21 @@ import { route, Route } from '../../Common/Route/Route';
 import { markReadAllNotification } from '../../Modules/Notification/Action';
 import { NotifciationType } from '../../Modules/Notification/Entities';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
-import { TCNotificationIndexProps } from 'apps/backoffice/@contracts/notification/notification-index.contract';
+import {
+    TCNotificationIndexProps,
+    TNotificationIndexSchema,
+} from 'apps/backoffice/@contracts/notification/notification-index.contract';
 
 type TProps = TInertiaProps & TCNotificationIndexProps;
+
+type TFilter = TNotificationIndexSchema;
 
 const NotificationPage: React.FC = (props: TProps) => {
     const {
         implementTableFilter,
         filters,
         status: { isFetching },
-    } = useTableFilter<Partial<NotifciationType>>();
+    } = useTableFilter<TFilter>();
 
     const columns: ColumnsType<NotifciationType> = [
         {
@@ -68,8 +73,8 @@ const NotificationPage: React.FC = (props: TProps) => {
     };
 
     const isReadOptions = [
-        { label: 'Read', value: 'Read' },
-        { label: 'Unread', value: 'Unread' },
+        { label: 'Read', value: 1 },
+        { label: 'Unread', value: 0 },
     ];
 
     return (

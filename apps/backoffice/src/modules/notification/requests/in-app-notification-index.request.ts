@@ -1,12 +1,6 @@
-import { IndexRequest } from 'apps/backoffice/src/common/request/index.request';
-import { IsOptional, IsString } from 'class-validator';
+import { notificationIndexSchema } from 'apps/backoffice/@contracts/notification/notification-index.contract';
+import { createZodDto } from 'nestjs-zod';
 
-export class InAppNotificationIndexRequest extends IndexRequest {
-    @IsString()
-    @IsOptional()
-    search?: string;
-
-    @IsString()
-    @IsOptional()
-    isRead?: string;
-}
+export class InAppNotificationIndexRequest extends createZodDto(
+    notificationIndexSchema,
+) {}
