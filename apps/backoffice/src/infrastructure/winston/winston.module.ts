@@ -30,24 +30,34 @@ import * as Sentry from '@sentry/node';
                         winston.format.align(),
                         winston.format.printf(
                             ({ timestamp, level, message, context, trace }) => {
-                                message = message.trim();
-                                // Create breadcrumb for Sentry
-                                Sentry.addBreadcrumb({
-                                    category: 'console',
-                                    message: message,
-                                    level: 'error',
-                                    type: 'Error',
-                                });
+                                message = message.toString().trim();
+                                let logMessage: string;
 
                                 if (context) {
-                                    return `${timestamp} [${context}] ${level}: ${message}${
+                                    logMessage = `${timestamp} [${context}] ${level}: ${message}${
                                         trace ? `\n${trace}` : ''
                                     }`;
                                 } else {
-                                    return `${timestamp} ${level}: ${message}${
+                                    logMessage = `${timestamp} ${level}: ${message}${
                                         trace ? `\n${trace}` : ''
                                     }`;
                                 }
+
+                                // Remove color from log message
+                                const cleanLogMesage = logMessage.replace(
+                                    /\x1B\[\d+m/g,
+                                    '',
+                                );
+
+                                // Create breadcrumb for Sentry
+                                Sentry.addBreadcrumb({
+                                    category: 'console',
+                                    message: cleanLogMesage,
+                                    level: 'error',
+                                    type: 'error',
+                                });
+
+                                return logMessage;
                             },
                         ),
                     ),
