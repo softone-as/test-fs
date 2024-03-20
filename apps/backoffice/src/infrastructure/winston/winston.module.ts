@@ -6,6 +6,7 @@ import * as winston from 'winston';
     imports: [
         NestWinstonModule.forRoot({
             transports: [
+                // Create log file
                 new winston.transports.File({
                     filename: 'info.log',
                     format: winston.format.combine(
@@ -13,14 +14,41 @@ import * as winston from 'winston';
                         winston.format.json(),
                     ),
                 }),
+
+                // Show log in console, add your log level here
+                // Error Log
                 new winston.transports.Console({
                     level: 'error',
                     format: winston.format.combine(
-                        winston.format.colorize(),
-                        winston.format.simple(),
-                        winston.format.printf((info) => {
-                            return `\n${info.level}: ${info.message} \n ${info.stack}`;
+                        winston.format.colorize({
+                            all: true,
                         }),
+                        winston.format.timestamp({
+                            format: 'YYYY-MM-DD hh:mm:ss.SSS A',
+                        }),
+                        winston.format.align(),
+                        winston.format.printf(
+                            ({ timestamp, level, message, context, trace }) => {
+                                message = message.trim();
+                                // // Create breadcrumb for Sentry
+                                // Sentry.addBreadcrumb({
+                                //     category: 'console',
+                                //     message: message,
+                                //     level: 'error',
+                                //     type: 'Error',
+                                // });
+
+                                if (context) {
+                                    return `${timestamp} [${context}] ${level}: ${message}${
+                                        trace ? `\n${trace}` : ''
+                                    }`;
+                                } else {
+                                    return `${timestamp} ${level}: ${message}${
+                                        trace ? `\n${trace}` : ''
+                                    }`;
+                                }
+                            },
+                        ),
                     ),
                 }),
             ],
