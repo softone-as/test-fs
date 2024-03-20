@@ -2,7 +2,6 @@ import {
     Body,
     Controller,
     Get,
-    Logger,
     Param,
     Post,
     Put,
@@ -43,8 +42,6 @@ export class UserController {
         @Query() indexRequest: UserIndexRequest,
     ): Promise<TCUserIndexProps> {
         const users = await this.userCrudService.pagination(indexRequest);
-
-        Logger.debug('User data');
 
         return this.inertiaAdapter.render('Iam/Users', {
             data: users.data.map((user) => UserResponse.fromEntity(user)),
