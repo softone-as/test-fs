@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { WinstonModule as NestWinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+import * as Sentry from '@sentry/node';
 
 @Module({
     imports: [
@@ -30,13 +31,13 @@ import * as winston from 'winston';
                         winston.format.printf(
                             ({ timestamp, level, message, context, trace }) => {
                                 message = message.trim();
-                                // // Create breadcrumb for Sentry
-                                // Sentry.addBreadcrumb({
-                                //     category: 'console',
-                                //     message: message,
-                                //     level: 'error',
-                                //     type: 'Error',
-                                // });
+                                // Create breadcrumb for Sentry
+                                Sentry.addBreadcrumb({
+                                    category: 'console',
+                                    message: message,
+                                    level: 'error',
+                                    type: 'Error',
+                                });
 
                                 if (context) {
                                     return `${timestamp} [${context}] ${level}: ${message}${
