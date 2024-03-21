@@ -2,14 +2,19 @@ import { Module } from '@nestjs/common';
 import { WinstonModule as NestWinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import * as Sentry from '@sentry/node';
+import 'winston-daily-rotate-file';
 
 @Module({
     imports: [
         NestWinstonModule.forRoot({
             transports: [
                 // Create log file
-                new winston.transports.File({
-                    filename: 'info.log',
+                new winston.transports.DailyRotateFile({
+                    filename: 'log-%DATE%.log',
+                    dirname: 'apps/backoffice/logs',
+                    datePattern: 'YYYY-MM-DD',
+                    zippedArchive: true,
+                    maxSize: '20m',
                     format: winston.format.combine(
                         winston.format.timestamp(),
                         winston.format.json(),

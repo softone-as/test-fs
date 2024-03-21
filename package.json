@@ -188,6 +188,7 @@
         "typeorm-transactional-cls-hooked": "^0.1.21",
         "uuid": "^8.3.2",
         "winston": "^3.8.2",
+        "winston-daily-rotate-file": "^5.0.0",
         "ws": "^8.2.2",
         "zod": "^3.22.4",
         "zod-validation-error": "^3.0.0"
