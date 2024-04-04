@@ -19,7 +19,9 @@ async function bootstrap(): Promise<void> {
     initializeTransactionalContext();
     patchTypeORMRepositoryWithBaseRepository();
 
-    const app = await NestFactory.create<NestExpressApplication>(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+        logger: ['error'],
+    });
 
     const publicPath = join(__dirname, '..', 'public');
     app.useStaticAssets(publicPath);
@@ -33,6 +35,6 @@ async function bootstrap(): Promise<void> {
     const port = config.port;
 
     await app.listen(port);
-    Logger.log(`Application running ${host}:${port}`, 'NestApplication');
+    Logger.log(`Application running on ${host}`, 'NestApplication');
 }
 bootstrap();
