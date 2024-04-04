@@ -54,13 +54,81 @@ import 'winston-daily-rotate-file';
                                     '',
                                 );
 
-                                // Create breadcrumb for Sentry
-                                Sentry.addBreadcrumb({
-                                    category: 'console',
-                                    message: cleanLogMesage,
-                                    level: 'error',
-                                    type: 'error',
-                                });
+                                // NestApplication & RouterExplorer no need to create breadcrumb for Sentry
+                                const NestIntializationContexts = [
+                                    'NestApplication',
+                                    'RouterExplorer',
+                                    'RoutesResolver',
+                                ];
+
+                                if (
+                                    !NestIntializationContexts.includes(context)
+                                ) {
+                                    // Create breadcrumb for Sentry
+                                    Sentry.addBreadcrumb({
+                                        category: 'console',
+                                        message: cleanLogMesage,
+                                        level: 'error',
+                                        type: 'error',
+                                    });
+                                }
+
+                                return logMessage;
+                            },
+                        ),
+                    ),
+                }),
+
+                // Debug Log
+                new winston.transports.Console({
+                    level: 'debug',
+                    handleExceptions: false,
+                    format: winston.format.combine(
+                        winston.format.colorize({
+                            all: true,
+                        }),
+                        winston.format.timestamp({
+                            format: 'YYYY-MM-DD hh:mm:ss.SSS A',
+                        }),
+                        winston.format.align(),
+                        winston.format.printf(
+                            ({ timestamp, level, message, context, trace }) => {
+                                message = message.toString().trim();
+                                let logMessage: string;
+
+                                if (context) {
+                                    logMessage = `${timestamp} [${context}] ${level}: ${message}${
+                                        trace ? `\n${trace}` : ''
+                                    }`;
+                                } else {
+                                    logMessage = `${timestamp} ${level}: ${message}${
+                                        trace ? `\n${trace}` : ''
+                                    }`;
+                                }
+
+                                // Remove color from log message
+                                const cleanLogMesage = logMessage.replace(
+                                    /\x1B\[\d+m/g,
+                                    '',
+                                );
+
+                                // NestApplication & RouterExplorer no need to create breadcrumb for Sentry
+                                const NestIntializationContexts = [
+                                    'NestApplication',
+                                    'RouterExplorer',
+                                    'RoutesResolver',
+                                ];
+                                if (
+                                    !NestIntializationContexts.includes(context)
+                                ) {
+                                    // Create breadcrumb for Sentry
+                                    Sentry.addBreadcrumb({
+                                        category: 'console',
+                                        message: cleanLogMesage,
+                                        level: 'info',
+                                        type: 'debug',
+                                    });
+                                }
 
                                 return logMessage;
                             },

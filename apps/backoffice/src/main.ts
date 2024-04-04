@@ -19,7 +19,9 @@ async function bootstrap(): Promise<void> {
     initializeTransactionalContext();
     patchTypeORMRepositoryWithBaseRepository();
 
-    const app = await NestFactory.create<NestExpressApplication>(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+        logger: ['error'],
+    });
 
     const publicPath = join(__dirname, '..', 'public');
     app.useStaticAssets(publicPath);
