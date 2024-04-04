@@ -35,6 +35,6 @@ async function bootstrap(): Promise<void> {
     const port = config.port;
 
     await app.listen(port);
-    Logger.log(`Application running ${host}:${port}`, 'NestApplication');
+    Logger.log(`Application running on ${host}`, 'NestApplication');
 }
 bootstrap();
