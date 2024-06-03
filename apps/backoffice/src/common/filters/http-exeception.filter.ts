@@ -45,9 +45,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 Utils.splitBaggageHeader(baggageHeader);
         }
 
-        // Capture exception to Sentry
-        captureException(exception, request, traceIdFromFe, replayIdFromFe);
-
         // ZodValidationException
         if (exception instanceof ZodValidationException) {
             const exceptionResponse = exception.getZodError();
@@ -101,6 +98,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
             };
             return response.redirect(Utils.pathToUrl('/server-error'));
         } else if (exception instanceof BadRequestAndRedirectException) {
+            // Capture exception to Sentry
+            captureException(exception, request, traceIdFromFe, replayIdFromFe);
+
             request.session['error'] = {
                 errors: null,
                 message: exception.message,

@@ -8,7 +8,7 @@ import LogRocket from 'logrocket';
 import * as Sentry from '@sentry/react';
 
 if (process.env.SENTRY_DSN) {
-    const replay = new Sentry.Replay({
+    const replay = new Sentry.replayIntegration({
         maskAllText: false, 
         maxReplayDuration: 1000 * 60 * 5, // 5 minutes
     });
@@ -16,8 +16,16 @@ if (process.env.SENTRY_DSN) {
     Sentry.init({
         dsn: process.env.SENTRY_DSN,
         integrations: [
-            new Sentry.BrowserTracing(),
+            new Sentry.browserTracingIntegration(),
             replay
+        ],
+        environment: process.env.NODE_ENV,
+        ignoreErrors: [/Network Error/i],
+        denyUrls: [
+            // Chrome extensions
+            /extensions\//i,
+            /^chrome:\/\//i,
+            /^chrome-extension:\/\//i,
         ],
 
         // We recommend adjusting this value in production, or using tracesSampler
@@ -39,7 +47,7 @@ if (process.env.LOGROCKET_APP_ID) {
     });
 
     LogRocket.getSessionURL((sessionURL) => {
-        Sentry.configureScope((scope) => {
+        Sentry.getCurrentScope((scope) => {
             scope.setExtra('sessionURL', sessionURL);
         });
     });
