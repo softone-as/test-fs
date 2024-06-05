@@ -1,10 +1,10 @@
-import { notification } from 'antd';
+import { notification as antNotification } from 'antd';
 import type { ArgsProps } from 'antd/es/notification/interface';
 
 type TNotifData = ArgsProps;
 
-export const useNotification = (data: TNotifData) => {
-    return notification.open({
+export const notification = (data: TNotifData): void => {
+    return antNotification.open({
         ...data,
         type: data.type,
         message: data.message,

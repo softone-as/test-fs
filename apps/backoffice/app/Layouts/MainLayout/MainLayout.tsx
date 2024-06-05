@@ -14,7 +14,7 @@ import { PageHeader } from '../../Components/molecules/Headers';
 import { PageProgress } from '../../Components/molecules/Progress';
 import { AppContext } from '../../Contexts/App';
 import { Route } from '../../Common/Route/Route';
-import { useNotification } from '../../Utils/notification';
+import { notification } from '../../Utils/notification';
 import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 import {
@@ -180,7 +180,7 @@ export const MainLayout: React.FC<IProps> = ({
     // success notification
     useEffect(() => {
         if (pageProps.success) {
-            useNotification({
+            notification({
                 type: 'success',
                 message: pageProps.success.message,
             });
@@ -192,12 +192,12 @@ export const MainLayout: React.FC<IProps> = ({
     useEffect(() => {
         if (pageProps?.error && pageProps?.error?.message?.length > 0) {
             'error' in pageProps.error
-                ? useNotification({
+                ? notification({
                       type: 'error',
                       message: pageProps.error.message,
                   })
                 : debounce(() => {
-                      useNotification({
+                      notification({
                           type: 'error',
                           message: pageProps.error?.message,
                       });

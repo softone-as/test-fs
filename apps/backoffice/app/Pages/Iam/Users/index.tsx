@@ -4,7 +4,7 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { useTableFilter } from '../../../Utils/hooks';
-import { useModal } from '../../../Utils/modal';
+import { showModal } from '../../../Utils/modal';
 import { Input, Tag } from 'antd';
 import dayjs from 'dayjs';
 import { ShareAltOutlined } from '@ant-design/icons';
@@ -107,7 +107,7 @@ const UsersPage: React.FC = (props: TProps) => {
                                 type: 'delete',
                                 title: 'delete',
                                 onClick: (): void => {
-                                    useModal({
+                                    showModal({
                                         title: 'Are You Sure? ',
                                         type: 'confirm',
                                         variant: 'danger',
@@ -132,7 +132,7 @@ const UsersPage: React.FC = (props: TProps) => {
             key: '1',
             label: 'Delete',
             onClick: (_, selectedRowKeys) =>
-                useModal({
+                showModal({
                     title: 'Are You Sure?',
                     type: 'confirm',
                     variant: 'danger',

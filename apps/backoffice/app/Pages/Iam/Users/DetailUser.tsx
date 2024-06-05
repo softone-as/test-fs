@@ -10,7 +10,7 @@ import { Button } from '../../../Components/atoms/Button';
 import DescriptionContainer from '../../../Components/molecules/DescriptionContainer/DescriptionContainer';
 import { Section } from '../../../Components/molecules/Section';
 import { route, Route } from 'apps/backoffice/app/Common/Route/Route';
-import { useModal } from 'apps/backoffice/app/Utils/modal';
+import { showModal } from 'apps/backoffice/app/Utils/modal';
 import { deleteUser } from 'apps/backoffice/app/Modules/User/Action';
 import { TCUserDetailProps } from 'apps/backoffice/@contracts/iam/user/user-detail.contract';
 
@@ -21,7 +21,7 @@ const UserDetailPage: React.FC = (props: TProps) => {
         props.data;
 
     const handleDelete = (): void => {
-        useModal({
+        showModal({
             title: 'Are You Sure? ',
             type: 'confirm',
             variant: 'danger',

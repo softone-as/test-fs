@@ -4,7 +4,7 @@ import { MainLayout } from '../../../Layouts/MainLayout';
 import { TInertiaProps } from '../../../Modules/Inertia/Entities';
 import { Button } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
-import { useModal } from '../../../Utils/modal';
+import { showModal } from '../../../Utils/modal';
 
 import type { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../../../Utils/hooks';
@@ -85,7 +85,7 @@ const RolePage: React.FC = (props: TProps) => {
                                 type: 'delete',
                                 title: 'delete',
                                 onClick: () =>
-                                    useModal({
+                                    showModal({
                                         title: 'Are You Sure? ',
                                         type: 'confirm',
                                         onOk: () => deleteRole(record),
@@ -109,7 +109,7 @@ const RolePage: React.FC = (props: TProps) => {
             key: '1',
             label: 'Delete',
             onClick: (_, selectedRowKeys) =>
-                useModal({
+                showModal({
                     title: 'Are You Sure? ',
                     type: 'confirm',
                     onOk: () => handleBatchDelete(selectedRowKeys),

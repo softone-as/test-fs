@@ -3,7 +3,7 @@ import { DataTable, sortOrder } from '../../../Components/organisms/DataTable';
 import { MainLayout } from '../../../Layouts/MainLayout';
 import { Tag } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
-import { useModal } from '../../../Utils/modal';
+import { showModal } from '../../../Utils/modal';
 
 import type { ColumnsType } from 'antd/es/table';
 import { useTableFilter } from '../../../Utils/hooks';
@@ -104,7 +104,7 @@ const PermissionPage: React.FC = (props: TProps) => {
             key: '1',
             label: 'Delete',
             onClick: (_, selectedRowKeys) =>
-                useModal({
+                showModal({
                     title: 'Are You Sure? ',
                     type: 'confirm',
                     onOk: () => handleBatchDelete(selectedRowKeys),
