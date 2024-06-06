@@ -5,7 +5,7 @@ type TPropsModal = ModalFuncProps & {
     variant?: 'danger' | 'primary';
 };
 
-export const useModal = (
+export const showModal = (
     props: TPropsModal,
 ): {
     destroy: () => void;

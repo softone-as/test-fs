@@ -3,7 +3,7 @@ import { DataTable } from '../Components/organisms/DataTable';
 import { MainLayout } from '../Layouts/MainLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
-import { useModal } from '../Utils/modal';
+import { showModal } from '../Utils/modal';
 import { Button, MenuProps, Select } from 'antd';
 import { DatePicker } from '../Components/molecules/Pickers';
 import { MultiFilterDropdown } from '../Components/molecules/Dropdowns';
@@ -96,7 +96,7 @@ const DashboardPage: React.FC<IProps> = (props: IProps) => {
             key: '1',
             label: 'Delete',
             onClick: () =>
-                useModal({
+                showModal({
                     title: 'Are You Sure? ',
                     type: 'warning',
                     onOk: () => alert('Ok Delete'),
