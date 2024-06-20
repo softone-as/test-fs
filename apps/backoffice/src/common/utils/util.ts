@@ -11,6 +11,9 @@ import { Storage } from '@google-cloud/storage';
 import { snakeCase } from 'snake-case';
 import { format } from 'date-fns';
 import { config } from '../../config';
+import { IFilterOption } from '../interface/response.interface';
+import { diskStorage } from 'multer';
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 
 export class Utils {
     static md5(contents: string): string {
@@ -260,5 +263,49 @@ export class Utils {
             : '';
 
         return [traceIdFromFe, replayIdFromFe];
+    }
+
+    static splitRangeDate(dateString: string): {
+        startDate: string;
+        endDate: string;
+    } {
+        const [startAt, endAt] = dateString.split(',');
+        const startDate = new Date(startAt).toISOString().split('T')[0];
+        const endDate = new Date(endAt).toISOString().split('T')[0];
+
+        return { startDate, endDate };
+    }
+
+    static transformToOption<T>(
+        data: Array<T>,
+        field?: IFilterOption,
+    ): IFilterOption[] {
+        return data.map((item) => ({
+            label: item[field?.label ?? 'name'],
+            value: item[field?.value ?? 'id'],
+        }));
+    }
+
+    static getStorageMulterConfig(type: 'single' | 'multiple' = 'single'): {
+        storage: MulterOptions['storage'];
+    } {
+        const destination =
+            type === 'single'
+                ? config.assets.public
+                : (req, file, cb): void => {
+                      cb(null, config.assets.public);
+                  };
+
+        const storage = diskStorage({
+            destination,
+            filename: (req, file, cb) => {
+                const uniqueSuffix =
+                    Date.now() + '-' + Math.round(Math.random() * 1e9);
+                const ext = path.extname(file.originalname);
+                const filename = `${file.fieldname}-${uniqueSuffix}${ext}`;
+                cb(null, filename);
+            },
+        });
+        return { storage };
     }
 }

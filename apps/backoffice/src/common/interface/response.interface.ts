@@ -15,3 +15,8 @@ export interface IUnprocessableResponse {
     message: string;
     data: Array<IDataUnprocessable>;
 }
+
+export interface IFilterOption {
+    label: string;
+    value: string | number;
+}
