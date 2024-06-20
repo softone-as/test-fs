@@ -31,6 +31,13 @@ export const PERMISSION_BACKOFFICE_DETAIL_PERMISSION =
 export const PERMISSION_BACKOFFICE_UPDATE_PERMISSION =
     'backoffice-update-permission';
 
+export const PERMISSION_BACKOFFICE_SHOW_MOVIE = 'backoffice-show-movie';
+export const PERMISSION_BACKOFFICE_CREATE_MOVIE = 'backoffice-create-movie';
+export const PERMISSION_BACKOFFICE_DETAIL_MOVIE = 'backoffice-detail-movie';
+export const PERMISSION_BACKOFFICE_UPDATE_MOVIE = 'backoffice-update-movie';
+export const PERMISSION_BACKOFFICE_SYNC_MOVIE = 'backoffice-sync-movie';
+export const PERMISSION_BACKOFFICE_DELETE_MOVIE = 'backoffice-delete-movie';
+
 // GRAPHQL
 export const PERMISSION_GRAPHQL_SHOW_USER = 'graphql-show-user';
 export const PERMISSION_GRAPHQL_DETAIL_USER = 'graphql-detail-user';
