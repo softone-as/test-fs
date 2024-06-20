@@ -1,3 +1,4 @@
+import { IOrder } from 'interface-models/order/order.interface';
 import { IBaseEntity } from '../base-entity.interface';
 import { IRole } from './role.interface';
 
@@ -30,4 +31,6 @@ export interface IUser extends IBaseEntity {
     gender?: GenderEnum;
 
     birthDate?: Date;
+
+    orders?: IOrder[];
 }
