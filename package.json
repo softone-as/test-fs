@@ -73,7 +73,7 @@
         "@sentry/react": "^7.70.0",
         "@sentry/tracing": "^7.73.0",
         "amqplib": "^0.10.0",
-        "antd": "^5.14.0",
+        "antd": "5.1.2",
         "antd-zod": "^4.0.0",
         "aws-sdk": "^2.1133.0",
         "axios": "^1.6.7",

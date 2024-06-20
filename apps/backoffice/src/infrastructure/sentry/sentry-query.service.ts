@@ -13,7 +13,7 @@ export class SentryQueryService {
                 op: 'db.sql.query',
                 description: query,
                 status: 'ok',
-            });
+            }) as Span;
         }
     }
 

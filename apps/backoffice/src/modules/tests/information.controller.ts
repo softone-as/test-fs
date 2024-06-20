@@ -13,6 +13,6 @@ export class InformationController {
             })
             .filter((item) => item !== undefined);
 
-        return routers;
+        return routers as string[];
     }
 }
