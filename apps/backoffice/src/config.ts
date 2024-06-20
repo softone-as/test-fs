@@ -277,6 +277,12 @@ export const config = {
     api: {
         zerox: process.env.API_0X_URL,
         gecko: process.env.API_GECKO_URL,
+        tmdb: process.env.API_TMDB_URL ?? 'https://api.themoviedb.org/3',
+        tmdbApiKey:
+            process.env.API_TMDB_KEY ?? '0ac07a1a676e05daf5407c961cf6c58a',
+        tmdbApiToken:
+            process.env.API_TMDB_TOKEN ??
+            'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYWMwN2ExYTY3NmUwNWRhZjU0MDdjOTYxY2Y2YzU4YSIsInN1YiI6IjYzMjFjY2U2ZmQ0YTk2MDA5MTg0MmU0NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TlAR7sVdNMQ0vjr0vjiObaj534hMjvRd_ukIV1-6fu8',
     },
 
     /**
