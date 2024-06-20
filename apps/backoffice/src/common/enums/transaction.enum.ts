@@ -5,3 +5,7 @@ export enum TransactionTypeEnum {
     Charge = 'charge',
     Swap = 'swap',
 }
+export enum PaymentMethodEnum {
+    Cash = 'cash',
+    Debit = 'debit',
+}
