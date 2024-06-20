@@ -1,0 +1,14 @@
+{
+    "note": "Tag aka genre of movies",
+    "data": [
+        "Science-fi",
+        "Adventure",
+        "Romance",
+        "Drama",
+        "Action",
+        "Horror",
+        "Comedy",
+        "Documentary",
+        "Thriller"
+    ]
+}
