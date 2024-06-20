@@ -6,6 +6,7 @@ import {
     Entity,
     JoinTable,
     ManyToMany,
+    OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Exclude, Transform } from 'class-transformer';
@@ -14,6 +15,8 @@ import { Role } from './role.entity';
 import { BaseEntity } from 'entities/base.entity';
 import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
 import { GlobalService } from 'apps/backoffice/src/modules/glob/service/global-service.service';
+import { Order } from 'entities/order/order.entity';
+import { IOrder } from 'interface-models/order/order.interface';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity implements IUser {
@@ -55,6 +58,9 @@ export class User extends BaseEntity implements IUser {
 
     @Column({ nullable: true })
     birthDate?: Date;
+
+    @OneToMany(() => Order, (order) => order.user)
+    orders: IOrder[];
 
     @AfterUpdate()
     createLogActivityUpdate(): void {
