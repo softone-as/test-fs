@@ -49,6 +49,12 @@ export class MovieService {
         return this.movieRepository.pagination(request);
     }
 
+    async findAll(): Promise<IMovie[]> {
+        return await this.movieRepository.find({
+            relations: ['tags', 'movieSchedules'],
+        });
+    }
+
     async findOneById(id: number): Promise<IMovie> {
         return await this.movieRepository.findOneOrFail({
             where: { id },

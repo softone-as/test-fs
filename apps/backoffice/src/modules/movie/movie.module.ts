@@ -14,16 +14,29 @@ import { HttpModule } from '@nestjs/axios';
 import { BullModule } from '@nestjs/bull';
 import { MovieConsumer } from './queues/movie-processor.queue';
 import { QUEUE_MOVIE } from './queues/movie-queue.constants';
+import { Studio } from 'entities/movie/studio.entity';
+import { StudioController } from './controllers/studio.controller';
+import { StudioService } from './services/studio.service';
+import { StudioRepository } from './repositories/studio.repository';
+import { MovieSchedule } from 'entities/movie/movie-schedule.entity';
+import { MovieScheduleController } from './controllers/movie-schedule.controller';
+import { MovieScheduleService } from './services/movie-schedule.service';
+import { MovieScheduleRepository } from './repositories/movie-schedule.repository';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Movie, Tag]),
+        TypeOrmModule.forFeature([Movie, Tag, Studio, MovieSchedule]),
         HttpModule,
         BullModule.registerQueue({
             name: QUEUE_MOVIE,
         }),
     ],
-    controllers: [MovieController, TagController],
+    controllers: [
+        MovieController,
+        TagController,
+        StudioController,
+        MovieScheduleController,
+    ],
     providers: [
         InertiaAdapter,
         PaginateUtil,
@@ -34,6 +47,12 @@ import { QUEUE_MOVIE } from './queues/movie-queue.constants';
 
         TagService,
         TagRepository,
+
+        StudioService,
+        StudioRepository,
+
+        MovieScheduleService,
+        MovieScheduleRepository,
     ],
     exports: [TypeOrmModule, PaginateUtil],
 })
