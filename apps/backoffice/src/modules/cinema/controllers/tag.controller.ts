@@ -35,7 +35,7 @@ export class TagController {
     ): Promise<TCTagIndexProps> {
         const response = await this.tagService.pagination(indexRequest);
 
-        return this.inertiaAdapter.render('Movie/Tag', {
+        return this.inertiaAdapter.render('Cinema/Tag', {
             data: TagResponse.fromEntities(response.data),
             meta: response.meta,
         });
@@ -43,14 +43,14 @@ export class TagController {
 
     @Get('create')
     async createPage(): Promise<TCTagFormProps> {
-        return this.inertiaAdapter.render('Movie/Tag/Form', {});
+        return this.inertiaAdapter.render('Cinema/Tag/Form', {});
     }
 
     @Get(':id')
     async detailPage(@Param('id') id: number): Promise<TCTagDetailProps> {
         const data = await this.tagService.findOneById(id);
 
-        return this.inertiaAdapter.render('Movie/Tag/Detail', {
+        return this.inertiaAdapter.render('Cinema/Tag/Detail', {
             data: TagResponse.fromEntity(data),
         });
     }
@@ -59,7 +59,7 @@ export class TagController {
     async getEditPage(@Param('id') id: number): Promise<TCTagFormProps> {
         const data = await this.tagService.findOneById(id);
 
-        return this.inertiaAdapter.render('Movie/Tag/Form', {
+        return this.inertiaAdapter.render('Cinema/Tag/Form', {
             id,
             data: TagResponse.fromEntity(data),
             isUpdate: true,

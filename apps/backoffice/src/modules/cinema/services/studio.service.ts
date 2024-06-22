@@ -23,14 +23,14 @@ export class StudioService {
 
     async findAll(): Promise<IStudio[]> {
         return await this.studioRepository.find({
-            relations: ['movieSchedules'],
+            relations: ['movieSchedules', 'movieSchedules.movie'],
         });
     }
 
     async findOneById(id: number): Promise<IStudio> {
         return await this.studioRepository.findOneOrFail({
             where: { id },
-            relations: ['movieSchedules'],
+            relations: ['movieSchedules', 'movieSchedules.movie'],
         });
     }
 
@@ -39,7 +39,7 @@ export class StudioService {
             where: {
                 id: In(ids),
             },
-            relations: ['movieSchedules'],
+            relations: ['movieSchedules', 'movieSchedules.movie'],
         });
     }
 
@@ -78,7 +78,7 @@ export class StudioService {
     async update(id: number, request: StudioEditRequest): Promise<void> {
         const studio = await this.studioRepository.findOne({
             where: { id },
-            relations: ['movieSchedules'],
+            relations: ['movieSchedules', 'movieSchedules.movie'],
         });
 
         if (!studio) {

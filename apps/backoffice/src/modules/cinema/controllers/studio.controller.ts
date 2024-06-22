@@ -35,7 +35,7 @@ export class StudioController {
     ): Promise<TCStudioIndexProps> {
         const response = await this.studioService.pagination(indexRequest);
 
-        return this.inertiaAdapter.render('Movie/Studio', {
+        return this.inertiaAdapter.render('Cinema/Studio', {
             data: StudioResponse.fromEntities(response.data),
             meta: response.meta,
         });
@@ -43,14 +43,14 @@ export class StudioController {
 
     @Get('create')
     async createPage(): Promise<TCStudioFormProps> {
-        return this.inertiaAdapter.render('Movie/Studio/Form', {});
+        return this.inertiaAdapter.render('Cinema/Studio/Form', {});
     }
 
     @Get(':id')
     async detailPage(@Param('id') id: number): Promise<TCStudioDetailProps> {
         const data = await this.studioService.findOneById(id);
 
-        return this.inertiaAdapter.render('Movie/Studio/Detail', {
+        return this.inertiaAdapter.render('Cinema/Studio/Detail', {
             data: StudioResponse.fromEntity(data),
         });
     }
@@ -59,7 +59,7 @@ export class StudioController {
     async getEditPage(@Param('id') id: number): Promise<TCStudioFormProps> {
         const data = await this.studioService.findOneById(id);
 
-        return this.inertiaAdapter.render('Movie/Studio/Form', {
+        return this.inertiaAdapter.render('Cinema/Studio/Form', {
             id,
             data: StudioResponse.fromEntity(data),
             isUpdate: true,

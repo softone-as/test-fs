@@ -53,7 +53,7 @@ export class MovieScheduleController {
             this.studioService.findAll(),
         ]);
 
-        return this.inertiaAdapter.render('Movie/MovieSchedule', {
+        return this.inertiaAdapter.render('Cinema/MovieSchedule', {
             data: MovieScheduleResponse.fromEntities(moviesSchedule.data),
             meta: moviesSchedule.meta,
             studios: Utils.transformToOption<IStudio>(
@@ -70,7 +70,7 @@ export class MovieScheduleController {
             this.studioService.findAll(),
         ]);
 
-        return this.inertiaAdapter.render('Movie/MovieSchedule/Form', {
+        return this.inertiaAdapter.render('Cinema/MovieSchedule/Form', {
             movies: Utils.transformToOption<IMovie>(movies, movieOptionFields),
             studios: Utils.transformToOption<IStudio>(
                 studios,
@@ -85,7 +85,7 @@ export class MovieScheduleController {
     ): Promise<TCMovieScheduleDetailProps> {
         const data = await this.movieScheduleService.findOneById(id);
 
-        return this.inertiaAdapter.render('Movie/MovieSchedule/Detail', {
+        return this.inertiaAdapter.render('Cinema/MovieSchedule/Detail', {
             data: MovieScheduleResponse.fromEntity(data),
         });
     }
@@ -100,7 +100,7 @@ export class MovieScheduleController {
             this.studioService.findAll(),
         ]);
 
-        return this.inertiaAdapter.render('Movie/MovieSchedule/Form', {
+        return this.inertiaAdapter.render('Cinema/MovieSchedule/Form', {
             id,
             isUpdate: true,
             data: MovieScheduleResponse.fromEntity(movieSchedule),

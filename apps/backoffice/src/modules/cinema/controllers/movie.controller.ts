@@ -58,7 +58,7 @@ export class MovieController {
             this.tagService.findAll(),
         ]);
 
-        return this.inertiaAdapter.render('Movie', {
+        return this.inertiaAdapter.render('Cinema/Movie', {
             data: MovieResponse.fromEntities(movieResponse.data),
             meta: movieResponse.meta,
             tags: Utils.transformToOption<ITag>(tags),
@@ -69,7 +69,7 @@ export class MovieController {
     @Get('create')
     async createPage(): Promise<TCMovieFormProps> {
         const tags = await this.tagService.findAll();
-        return this.inertiaAdapter.render('Movie/Form', {
+        return this.inertiaAdapter.render('Cinema/Movie/Form', {
             tags: Utils.transformToOption<ITag>(tags),
         });
     }
@@ -79,7 +79,7 @@ export class MovieController {
     async detailPage(@Param('id') id: number): Promise<TCMovieDetailProps> {
         const data = await this.movieService.findOneById(id);
 
-        return this.inertiaAdapter.render('Movie/Detail', {
+        return this.inertiaAdapter.render('Cinema/Movie/Detail', {
             data: MovieResponse.fromEntity(data),
         });
     }
@@ -92,7 +92,7 @@ export class MovieController {
             this.tagService.findAll(),
         ]);
 
-        return this.inertiaAdapter.render('Movie/Form', {
+        return this.inertiaAdapter.render('Cinema/Movie/Form', {
             id,
             data: MovieResponse.fromEntity(movieResponse),
             tags: Utils.transformToOption<ITag>(tags),
