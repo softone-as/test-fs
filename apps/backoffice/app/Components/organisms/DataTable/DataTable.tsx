@@ -25,7 +25,10 @@ const tableLayout: React.CSSProperties = { width: '100%' };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function DataTable<T extends object = any>(
-    props: IDataTableProps<T, Record<string, any>>,
+    props: IDataTableProps<T, Record<string, any>> & {
+        showSearch?: boolean;
+        showRowSelection?: boolean;
+    },
 ): JSX.Element {
     const {
         pagination,
@@ -35,6 +38,8 @@ function DataTable<T extends object = any>(
         filterComponents,
         onChange,
         search,
+        showSearch = true,
+        showRowSelection = true,
         ...rest
     } = props;
 
@@ -145,7 +150,7 @@ function DataTable<T extends object = any>(
         <>
             <FilterSection
                 searchValue={state.custom?.search}
-                onSearch={handleSearch}
+                onSearch={showSearch ? handleSearch : undefined}
                 selectedRows={selectedRowKeys}
                 batchActionMenus={batchActionMenus?.map((menu) => ({
                     ...menu,
@@ -160,10 +165,14 @@ function DataTable<T extends object = any>(
             />
             <Space.Compact direction="vertical" style={tableLayout}>
                 <Table<T>
-                    rowSelection={{
-                        onChange: handleSelectRow,
-                        ...rowSelection,
-                    }}
+                    rowSelection={
+                        showRowSelection
+                            ? {
+                                  onChange: handleSelectRow,
+                                  ...rowSelection,
+                              }
+                            : undefined
+                    }
                     {...rest}
                     style={tableLayout}
                     size="small"

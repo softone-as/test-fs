@@ -5,11 +5,12 @@ import { FilterContext } from '../Filter';
 export type StrictSelectProps = Pick<
     SelectProps,
     'value' | 'onChange' | 'options' | 'defaultValue' | 'placeholder'
->;
+> & { width?: number };
 
-const FilterSelect = (props: StrictSelectProps) => {
+const FilterSelect = (props: StrictSelectProps): React.ReactElement => {
     const { isMobile } = useContext(FilterContext);
-    const { value, onChange, options, defaultValue, placeholder } = props;
+    const { value, onChange, options, defaultValue, placeholder, width } =
+        props;
     return (
         <Select
             value={value}
@@ -18,7 +19,7 @@ const FilterSelect = (props: StrictSelectProps) => {
             defaultValue={defaultValue}
             placeholder={placeholder}
             allowClear
-            style={{ width: isMobile ? '100%' : '90px' }}
+            style={{ width: isMobile ? '100%' : width ?? '90px' }}
         />
     );
 };
