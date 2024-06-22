@@ -54,7 +54,9 @@ import { MaintainModeMiddleware } from './infrastructure/gates/middlewares/maint
 import { PauseModeMiddleware } from './infrastructure/gates/middlewares/pause-mode.middleware';
 import { FailSafeModule } from './infrastructure/fail-safe/fail-safe.module';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { MovieModule } from './modules/movie/movie.module';
+import { MovieModule } from './modules/cinema/movie.module';
+import { LoggingUserMiddleware } from './infrastructure/gates/middlewares/logging-user.middleware';
+import { OrderModule } from './modules/order/order.module';
 
 @Module({
     imports: [
@@ -84,6 +86,7 @@ import { MovieModule } from './modules/movie/movie.module';
         GlobalServiceModule,
         ProfileModule,
         MovieModule,
+        OrderModule,
     ],
     providers: [
         {
@@ -179,6 +182,7 @@ export class AppModule implements NestModule {
                 passport.session(),
                 CacheCleanMiddleware,
                 InertiaSharePropsMiddleware,
+                LoggingUserMiddleware,
                 UserDetailMiddleware,
                 NotificationUnreadMiddleware,
             )
