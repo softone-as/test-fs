@@ -3,8 +3,10 @@ import {
     DashboardOutlined,
     HistoryOutlined,
     LogoutOutlined,
+    PlaySquareOutlined,
     ProfileOutlined,
     SettingOutlined,
+    ShopOutlined,
 } from '@ant-design/icons';
 import { Inertia, Page } from '@inertiajs/inertia';
 import { Head, Link, usePage } from '@inertiajs/inertia-react';
@@ -130,6 +132,46 @@ const menuItems: MenuItem[] = [
         key: Route.Configs,
         label: <Link href="#">Configuration</Link>,
         icon: <SettingOutlined />,
+    },
+    {
+        key: '#movies',
+        label: 'Movie',
+        icon: <PlaySquareOutlined />,
+        theme: 'light',
+        children: [
+            {
+                key: Route.Movies,
+                label: <Link href={Route.Movies}>Movie</Link>,
+            },
+            {
+                key: Route.Tags,
+                label: <Link href={Route.Tags}>Tag</Link>,
+            },
+            {
+                key: Route.Studios,
+                label: <Link href={Route.Studios}>Studio</Link>,
+            },
+            {
+                key: Route.MovieSchedules,
+                label: <Link href={Route.MovieSchedules}>Movie Schedule</Link>,
+            },
+        ],
+    },
+    {
+        key: '#orders',
+        label: 'Orders',
+        theme: 'light',
+        icon: <ShopOutlined />,
+        children: [
+            {
+                key: Route.Orders,
+                label: <Link href={Route.Orders}>Order</Link>,
+            },
+            {
+                key: Route.OrderItems,
+                label: <Link href={Route.OrderItems}>Order Item</Link>,
+            },
+        ],
     },
 ];
 
