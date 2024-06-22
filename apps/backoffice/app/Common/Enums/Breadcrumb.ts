@@ -1,4 +1,5 @@
-import { Route } from '../Route/Route';
+import { TBreadcrumbsItem } from '../../Modules/Common/Entities';
+import { Route, route } from '../Route/Route';
 
 const Dashboard = {
     INDEX: [
@@ -177,6 +178,246 @@ const Notification = {
     ],
 };
 
+const Movies = {
+    INDEX: [
+        {
+            label: 'Movie',
+            path: Route.Movies,
+        },
+    ],
+
+    DETAIL: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Movie',
+            path: Route.Movies,
+        },
+        {
+            label: 'Detail',
+            path: route(Route.MovieDetail, { id }),
+        },
+    ],
+    CREATE: [
+        {
+            label: 'Movie',
+            path: Route.Movies,
+        },
+        {
+            label: 'Create',
+            path: Route.MovieCreate,
+        },
+    ],
+    EDIT: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Movie',
+            path: Route.Movies,
+        },
+        {
+            label: 'Edit',
+            path: route(Route.MovieEdit, { id }),
+        },
+    ],
+};
+
+const Tags = {
+    INDEX: [
+        {
+            label: 'Tag',
+            path: Route.Tags,
+        },
+    ],
+
+    DETAIL: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Tag',
+            path: Route.Tags,
+        },
+        {
+            label: 'Detail',
+            path: route(Route.TagDetail, { id }),
+        },
+    ],
+    CREATE: [
+        {
+            label: 'Tag',
+            path: Route.Tags,
+        },
+        {
+            label: 'Create',
+            path: Route.TagCreate,
+        },
+    ],
+    EDIT: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Tag',
+            path: Route.Tags,
+        },
+        {
+            label: 'Edit',
+            path: route(Route.TagEdit, { id }),
+        },
+    ],
+};
+
+const Studios = {
+    INDEX: [
+        {
+            label: 'Studio',
+            path: Route.Studios,
+        },
+    ],
+
+    DETAIL: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Studio',
+            path: Route.Studios,
+        },
+        {
+            label: 'Detail',
+            path: route(Route.StudioDetail, { id }),
+        },
+    ],
+    CREATE: [
+        {
+            label: 'Studio',
+            path: Route.Studios,
+        },
+        {
+            label: 'Create',
+            path: Route.StudioCreate,
+        },
+    ],
+    EDIT: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Studio',
+            path: Route.Studios,
+        },
+        {
+            label: 'Edit',
+            path: route(Route.StudioEdit, { id }),
+        },
+    ],
+};
+
+const MovieSchedules = {
+    INDEX: [
+        {
+            label: 'Movie Schedule',
+            path: Route.MovieSchedules,
+        },
+    ],
+
+    DETAIL: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Movie Schedule',
+            path: Route.MovieSchedules,
+        },
+        {
+            label: 'Detail',
+            path: route(Route.MovieScheduleDetail, { id }),
+        },
+    ],
+    CREATE: [
+        {
+            label: 'Movie Schedule',
+            path: Route.MovieSchedules,
+        },
+        {
+            label: 'Create',
+            path: Route.MovieScheduleCreate,
+        },
+    ],
+    EDIT: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Movie Schedule',
+            path: Route.MovieSchedules,
+        },
+        {
+            label: 'Edit',
+            path: route(Route.MovieScheduleEdit, { id }),
+        },
+    ],
+};
+
+const Order = {
+    INDEX: [
+        {
+            label: 'Order',
+            path: Route.Orders,
+        },
+    ],
+
+    DETAIL: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Order',
+            path: Route.Orders,
+        },
+        {
+            label: 'Detail',
+            path: route(Route.OrderDetail, { id }),
+        },
+    ],
+    CREATE: [
+        {
+            label: 'Order',
+            path: Route.Orders,
+        },
+        {
+            label: 'Create',
+            path: Route.OrderCreate,
+        },
+    ],
+    EDIT: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Order',
+            path: Route.Orders,
+        },
+        {
+            label: 'Edit',
+            path: route(Route.OrderEdit, { id }),
+        },
+    ],
+};
+
+const OrderItem = {
+    INDEX: [
+        {
+            label: 'Order Item',
+            path: Route.OrderItems,
+        },
+    ],
+
+    DETAIL: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Order Item',
+            path: Route.OrderItems,
+        },
+        {
+            label: 'Detail',
+            path: route(Route.OrderItemDetail, { id }),
+        },
+    ],
+    CREATE: [
+        {
+            label: 'Order Item',
+            path: Route.OrderItems,
+        },
+        {
+            label: 'Create',
+            path: Route.OrderItemCreate,
+        },
+    ],
+    EDIT: (id: number): TBreadcrumbsItem[] => [
+        {
+            label: 'Order Item',
+            path: Route.OrderItems,
+        },
+        {
+            label: 'Edit',
+            path: route(Route.OrderItemEdit, { id }),
+        },
+    ],
+};
+
 export const Breadcrumbs = {
     Users,
     Profile,
@@ -185,4 +426,10 @@ export const Breadcrumbs = {
     Roles,
     LogActivity,
     Notification,
+    Movies,
+    Tags,
+    Studios,
+    MovieSchedules,
+    Order,
+    OrderItem,
 };
