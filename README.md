@@ -1,4 +1,4 @@
-# Nest Inertia Boilerplate
+# Nest Inertia Boilerplate - Test FS
 
 Boilerplate using NestJS, Inertia, and ReactJS
 
@@ -7,6 +7,7 @@ Boilerplate using NestJS, Inertia, and ReactJS
 -   [Tech Stack](#tech-stack)
 -   [Project Installation](#project-installation)
     -   [Quick Start Backoffice](#quick-start-backoffice)
+-   [Data Fakers User](#data-fakers-user)
 
 # Tech Stack:
 
@@ -38,3 +39,7 @@ Boilerplate using NestJS, Inertia, and ReactJS
 -   Run `cp -r apps/backoffice/assets dist/apps/backoffice` - untuk running UI
 -   Run `yarn webpack:backoffice:dev` (local) or `yarn webpack:backoffice:prod` (production) for FE
 -   Run `yarn start:dev backoffice` (local) or `yarn start:prod backoffice` (production) for BE
+
+# Data Fakers User
+`username: admin@admin.com` <br/>
+`password: admin`
