@@ -39,7 +39,9 @@ export class OrderItem extends BaseEntity implements IOrderItem {
     })
     snapshots: string[];
 
-    @ManyToOne(() => Order, (order) => order.orderItems)
+    @ManyToOne(() => Order, (order) => order.orderItems, {
+        onDelete: 'CASCADE',
+    })
     order: IOrder;
 
     @ManyToOne(() => MovieSchedule, (movieSchedule) => movieSchedule.orderItems)
