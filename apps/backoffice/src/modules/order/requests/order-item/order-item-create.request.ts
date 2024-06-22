@@ -1,4 +1,4 @@
-import { orderItemCreateSchema } from 'apps/backoffice/@contracts/order/order-item-create.contract';
+import { orderItemCreateSchema } from 'apps/backoffice/@contracts/order/order-item/order-item-create.contract';
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 

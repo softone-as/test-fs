@@ -4,9 +4,9 @@ import { Utils } from 'apps/backoffice/src/common/utils/util';
 import { OrderItem } from 'entities/order/order-item.entity';
 import { IOrderItem } from 'interface-models/order/order-item.interface';
 import { OrderItemRepository } from '../repositories/order-item.repository';
-import { OrderItemCreateRequest } from '../requests/order-item-create.request';
-import { OrderItemEditRequest } from '../requests/order-item-edit.request';
-import { OrderItemIndexRequest } from '../requests/order-item-index.request';
+import { OrderItemCreateRequest } from '../requests/order-item/order-item-create.request';
+import { OrderItemEditRequest } from '../requests/order-item/order-item-edit.request';
+import { OrderItemIndexRequest } from '../requests/order-item/order-item-index.request';
 
 @Injectable()
 export class OrderItemService {
@@ -42,7 +42,7 @@ export class OrderItemService {
         const newOrderItem = new OrderItem();
         newOrderItem.qty = data.qty;
         newOrderItem.price = data.price;
-        newOrderItem.subTotalPrice = data.subTotalPrice;
+        newOrderItem.subTotalPrice = data.qty * data.price;
         newOrderItem.snapshots = snapshotsUrl;
 
         await this.orderItemRepository.save(newOrderItem);
@@ -85,7 +85,7 @@ export class OrderItemService {
 
         orderItem.qty = request.qty;
         orderItem.price = request.price;
-        orderItem.subTotalPrice = request.subTotalPrice;
+        orderItem.subTotalPrice = request.qty * request.price;
 
         await this.orderItemRepository.save(orderItem);
     }

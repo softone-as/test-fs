@@ -2,38 +2,49 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginateResponse } from 'apps/backoffice/src/common/interface/index.interface';
 import { PaginateUtil } from 'apps/backoffice/src/common/utils/paginate.util';
-import { OrderItem } from 'entities/order/order-item.entity';
-import { IOrderItem } from 'interface-models/order/order-item.interface';
+import { Order } from 'entities/order/order.entity';
+import { IOrder } from 'interface-models/order/order.interface';
 import { Repository } from 'typeorm';
-import { OrderItemIndexRequest } from '../requests/order-item/order-item-index.request';
+import { OrderIndexRequest } from '../requests/order/order-index.request';
 
 @Injectable()
-export class OrderItemRepository extends Repository<OrderItem> {
+export class OrderRepository extends Repository<Order> {
     constructor(
-        @InjectRepository(OrderItem)
-        private readonly orderItemRepository: Repository<OrderItem>,
+        @InjectRepository(Order)
+        private readonly orderRepository: Repository<Order>,
         private readonly paginationUtil: PaginateUtil,
     ) {
         super(
-            orderItemRepository.target,
-            orderItemRepository.manager,
-            orderItemRepository.queryRunner,
+            orderRepository.target,
+            orderRepository.manager,
+            orderRepository.queryRunner,
         );
     }
 
     async pagination(
-        request: OrderItemIndexRequest,
-    ): Promise<IPaginateResponse<IOrderItem>> {
+        request: OrderIndexRequest,
+    ): Promise<IPaginateResponse<IOrder>> {
         const ALLOW_TO_SORT = ['latest', 'oldest', 'menu'];
-        const query = this.orderItemRepository.createQueryBuilder('orderItem');
+        const query = this.orderRepository
+            .createQueryBuilder('order')
+            .leftJoinAndSelect('order.user', 'user')
+            .leftJoinAndSelect('order.orderItems', 'orderItems')
+            .leftJoinAndSelect('orderItems.movieSchedule', 'movieSchedule')
+            .leftJoinAndSelect('movieSchedule.movie', 'movie');
 
         if (request.search) {
             query.andWhere(
-                `concat(orderItem.price, ' ', orderItem.subTotalPrice, ' ', orderItem.id) like :search`,
+                `concat(order.price, ' ', order.subTotalPrice, ' ', order.id) like :search`,
                 {
                     search: `%${request.search}%`,
                 },
             );
+        }
+
+        if (request.paymentMethod) {
+            query.andWhere('order.paymentMethod = :paymentMethod', {
+                paymentMethod: request.paymentMethod,
+            });
         }
 
         if (request.sort == 'latest') {
@@ -43,8 +54,8 @@ export class OrderItemRepository extends Repository<OrderItem> {
         } else {
             query.orderBy(
                 ALLOW_TO_SORT.includes(request.sort)
-                    ? `orderItem.${request.sort}`
-                    : `orderItem.createdAt`,
+                    ? `order.${request.sort}`
+                    : `order.createdAt`,
                 this.paginationUtil.getOrder(request.order),
             );
         }
@@ -65,6 +76,6 @@ export class OrderItemRepository extends Repository<OrderItem> {
     }
 
     async bulkDelete(ids: number[]): Promise<void> {
-        await this.orderItemRepository.delete(ids);
+        await this.orderRepository.delete(ids);
     }
 }

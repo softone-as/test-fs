@@ -1,4 +1,4 @@
-import { TCOrderItemDetailProps } from 'apps/backoffice/@contracts/order/order-item-detail.contract';
+import { TCOrderItemDetailProps } from 'apps/backoffice/@contracts/order/order-item/order-item-detail.contract';
 import { IOrderItem } from 'interface-models/order/order-item.interface';
 
 export class OrderItemResponse {
